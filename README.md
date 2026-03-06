@@ -44,6 +44,16 @@ Web dashboard project for DiscoBot, located separately from the Python bot.
 - `DISCORD_BOT_TOKEN`
 - `DISCORD_BOT_USER_ID`
 
+## Optional Feature Environment Variables
+
+- `WEBSITE_BASE_URL` (used for Stripe return URLs and owner website settings defaults)
+- `STRIPE_SECRET_KEY` (required for checkout/subscription flows)
+- `STRIPE_WEBHOOK_SECRET` (required for Stripe webhook verification)
+- `OPENAI_API_KEY` (required for website AI image generation/edit)
+- `OPENAI_IMAGE_MODEL` (optional, defaults to `gpt-image-1.5`)
+- `SUPPORT_EMAIL` (enables the "Report to Bot Owner" mailto button on error pages)
+- `DISCORD_BOT_OWNER_ID` (used for owner-only routes; defaults in code if omitted)
+
 ## Notes
 
 - PWA install assets are served from `DiscoBot-App/` by `express.static` in `server.js`.
