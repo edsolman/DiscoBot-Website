@@ -1,0 +1,526 @@
+<%- include('partials/head', { title }) %>
+<%- include('partials/nav') %>
+
+<main class="container page-section">
+  <div class="page-head">
+    <div>
+      <h1 class="section-icon-title">
+        <span class="section-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M12 3l2.2 2.2 3.1-.6.6 3.1L20 10l-2.1 2 2.1 2-2.1 2 .5 3.1-3.1.6L12 22l-2.2-2.2-3.1.6-.6-3.1L4 14l2.1-2L4 10l2.1-2-.5-3.1 3.1-.6L12 3z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8" />
+          </svg>
+        </span>
+        <%= t('ownerSettings.title', { defaultValue: 'Owner Settings' }) %>
+      </h1>
+      <p class="muted"><%= t('ownerSettings.subtitle', { defaultValue: 'Global bot channel configuration and website pricing tiers.' }) %></p>
+    </div>
+    <a href="/dashboard" class="btn btn-ghost btn-with-icon"><span class="btn-icon" aria-hidden="true">←</span><%= t('common.back', { defaultValue: 'Back' }) %></a>
+  </div>
+
+  <% if (saved) { %>
+    <div class="alert success"><%= t('ownerSettings.saved', { defaultValue: 'Owner settings saved successfully.' }) %></div>
+  <% } %>
+
+  <section class="panel">
+    <details class="settings-expander">
+      <summary class="settings-expander-summary">
+        <div class="settings-expander-summary-main">
+          <h2 class="section-icon-title">
+            <span class="section-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <rect x="4" y="4" width="16" height="16" rx="3" stroke="currentColor" stroke-width="1.8" />
+                <path d="M8 9h8M8 13h8M8 17h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+              </svg>
+            </span>
+            <%= t('ownerSettings.metadata', { defaultValue: 'Settings Metadata' }) %>
+          </h2>
+          <p class="muted"><%= t('ownerSettings.metadataSubtitle', { defaultValue: 'Audit information about when owner settings were last updated and by whom.' }) %></p>
+        </div>
+        <span class="schedule-expander-plus" aria-hidden="true">+</span>
+      </summary>
+      <div class="settings-expander-body">
+        <p class="muted">
+      Last updated:
+      <% if (settingsMeta && settingsMeta.updatedAt) { %>
+        <strong><%= new Date(settingsMeta.updatedAt).toLocaleString() %></strong>
+      <% } else { %>
+        <strong>Never</strong>
+      <% } %>
+      · Updated by:
+      <% if (settingsMeta && (settingsMeta.updatedByDisplay || settingsMeta.updatedByUserId)) { %>
+        <% if (settingsMeta.updatedByUserId) { %>
+          <strong>
+            <a href="https://discord.com/users/<%= settingsMeta.updatedByUserId %>" target="_blank" rel="noopener noreferrer">
+              <%= settingsMeta.updatedByDisplay || settingsMeta.updatedByUserId %>
+            </a>
+          </strong>
+        <% } else { %>
+          <strong><%= settingsMeta.updatedByDisplay || settingsMeta.updatedByUserId %></strong>
+        <% } %>
+      <% } else { %>
+        <strong>Unknown</strong>
+      <% } %>
+        </p>
+        <% if (settingsMeta && settingsMeta.createdAt) { %>
+          <p class="muted">Created: <strong><%= new Date(settingsMeta.createdAt).toLocaleString() %></strong></p>
+        <% } %>
+      </div>
+    </details>
+  </section>
+
+  <form method="post" action="/owner/settings">
+    <section class="panel">
+      <details class="settings-expander">
+        <summary class="settings-expander-summary">
+          <div class="settings-expander-summary-main">
+            <h2 class="section-icon-title">
+              <span class="section-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z" stroke="currentColor" stroke-width="1.8" />
+                  <path d="M3 12h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                </svg>
+              </span>
+              <%= t('ownerSettings.websiteUrl', { defaultValue: 'Website URL' }) %>
+            </h2>
+            <p class="muted"><%= t('ownerSettings.websiteUrlSubtitle', { defaultValue: 'Owner-only: used by the bot `/website` command.' }) %></p>
+          </div>
+          <span class="schedule-expander-plus" aria-hidden="true">+</span>
+        </summary>
+        <div class="settings-expander-body">
+          <div class="level-rows">
+        <div class="level-row">
+          <label>
+            Website Base URL
+            <input type="url" name="website_base_url" value="<%= settings.website.base_url %>" placeholder="https://yourdomain.com" required />
+          </label>
+        </div>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <section class="panel">
+      <details class="settings-expander">
+        <summary class="settings-expander-summary">
+          <div class="settings-expander-summary-main">
+            <h2 class="section-icon-title">
+              <span class="section-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M8 5h8v3a4 4 0 0 1-8 0V5z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M6 7H4a2 2 0 0 0 2 2M18 7h2a2 2 0 0 1-2 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M12 12v3M9 20h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
+              <%= t('ownerSettings.gamificationChannels.title', { defaultValue: 'Gamification Channel Settings' }) %>
+            </h2>
+            <p class="muted"><%= t('ownerSettings.gamificationChannels.subtitle', { defaultValue: 'Configure category/channel details used for gamification features.' }) %></p>
+          </div>
+          <span class="schedule-expander-plus" aria-hidden="true">+</span>
+        </summary>
+        <div class="settings-expander-body">
+          <div class="level-rows">
+        <div class="level-row">
+          <label>
+            Category Name
+            <input type="text" name="gamification_category_name" maxlength="64" value="<%= settings.channels.gamification.category_name %>" required />
+          </label>
+          <label>
+            Leaderboard Channel Name
+            <input type="text" name="gamification_leaderboard_channel_name" maxlength="64" value="<%= settings.channels.gamification.leaderboard_channel_name %>" required />
+          </label>
+        </div>
+          </div>
+          <label>
+        Channel Description
+        <textarea name="gamification_channel_description" rows="4" maxlength="1024" required><%= settings.channels.gamification.channel_description %></textarea>
+          </label>
+        </div>
+      </details>
+    </section>
+
+    <section class="panel">
+      <details class="settings-expander">
+        <summary class="settings-expander-summary">
+          <div class="settings-expander-summary-main">
+            <h2 class="section-icon-title">
+        <span class="section-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M12 3l7 3v5c0 4.3-2.5 8.2-7 10-4.5-1.8-7-5.7-7-10V6l7-3z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M9.6 12.2l1.7 1.7 3.4-3.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </span>
+        <%= t('ownerSettings.moderationChannels.title', { defaultValue: 'Moderation Channel Settings' }) %>
+            </h2>
+          <p class="muted"><%= t('ownerSettings.moderationChannels.subtitle', { defaultValue: 'Configure moderation channel names and default admin guidance text.' }) %></p>
+          </div>
+          <span class="schedule-expander-plus" aria-hidden="true">+</span>
+        </summary>
+        <div class="settings-expander-body">
+          <div class="level-rows">
+        <div class="level-row">
+          <label>
+            Category Name
+            <input type="text" name="moderation_category_name" maxlength="64" value="<%= settings.channels.moderation.category_name %>" required />
+          </label>
+          <label>
+            Channel Name
+            <input type="text" name="moderation_channel_name" maxlength="64" value="<%= settings.channels.moderation.channel_name %>" required />
+          </label>
+        </div>
+          </div>
+          <label>
+        Channel Description
+        <textarea name="moderation_channel_description" rows="5" maxlength="1024" required><%= settings.channels.moderation.channel_description %></textarea>
+          </label>
+        </div>
+      </details>
+    </section>
+
+    <section class="panel">
+      <details class="settings-expander">
+        <summary class="settings-expander-summary">
+          <div class="settings-expander-summary-main">
+            <h2 class="section-icon-title">
+        <span class="section-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="4" width="18" height="16" rx="3" stroke="currentColor" stroke-width="1.8" />
+            <circle cx="9" cy="10" r="2" stroke="currentColor" stroke-width="1.8" />
+            <path d="M6 18l4.5-4.5 3 3L16.5 14 20 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </span>
+        <%= t('ownerSettings.aiImageChannels.title', { defaultValue: 'AI Image Channel Settings' }) %>
+            </h2>
+          <p class="muted"><%= t('ownerSettings.aiImageChannels.subtitle', { defaultValue: 'Configure where AI image generation interactions are routed.' }) %></p>
+          </div>
+          <span class="schedule-expander-plus" aria-hidden="true">+</span>
+        </summary>
+        <div class="settings-expander-body">
+          <div class="level-rows">
+        <div class="level-row">
+          <label>
+            Category Name
+            <input type="text" name="ai_image_category_name" maxlength="64" value="<%= settings.channels.ai_image.category_name %>" required />
+          </label>
+          <label>
+            Channel Name
+            <input type="text" name="ai_image_channel_name" maxlength="64" value="<%= settings.channels.ai_image.channel_name %>" required />
+          </label>
+        </div>
+          </div>
+          <label>
+        Channel Topic
+        <textarea name="ai_image_channel_topic" rows="4" maxlength="1024" required><%= settings.channels.ai_image.channel_topic %></textarea>
+          </label>
+        </div>
+      </details>
+    </section>
+
+    <section class="panel">
+      <details class="settings-expander">
+        <summary class="settings-expander-summary">
+          <div class="settings-expander-summary-main">
+            <h2 class="section-icon-title">
+              <span class="section-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.8" /><path d="M3 10h18" stroke="currentColor" stroke-width="1.8" /></svg>
+              </span>
+              <%= t('ownerSettings.creditPacks.title', { defaultValue: 'One-Time Credit Packs' }) %>
+            </h2>
+            <p class="muted"><%= t('ownerSettings.creditPacks.subtitle', { defaultValue: 'Update IDs, display names, credits, internal cost, and price (cents). Cost is owner-only and used for profit analytics.' }) %></p>
+          </div>
+          <span class="schedule-expander-plus" aria-hidden="true">+</span>
+        </summary>
+        <div class="settings-expander-body">
+      <% const mostPopularPackSet = new Set((mostPopularCreditPackIds || []).map((id) => String(id))); %>
+      <% const purchaseCounts = creditPackPurchaseCounts || {}; %>
+      <div class="level-rows" id="creditPackRows">
+        <% settings.pricing.credit_packs.forEach((pack) => { %>
+          <% if (mostPopularPackSet.has(String(pack.id))) { %>
+            <% const count = Number(purchaseCounts[String(pack.id)] || 0); %>
+            <div class="pricing-row-popular">
+              <span class="tier-saving-badge">Most popular · <%= count.toLocaleString() %> purchase<%= count === 1 ? '' : 's' %></span>
+            </div>
+          <% } %>
+          <div class="level-row pricing-row">
+            <label>
+              ID
+              <input type="text" name="pack_id" value="<%= pack.id %>" maxlength="40" required />
+            </label>
+            <label>
+              Name
+              <input type="text" name="pack_name" value="<%= pack.name %>" maxlength="64" required />
+            </label>
+            <label>
+              Credits
+              <input type="number" name="pack_credits" value="<%= pack.credits %>" min="1" required />
+            </label>
+            <label>
+              Cost (cents)
+              <input type="number" name="pack_cost_cents" value="<%= Number(pack.costUnitCents || 0) %>" min="0" required />
+            </label>
+            <label>
+              Price (cents)
+              <input type="number" name="pack_price_cents" value="<%= pack.unitAmountCents %>" min="1" required />
+            </label>
+            <button type="button" class="btn btn-ghost remove-pricing-row">Remove</button>
+          </div>
+        <% }) %>
+      </div>
+      <div class="form-actions">
+        <button type="button" id="addCreditPackRowBtn" class="btn btn-ghost">Add Credit Pack</button>
+      </div>
+        </div>
+      </details>
+    </section>
+
+    <section class="panel">
+      <details class="settings-expander">
+        <summary class="settings-expander-summary">
+          <div class="settings-expander-summary-main">
+            <h2 class="section-icon-title">
+              <span class="section-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="3" stroke="currentColor" stroke-width="1.8" /><path d="M8 10h8M8 14h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg>
+              </span>
+              <%= t('ownerSettings.subscriptionPlans.title', { defaultValue: 'Monthly Subscription Plans' }) %>
+            </h2>
+            <p class="muted"><%= t('ownerSettings.subscriptionPlans.subtitle', { defaultValue: 'Update IDs, display names, credits per month, internal cost, and price (cents).' }) %></p>
+          </div>
+          <span class="schedule-expander-plus" aria-hidden="true">+</span>
+        </summary>
+        <div class="settings-expander-body">
+      <div class="level-rows" id="subscriptionPlanRows">
+        <% settings.pricing.subscription_plans.forEach((plan) => { %>
+          <div class="level-row pricing-row">
+            <label>
+              ID
+              <input type="text" name="plan_id" value="<%= plan.id %>" maxlength="40" required />
+            </label>
+            <label>
+              Name
+              <input type="text" name="plan_name" value="<%= plan.name %>" maxlength="64" required />
+            </label>
+            <label>
+              Credits / month
+              <input type="number" name="plan_credits_per_month" value="<%= plan.creditsPerMonth %>" min="1" required />
+            </label>
+            <label>
+              Cost (cents)
+              <input type="number" name="plan_cost_cents" value="<%= Number(plan.costUnitCents || 0) %>" min="0" required />
+            </label>
+            <label>
+              Price (cents)
+              <input type="number" name="plan_price_cents" value="<%= plan.unitAmountCents %>" min="1" required />
+            </label>
+            <button type="button" class="btn btn-ghost remove-pricing-row">Remove</button>
+          </div>
+        <% }) %>
+      </div>
+      <div class="form-actions">
+        <button type="button" id="addSubscriptionPlanRowBtn" class="btn btn-ghost">Add Subscription Plan</button>
+      </div>
+        </div>
+      </details>
+    </section>
+
+    <section class="panel">
+      <details class="settings-expander">
+        <summary class="settings-expander-summary">
+          <div class="settings-expander-summary-main">
+            <h2 class="section-icon-title">
+        <span class="section-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z" stroke="currentColor" stroke-width="1.8" />
+            <path d="M3 12h18M12 3c2.2 2.2 3.5 5.4 3.5 9S14.2 18.8 12 21M12 3c-2.2 2.2-3.5 5.4-3.5 9S9.8 18.8 12 21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+          </svg>
+        </span>
+        <%= t('ownerSettings.translationLimits.title', { defaultValue: 'Guild Translation Limits' }) %>
+            </h2>
+          <p class="muted"><%= t('ownerSettings.translationLimits.subtitle', { defaultValue: 'Configure the free monthly translation character limit and paid subscription options per guild.' }) %></p>
+          </div>
+          <span class="schedule-expander-plus" aria-hidden="true">+</span>
+        </summary>
+        <div class="settings-expander-body">
+          <div class="level-rows">
+        <div class="level-row">
+          <label>
+            Free Characters / Month (per guild)
+            <input
+              type="number"
+              name="translation_free_character_limit"
+              value="<%= settings.pricing.translation_free_character_limit %>"
+              min="1"
+              required
+            />
+          </label>
+        </div>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <section class="panel">
+      <details class="settings-expander">
+        <summary class="settings-expander-summary">
+          <div class="settings-expander-summary-main">
+            <h2 class="section-icon-title">
+        <span class="section-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z" stroke="currentColor" stroke-width="1.8" />
+            <path d="M3 12h18M12 3c2.2 2.2 3.5 5.4 3.5 9S14.2 18.8 12 21M12 3c-2.2 2.2-3.5 5.4-3.5 9S9.8 18.8 12 21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+          </svg>
+        </span>
+        <%= t('ownerSettings.translationPlans.title', { defaultValue: 'Guild Translation Subscription Plans' }) %>
+            </h2>
+          <p class="muted"><%= t('ownerSettings.translationPlans.subtitle', { defaultValue: 'Update IDs, display names, additional characters per month, internal cost, and price (cents).' }) %></p>
+          </div>
+          <span class="schedule-expander-plus" aria-hidden="true">+</span>
+        </summary>
+        <div class="settings-expander-body">
+          <div class="level-rows" id="translationPlanRows">
+        <% settings.pricing.translation_subscription_plans.forEach((plan) => { %>
+          <div class="level-row pricing-row">
+            <label>
+              ID
+              <input type="text" name="translation_plan_id" value="<%= plan.id %>" maxlength="40" required />
+            </label>
+            <label>
+              Name
+              <input type="text" name="translation_plan_name" value="<%= plan.name %>" maxlength="64" required />
+            </label>
+            <label>
+              Characters / month
+              <input type="number" name="translation_plan_characters_per_month" value="<%= plan.charactersPerMonth %>" min="1" required />
+            </label>
+            <label>
+              Cost (cents)
+              <input type="number" name="translation_plan_cost_cents" value="<%= Number(plan.costUnitCents || 0) %>" min="0" required />
+            </label>
+            <label>
+              Price (cents)
+              <input type="number" name="translation_plan_price_cents" value="<%= plan.unitAmountCents %>" min="1" required />
+            </label>
+            <button type="button" class="btn btn-ghost remove-pricing-row">Remove</button>
+          </div>
+        <% }) %>
+          </div>
+          <div class="form-actions">
+            <button type="button" id="addTranslationPlanRowBtn" class="btn btn-ghost">Add Translation Plan</button>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary"><%= t('ownerSettings.saveButton', { defaultValue: 'Save Owner Settings' }) %></button>
+    </div>
+  </form>
+</main>
+
+<script>
+  const creditPackRows = document.getElementById('creditPackRows');
+  const subscriptionPlanRows = document.getElementById('subscriptionPlanRows');
+  const translationPlanRows = document.getElementById('translationPlanRows');
+  const addCreditPackRowBtn = document.getElementById('addCreditPackRowBtn');
+  const addSubscriptionPlanRowBtn = document.getElementById('addSubscriptionPlanRowBtn');
+  const addTranslationPlanRowBtn = document.getElementById('addTranslationPlanRowBtn');
+
+  function wireRemovePricingButtons() {
+    document.querySelectorAll('.remove-pricing-row').forEach((button) => {
+      button.onclick = () => {
+        const rowContainer = button.closest('.level-rows');
+        if (!rowContainer) {
+          return;
+        }
+
+        const rows = rowContainer.querySelectorAll('.pricing-row');
+        if (rows.length <= 1) {
+          return;
+        }
+
+        button.closest('.pricing-row')?.remove();
+      };
+    });
+  }
+
+  function createPricingRow(fields) {
+    const row = document.createElement('div');
+    row.className = 'level-row pricing-row';
+
+    row.innerHTML = fields.map((field) => {
+      const minAttr = field.min ? ` min="${field.min}"` : '';
+      const maxLengthAttr = field.maxLength ? ` maxlength="${field.maxLength}"` : '';
+      const placeholderAttr = field.placeholder ? ` placeholder="${field.placeholder}"` : '';
+      const valueAttr = field.value !== undefined ? ` value="${field.value}"` : '';
+
+      return `
+        <label>
+          ${field.label}
+          <input type="${field.type}" name="${field.name}"${valueAttr}${minAttr}${maxLengthAttr}${placeholderAttr} required />
+        </label>
+      `;
+    }).join('');
+
+    const removeButton = document.createElement('button');
+    removeButton.type = 'button';
+    removeButton.className = 'btn btn-ghost remove-pricing-row';
+    removeButton.textContent = 'Remove';
+    row.appendChild(removeButton);
+
+    return row;
+  }
+
+  addCreditPackRowBtn?.addEventListener('click', () => {
+    if (!creditPackRows) {
+      return;
+    }
+
+    const row = createPricingRow([
+      { label: 'ID', type: 'text', name: 'pack_id', maxLength: 40, placeholder: 'e.g. ultra' },
+      { label: 'Name', type: 'text', name: 'pack_name', maxLength: 64, placeholder: 'e.g. Ultra' },
+      { label: 'Credits', type: 'number', name: 'pack_credits', min: 1, value: 1 },
+      { label: 'Cost (cents)', type: 'number', name: 'pack_cost_cents', min: 0, value: 0 },
+      { label: 'Price (cents)', type: 'number', name: 'pack_price_cents', min: 1, value: 100 },
+    ]);
+
+    creditPackRows.appendChild(row);
+    wireRemovePricingButtons();
+  });
+
+  addSubscriptionPlanRowBtn?.addEventListener('click', () => {
+    if (!subscriptionPlanRows) {
+      return;
+    }
+
+    const row = createPricingRow([
+      { label: 'ID', type: 'text', name: 'plan_id', maxLength: 40, placeholder: 'e.g. ultra_monthly' },
+      { label: 'Name', type: 'text', name: 'plan_name', maxLength: 64, placeholder: 'e.g. Ultra Monthly' },
+      { label: 'Credits / month', type: 'number', name: 'plan_credits_per_month', min: 1, value: 1 },
+      { label: 'Cost (cents)', type: 'number', name: 'plan_cost_cents', min: 0, value: 0 },
+      { label: 'Price (cents)', type: 'number', name: 'plan_price_cents', min: 1, value: 100 },
+    ]);
+
+    subscriptionPlanRows.appendChild(row);
+    wireRemovePricingButtons();
+  });
+
+  addTranslationPlanRowBtn?.addEventListener('click', () => {
+    if (!translationPlanRows) {
+      return;
+    }
+
+    const row = createPricingRow([
+      { label: 'ID', type: 'text', name: 'translation_plan_id', maxLength: 40, placeholder: 'e.g. translation_enterprise_monthly' },
+      { label: 'Name', type: 'text', name: 'translation_plan_name', maxLength: 64, placeholder: 'e.g. Enterprise Translation' },
+      { label: 'Characters / month', type: 'number', name: 'translation_plan_characters_per_month', min: 1, value: 10000 },
+      { label: 'Cost (cents)', type: 'number', name: 'translation_plan_cost_cents', min: 0, value: 0 },
+      { label: 'Price (cents)', type: 'number', name: 'translation_plan_price_cents', min: 1, value: 100 },
+    ]);
+
+    translationPlanRows.appendChild(row);
+    wireRemovePricingButtons();
+  });
+
+  wireRemovePricingButtons();
+</script>
+
+<%- include('partials/foot') %>

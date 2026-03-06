@@ -1,0 +1,231 @@
+<%- include('partials/head', { title }) %>
+<%- include('partials/nav') %>
+
+<main class="container page-section">
+  <div class="page-head">
+    <div>
+      <h1 class="section-icon-title">
+        <span class="section-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z" stroke="currentColor" stroke-width="1.8" /><path d="M3 12h18M12 3c2.2 2.2 3.5 5.4 3.5 9S14.2 18.8 12 21M12 3c-2.2 2.2-3.5 5.4-3.5 9S9.8 18.8 12 21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg>
+        </span>
+        <%= t('ownerTranslationPurchases.title', { defaultValue: 'Owner Translation Purchase Analytics' }) %>
+      </h1>
+      <p class="muted"><%= t('ownerTranslationPurchases.subtitle', { defaultValue: 'Track translation subscription sales, popularity, and usage by guild/admin.' }) %></p>
+    </div>
+    <a href="/owner/settings" class="btn btn-ghost btn-with-icon"><span class="btn-icon" aria-hidden="true">←</span><%= t('common.back', { defaultValue: 'Back' }) %></a>
+  </div>
+
+  <section class="panel">
+    <details class="settings-expander">
+      <summary class="settings-expander-summary">
+        <div class="settings-expander-summary-main">
+          <h2 class="section-icon-title"><span class="section-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M3 3v18h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /><path d="M7 14l3-3 3 2 4-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg></span><%= t('ownerTranslationPurchases.snapshot.title', { defaultValue: 'Sales Snapshot' }) %></h2>
+          <p class="muted"><%= t('ownerTranslationPurchases.snapshot.subtitle', { defaultValue: 'Top-level translation subscription sales and profit totals.' }) %></p>
+        </div>
+        <span class="schedule-expander-plus" aria-hidden="true">+</span>
+      </summary>
+      <div class="settings-expander-body analytics-stats">
+    <div>
+      <p class="muted"><%= t('ownerTranslationPurchases.snapshot.totalSales', { defaultValue: 'Total Sales' }) %></p>
+      <h2><%= totals.sales_count %></h2>
+    </div>
+    <div>
+      <p class="muted"><%= t('ownerTranslationPurchases.snapshot.charactersSoldPerMonth', { defaultValue: 'Characters Sold / Month' }) %></p>
+      <h2><%= Number(totals.total_characters || 0).toLocaleString() %></h2>
+    </div>
+    <div>
+      <p class="muted"><%= t('ownerTranslationPurchases.snapshot.priceUsd', { defaultValue: 'Price (USD)' }) %></p>
+      <h2>$<%= (Number(totals.total_revenue_cents || 0) / 100).toFixed(2) %></h2>
+    </div>
+    <div>
+      <p class="muted"><%= t('ownerTranslationPurchases.snapshot.costUsd', { defaultValue: 'Cost (USD)' }) %></p>
+      <h2>$<%= (Number(totals.total_cost_cents || 0) / 100).toFixed(2) %></h2>
+    </div>
+    <div>
+      <p class="muted"><%= t('ownerTranslationPurchases.snapshot.profitUsd', { defaultValue: 'Profit (USD)' }) %></p>
+      <h2>$<%= (Number(totals.total_profit_cents || 0) / 100).toFixed(2) %></h2>
+    </div>
+      </div>
+    </details>
+  </section>
+
+  <section class="panel">
+    <details class="settings-expander">
+      <summary class="settings-expander-summary">
+        <div class="settings-expander-summary-main">
+          <h2 class="section-icon-title"><span class="section-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M7 12h10M10 18h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg></span><%= t('common.filters', { defaultValue: 'Filters' }) %></h2>
+          <p class="muted"><%= t('ownerTranslationPurchases.filtersSubtitle', { defaultValue: 'Filter by plan, dates, user and guild identifiers.' }) %></p>
+        </div>
+        <span class="schedule-expander-plus" aria-hidden="true">+</span>
+      </summary>
+      <div class="settings-expander-body">
+        <form method="get" action="/owner/translation-purchases" class="level-rows analytics-filters">
+      <div class="level-row analytics-filter-row">
+        <label>
+          Payment Type
+          <select name="payment_type">
+            <option value="all" <%= filters.paymentType === 'all' ? 'selected' : '' %>>All</option>
+            <option value="subscription_initial" <%= filters.paymentType === 'subscription_initial' ? 'selected' : '' %>>Subscription Initial</option>
+            <option value="subscription_cycle" <%= filters.paymentType === 'subscription_cycle' ? 'selected' : '' %>>Subscription Cycle</option>
+          </select>
+        </label>
+        <label>
+          Plan
+          <select name="option_id">
+            <option value="all" <%= filters.optionId === 'all' ? 'selected' : '' %>>All</option>
+            <% planCatalogRows.forEach((plan) => { %>
+              <option value="<%= plan.id %>" <%= filters.optionId === plan.id ? 'selected' : '' %>><%= plan.label %></option>
+            <% }) %>
+          </select>
+        </label>
+        <label>
+          From Date
+          <input type="date" name="from_date" value="<%= formatDateInput(filters.fromDate) %>" />
+        </label>
+        <label>
+          To Date
+          <input type="date" name="to_date" value="<%= formatDateInput(filters.toDate) %>" />
+        </label>
+      </div>
+
+      <div class="level-row analytics-filter-row">
+        <label>
+          Username or User ID
+          <input type="text" name="user_query" value="<%= filters.userQuery %>" placeholder="e.g. 1093318149732044870 or username" />
+        </label>
+        <label>
+          Guild Name or Guild ID
+          <input type="text" name="guild_query" value="<%= filters.guildQuery %>" placeholder="e.g. My Server or 123456789012345678" />
+        </label>
+        <label>
+          Result Limit
+          <input type="number" name="limit" min="20" max="500" value="<%= filters.limit %>" />
+        </label>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary"><%= t('common.applyFilters', { defaultValue: 'Apply Filters' }) %></button>
+        <a href="/owner/translation-purchases" class="btn btn-ghost"><%= t('common.reset', { defaultValue: 'Reset' }) %></a>
+        <a href="/owner/translation-purchases/export.csv<%= exportQueryString ? `?${exportQueryString}` : '' %>" class="btn btn-ghost"><%= t('common.exportCsv', { defaultValue: 'Export CSV' }) %></a>
+      </div>
+        </form>
+      </div>
+    </details>
+  </section>
+
+  <section class="panel">
+    <details class="settings-expander">
+      <summary class="settings-expander-summary">
+        <div class="settings-expander-summary-main">
+          <h2 class="section-icon-title"><span class="section-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 19h16M7 16V9M12 16V5M17 16v-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg></span><%= t('ownerTranslationPurchases.popularity.title', { defaultValue: 'Popularity by Plan' }) %></h2>
+          <p class="muted"><%= t('ownerTranslationPurchases.popularity.subtitle', { defaultValue: 'Plan-level performance and margin summary.' }) %></p>
+        </div>
+        <span class="schedule-expander-plus" aria-hidden="true">+</span>
+      </summary>
+      <div class="settings-expander-body">
+        <% if (!planPopularity || planPopularity.length === 0) { %>
+      <p class="muted"><%= t('ownerTranslationPurchases.popularity.empty', { defaultValue: 'No translation purchases found for this filter set.' }) %></p>
+        <% } else { %>
+      <div class="purchase-list">
+        <% planPopularity.forEach((row) => { %>
+          <div class="purchase-item analytics-purchase-item">
+            <div>
+              <strong><%= row.label %></strong>
+              <div class="muted">ID: <%= row.id %> · Payment types: <%= row.paymentTypes.length ? row.paymentTypes.join(', ') : 'none' %></div>
+            </div>
+            <div class="muted analytics-right">
+              <div>Sales: <strong><%= row.salesCount %></strong></div>
+              <div>Chars/month: <strong><%= Number(row.totalCharacters || 0).toLocaleString() %></strong></div>
+              <div>Price: <strong>$<%= (Number(row.totalRevenueCents || 0) / 100).toFixed(2) %></strong></div>
+              <div>Cost: <strong>$<%= (Number(row.totalCostCents || 0) / 100).toFixed(2) %></strong></div>
+              <div>Profit: <strong>$<%= (Number(row.totalProfitCents || 0) / 100).toFixed(2) %></strong></div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+        <% } %>
+      </div>
+    </details>
+  </section>
+
+  <section class="panel">
+    <details class="settings-expander">
+      <summary class="settings-expander-summary">
+        <div class="settings-expander-summary-main">
+          <h2 class="section-icon-title"><span class="section-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 7h14M5 12h14M5 17h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg></span><%= t('ownerTranslationPurchases.paymentSummary.title', { defaultValue: 'Summary by Payment Type' }) %></h2>
+          <p class="muted"><%= t('ownerTranslationPurchases.paymentSummary.subtitle', { defaultValue: 'Aggregate totals grouped by subscription payment phase.' }) %></p>
+        </div>
+        <span class="schedule-expander-plus" aria-hidden="true">+</span>
+      </summary>
+      <div class="settings-expander-body">
+        <% if (!paymentTypeSummary || paymentTypeSummary.length === 0) { %>
+      <p class="muted"><%= t('ownerTranslationPurchases.paymentSummary.empty', { defaultValue: 'No payment-type data found for this filter set.' }) %></p>
+        <% } else { %>
+      <div class="purchase-list">
+        <% paymentTypeSummary.forEach((row) => { %>
+          <div class="purchase-item">
+            <span><strong><%= row.paymentType %></strong></span>
+            <span class="muted">Sales: <%= row.salesCount %></span>
+            <span class="muted">Price: $<%= (Number(row.totalRevenueCents || 0) / 100).toFixed(2) %></span>
+            <span class="muted">Cost: $<%= (Number(row.totalCostCents || 0) / 100).toFixed(2) %></span>
+            <span class="muted">Profit: $<%= (Number(row.totalProfitCents || 0) / 100).toFixed(2) %></span>
+          </div>
+        <% }) %>
+      </div>
+        <% } %>
+      </div>
+    </details>
+  </section>
+
+  <section class="panel">
+    <details class="settings-expander">
+      <summary class="settings-expander-summary">
+        <div class="settings-expander-summary-main">
+          <h2 class="section-icon-title"><span class="section-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="5" width="16" height="15" rx="2" stroke="currentColor" stroke-width="1.8" /><path d="M8 3v4M16 3v4M4 10h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg></span><%= t('ownerTranslationPurchases.recent.title', { defaultValue: 'Recent Translation Purchases' }) %></h2>
+          <p class="muted"><%= t('ownerTranslationPurchases.recent.subtitle', { defaultValue: 'Latest translation subscription purchase events.' }) %></p>
+        </div>
+        <span class="schedule-expander-plus" aria-hidden="true">+</span>
+      </summary>
+      <div class="settings-expander-body">
+        <% if (!purchases || purchases.length === 0) { %>
+      <p class="muted"><%= t('ownerTranslationPurchases.recent.empty', { defaultValue: 'No translation purchases found for this filter set.' }) %></p>
+        <% } else { %>
+      <div class="purchase-list">
+        <% purchases.forEach((row) => { %>
+          <div class="purchase-item analytics-purchase-item">
+            <div>
+              <strong><%= row.plan_id %></strong>
+              <div class="muted">
+                <%= row.payment_type %> · +<%= Number(row.characters_per_month || 0).toLocaleString() %> chars/month ·
+                $<%= (Number(row.amount_total_cents || 0) / 100).toFixed(2) %> <%= String(row.currency || 'usd').toUpperCase() %>
+              </div>
+              <div class="muted">
+                Guild:
+                <% if (row.guild_id_display) { %>
+                  <%= row.guild_name || row.guild_id_display %> (<%= row.guild_id_display %>)
+                <% } else { %>
+                  <%= row.guild_name || 'Unknown Guild' %>
+                <% } %>
+              </div>
+              <div class="muted">
+                <% if (row.user_id_display) { %>
+                  <a href="https://discord.com/users/<%= row.user_id_display %>" target="_blank" rel="noopener noreferrer"><%= row.username || row.user_id_display %></a>
+                  (<%= row.user_id_display %>)
+                <% } else { %>
+                  <%= row.username || 'Unknown User' %>
+                <% } %>
+              </div>
+            </div>
+            <div class="muted analytics-right">
+              <%= row.created_at ? new Date(row.created_at).toLocaleString() : 'Unknown date' %>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+        <% } %>
+      </div>
+    </details>
+  </section>
+</main>
+
+<%- include('partials/foot') %>

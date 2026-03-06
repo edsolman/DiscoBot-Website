@@ -1,0 +1,624 @@
+{
+  "meta": {
+    "siteName": "DiscoBot",
+    "homeTitle": "DiscoBot",
+    "termsTitle": "Terms & Conditions",
+    "privacyTitle": "Privacy Policy",
+    "helpTitle": "Help & Wiki"
+  },
+  "nav": {
+    "home": "Home",
+    "help": "Help",
+    "terms": "Terms",
+    "privacy": "Privacy",
+    "language": "Language",
+    "signedInWithDiscord": "Signed in with Discord",
+    "dashboard": "Dashboard",
+    "aiCredits": "AI Credits",
+    "owner": "Owner",
+    "ownerSettings": "Settings",
+    "ownerPurchases": "Purchases",
+    "ownerTranslation": "Translation",
+    "ownerDiscounts": "Discounts",
+    "ownerWebsiteErrors": "Website Errors",
+    "signOut": "Sign Out",
+    "signInWithDiscord": "Sign In with Discord"
+  },
+  "footer": {
+    "help": "Help",
+    "terms": "Terms",
+    "privacy": "Privacy"
+  },
+  "common": {
+    "back": "Back",
+    "filters": "Filters",
+    "applyFilters": "Apply Filters",
+    "reset": "Reset",
+    "exportCsv": "Export CSV",
+    "enabled": "Enabled",
+    "saving": "saving",
+    "remove": "Remove",
+    "show": "Show"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Manage your global AI credits and eligible Discord servers.",
+    "myAiCredits": "My AI Credits",
+    "noGuildsInstalled": "No guilds found with DiscoBot installed for your account.",
+    "noManageableGuilds": "You do not currently have admin or installer access to manage any installed guilds.",
+    "guildServers": "Guild Servers",
+    "selectGuild": "Select a guild you can manage.",
+    "guildManageable": "You can manage this guild",
+    "manage": "Manage"
+  },
+  "guildConfig": {
+    "titleSuffix": "Configuration",
+    "heading": "Bot Configuration",
+    "subtitle": "Edit all DiscoBot features and settings for your server.",
+    "leaderboard": "Leaderboard",
+    "moderationSummary": "Moderation Summary",
+    "featureControls": "Feature Controls",
+    "featureControlsHelp": "Enable or disable guild features. When disabling selected features, you can optionally remove related DiscoBot channels.",
+    "saveFeatureSettings": "Save Feature Settings",
+    "translationCharacterLimit": "Translation Character Limit",
+    "translationCharacterLimitHelp": "Free usage and paid translation add-ons are managed per guild and reset monthly.",
+    "gamificationLevels": "Gamification Levels",
+    "gamificationLevelsHelp": "Set level number, level name, and XP required to reach each level.",
+    "scheduledMessages": "Scheduled Messages",
+    "scheduledMessagesHelp": "Create and manage automatic server messages. Choose a timezone per schedule.",
+    "alerts": {
+      "saved": "Configuration saved successfully.",
+      "imported": "Level preset imported successfully.",
+      "wordsAdded": "Custom moderation word added.",
+      "wordsRemoved": "Custom moderation word removed."
+    },
+    "cleanupPromptPrefix": "Do you also want to remove the associated channel",
+    "translationSummary": {
+      "freeLimit": "Free limit",
+      "currentAllowance": "Current allowance",
+      "usedThisMonth": "Used this month",
+      "remaining": "Remaining"
+    },
+    "noTranslationPlans": "No translation subscription plans are configured yet.",
+    "statusLabel": "Status",
+    "cancelsAtPeriodEnd": "Cancels at period end",
+    "periodEnd": "Period end",
+    "manageInStripe": "Manage in Stripe",
+    "noActiveTranslationSubs": "No active translation subscriptions for this guild yet.",
+    "levels": {
+      "level": "Level",
+      "levelName": "Level Name",
+      "xpRequired": "XP Required",
+      "addLevel": "Add Level",
+      "saveLevels": "Save Levels"
+    },
+    "importExport": {
+      "title": "Import / Export Preset",
+      "subtitle": "Export this guild's level config to JSON or import a preset from another guild.",
+      "exportJson": "Export JSON",
+      "copyCurrentJson": "Copy Current JSON",
+      "presetJson": "Preset JSON",
+      "validateJson": "Validate JSON",
+      "importJson": "Import JSON"
+    },
+    "customModerationWords": {
+      "title": "Custom Moderation Words",
+      "subtitle": "Add custom words/phrases for this guild. These are checked in addition to DiscoBot's default moderation terms.",
+      "addLabel": "Add Word/Phrase",
+      "addButton": "Add Custom Word",
+      "none": "No custom moderation words configured yet."
+    },
+    "moderationSnapshot": {
+      "title": "Moderation Snapshot",
+      "subtitle": "Quick view of top moderated users and action totals. Use the full summary for deeper analysis.",
+      "flagged": "Flagged",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "kicked": "Kicked",
+      "banned": "Banned",
+      "none": "No moderation activity recorded yet.",
+      "openFull": "Open Full Moderation Summary"
+    },
+    "scheduleForm": {
+      "channel": "Channel",
+      "frequency": "Frequency",
+      "once": "Once",
+      "daily": "Daily",
+      "weekly": "Weekly",
+      "timezone": "Timezone",
+      "customTimezone": "Custom Timezone (optional)",
+      "firstRun": "First Run (Local Time)",
+      "nextRun": "Next Run (Local Time)",
+      "messageContent": "Message Content",
+      "create": "Create Scheduled Message",
+      "none": "No scheduled messages configured yet.",
+      "active": "Active",
+      "paused": "Paused",
+      "save": "Save Schedule",
+      "delete": "Delete Schedule"
+    }
+  },
+  "guildLeaderboard": {
+    "titleWord": "Leaderboard",
+    "titleSuffix": "Gamification Leaderboard",
+    "subtitle": "View XP/reputation standings and directly adjust values for users.",
+    "adjustUpdated": "Gamification values updated successfully.",
+    "adjustInvalid": "Please provide a valid user ID and at least one non-zero XP/Reputation adjustment.",
+    "adjustError": "Could not update gamification values. Please try again.",
+    "adjustSectionTitle": "Adjust User XP / Reputation",
+    "adjustSectionSubtitle": "Use positive numbers to add and negative numbers to remove. Values will not go below zero.",
+    "applyAdjustment": "Apply Adjustment",
+    "usersSectionTitle": "Leaderboard Users",
+    "usersSectionSubtitle": "User rankings with quick per-user adjustment controls.",
+    "noRows": "No gamification activity found for this guild yet.",
+    "snapshot": {
+      "title": "Leaderboard Snapshot",
+      "subtitle": "Quick totals for users, XP, reputation, and message volume.",
+      "activeUsers": "Active Users",
+      "totalXp": "Total XP",
+      "totalReputation": "Total Reputation",
+      "totalMessages": "Total Messages"
+    },
+    "filtersSubtitle": "Filter leaderboard rows and sorting options.",
+    "filters": {
+      "userQuery": "Username or User ID",
+      "sortBy": "Sort By",
+      "resultLimit": "Result Limit"
+    },
+    "adjustForm": {
+      "userId": "User ID",
+      "username": "Username (optional)",
+      "xpDelta": "XP Delta",
+      "reputationDelta": "Reputation Delta",
+      "updateUser": "Update User"
+    }
+  },
+  "moderationSummary": {
+    "titleSuffix": "Moderation Summary",
+    "subtitle": "Review moderated users and enforcement outcomes for this server.",
+    "users": "Users",
+    "usersSubtitle": "Detailed user-level moderation actions and latest updates.",
+    "noRows": "No moderation activity found for this guild.",
+    "snapshot": {
+      "title": "Moderation Snapshot",
+      "subtitle": "Quick overview of moderation outcomes in this guild.",
+      "moderatedUsers": "Moderated Users",
+      "flagged": "Flagged",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "kicked": "Kicked",
+      "banned": "Banned"
+    },
+    "filtersSubtitle": "Filter users and result count for this moderation report.",
+    "filters": {
+      "userQuery": "Username or User ID",
+      "resultLimit": "Result Limit"
+    }
+  },
+  "credits": {
+    "title": "AI Image Credits",
+    "subtitle": "Buy and manage your personal AI image generation credits. These are personal to you, and can be used in any guild you are a member of that has DiscoBot installed.",
+    "yourBalance": "Your Balance",
+    "buyMore": "Buy More Credits",
+    "monthlySubscriptions": "Monthly Subscriptions",
+    "activeSubscriptions": "Active Subscriptions",
+    "manageSubscription": "Manage Subscription",
+    "checkMissedCredits": "Check for missed credits",
+    "recentPurchases": "Recent Purchases",
+    "generate": {
+      "title": "Generate AI Image on Website",
+      "subtitle": "Use your personal AI credits directly on the website without needing a Discord guild channel.",
+      "promptLabel": "Prompt",
+      "promptPlaceholder": "Example: A retro-futuristic city skyline at sunset, neon lights, cinematic lighting",
+      "button": "Generate Image (1 credit)",
+      "sourceImageLabel": "Source Image",
+      "editPromptLabel": "Edit Prompt",
+      "editPromptPlaceholder": "Example: Turn this into a watercolor painting with warm sunset tones",
+      "editButton": "Edit Image (1 credit)",
+      "modeText": "Text-to-image",
+      "modeEdit": "Image edit",
+      "download": "Download",
+      "success": "AI image generated successfully. 1 credit was used.",
+      "noCredits": "You do not have enough AI credits to generate an image.",
+      "invalidPrompt": "Please enter a valid prompt before generating.",
+      "invalidImage": "Please upload a valid source image for edit mode.",
+      "unavailable": "Web image generation is not available right now. Please try again later.",
+      "failed": "Image generation failed. Your credit was refunded."
+    }
+  },
+  "ownerSettings": {
+    "title": "Owner Settings",
+    "subtitle": "Global bot channel configuration and website pricing tiers.",
+    "saved": "Owner settings saved successfully.",
+    "metadata": "Settings Metadata",
+    "websiteUrl": "Website URL",
+    "saveButton": "Save Owner Settings",
+    "metadataSubtitle": "Audit information about when owner settings were last updated and by whom.",
+    "websiteUrlSubtitle": "Owner-only: used by the bot `/website` command.",
+    "gamificationChannels": {
+      "title": "Gamification Channel Settings",
+      "subtitle": "Configure category/channel details used for gamification features."
+    },
+    "moderationChannels": {
+      "title": "Moderation Channel Settings",
+      "subtitle": "Configure moderation channel names and default admin guidance text."
+    },
+    "aiImageChannels": {
+      "title": "AI Image Channel Settings",
+      "subtitle": "Configure where AI image generation interactions are routed."
+    },
+    "creditPacks": {
+      "title": "One-Time Credit Packs",
+      "subtitle": "Update IDs, display names, credits, internal cost, and price (cents). Cost is owner-only and used for profit analytics."
+    },
+    "subscriptionPlans": {
+      "title": "Monthly Subscription Plans",
+      "subtitle": "Update IDs, display names, credits per month, internal cost, and price (cents)."
+    },
+    "translationLimits": {
+      "title": "Guild Translation Limits",
+      "subtitle": "Configure the free monthly translation character limit and paid subscription options per guild."
+    },
+    "translationPlans": {
+      "title": "Guild Translation Subscription Plans",
+      "subtitle": "Update IDs, display names, additional characters per month, internal cost, and price (cents)."
+    }
+  },
+  "ownerPurchases": {
+    "title": "Owner Purchase Analytics",
+    "subtitle": "View all purchases, filter the results, and track option popularity over time.",
+    "snapshot": {
+      "title": "Sales Snapshot",
+      "subtitle": "Top-level sales, credits, cost, and profit totals.",
+      "totalSales": "Total Sales",
+      "creditsSold": "Credits Sold",
+      "priceUsd": "Price (USD)",
+      "costUsd": "Cost (USD)",
+      "profitUsd": "Profit (USD)"
+    },
+    "filtersSubtitle": "Filter by payment type, option, date range, and user.",
+    "popularity": {
+      "title": "Popularity by Purchase Option",
+      "subtitle": "Sales and profitability broken down by option ID.",
+      "empty": "No purchases found for this filter set."
+    },
+    "paymentSummary": {
+      "title": "Summary by Payment Type",
+      "subtitle": "Aggregate totals grouped by payment type.",
+      "empty": "No payment-type data found for this filter set."
+    },
+    "recent": {
+      "title": "Recent Purchases",
+      "subtitle": "Latest purchase events matching current filters.",
+      "empty": "No purchases found for this filter set."
+    }
+  },
+  "ownerTranslationPurchases": {
+    "title": "Owner Translation Purchase Analytics",
+    "subtitle": "Track translation subscription sales, popularity, and usage by guild/admin.",
+    "snapshot": {
+      "title": "Sales Snapshot",
+      "subtitle": "Top-level translation subscription sales and profit totals.",
+      "totalSales": "Total Sales",
+      "charactersSoldPerMonth": "Characters Sold / Month",
+      "priceUsd": "Price (USD)",
+      "costUsd": "Cost (USD)",
+      "profitUsd": "Profit (USD)"
+    },
+    "filtersSubtitle": "Filter by plan, dates, user and guild identifiers.",
+    "popularity": {
+      "title": "Popularity by Plan",
+      "subtitle": "Plan-level performance and margin summary.",
+      "empty": "No translation purchases found for this filter set."
+    },
+    "paymentSummary": {
+      "title": "Summary by Payment Type",
+      "subtitle": "Aggregate totals grouped by subscription payment phase.",
+      "empty": "No payment-type data found for this filter set."
+    },
+    "recent": {
+      "title": "Recent Translation Purchases",
+      "subtitle": "Latest translation subscription purchase events.",
+      "empty": "No translation purchases found for this filter set."
+    }
+  },
+  "ownerDiscounts": {
+    "title": "Owner Discount Codes",
+    "subtitle": "Create and manage discount codes, and track who used each code.",
+    "createTitle": "Create Discount Code",
+    "createButton": "Create Code",
+    "filterTitle": "Filter Codes",
+    "applyFilter": "Apply Filter",
+    "existingTitle": "Existing Discount Codes",
+    "createSubtitle": "Create new discount codes with optional restrictions and expiry.",
+    "filterSubtitle": "Filter discount codes by prefix and active state.",
+    "existingSubtitle": "Manage active/inactive state and review recent usage.",
+    "empty": "No discount codes found.",
+    "alerts": {
+      "created": "Discount code created successfully.",
+      "statusUpdated": "Discount code status updated."
+    },
+    "errors": {
+      "duplicateCode": "That code already exists.",
+      "invalidCode": "Please enter a valid code (at least 3 letters/numbers).",
+      "invalidDiscount": "Please provide a valid discount type and value.",
+      "percentTooHigh": "Percentage discounts must be 95% or less.",
+      "invalidMaxDiscount": "Max discount cap must be zero or greater (in cents).",
+      "invalidMinSpend": "Minimum spend must be zero or greater (in cents).",
+      "invalidRestrictedGuild": "Restricted guild ID must be a valid Discord guild ID.",
+      "invalidExpiry": "Expiry date/time is invalid.",
+      "notFound": "Discount code was not found.",
+      "saveFailed": "Could not save changes. Please try again."
+    }
+  },
+  "ownerWebsiteErrors": {
+    "title": "Owner Website Errors",
+    "subtitle": "Review and filter website errors users encountered.",
+    "filtersSubtitle": "Filter by status, error type, date range, route, and user.",
+    "statusGroup": "Status Group",
+    "allStatuses": "All",
+    "errorType": "Error Type",
+    "allTypes": "All",
+    "typeMongoTimeout": "Mongo timeout",
+    "typeServerError": "Server error",
+    "typeClientError": "Client error",
+    "fromDate": "From Date",
+    "toDate": "To Date",
+    "pathOrMessage": "Path, Message, or Reference ID",
+    "pathPlaceholder": "e.g. /credits or ETIMEDOUT",
+    "userQuery": "Username or User ID",
+    "userPlaceholder": "e.g. 1093318149732044870 or username",
+    "resultLimit": "Result Limit",
+    "summaryTitle": "Summary",
+    "summarySubtitle": "Snapshot for currently filtered results.",
+    "totalMatching": "Total Matching",
+    "mongoTimeouts": "Mongo Timeouts",
+    "testErrorButton": "Generate Test Error",
+    "testGenericErrorButton": "Generate Generic Test Error",
+    "recentTitle": "Recent Website Errors",
+    "recentSubtitle": "Newest error pages shown to users.",
+    "empty": "No website errors found for this filter set.",
+    "unknownUser": "Unknown user"
+  },
+  "help": {
+    "title": "DiscoBot Help & Wiki",
+    "subtitle": "Everything you need to run DiscoBot features, website settings, moderation workflows, schedules, and AI credit purchases.",
+    "contents": "Contents",
+    "toc": {
+      "quickStart": "Quick Start",
+      "coreFeatures": "Core Features",
+      "discordCommands": "Discord Commands",
+      "guildConfig": "Website: Guild Bot Configuration",
+      "dashboardCredits": "Website: Dashboard & Credits",
+      "disabledMessages": "Feature Disabled Messages",
+      "troubleshooting": "Troubleshooting"
+    },
+    "quickStart": {
+      "title": "Quick Start",
+      "item1": "Invite DiscoBot to your server and sign in on the website using Discord.",
+      "item2": "Open Dashboard, choose your guild, then configure features in Guild Bot Configuration.",
+      "item3": "Enable/disable features in one place, then save all feature settings together.",
+      "item4": "Use AI credits page to buy credits or subscriptions for AI image generation."
+    },
+    "coreFeatures": {
+      "title": "Core Features",
+      "smartModerationLabel": "Smart Moderation",
+      "smartModerationBody": "flags risky content for admin review, with approve/remove/kick/ban actions and stats.",
+      "gamificationLabel": "Gamification",
+      "gamificationBody": "XP, levels, reputation, and leaderboard channels to boost engagement.",
+      "globalCommunicationLabel": "Global Communication",
+      "globalCommunicationBody": "message translation powered by DeepL Pro.",
+      "scheduledMessagingLabel": "Scheduled Messaging",
+      "scheduledMessagingBody": "one-time, daily, or weekly scheduled posts with timezone support.",
+      "aiImageLabel": "AI Image Generation",
+      "aiImageBody": "right-click message context command for text/image prompt workflows.",
+      "aiImageWebsiteBody": "Image generation and editing are also available directly on the website via AI Credits.",
+      "webDashboardLabel": "Web Dashboard",
+      "webDashboardBody": "configure most server settings visually from the website."
+    },
+    "discord": {
+      "title": "Discord Commands",
+      "subtitle": "Command availability depends on enabled features and your permissions.",
+      "websiteLinksTitle": "Website Links",
+      "websiteLinksItem1": "opens DiscoBot website link.",
+      "websiteLinksItem2": "opens DiscoBot website link.",
+      "featureControlsTitle": "Feature Controls",
+      "featureControlsItem1": "shows enabled/disabled feature status for the server.",
+      "featureControlsItem2": "enables a feature (admin).",
+      "featureControlsItem3": "disables a feature (admin).",
+      "gamificationTitle": "Gamification",
+      "gamificationItem1": "view XP + level for yourself or another member.",
+      "gamificationItem2": "show XP/reputation leaderboard.",
+      "gamificationItem3": "show level configuration.",
+      "gamificationItem4": "create/update level config (admin).",
+      "gamificationItem5": "reset levels to defaults (admin).",
+      "gamificationItem6": "view reputation.",
+      "gamificationItem7": "give reputation to another member.",
+      "gamificationItem8": "admin reputation adjustments.",
+      "schedulingTitle": "Scheduling",
+      "schedulingItem1": "create a schedule with Once (date+time), Daily (start date+time), or Weekly (start date+days+time), with optional end date.",
+      "schedulingItem2": "list active schedules.",
+      "schedulingItem3": "edit channel/message/timezone/recurrence, plus start date, send time, weekly days, and optional end date.",
+      "schedulingItem4": "control active schedules.",
+      "schedulingItem5": "remove schedule.",
+      "translationTitle": "Translation",
+      "translationItem1": "Message context command:",
+      "translationItem2": "Message context command:",
+      "translationItem3": "Flag-reaction translation: react with supported flag emojis to translate messages.",
+      "translationCommand1": "Translate",
+      "translationCommand2": "Translate (Private)",
+      "aiImagesTitle": "AI Images",
+      "aiImagesItem1": "Message context command:",
+      "aiImagesItem2": "Use in the configured AI image channel for generation/edit workflows.",
+      "aiImagesCommand": "Generate AI Image"
+    },
+    "guildConfig": {
+      "title": "Website: Guild Bot Configuration",
+      "item1Label": "Feature Controls",
+      "item1Body": "enable/disable multiple features, then save once.",
+      "item2Label": "Translation Character Limit",
+      "item2Body": "monitor usage + purchase translation subscriptions for guilds.",
+      "item3Label": "Gamification Levels",
+      "item3Body": "edit level names/thresholds; import/export presets as JSON.",
+      "item4Label": "Custom Moderation Words",
+      "item4Body": "add/remove guild-specific blocked terms.",
+      "item5Label": "Moderation Snapshot",
+      "item5Body": "quick aggregate stats + top moderated users.",
+      "item6Label": "Scheduled Messages",
+      "item6Body": "create and manage Once/Daily/Weekly schedules with start date, time, weekly day selection, and optional end date.",
+      "item7Label": "Navigation Buttons",
+      "item7Body": "jump directly to Leaderboard and Moderation Summary pages."
+    },
+    "dashboardCredits": {
+      "title": "Website: Dashboard & Credits",
+      "item1Label": "Dashboard",
+      "item1Body": "shows manageable guilds where DiscoBot is installed.",
+      "item2Label": "AI Credits page",
+      "item2Body": "buy one-time packs, start monthly subscriptions, manage subscriptions, and backfill missed credits.",
+      "imageGenerationLinkLabel": "Open Website Image Generation",
+      "item3Label": "Balance details",
+      "item3Body": "shows purchased/used totals and subscription credit state.",
+      "item4Label": "Purchases history",
+      "item4Body": "shows recent AI credit purchases."
+    },
+    "disabledFeatures": {
+      "title": "Feature Disabled Messages",
+      "body": "When a feature is disabled in website settings, related commands may either be hidden or show an ephemeral message explaining the feature is disabled and to contact an administrator."
+    },
+    "troubleshooting": {
+      "title": "Troubleshooting",
+      "item1": "If visuals look outdated after deploy, accept the in-app update toast and refresh.",
+      "item2": "If a command fails, confirm the feature is enabled in Guild Bot Configuration.",
+      "item3": "For AI image issues, check credits balance and channel permissions.",
+      "item4Prefix": "For scheduling issues, validate timezone names (IANA format, e.g.",
+      "item4Suffix": ").",
+      "item5": "If a page/action fails, sign out/in and ensure you have admin/installer permissions."
+    }
+  },
+  "error": {
+    "title": "Something Went Wrong",
+    "generic": "An unexpected error occurred while processing your request.",
+    "mongoTimeout": "A temporary database connection issue occurred. Please refresh and try again in a moment.",
+    "reference": "Reference ID",
+    "reportIssue": "Report to Bot Owner",
+    "reportSubject": "DiscoBot Website Error Report",
+    "reportIntro": "Please describe what happened:",
+    "reportPage": "Page",
+    "reportTime": "Time (UTC)",
+    "reportMessage": "Message",
+    "returnHome": "Return Home"
+  },
+  "errors": {
+    "loginFailedTitle": "Login Failed",
+    "dashboardErrorTitle": "Dashboard Error",
+    "dashboardErrorMessage": "Could not load your guilds. Please try again.",
+    "creditsErrorTitle": "Credits Error",
+    "creditsErrorMessage": "Could not load AI image credits.",
+    "settingsErrorTitle": "Settings Error",
+    "settingsErrorMessage": "Could not load owner settings.",
+    "purchasesErrorTitle": "Purchases Error",
+    "purchasesErrorMessage": "Could not load owner purchase analytics.",
+    "translationPurchasesErrorTitle": "Translation Purchases Error",
+    "translationPurchasesErrorMessage": "Could not load translation purchase analytics.",
+    "discountCodesErrorTitle": "Discount Codes Error",
+    "discountCodesErrorMessage": "Could not load discount code admin page.",
+    "websiteErrorsErrorTitle": "Website Errors Page Error",
+    "websiteErrorsErrorMessage": "Could not load website error logs.",
+    "configurationErrorTitle": "Configuration Error",
+    "configurationErrorMessage": "Could not load guild configuration.",
+    "moderationSummaryErrorTitle": "Moderation Summary Error",
+    "moderationSummaryErrorMessage": "Could not load moderation summary for this guild.",
+    "leaderboardErrorTitle": "Leaderboard Error",
+    "leaderboardErrorMessage": "Could not load leaderboard for this guild."
+  },
+  "home": {
+    "hero": {
+      "titlePrefix": "Automate and elevate your Discord server with",
+      "titleSuffix": ".",
+      "body1": "The grooviest, most psychedelically funkalicious discord bot EVER! This guy is never happier than when he's hangin' out in your server, the tunes are pumping and he's handling all your discord business like a BOSS.",
+      "body2": "Translation, moderation, AI image generation, gamification, message scheduling, and more - All managed from a modern dashboard or app.",
+      "openDashboard": "Open Dashboard",
+      "signIn": "Sign In with Discord",
+      "downloadApp": "Download App",
+      "logoAlt": "DiscoBot Logo"
+    },
+    "features": {
+      "smartModeration": {
+        "title": "Smart Moderation",
+        "description": "Flag rude/offensive messages with admin approval workflows and action tracking."
+      },
+      "gamification": {
+        "title": "Gamification",
+        "description": "XP, level progression, reputation, and leaderboard channels to drive engagement."
+      },
+      "globalCommunication": {
+        "title": "Global Communication",
+        "description": "Instant, accurate and natural message translation using the DeepL Pro engine."
+      },
+      "scheduledMessaging": {
+        "title": "Scheduled Messaging",
+        "description": "Timezone-aware recurring posts with daily/weekly automation controls."
+      },
+      "aiImageGeneration": {
+        "title": "AI Image Generation",
+        "description": "Generate and edit images directly from Discord with OpenAI-powered prompts.",
+        "websiteMention": "You can also generate and edit images directly on the website from AI Credits."
+      },
+      "webDashboard": {
+        "title": "Web Dashboard & App",
+        "description": "Manage key server settings from the web dashboard or the app without relying on slash commands."
+      }
+    }
+  },
+  "terms": {
+    "title": "Terms & Conditions",
+    "intro": "By using DiscoBot and this dashboard, you agree to these terms.",
+    "acceptableUse": {
+      "title": "Acceptable Use",
+      "body": "You agree not to use DiscoBot to violate Discord terms, spam communities, or abuse users."
+    },
+    "serviceAvailability": {
+      "title": "Service Availability",
+      "body": "Features may change, be updated, or become unavailable without prior notice."
+    },
+    "accountResponsibility": {
+      "title": "Account Responsibility",
+      "body": "You are responsible for the actions taken through your Discord account and your server configuration choices."
+    },
+    "liability": {
+      "title": "Limitation of Liability",
+      "body": "DiscoBot is provided as-is without warranties. Use at your own discretion."
+    }
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "intro": "This page explains what data DiscoBot and this website process.",
+    "dataProcessed": {
+      "title": "Data We Process",
+      "body": "Discord account identity data for login, guild membership data for access checks, and configuration records in MongoDB."
+    },
+    "featureData": {
+      "title": "Bot Feature Data",
+      "body": "Depending on enabled features, DiscoBot may store usage data such as moderation stats, gamification stats, and schedule definitions."
+    },
+    "dataUse": {
+      "title": "Data Use",
+      "body": "Data is used only to provide bot features, dashboard controls, and server-specific functionality."
+    },
+    "dataRetention": {
+      "title": "Data Retention",
+      "body": "Data remains stored until removed by operators or overwritten by feature workflows."
+    },
+    "contact": {
+      "title": "Contact",
+      "body": "If you need data removal or have privacy concerns, contact the bot operator/admin team."
+    }
+  },
+  "pwa": {
+    "updateAvailable": "Update available",
+    "updateText": "A newer DiscoBot version is ready.",
+    "refreshNow": "Refresh now",
+    "iosInstallHint": "On iPhone/iPad: tap Share, then Add to Home Screen.",
+    "unavailableHint": "App install is not available in this browser yet."
+  }
+}

@@ -1,0 +1,113 @@
+<%- include('partials/head', { title }) %>
+<%- include('partials/nav') %>
+
+<main>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <h1><%= t('home.hero.titlePrefix') %> <span class="brand-gradient-text">DiscoBot</span><%= t('home.hero.titleSuffix') %></h1>
+        <p>
+          <%= t('home.hero.body1') %>
+        </p>
+        <p>
+          <%= t('home.hero.body2') %>
+        </p>
+        <div class="hero-actions">
+          <% if (currentUser) { %>
+            <a href="/dashboard" class="btn btn-primary"><%= t('home.hero.openDashboard') %></a>
+          <% } else { %>
+            <a href="/auth/discord" class="btn btn-primary"><%= t('home.hero.signIn') %></a>
+          <% } %>
+          <button id="installAppButton" class="btn btn-ghost btn-with-icon" type="button" hidden>
+            <img src="/assets/DiscoBot.png" alt="" class="install-btn-logo" loading="lazy" decoding="async" />
+            <span><%= t('home.hero.downloadApp') %></span>
+          </button>
+        </div>
+        <p id="installAppHint" class="install-hint" hidden></p>
+      </div>
+      <div class="hero-card">
+        <img src="/assets/DiscoBot.png" alt="<%= t('home.hero.logoAlt') %>" />
+      </div>
+    </div>
+  </section>
+
+  <section class="features container">
+    <article class="feature-card">
+      <h3 class="feature-title">
+        <span class="feature-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M12 3l7 3v5c0 4.3-2.5 8.2-7 10-4.5-1.8-7-5.7-7-10V6l7-3z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M9.6 12.2l1.7 1.7 3.4-3.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </span>
+        <%= t('home.features.smartModeration.title') %>
+      </h3>
+      <p><%= t('home.features.smartModeration.description') %></p>
+    </article>
+    <article class="feature-card">
+      <h3 class="feature-title">
+        <span class="feature-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M8 5h8v3a4 4 0 0 1-8 0V5z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M6 7H4a2 2 0 0 0 2 2M18 7h2a2 2 0 0 1-2 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M12 12v3M9 20h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </span>
+        <%= t('home.features.gamification.title') %>
+      </h3>
+      <p><%= t('home.features.gamification.description') %></p>
+    </article>
+    <article class="feature-card">
+      <h3 class="feature-title">
+        <span class="feature-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z" stroke="currentColor" stroke-width="1.8" />
+            <path d="M3 12h18M12 3c2.2 2.2 3.5 5.4 3.5 9S14.2 18.8 12 21M12 3c-2.2 2.2-3.5 5.4-3.5 9S9.8 18.8 12 21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+          </svg>
+        </span>
+        <%= t('home.features.globalCommunication.title') %>
+      </h3>
+      <p><%= t('home.features.globalCommunication.description') %></p>
+    </article>
+    <article class="feature-card">
+      <h3 class="feature-title">
+        <span class="feature-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="5" width="18" height="16" rx="3" stroke="currentColor" stroke-width="1.8" />
+            <path d="M8 3v4M16 3v4M3 10h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+            <path d="M12 14v3l2 1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </span>
+        <%= t('home.features.scheduledMessaging.title') %>
+      </h3>
+      <p><%= t('home.features.scheduledMessaging.description') %></p>
+    </article>
+    <article class="feature-card">
+      <h3 class="feature-title">
+        <span class="feature-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="4" width="18" height="16" rx="3" stroke="currentColor" stroke-width="1.8" />
+            <circle cx="9" cy="10" r="2" stroke="currentColor" stroke-width="1.8" />
+            <path d="M6 18l4.5-4.5 3 3L16.5 14 20 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </span>
+        <%= t('home.features.aiImageGeneration.title') %>
+      </h3>
+      <p><%= t('home.features.aiImageGeneration.description') %> <%= t('home.features.aiImageGeneration.websiteMention', { defaultValue: 'You can also generate and edit images directly on the website from AI Credits.' }) %></p>
+    </article>
+    <article class="feature-card">
+      <h3 class="feature-title">
+        <span class="feature-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="4" width="18" height="16" rx="3" stroke="currentColor" stroke-width="1.8" />
+            <path d="M3 9h18M12 9v11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+          </svg>
+        </span>
+        <%= t('home.features.webDashboard.title') %>
+      </h3>
+      <p><%= t('home.features.webDashboard.description') %></p>
+    </article>
+  </section>
+</main>
+
+<%- include('partials/foot') %>

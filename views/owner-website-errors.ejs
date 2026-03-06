@@ -1,0 +1,176 @@
+<%- include('partials/head', { title }) %>
+<%- include('partials/nav') %>
+
+<main class="container page-section">
+  <div class="page-head">
+    <div>
+      <h1 class="section-icon-title">
+        <span class="section-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M12 3l9 16H3L12 3z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
+            <path d="M12 9v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+            <circle cx="12" cy="16" r="1" fill="currentColor" />
+          </svg>
+        </span>
+        <%= t('ownerWebsiteErrors.title', { defaultValue: 'Owner Website Errors' }) %>
+      </h1>
+      <p class="muted"><%= t('ownerWebsiteErrors.subtitle', { defaultValue: 'Review and filter website errors users encountered.' }) %></p>
+    </div>
+    <a href="/owner/settings" class="btn btn-ghost btn-with-icon"><span class="btn-icon" aria-hidden="true">←</span><%= t('common.back', { defaultValue: 'Back' }) %></a>
+  </div>
+
+  <section class="panel">
+    <details class="settings-expander" open>
+      <summary class="settings-expander-summary">
+        <div class="settings-expander-summary-main">
+          <h2 class="section-icon-title">
+            <span class="section-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M7 12h10M10 18h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg>
+            </span>
+            <%= t('common.filters', { defaultValue: 'Filters' }) %>
+          </h2>
+          <p class="muted"><%= t('ownerWebsiteErrors.filtersSubtitle', { defaultValue: 'Filter by status, error type, date range, route, and user.' }) %></p>
+        </div>
+        <span class="schedule-expander-plus" aria-hidden="true">+</span>
+      </summary>
+      <div class="settings-expander-body">
+        <form method="get" action="/owner/website-errors" class="level-rows analytics-filters">
+          <div class="level-row analytics-filter-row">
+            <label>
+              <%= t('ownerWebsiteErrors.statusGroup', { defaultValue: 'Status Group' }) %>
+              <select name="status_group">
+                <option value="all" <%= filters.statusGroup === 'all' ? 'selected' : '' %>><%= t('ownerWebsiteErrors.allStatuses', { defaultValue: 'All' }) %></option>
+                <option value="4xx" <%= filters.statusGroup === '4xx' ? 'selected' : '' %>>4xx</option>
+                <option value="5xx" <%= filters.statusGroup === '5xx' ? 'selected' : '' %>>5xx</option>
+              </select>
+            </label>
+            <label>
+              <%= t('ownerWebsiteErrors.errorType', { defaultValue: 'Error Type' }) %>
+              <select name="error_type">
+                <option value="all" <%= filters.errorType === 'all' ? 'selected' : '' %>><%= t('ownerWebsiteErrors.allTypes', { defaultValue: 'All' }) %></option>
+                <option value="mongo_timeout" <%= filters.errorType === 'mongo_timeout' ? 'selected' : '' %>><%= t('ownerWebsiteErrors.typeMongoTimeout', { defaultValue: 'Mongo timeout' }) %></option>
+                <option value="server_error" <%= filters.errorType === 'server_error' ? 'selected' : '' %>><%= t('ownerWebsiteErrors.typeServerError', { defaultValue: 'Server error' }) %></option>
+                <option value="client_error" <%= filters.errorType === 'client_error' ? 'selected' : '' %>><%= t('ownerWebsiteErrors.typeClientError', { defaultValue: 'Client error' }) %></option>
+              </select>
+            </label>
+            <label>
+              <%= t('ownerWebsiteErrors.fromDate', { defaultValue: 'From Date' }) %>
+              <input type="date" name="from_date" value="<%= formatDateInput(filters.fromDate) %>" />
+            </label>
+            <label>
+              <%= t('ownerWebsiteErrors.toDate', { defaultValue: 'To Date' }) %>
+              <input type="date" name="to_date" value="<%= formatDateInput(filters.toDate) %>" />
+            </label>
+          </div>
+
+          <div class="level-row analytics-filter-row">
+            <label>
+              <%= t('ownerWebsiteErrors.pathOrMessage', { defaultValue: 'Path, Message, or Reference ID' }) %>
+              <input type="text" name="path_query" value="<%= filters.pathQuery %>" placeholder="<%= t('ownerWebsiteErrors.pathPlaceholder', { defaultValue: 'e.g. /credits or ETIMEDOUT' }) %>" />
+            </label>
+            <label>
+              <%= t('ownerWebsiteErrors.userQuery', { defaultValue: 'Username or User ID' }) %>
+              <input type="text" name="user_query" value="<%= filters.userQuery %>" placeholder="<%= t('ownerWebsiteErrors.userPlaceholder', { defaultValue: 'e.g. 1093318149732044870 or username' }) %>" />
+            </label>
+            <label>
+              <%= t('ownerWebsiteErrors.resultLimit', { defaultValue: 'Result Limit' }) %>
+              <input type="number" name="limit" min="20" max="500" value="<%= filters.limit %>" />
+            </label>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary"><%= t('common.applyFilters', { defaultValue: 'Apply Filters' }) %></button>
+            <a href="/owner/website-errors" class="btn btn-ghost"><%= t('common.reset', { defaultValue: 'Reset' }) %></a>
+            <a href="/owner/website-errors/export.csv<%= exportQueryString ? `?${exportQueryString}` : '' %>" class="btn btn-ghost"><%= t('common.exportCsv', { defaultValue: 'Export CSV' }) %></a>
+            <a href="/owner/website-errors/test-error?mode=mongo" class="btn btn-ghost"><%= t('ownerWebsiteErrors.testErrorButton', { defaultValue: 'Generate Test Error' }) %></a>
+            <a href="/owner/website-errors/test-error?mode=generic" class="btn btn-ghost"><%= t('ownerWebsiteErrors.testGenericErrorButton', { defaultValue: 'Generate Generic Test Error' }) %></a>
+          </div>
+        </form>
+      </div>
+    </details>
+  </section>
+
+  <section class="panel">
+    <details class="settings-expander" open>
+      <summary class="settings-expander-summary">
+        <div class="settings-expander-summary-main">
+          <h2 class="section-icon-title">
+            <span class="section-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M4 19h16M7 16V9M12 16V5M17 16v-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg>
+            </span>
+            <%= t('ownerWebsiteErrors.summaryTitle', { defaultValue: 'Summary' }) %>
+          </h2>
+          <p class="muted"><%= t('ownerWebsiteErrors.summarySubtitle', { defaultValue: 'Snapshot for currently filtered results.' }) %></p>
+        </div>
+        <span class="schedule-expander-plus" aria-hidden="true">+</span>
+      </summary>
+      <div class="settings-expander-body analytics-stats">
+        <div>
+          <p class="muted"><%= t('ownerWebsiteErrors.totalMatching', { defaultValue: 'Total Matching' }) %></p>
+          <h2><%= Number(totalCount || 0).toLocaleString() %></h2>
+        </div>
+        <div>
+          <p class="muted">5xx</p>
+          <h2><%= Number(summary.serverErrors || 0).toLocaleString() %></h2>
+        </div>
+        <div>
+          <p class="muted">4xx</p>
+          <h2><%= Number(summary.clientErrors || 0).toLocaleString() %></h2>
+        </div>
+        <div>
+          <p class="muted"><%= t('ownerWebsiteErrors.mongoTimeouts', { defaultValue: 'Mongo Timeouts' }) %></p>
+          <h2><%= Number(summary.mongoTimeouts || 0).toLocaleString() %></h2>
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <section class="panel">
+    <details class="settings-expander" open>
+      <summary class="settings-expander-summary">
+        <div class="settings-expander-summary-main">
+          <h2 class="section-icon-title">
+            <span class="section-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M5 7h14M5 12h14M5 17h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg>
+            </span>
+            <%= t('ownerWebsiteErrors.recentTitle', { defaultValue: 'Recent Website Errors' }) %>
+          </h2>
+          <p class="muted"><%= t('ownerWebsiteErrors.recentSubtitle', { defaultValue: 'Newest error pages shown to users.' }) %></p>
+        </div>
+        <span class="schedule-expander-plus" aria-hidden="true">+</span>
+      </summary>
+      <div class="settings-expander-body">
+        <% if (!rows || rows.length === 0) { %>
+          <p class="muted"><%= t('ownerWebsiteErrors.empty', { defaultValue: 'No website errors found for this filter set.' }) %></p>
+        <% } else { %>
+          <div class="purchase-list">
+            <% rows.forEach((row) => { %>
+              <div class="purchase-item analytics-purchase-item">
+                <div>
+                  <strong><%= row.title || t('error.title', { defaultValue: 'Something Went Wrong' }) %></strong>
+                  <div class="muted">
+                    <%= row.method || 'GET' %> <%= row.path || '/' %> · <%= row.http_status || 500 %> · <%= row.error_type || 'server_error' %>
+                  </div>
+                  <% if (row.message) { %>
+                    <div class="muted"><%= row.message %></div>
+                  <% } %>
+                  <div class="muted">
+                    <%= t('error.reference', { defaultValue: 'Reference ID' }) %>: <%= row.error_id || '-' %>
+                  </div>
+                  <div class="muted">
+                    <%= (row.username || row.user_id) ? `${row.username || 'Unknown user'} (${row.user_id || '-'})` : t('ownerWebsiteErrors.unknownUser', { defaultValue: 'Unknown user' }) %>
+                  </div>
+                </div>
+                <div class="muted analytics-right">
+                  <%= row.created_at ? new Date(row.created_at).toLocaleString() : '-' %>
+                </div>
+              </div>
+            <% }) %>
+          </div>
+        <% } %>
+      </div>
+    </details>
+  </section>
+</main>
+
+<%- include('partials/foot') %>

@@ -1,0 +1,240 @@
+<%- include('partials/head', { title }) %>
+<%- include('partials/nav') %>
+
+<main class="container page-section">
+  <div class="page-head">
+    <div>
+      <h1 class="section-icon-title">
+        <span class="section-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M8 5h8v3a4 4 0 0 1-8 0V5z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M6 7H4a2 2 0 0 0 2 2M18 7h2a2 2 0 0 1-2 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M12 12v3M9 20h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </span>
+        <%= guild.name %> · <%= t('guildLeaderboard.titleSuffix', { defaultValue: 'Gamification Leaderboard' }) %>
+      </h1>
+      <p class="muted"><%= t('guildLeaderboard.subtitle', { defaultValue: 'View XP/reputation standings and directly adjust values for users.' }) %></p>
+    </div>
+    <a href="/dashboard/<%= guild.id %>" class="btn btn-ghost btn-with-icon"><span class="btn-icon" aria-hidden="true">←</span><%= t('common.back', { defaultValue: 'Back' }) %></a>
+  </div>
+
+  <% if (adjustStatus === 'updated') { %>
+    <div class="alert success"><%= t('guildLeaderboard.adjustUpdated', { defaultValue: 'Gamification values updated successfully.' }) %></div>
+  <% } %>
+  <% if (adjustStatus === 'invalid') { %>
+    <div class="alert warning"><%= t('guildLeaderboard.adjustInvalid', { defaultValue: 'Please provide a valid user ID and at least one non-zero XP/Reputation adjustment.' }) %></div>
+  <% } %>
+  <% if (adjustStatus === 'error') { %>
+    <div class="alert warning"><%= t('guildLeaderboard.adjustError', { defaultValue: 'Could not update gamification values. Please try again.' }) %></div>
+  <% } %>
+
+  <section class="panel">
+    <details class="settings-expander">
+      <summary class="settings-expander-summary">
+        <div class="settings-expander-summary-main">
+          <h2 class="section-icon-title">
+            <span class="section-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M3 3v18h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                <path d="M7 14l3-3 3 2 4-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            <%= t('guildLeaderboard.snapshot.title', { defaultValue: 'Leaderboard Snapshot' }) %>
+          </h2>
+          <p class="muted"><%= t('guildLeaderboard.snapshot.subtitle', { defaultValue: 'Quick totals for users, XP, reputation, and message volume.' }) %></p>
+        </div>
+        <span class="schedule-expander-plus" aria-hidden="true">+</span>
+      </summary>
+      <div class="settings-expander-body analytics-stats">
+        <div>
+          <p class="muted"><%= t('guildLeaderboard.snapshot.activeUsers', { defaultValue: 'Active Users' }) %></p>
+          <h2><%= totals.activeUsers %></h2>
+        </div>
+        <div>
+          <p class="muted"><%= t('guildLeaderboard.snapshot.totalXp', { defaultValue: 'Total XP' }) %></p>
+          <h2><%= totals.totalXp %></h2>
+        </div>
+        <div>
+          <p class="muted"><%= t('guildLeaderboard.snapshot.totalReputation', { defaultValue: 'Total Reputation' }) %></p>
+          <h2><%= totals.totalReputation %></h2>
+        </div>
+        <div>
+          <p class="muted"><%= t('guildLeaderboard.snapshot.totalMessages', { defaultValue: 'Total Messages' }) %></p>
+          <h2><%= totals.totalMessages %></h2>
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <section class="panel">
+    <details class="settings-expander">
+      <summary class="settings-expander-summary">
+        <div class="settings-expander-summary-main">
+          <h2 class="section-icon-title">
+            <span class="section-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M4 6h16M7 12h10M10 18h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+              </svg>
+            </span>
+            <%= t('common.filters', { defaultValue: 'Filters' }) %>
+          </h2>
+          <p class="muted"><%= t('guildLeaderboard.filtersSubtitle', { defaultValue: 'Filter leaderboard rows and sorting options.' }) %></p>
+        </div>
+        <span class="schedule-expander-plus" aria-hidden="true">+</span>
+      </summary>
+      <div class="settings-expander-body">
+        <form method="get" action="/dashboard/<%= guild.id %>/leaderboard" class="level-rows analytics-filters">
+      <div class="level-row analytics-filter-row">
+        <label>
+          <%= t('guildLeaderboard.filters.userQuery', { defaultValue: 'Username or User ID' }) %>
+          <input type="text" name="user_query" value="<%= filters.userQuery %>" placeholder="e.g. 1093318149732044870 or username" />
+        </label>
+        <label>
+          <%= t('guildLeaderboard.filters.sortBy', { defaultValue: 'Sort By' }) %>
+          <select name="sort_by">
+            <option value="xp" <%= filters.sortBy === 'xp' ? 'selected' : '' %>>XP</option>
+            <option value="reputation" <%= filters.sortBy === 'reputation' ? 'selected' : '' %>>Reputation</option>
+          </select>
+        </label>
+        <label>
+          <%= t('guildLeaderboard.filters.resultLimit', { defaultValue: 'Result Limit' }) %>
+          <input type="number" name="limit" min="20" max="500" value="<%= filters.limit %>" />
+        </label>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary"><%= t('common.applyFilters', { defaultValue: 'Apply Filters' }) %></button>
+        <a href="/dashboard/<%= guild.id %>/leaderboard" class="btn btn-ghost"><%= t('common.reset', { defaultValue: 'Reset' }) %></a>
+      </div>
+        </form>
+      </div>
+    </details>
+  </section>
+
+  <section class="panel">
+    <details class="settings-expander">
+      <summary class="settings-expander-summary">
+        <div class="settings-expander-summary-main">
+          <h2 class="section-icon-title">
+            <span class="section-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M8 5h8v3a4 4 0 0 1-8 0V5z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M6 7H4a2 2 0 0 0 2 2M18 7h2a2 2 0 0 1-2 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M12 12v3M9 20h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            <%= t('guildLeaderboard.adjustSectionTitle', { defaultValue: 'Adjust User XP / Reputation' }) %>
+          </h2>
+          <p class="muted"><%= t('guildLeaderboard.adjustSectionSubtitle', { defaultValue: 'Use positive numbers to add and negative numbers to remove. Values will not go below zero.' }) %></p>
+        </div>
+        <span class="schedule-expander-plus" aria-hidden="true">+</span>
+      </summary>
+      <div class="settings-expander-body">
+        <form method="post" action="/dashboard/<%= guild.id %>/leaderboard/adjust" class="import-form">
+      <div class="level-rows">
+        <div class="level-row">
+          <label>
+            <%= t('guildLeaderboard.adjustForm.userId', { defaultValue: 'User ID' }) %>
+            <input type="text" name="user_id" maxlength="22" required placeholder="Discord user ID" />
+          </label>
+          <label>
+            <%= t('guildLeaderboard.adjustForm.username', { defaultValue: 'Username (optional)' }) %>
+            <input type="text" name="username" maxlength="64" placeholder="Used for display if available" />
+          </label>
+          <label>
+            <%= t('guildLeaderboard.adjustForm.xpDelta', { defaultValue: 'XP Delta' }) %>
+            <input type="number" name="xp_delta" min="-100000" max="100000" value="0" required />
+          </label>
+          <label>
+            <%= t('guildLeaderboard.adjustForm.reputationDelta', { defaultValue: 'Reputation Delta' }) %>
+            <input type="number" name="reputation_delta" min="-100000" max="100000" value="0" required />
+          </label>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary"><%= t('guildLeaderboard.applyAdjustment', { defaultValue: 'Apply Adjustment' }) %></button>
+      </div>
+        </form>
+      </div>
+    </details>
+  </section>
+
+  <section class="panel">
+    <details class="settings-expander">
+      <summary class="settings-expander-summary">
+        <div class="settings-expander-summary-main">
+          <h2 class="section-icon-title">
+            <span class="section-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                <circle cx="9.5" cy="7" r="3" stroke="currentColor" stroke-width="1.8" />
+                <path d="M20 8v6M17 11h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+              </svg>
+            </span>
+            <%= t('guildLeaderboard.usersSectionTitle', { defaultValue: 'Leaderboard Users' }) %>
+          </h2>
+          <p class="muted"><%= t('guildLeaderboard.usersSectionSubtitle', { defaultValue: 'User rankings with quick per-user adjustment controls.' }) %></p>
+        </div>
+        <span class="schedule-expander-plus" aria-hidden="true">+</span>
+      </summary>
+      <div class="settings-expander-body">
+        <% if (!leaderboardRows || leaderboardRows.length === 0) { %>
+      <p class="muted"><%= t('guildLeaderboard.noRows', { defaultValue: 'No gamification activity found for this guild yet.' }) %></p>
+        <% } else { %>
+      <div class="purchase-list">
+        <% leaderboardRows.forEach((row, index) => { %>
+          <div class="purchase-item analytics-purchase-item" style="display:block;">
+            <div class="leaderboard-user-row">
+              <div class="leaderboard-user-main">
+                <strong>#<%= index + 1 %> ·
+                  <% if (row.userIdDisplay) { %>
+                    <a href="https://discord.com/users/<%= row.userIdDisplay %>" target="_blank" rel="noopener noreferrer"><%= row.username %></a>
+                  <% } else { %>
+                    <%= row.username %>
+                  <% } %>
+                </strong>
+                <div class="muted">
+                  <% if (row.userIdDisplay) { %>
+                    ID: <%= row.userIdDisplay %> ·
+                  <% } %>
+                  Level <%= row.level %> (<%= row.levelName %>) · Last updated: <%= row.updatedAt ? new Date(row.updatedAt).toLocaleString() : 'Unknown' %>
+                </div>
+              </div>
+              <div class="muted analytics-right">
+                <div>XP: <strong><%= row.xp %></strong></div>
+                <div>Reputation: <strong><%= row.reputation %></strong></div>
+                <div>Messages: <strong><%= row.messageCount %></strong></div>
+              </div>
+            </div>
+
+            <% if (row.userIdDisplay) { %>
+              <form method="post" action="/dashboard/<%= guild.id %>/leaderboard/adjust" class="import-form" style="margin-top:0.75rem;">
+                <input type="hidden" name="user_id" value="<%= row.userIdDisplay %>" />
+                <input type="hidden" name="username" value="<%= row.username %>" />
+                <div class="level-rows">
+                  <div class="level-row">
+                    <label>
+                      <%= t('guildLeaderboard.adjustForm.xpDelta', { defaultValue: 'XP Delta' }) %>
+                      <input type="number" name="xp_delta" min="-100000" max="100000" value="0" required />
+                    </label>
+                    <label>
+                      <%= t('guildLeaderboard.adjustForm.reputationDelta', { defaultValue: 'Reputation Delta' }) %>
+                      <input type="number" name="reputation_delta" min="-100000" max="100000" value="0" required />
+                    </label>
+                    <div class="form-actions" style="margin:0; align-items:flex-end;">
+                      <button type="submit" class="btn btn-ghost"><%= t('guildLeaderboard.adjustForm.updateUser', { defaultValue: 'Update User' }) %></button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            <% } %>
+          </div>
+        <% }) %>
+      </div>
+        <% } %>
+      </div>
+    </details>
+  </section>
+</main>
+
+<%- include('partials/foot') %>

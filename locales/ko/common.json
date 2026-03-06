@@ -1,0 +1,620 @@
+{
+  "meta": {
+    "siteName": "DiscoBot",
+    "homeTitle": "DiscoBot",
+    "termsTitle": "이용약관",
+    "privacyTitle": "개인정보처리방침",
+    "helpTitle": "도움말 및 위키"
+  },
+  "nav": {
+    "home": "홈",
+    "help": "도움말",
+    "terms": "약관",
+    "privacy": "개인정보",
+    "language": "언어",
+    "signedInWithDiscord": "Discord로 로그인됨",
+    "dashboard": "대시보드",
+    "aiCredits": "AI 크레딧",
+    "owner": "소유자",
+    "ownerSettings": "설정",
+    "ownerPurchases": "구매",
+    "ownerTranslation": "번역",
+    "ownerDiscounts": "할인",
+    "signOut": "로그아웃",
+    "signInWithDiscord": "Discord로 로그인",
+    "ownerWebsiteErrors": "웹사이트 오류"
+  },
+  "footer": {
+    "help": "도움말",
+    "terms": "약관",
+    "privacy": "개인정보"
+  },
+  "common": {
+    "back": "뒤로",
+    "filters": "필터",
+    "applyFilters": "필터 적용",
+    "reset": "초기화",
+    "exportCsv": "CSV 내보내기",
+    "enabled": "사용",
+    "saving": "절약",
+    "remove": "삭제",
+    "show": "보기"
+  },
+  "dashboard": {
+    "title": "대시보드",
+    "subtitle": "글로벌 AI 크레딧과 관리 가능한 Discord 서버를 관리하세요.",
+    "myAiCredits": "내 AI 크레딧",
+    "guildServers": "서버 목록",
+    "selectGuild": "관리할 수 있는 서버를 선택하세요.",
+    "manage": "관리",
+    "noGuildsInstalled": "이 계정에 DiscoBot이 설치된 길드를 찾을 수 없습니다.",
+    "noManageableGuilds": "현재 설치된 길드를 관리할 관리자 또는 설치자 권한이 없습니다.",
+    "guildManageable": "이 길드를 관리할 수 있습니다"
+  },
+  "guildConfig": {
+    "titleSuffix": "설정",
+    "heading": "봇 설정",
+    "subtitle": "이 서버의 DiscoBot 기능 및 설정을 편집하세요.",
+    "leaderboard": "리더보드",
+    "moderationSummary": "모더레이션 요약",
+    "featureControls": "기능 제어",
+    "featureControlsHelp": "길드 기능을 활성화 또는 비활성화합니다. 선택한 기능을 비활성화할 때 관련 DiscoBot 채널을 선택적으로 제거할 수 있습니다.",
+    "saveFeatureSettings": "기능 설정 저장",
+    "translationCharacterLimit": "번역 문자 제한",
+    "translationCharacterLimitHelp": "무료 사용량과 유료 번역 추가분은 길드 단위로 관리되며 매월 초기화됩니다.",
+    "gamificationLevels": "게이미피케이션 레벨",
+    "gamificationLevelsHelp": "레벨 번호, 레벨 이름, 각 레벨에 도달하는 데 필요한 XP를 설정하세요.",
+    "scheduledMessages": "예약 메시지",
+    "scheduledMessagesHelp": "자동 서버 메시지를 생성하고 관리하세요. 스케줄마다 시간대를 선택할 수 있습니다.",
+    "alerts": {
+      "saved": "설정이 저장되었습니다.",
+      "imported": "레벨 프리셋을 가져왔습니다.",
+      "wordsAdded": "사용자 지정 모더레이션 단어를 추가했습니다.",
+      "wordsRemoved": "사용자 지정 모더레이션 단어를 제거했습니다."
+    },
+    "cleanupPromptPrefix": "연결된 채널도 함께 삭제하시겠습니까",
+    "translationSummary": {
+      "freeLimit": "무료 한도",
+      "currentAllowance": "현재 허용량",
+      "usedThisMonth": "이번 달 사용량",
+      "remaining": "남은 양"
+    },
+    "noTranslationPlans": "번역 구독 플랜이 아직 설정되지 않았습니다.",
+    "statusLabel": "상태",
+    "cancelsAtPeriodEnd": "기간 종료 시 해지",
+    "periodEnd": "기간 종료",
+    "manageInStripe": "Stripe에서 관리",
+    "noActiveTranslationSubs": "이 길드에 활성 번역 구독이 없습니다.",
+    "levels": {
+      "level": "레벨",
+      "levelName": "레벨 이름",
+      "xpRequired": "필요 XP",
+      "addLevel": "레벨 추가",
+      "saveLevels": "레벨 저장"
+    },
+    "importExport": {
+      "title": "프리셋 가져오기 / 내보내기",
+      "subtitle": "이 길드의 레벨 설정을 JSON으로 내보내거나 다른 길드 프리셋을 가져오세요.",
+      "exportJson": "JSON 내보내기",
+      "copyCurrentJson": "현재 JSON 복사",
+      "presetJson": "프리셋 JSON",
+      "validateJson": "JSON 검증",
+      "importJson": "JSON 가져오기"
+    },
+    "customModerationWords": {
+      "title": "사용자 지정 모더레이션 단어",
+      "subtitle": "이 길드의 사용자 지정 단어/문구를 추가하세요.",
+      "addLabel": "단어/문구 추가",
+      "addButton": "단어 추가",
+      "none": "설정된 사용자 지정 모더레이션 단어가 없습니다."
+    },
+    "moderationSnapshot": {
+      "title": "모더레이션 스냅샷",
+      "subtitle": "주요 모더레이션 사용자와 조치 합계를 빠르게 확인합니다.",
+      "flagged": "플래그됨",
+      "approved": "승인됨",
+      "rejected": "거부됨",
+      "kicked": "강퇴",
+      "banned": "차단",
+      "none": "기록된 모더레이션 활동이 없습니다.",
+      "openFull": "전체 모더레이션 요약 열기"
+    },
+    "scheduleForm": {
+      "channel": "채널",
+      "frequency": "주기",
+      "once": "한 번",
+      "daily": "매일",
+      "weekly": "매주",
+      "timezone": "시간대",
+      "customTimezone": "사용자 지정 시간대(선택)",
+      "firstRun": "첫 실행(로컬 시간)",
+      "nextRun": "다음 실행(로컬 시간)",
+      "messageContent": "메시지 내용",
+      "create": "예약 메시지 생성",
+      "none": "설정된 예약 메시지가 없습니다.",
+      "active": "활성",
+      "paused": "일시중지",
+      "save": "스케줄 저장",
+      "delete": "스케줄 삭제"
+    }
+  },
+  "guildLeaderboard": {
+    "titleWord": "리더보드",
+    "titleSuffix": "게이미피케이션 리더보드",
+    "subtitle": "XP/평판 순위를 확인하고 사용자 값을 조정하세요.",
+    "adjustSectionTitle": "사용자 XP / 평판 조정",
+    "applyAdjustment": "조정 적용",
+    "usersSectionTitle": "리더보드 사용자",
+    "adjustUpdated": "게이미피케이션 값이 성공적으로 업데이트되었습니다.",
+    "adjustInvalid": "유효한 사용자 ID와 0이 아닌 XP/평판 조정값을 하나 이상 입력하세요.",
+    "adjustError": "게이미피케이션 값을 업데이트할 수 없습니다. 다시 시도해 주세요.",
+    "noRows": "이 길드에는 아직 게이미피케이션 활동이 없습니다.",
+    "adjustSectionSubtitle": "양수는 추가, 음수는 차감입니다. 값은 0 아래로 내려가지 않습니다.",
+    "usersSectionSubtitle": "사용자별 빠른 조정 기능이 있는 리더보드 목록입니다.",
+    "snapshot": {
+      "title": "리더보드 요약",
+      "subtitle": "사용자, XP, 평판, 메시지 볼륨의 빠른 합계입니다.",
+      "activeUsers": "활성 사용자",
+      "totalXp": "총 XP",
+      "totalReputation": "총 평판",
+      "totalMessages": "총 메시지"
+    },
+    "filtersSubtitle": "리더보드 행과 정렬 옵션을 필터링합니다.",
+    "filters": {
+      "userQuery": "사용자명 또는 사용자 ID",
+      "sortBy": "정렬 기준",
+      "resultLimit": "결과 제한"
+    },
+    "adjustForm": {
+      "userId": "사용자 ID",
+      "username": "사용자명 (선택)",
+      "xpDelta": "XP 증감",
+      "reputationDelta": "평판 증감",
+      "updateUser": "사용자 업데이트"
+    }
+  },
+  "moderationSummary": {
+    "titleSuffix": "모더레이션 요약",
+    "subtitle": "이 서버의 모더레이션 결과를 검토하세요.",
+    "users": "사용자",
+    "noRows": "이 길드에 대한 모더레이션 활동이 없습니다.",
+    "usersSubtitle": "사용자별 상세 모더레이션 작업과 최신 업데이트입니다.",
+    "snapshot": {
+      "title": "모더레이션 요약",
+      "subtitle": "이 서버의 모더레이션 결과를 빠르게 확인합니다.",
+      "moderatedUsers": "모더레이션된 사용자",
+      "flagged": "플래그됨",
+      "approved": "승인됨",
+      "rejected": "거부됨",
+      "kicked": "추방",
+      "banned": "차단"
+    },
+    "filtersSubtitle": "이 모더레이션 보고서의 사용자 및 결과 수를 필터링합니다.",
+    "filters": {
+      "userQuery": "사용자명 또는 사용자 ID",
+      "resultLimit": "결과 제한"
+    }
+  },
+  "credits": {
+    "title": "AI 이미지 크레딧",
+    "subtitle": "개인 AI 이미지 생성 크레딧을 구매하고 관리하세요.",
+    "yourBalance": "내 잔액",
+    "buyMore": "크레딧 추가 구매",
+    "monthlySubscriptions": "월간 구독",
+    "activeSubscriptions": "활성 구독",
+    "manageSubscription": "구독 관리",
+    "checkMissedCredits": "누락 크레딧 확인",
+    "recentPurchases": "최근 구매",
+    "generate": {
+      "download": "다운로드",
+      "title": "웹사이트에서 AI 이미지 생성",
+      "subtitle": "Discord 길드 채널 없이도 웹사이트에서 개인 AI 크레딧을 바로 사용할 수 있습니다.",
+      "promptLabel": "프롬프트",
+      "promptPlaceholder": "예시: 석양의 레트로 퓨처 도시 스카이라인, 네온 조명, 시네마틱 라이팅",
+      "button": "이미지 생성 (1크레딧)",
+      "sourceImageLabel": "원본 이미지",
+      "editPromptLabel": "편집 프롬프트",
+      "editPromptPlaceholder": "예시: 따뜻한 석양 톤의 수채화 스타일로 바꿔줘",
+      "editButton": "이미지 편집 (1크레딧)",
+      "modeText": "텍스트-이미지",
+      "modeEdit": "이미지 편집",
+      "success": "AI 이미지가 생성되었습니다. 1크레딧이 사용되었습니다.",
+      "noCredits": "이미지를 생성할 AI 크레딧이 부족합니다.",
+      "invalidPrompt": "생성 전에 유효한 프롬프트를 입력해 주세요.",
+      "invalidImage": "편집 모드에서는 유효한 원본 이미지를 업로드해 주세요.",
+      "unavailable": "현재 웹 이미지 생성 기능을 사용할 수 없습니다. 잠시 후 다시 시도해 주세요.",
+      "failed": "이미지 생성에 실패했습니다. 크레딧이 환불되었습니다."
+    }
+  },
+  "ownerSettings": {
+    "title": "소유자 설정",
+    "subtitle": "봇 채널 설정 및 웹사이트 가격 정책을 관리하세요.",
+    "metadata": "설정 메타데이터",
+    "websiteUrl": "웹사이트 URL",
+    "saveButton": "소유자 설정 저장",
+    "saved": "소유자 설정이 저장되었습니다.",
+    "metadataSubtitle": "소유자 설정이 언제 누구에 의해 마지막으로 업데이트되었는지에 대한 감사 정보입니다.",
+    "websiteUrlSubtitle": "소유자 전용: 봇의 /website 명령에서 사용됩니다.",
+    "gamificationChannels": {
+      "title": "게이미피케이션 채널 설정",
+      "subtitle": "게이미피케이션 기능에 사용되는 카테고리/채널 정보를 설정합니다."
+    },
+    "moderationChannels": {
+      "title": "모더레이션 채널 설정",
+      "subtitle": "모더레이션 채널 이름과 기본 관리자 안내 문구를 설정합니다."
+    },
+    "aiImageChannels": {
+      "title": "AI 이미지 채널 설정",
+      "subtitle": "AI 이미지 생성 상호작용이 전달될 위치를 설정합니다."
+    },
+    "creditPacks": {
+      "title": "일회성 크레딧 팩",
+      "subtitle": "ID, 표시명, 크레딧, 내부 비용, 가격(센트)을 업데이트합니다. 비용은 소유자 전용이며 수익 분석에 사용됩니다."
+    },
+    "subscriptionPlans": {
+      "title": "월간 구독 플랜",
+      "subtitle": "ID, 표시명, 월간 크레딧, 내부 비용, 가격(센트)을 업데이트합니다."
+    },
+    "translationLimits": {
+      "title": "길드 번역 한도",
+      "subtitle": "길드별 월간 무료 번역 문자 한도 및 유료 구독 옵션을 설정합니다."
+    },
+    "translationPlans": {
+      "title": "길드 번역 구독 플랜",
+      "subtitle": "ID, 표시명, 월 추가 문자 수, 내부 비용, 가격(센트)을 업데이트합니다."
+    }
+  },
+  "ownerPurchases": {
+    "title": "소유자 구매 분석",
+    "subtitle": "모든 구매를 조회하고 필터 및 인기 옵션을 분석합니다.",
+    "snapshot": {
+      "title": "판매 요약",
+      "subtitle": "판매, 크레딧, 비용, 수익의 상위 요약입니다.",
+      "totalSales": "총 판매",
+      "creditsSold": "판매된 크레딧",
+      "priceUsd": "가격 (USD)",
+      "costUsd": "비용 (USD)",
+      "profitUsd": "수익 (USD)"
+    },
+    "filtersSubtitle": "결제 유형, 옵션, 날짜 범위, 사용자로 필터링합니다.",
+    "popularity": {
+      "title": "구매 옵션별 인기",
+      "subtitle": "옵션 ID별 판매 및 수익성입니다.",
+      "empty": "이 필터 조건에 대한 구매 내역이 없습니다."
+    },
+    "paymentSummary": {
+      "title": "결제 유형별 요약",
+      "subtitle": "결제 유형별 집계 합계입니다.",
+      "empty": "이 필터 조건에 대한 결제 유형 데이터가 없습니다."
+    },
+    "recent": {
+      "title": "최근 구매",
+      "subtitle": "현재 필터에 맞는 최신 구매 이벤트입니다.",
+      "empty": "이 필터 조건에 대한 구매 내역이 없습니다."
+    }
+  },
+  "ownerTranslationPurchases": {
+    "title": "소유자 번역 구매 분석",
+    "subtitle": "길드/관리자 기준 번역 구독 판매를 추적합니다.",
+    "snapshot": {
+      "title": "판매 요약",
+      "subtitle": "번역 구독 판매 및 수익의 상위 요약입니다.",
+      "totalSales": "총 판매",
+      "charactersSoldPerMonth": "월 판매 문자 수",
+      "priceUsd": "가격 (USD)",
+      "costUsd": "비용 (USD)",
+      "profitUsd": "수익 (USD)"
+    },
+    "filtersSubtitle": "플랜, 날짜, 사용자 및 길드 식별자로 필터링합니다.",
+    "popularity": {
+      "title": "플랜별 인기",
+      "subtitle": "플랜별 성과 및 마진 요약입니다.",
+      "empty": "이 필터 조건에 대한 번역 구매 내역이 없습니다."
+    },
+    "paymentSummary": {
+      "title": "결제 유형별 요약",
+      "subtitle": "구독 결제 단계별 집계 합계입니다.",
+      "empty": "이 필터 조건에 대한 결제 유형 데이터가 없습니다."
+    },
+    "recent": {
+      "title": "최근 번역 구매",
+      "subtitle": "최근 번역 구독 구매 이벤트입니다.",
+      "empty": "이 필터 조건에 대한 번역 구매 내역이 없습니다."
+    }
+  },
+  "ownerDiscounts": {
+    "title": "소유자 할인 코드",
+    "subtitle": "할인 코드를 생성/관리하고 사용 현황을 추적합니다.",
+    "createTitle": "할인 코드 생성",
+    "createButton": "코드 생성",
+    "filterTitle": "코드 필터",
+    "applyFilter": "필터 적용",
+    "existingTitle": "기존 할인 코드",
+    "createSubtitle": "선택적 제한 및 만료일로 새 할인 코드를 생성합니다.",
+    "filterSubtitle": "접두사와 활성 상태로 할인 코드를 필터링합니다.",
+    "existingSubtitle": "활성/비활성 상태를 관리하고 최근 사용 내역을 확인합니다.",
+    "empty": "할인 코드가 없습니다.",
+    "alerts": {
+      "created": "할인 코드가 생성되었습니다.",
+      "statusUpdated": "할인 코드 상태가 업데이트되었습니다."
+    },
+    "errors": {
+      "duplicateCode": "이미 존재하는 코드입니다.",
+      "invalidCode": "유효한 코드를 입력하세요(영문/숫자 3자 이상).",
+      "invalidDiscount": "유효한 할인 유형과 값을 입력하세요.",
+      "percentTooHigh": "퍼센트 할인은 95% 이하여야 합니다.",
+      "invalidMaxDiscount": "최대 할인 한도는 0 이상이어야 합니다(센트).",
+      "invalidMinSpend": "최소 지출액은 0 이상이어야 합니다(센트).",
+      "invalidRestrictedGuild": "제한 길드 ID는 유효한 Discord 길드 ID여야 합니다.",
+      "invalidExpiry": "만료 날짜/시간이 올바르지 않습니다.",
+      "notFound": "할인 코드를 찾을 수 없습니다.",
+      "saveFailed": "변경 사항을 저장할 수 없습니다. 다시 시도해 주세요."
+    }
+  },
+  "help": {
+    "title": "DiscoBot 도움말 & 위키",
+    "subtitle": "DiscoBot 기능, 웹 설정, 모더레이션, 스케줄, AI 크레딧 구매에 필요한 모든 정보를 제공합니다.",
+    "contents": "목차",
+    "toc": {
+      "quickStart": "빠른 시작",
+      "coreFeatures": "핵심 기능",
+      "discordCommands": "Discord 명령",
+      "guildConfig": "웹사이트: 길드 봇 설정",
+      "dashboardCredits": "웹사이트: 대시보드 및 크레딧",
+      "disabledMessages": "기능 비활성화 메시지",
+      "troubleshooting": "문제 해결"
+    },
+    "quickStart": {
+      "title": "빠른 시작",
+      "item1": "DiscoBot을 서버에 초대하고 Discord로 웹사이트에 로그인하세요.",
+      "item2": "대시보드에서 길드를 선택하고 길드 설정에서 기능을 구성하세요.",
+      "item3": "기능을 한 곳에서 켜고/끄고 한 번에 저장하세요.",
+      "item4": "AI 이미지 생성을 위해 AI 크레딧을 구매하세요."
+    },
+    "coreFeatures": {
+      "title": "핵심 기능",
+      "smartModerationLabel": "스마트 모더레이션",
+      "smartModerationBody": "위험한 콘텐츠를 감지하고 관리자 검토/조치를 지원합니다.",
+      "gamificationLabel": "게이미피케이션",
+      "gamificationBody": "XP, 레벨, 평판, 리더보드로 참여를 높입니다.",
+      "globalCommunicationLabel": "글로벌 커뮤니케이션",
+      "globalCommunicationBody": "DeepL Pro 기반 메시지 번역.",
+      "scheduledMessagingLabel": "예약 메시지",
+      "scheduledMessagingBody": "일/주 단위 예약 게시를 지원합니다.",
+      "aiImageLabel": "AI 이미지 생성",
+      "aiImageBody": "메시지 컨텍스트 명령으로 이미지 생성 워크플로를 실행합니다.",
+      "webDashboardLabel": "웹 대시보드",
+      "webDashboardBody": "웹에서 서버 설정을 시각적으로 관리합니다."
+    },
+    "discord": {
+      "title": "Discord 명령",
+      "subtitle": "명령 사용 가능 여부는 기능 활성화와 권한에 따라 달라집니다.",
+      "websiteLinksTitle": "웹사이트 링크",
+      "websiteLinksItem1": "DiscoBot 웹사이트 링크를 엽니다.",
+      "websiteLinksItem2": "DiscoBot 웹사이트 링크를 엽니다.",
+      "featureControlsTitle": "기능 제어",
+      "featureControlsItem1": "서버 기능의 활성/비활성 상태를 표시합니다.",
+      "featureControlsItem2": "기능을 활성화합니다(관리자).",
+      "featureControlsItem3": "기능을 비활성화합니다(관리자).",
+      "gamificationTitle": "게이미피케이션",
+      "gamificationItem1": "본인 또는 다른 멤버의 XP/레벨을 조회합니다.",
+      "gamificationItem2": "XP/평판 리더보드를 표시합니다.",
+      "gamificationItem3": "레벨 설정을 표시합니다.",
+      "gamificationItem4": "레벨 설정을 생성/수정합니다(관리자).",
+      "gamificationItem5": "레벨을 기본값으로 초기화합니다(관리자).",
+      "gamificationItem6": "평판을 조회합니다.",
+      "gamificationItem7": "다른 멤버에게 평판을 부여합니다.",
+      "gamificationItem8": "관리자 평판 조정.",
+      "schedulingTitle": "스케줄링",
+      "schedulingItem1": "일회성(날짜+시간), 매일(시작 날짜+시간), 매주(시작 날짜+요일+시간)로 스케줄을 만들고, 선택적으로 종료 날짜를 설정할 수 있습니다.",
+      "schedulingItem2": "활성 스케줄을 나열합니다.",
+      "schedulingItem3": "채널/메시지/시간대/반복과 함께 시작 날짜, 전송 시간, 요일, 종료 날짜(선택)를 수정합니다.",
+      "schedulingItem4": "활성 스케줄을 제어합니다.",
+      "schedulingItem5": "스케줄을 삭제합니다.",
+      "translationTitle": "번역",
+      "translationItem1": "메시지 컨텍스트 명령:",
+      "translationItem2": "메시지 컨텍스트 명령:",
+      "translationItem3": "지원되는 국기 이모지 반응으로 번역합니다.",
+      "translationCommand1": "Translate",
+      "translationCommand2": "Translate (Private)",
+      "aiImagesTitle": "AI 이미지",
+      "aiImagesItem1": "메시지 컨텍스트 명령:",
+      "aiImagesItem2": "설정된 AI 이미지 채널에서 생성/편집 워크플로를 사용하세요.",
+      "aiImagesCommand": "Generate AI Image"
+    },
+    "guildConfig": {
+      "title": "웹사이트: 길드 봇 설정",
+      "item1Label": "기능 제어",
+      "item1Body": "여러 기능을 켜고/끄고 한 번에 저장합니다.",
+      "item2Label": "번역 문자 제한",
+      "item2Body": "사용량 모니터링 및 구독 구매를 관리합니다.",
+      "item3Label": "게이미피케이션 레벨",
+      "item3Body": "레벨 이름/임계값을 수정하고 JSON 프리셋을 가져오기/내보내기 합니다.",
+      "item4Label": "사용자 지정 모더레이션 단어",
+      "item4Body": "길드별 차단 단어를 추가/제거합니다.",
+      "item5Label": "모더레이션 스냅샷",
+      "item5Body": "주요 사용자 및 집계 통계를 빠르게 확인합니다.",
+      "item6Label": "예약 메시지",
+      "item6Body": "시작 날짜, 시간, 요일 선택, 종료 날짜(선택)로 일회성/매일/매주 스케줄을 생성하고 관리합니다.",
+      "item7Label": "탐색 버튼",
+      "item7Body": "리더보드와 모더레이션 요약으로 바로 이동합니다."
+    },
+    "dashboardCredits": {
+      "title": "웹사이트: 대시보드 및 크레딧",
+      "item1Label": "대시보드",
+      "item1Body": "DiscoBot이 설치된 관리 가능 길드를 보여줍니다.",
+      "item2Label": "AI 크레딧 페이지",
+      "item2Body": "일회성 구매, 월간 구독, 구독 관리, 누락 크레딧 보정.",
+      "item3Label": "잔액 정보",
+      "item3Body": "구매/사용 총합과 구독 크레딧 상태를 표시합니다.",
+      "item4Label": "구매 내역",
+      "item4Body": "최근 AI 크레딧 구매를 표시합니다."
+    },
+    "disabledFeatures": {
+      "title": "기능 비활성화 메시지",
+      "body": "웹 설정에서 기능이 비활성화되면 관련 명령은 숨겨지거나 안내용 에페메랄 메시지가 표시됩니다."
+    },
+    "troubleshooting": {
+      "title": "문제 해결",
+      "item1": "배포 후 화면이 오래된 경우 업데이트 토스트를 수락하고 새로고침하세요.",
+      "item2": "명령 실패 시 길드 설정에서 기능이 활성화되어 있는지 확인하세요.",
+      "item3": "AI 이미지 문제는 크레딧 잔액과 채널 권한을 확인하세요.",
+      "item4Prefix": "스케줄 문제는 시간대 이름(IANA 형식, 예:",
+      "item4Suffix": ")을 확인하세요.",
+      "item5": "페이지/작업 실패 시 로그아웃 후 재로그인하고 권한을 확인하세요."
+    }
+  },
+  "error": {
+    "returnHome": "홈으로 돌아가기",
+    "title": "문제가 발생했습니다",
+    "generic": "요청을 처리하는 중 예상치 못한 오류가 발생했습니다.",
+    "mongoTimeout": "일시적인 데이터베이스 연결 문제가 발생했습니다. 새로고침 후 잠시 뒤 다시 시도해 주세요.",
+    "reference": "참조 ID",
+    "reportIssue": "봇 소유자에게 신고",
+    "reportSubject": "DiscoBot 웹사이트 오류 보고",
+    "reportIntro": "무슨 일이 있었는지 설명해 주세요:",
+    "reportPage": "페이지",
+    "reportTime": "시간 (UTC)",
+    "reportMessage": "메시지"
+  },
+  "errors": {
+    "loginFailedTitle": "로그인 실패",
+    "dashboardErrorTitle": "대시보드 오류",
+    "dashboardErrorMessage": "길드 정보를 불러올 수 없습니다. 다시 시도해 주세요.",
+    "creditsErrorTitle": "크레딧 오류",
+    "creditsErrorMessage": "AI 이미지 크레딧을 불러올 수 없습니다.",
+    "settingsErrorTitle": "설정 오류",
+    "settingsErrorMessage": "소유자 설정을 불러올 수 없습니다.",
+    "purchasesErrorTitle": "구매 오류",
+    "purchasesErrorMessage": "소유자 구매 분석을 불러올 수 없습니다.",
+    "translationPurchasesErrorTitle": "번역 구매 오류",
+    "translationPurchasesErrorMessage": "번역 구매 분석을 불러올 수 없습니다.",
+    "discountCodesErrorTitle": "할인 코드 오류",
+    "discountCodesErrorMessage": "할인 코드 관리자 페이지를 불러올 수 없습니다.",
+    "configurationErrorTitle": "구성 오류",
+    "configurationErrorMessage": "길드 구성을 불러올 수 없습니다.",
+    "moderationSummaryErrorTitle": "모더레이션 요약 오류",
+    "moderationSummaryErrorMessage": "이 길드의 모더레이션 요약을 불러올 수 없습니다.",
+    "leaderboardErrorTitle": "리더보드 오류",
+    "leaderboardErrorMessage": "이 길드의 리더보드를 불러올 수 없습니다.",
+    "websiteErrorsErrorTitle": "웹사이트 오류 페이지 오류",
+    "websiteErrorsErrorMessage": "웹사이트 오류 로그를 불러오지 못했습니다."
+  },
+  "home": {
+    "hero": {
+      "titlePrefix": "Discord 서버를 자동화하고 향상하세요:",
+      "titleSuffix": "",
+      "body1": "가장 그루비하고 강력한 Discord 봇! 서버 운영을 멋지게 도와줍니다.",
+      "body2": "번역, 모더레이션, AI 이미지 생성, 게이미피케이션, 스케줄링 등을 현대적인 대시보드 또는 앱에서 관리하세요.",
+      "openDashboard": "대시보드 열기",
+      "signIn": "Discord로 로그인",
+      "downloadApp": "앱 다운로드",
+      "logoAlt": "DiscoBot 로고"
+    },
+    "features": {
+      "smartModeration": {
+        "title": "스마트 모더레이션",
+        "description": "부적절한 메시지를 감지하고 관리자 승인 워크플로를 제공합니다."
+      },
+      "gamification": {
+        "title": "게이미피케이션",
+        "description": "XP, 레벨, 평판, 리더보드로 참여를 높입니다."
+      },
+      "globalCommunication": {
+        "title": "글로벌 커뮤니케이션",
+        "description": "DeepL Pro 기반의 자연스러운 번역을 제공합니다."
+      },
+      "scheduledMessaging": {
+        "title": "예약 메시지",
+        "description": "시간대 기반 반복 메시지를 자동화합니다."
+      },
+      "aiImageGeneration": {
+        "title": "AI 이미지 생성",
+        "description": "OpenAI 프롬프트로 Discord에서 이미지 생성/편집."
+      },
+      "webDashboard": {
+        "title": "웹 대시보드 & 앱",
+        "description": "웹 대시보드 또는 앱에서 슬래시 명령 없이 주요 설정을 관리하세요."
+      }
+    }
+  },
+  "terms": {
+    "title": "이용약관",
+    "intro": "DiscoBot과 이 대시보드를 사용하면 본 약관에 동의한 것으로 간주됩니다.",
+    "acceptableUse": {
+      "title": "허용 사용",
+      "body": "Discord 약관 위반, 스팸, 사용자 괴롭힘 용도로 사용하면 안 됩니다."
+    },
+    "serviceAvailability": {
+      "title": "서비스 가용성",
+      "body": "기능은 사전 고지 없이 변경/중단될 수 있습니다."
+    },
+    "accountResponsibility": {
+      "title": "계정 책임",
+      "body": "계정을 통한 모든 행동과 서버 설정은 사용자 책임입니다."
+    },
+    "liability": {
+      "title": "책임 제한",
+      "body": "DiscoBot은 보증 없이 제공되며 사용은 사용자 책임입니다."
+    }
+  },
+  "privacy": {
+    "title": "개인정보처리방침",
+    "intro": "이 페이지는 DiscoBot과 웹사이트가 처리하는 데이터를 설명합니다.",
+    "dataProcessed": {
+      "title": "처리하는 데이터",
+      "body": "로그인용 Discord 계정 정보, 접근 확인용 길드 정보, MongoDB 설정 데이터."
+    },
+    "featureData": {
+      "title": "봇 기능 데이터",
+      "body": "활성 기능에 따라 모더레이션/게이미피케이션/스케줄 데이터가 저장될 수 있습니다."
+    },
+    "dataUse": {
+      "title": "데이터 사용",
+      "body": "데이터는 봇 기능 및 대시보드 제공 목적으로만 사용됩니다."
+    },
+    "dataRetention": {
+      "title": "데이터 보관",
+      "body": "운영자가 삭제하거나 워크플로로 덮어쓸 때까지 보관됩니다."
+    },
+    "contact": {
+      "title": "문의",
+      "body": "삭제 요청 또는 개인정보 문의는 운영팀에 연락하세요."
+    }
+  },
+  "pwa": {
+    "updateAvailable": "업데이트 가능",
+    "updateText": "새로운 DiscoBot 버전이 준비되었습니다.",
+    "refreshNow": "지금 새로고침",
+    "iosInstallHint": "iPhone/iPad: 공유 → 홈 화면에 추가를 선택하세요.",
+    "unavailableHint": "이 브라우저에서는 아직 앱 설치를 지원하지 않습니다."
+  },
+  "ownerWebsiteErrors": {
+    "title": "웹사이트 오류 (Owner)",
+    "subtitle": "사용자가 겪은 웹사이트 오류를 확인하고 필터링합니다.",
+    "filtersSubtitle": "상태, 오류 유형, 날짜 범위, 경로, 사용자로 필터링합니다.",
+    "statusGroup": "상태 그룹",
+    "allStatuses": "전체",
+    "errorType": "오류 유형",
+    "allTypes": "전체",
+    "fromDate": "시작 날짜",
+    "toDate": "종료 날짜",
+    "pathOrMessage": "경로, 메시지 또는 참조 ID",
+    "userQuery": "사용자명 또는 사용자 ID",
+    "resultLimit": "결과 제한",
+    "summaryTitle": "요약",
+    "summarySubtitle": "현재 필터 결과 요약입니다.",
+    "totalMatching": "총 일치",
+    "mongoTimeouts": "Mongo 타임아웃",
+    "recentTitle": "최근 웹사이트 오류",
+    "recentSubtitle": "사용자에게 표시된 최신 오류 페이지입니다.",
+    "empty": "이 필터에 해당하는 웹사이트 오류가 없습니다.",
+    "unknownUser": "알 수 없는 사용자",
+    "typeMongoTimeout": "Mongo 타임아웃",
+    "typeServerError": "서버 오류",
+    "typeClientError": "클라이언트 오류",
+    "pathPlaceholder": "예: /credits 또는 ETIMEDOUT",
+    "userPlaceholder": "예: 1093318149732044870 또는 사용자명",
+    "testGenericErrorButton": "일반 테스트 오류 생성"
+  }
+}

@@ -1,0 +1,1021 @@
+<%- include('partials/head', { title }) %>
+<%- include('partials/nav') %>
+
+<main class="container page-section guild-config-page">
+  <div class="page-head">
+    <div>
+      <h1 class="page-title-with-icon">
+        <% if (guild.iconUrl) { %>
+          <img src="<%= guild.iconUrl %>" alt="<%= guild.name %> logo" class="page-title-guild-icon" />
+        <% } else { %>
+          <span class="page-title-guild-icon page-title-guild-icon-fallback"><%= guild.name[0] %></span>
+        <% } %>
+        <span><%= guild.name %></span>
+      </h1>
+      <h2><%= t('guildConfig.heading', { defaultValue: 'Bot Configuration' }) %></h2>
+      <p class="muted"><%= t('guildConfig.subtitle', { defaultValue: 'Edit all DiscoBot features and settings for your server.' }) %></p>
+    </div>
+    <div class="form-actions">
+      <a href="/dashboard/<%= guild.id %>/leaderboard" class="btn btn-ghost btn-with-icon"><span class="btn-icon" aria-hidden="true">🏆</span><%= t('guildConfig.leaderboard', { defaultValue: 'Leaderboard' }) %></a>
+      <a href="/dashboard/<%= guild.id %>/moderation-summary" class="btn btn-ghost btn-with-icon"><span class="btn-icon" aria-hidden="true">🛡️</span><%= t('guildConfig.moderationSummary', { defaultValue: 'Moderation Summary' }) %></a>
+      <a href="/dashboard" class="btn btn-ghost btn-with-icon"><span class="btn-icon" aria-hidden="true">←</span><%= t('common.back', { defaultValue: 'Back' }) %></a>
+    </div>
+  </div>
+
+  <% if (saved) { %>
+    <div class="alert success"><%= t('guildConfig.alerts.saved', { defaultValue: 'Configuration saved successfully.' }) %></div>
+  <% } %>
+  <% if (imported) { %>
+    <div class="alert success"><%= t('guildConfig.alerts.imported', { defaultValue: 'Settings imported successfully.' }) %></div>
+  <% } %>
+  <% if (moderationWordsStatus === 'added') { %>
+    <div class="alert success"><%= t('guildConfig.alerts.wordsAdded', { defaultValue: 'Custom moderation word added.' }) %></div>
+  <% } %>
+  <% if (moderationWordsStatus === 'removed') { %>
+    <div class="alert success"><%= t('guildConfig.alerts.wordsRemoved', { defaultValue: 'Custom moderation word removed.' }) %></div>
+  <% } %>
+  <% if (moderationWordsStatus === 'exists') { %>
+    <div class="alert warning">That custom moderation word is already on the list.</div>
+  <% } %>
+  <% if (moderationWordsStatus === 'missing') { %>
+    <div class="alert warning">That custom moderation word was not found.</div>
+  <% } %>
+  <% if (moderationWordsStatus === 'invalid') { %>
+    <div class="alert warning">Please enter a valid word/phrase between 2 and 64 characters.</div>
+  <% } %>
+  <% if (scheduleStatus === 'created') { %>
+    <div class="alert success">Scheduled message created.</div>
+  <% } %>
+  <% if (scheduleStatus === 'updated') { %>
+    <div class="alert success">Scheduled message updated.</div>
+  <% } %>
+  <% if (scheduleStatus === 'deleted') { %>
+    <div class="alert success">Scheduled message deleted.</div>
+  <% } %>
+  <% if (scheduleStatus === 'missing') { %>
+    <div class="alert warning">Scheduled message not found.</div>
+  <% } %>
+  <% if (scheduleStatus === 'invalid') { %>
+    <div class="alert warning">Please provide valid schedule details.</div>
+  <% } %>
+  <% if (scheduleStatus === 'past') { %>
+    <div class="alert warning">First run must be in the future for the selected timezone.</div>
+  <% } %>
+  <% if (translationStatus === 'success') { %>
+    <div class="alert success">Translation subscription checkout completed successfully.</div>
+  <% } %>
+  <% if (translationStatus === 'canceled') { %>
+    <div class="alert warning">Translation subscription checkout was canceled.</div>
+  <% } %>
+  <% if (translationStatus === 'invalid_plan') { %>
+    <div class="alert warning">Please select a valid translation subscription plan.</div>
+  <% } %>
+  <% if (translationStatus === 'no_subscription') { %>
+    <div class="alert warning">No active translation subscription found to manage for this guild.</div>
+  <% } %>
+  <% if (translationStatus === 'error') { %>
+    <div class="alert warning">Could not process translation subscription request. Please try again.</div>
+  <% } %>
+  <% if (featureStatus === 'updated') { %>
+    <div class="alert success">Feature settings updated.</div>
+  <% } %>
+  <% if (featureStatus === 'error') { %>
+    <div class="alert warning">Could not update feature settings. Please try again.</div>
+  <% } %>
+  <% if (featureStatus === 'invalid') { %>
+    <div class="alert warning">Invalid feature selected.</div>
+  <% } %>
+  <% if (featureStatus === 'updated' && featureCleanupStatus === 'removed') { %>
+    <div class="alert success">Associated channel(s) were removed.</div>
+  <% } %>
+  <% if (featureStatus === 'updated' && featureCleanupStatus === 'partial') { %>
+    <div class="alert warning">Feature was disabled, but some associated channels could not be removed.</div>
+  <% } %>
+  <% if (featureStatus === 'updated' && featureCleanupStatus === 'failed') { %>
+    <div class="alert warning">Feature was disabled, but channel cleanup failed.</div>
+  <% } %>
+
+  <section class="panel">
+    <details class="settings-expander">
+      <summary class="settings-expander-summary">
+        <div class="settings-expander-summary-main">
+          <h2 class="section-icon-title">
+            <span class="section-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="4" width="18" height="16" rx="3" stroke="currentColor" stroke-width="1.8" />
+                <path d="M3 9h18M12 9v11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+              </svg>
+            </span>
+            <%= t('guildConfig.featureControls', { defaultValue: 'Feature Controls' }) %>
+          </h2>
+          <p class="muted"><%= t('guildConfig.featureControlsHelp', { defaultValue: 'Enable or disable guild features. When disabling selected features, you can optionally remove related DiscoBot channels.' }) %></p>
+        </div>
+        <span class="schedule-expander-plus" aria-hidden="true">+</span>
+      </summary>
+      <div class="settings-expander-body">
+        <form method="post" action="/dashboard/<%= guild.id %>/features" class="feature-controls-list">
+      <% (featureControls || []).forEach((feature) => { %>
+        <div class="feature-control-card">
+          <div>
+            <strong><%= feature.label %></strong>
+            <p class="muted feature-control-desc"><%= feature.description %></p>
+          </div>
+
+          <label class="feature-slider-label">
+            <span class="feature-slider-text"><%= t('common.enabled', { defaultValue: 'Enabled' }) %></span>
+            <input class="feature-enabled-input" type="checkbox" name="enabled_<%= feature.key %>" value="1" <%= feature.enabled ? 'checked' : '' %> />
+            <span class="feature-slider" aria-hidden="true"></span>
+          </label>
+
+          <% if (feature.cleanupSupported) { %>
+            <label class="feature-cleanup-label <%= feature.enabled ? 'feature-cleanup-hidden' : '' %>">
+              <input type="checkbox" name="remove_channels_<%= feature.key %>" value="1" />
+              <span><%= t('guildConfig.cleanupPromptPrefix', { defaultValue: 'Do you also want to remove the associated channel' }) %> #<%= feature.cleanupChannelName %>?</span>
+            </label>
+          <% } %>
+
+        </div>
+      <% }) %>
+
+          <div class="form-actions" style="margin-top:10px;">
+            <button type="submit" class="btn btn-primary"><%= t('guildConfig.saveFeatureSettings', { defaultValue: 'Save Feature Settings' }) %></button>
+          </div>
+        </form>
+      </div>
+    </details>
+  </section>
+
+  <section class="panel">
+    <details class="settings-expander">
+      <summary class="settings-expander-summary">
+        <div class="settings-expander-summary-main">
+          <h2 class="section-icon-title">
+            <span class="section-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z" stroke="currentColor" stroke-width="1.8" />
+                <path d="M3 12h18M12 3c2.2 2.2 3.5 5.4 3.5 9S14.2 18.8 12 21M12 3c-2.2 2.2-3.5 5.4-3.5 9S9.8 18.8 12 21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+              </svg>
+            </span>
+            <%= t('guildConfig.translationCharacterLimit', { defaultValue: 'Translation Character Limit' }) %>
+          </h2>
+          <p class="muted"><%= t('guildConfig.translationCharacterLimitHelp', { defaultValue: 'Free usage and paid translation add-ons are managed per guild and reset monthly.' }) %></p>
+        </div>
+        <span class="schedule-expander-plus" aria-hidden="true">+</span>
+      </summary>
+      <div class="settings-expander-body">
+        <div class="purchase-list">
+      <div class="purchase-item">
+        <span class="muted"><%= t('guildConfig.translationSummary.freeLimit', { defaultValue: 'Free limit' }) %>: <strong><%= Number(translationSummary?.freeLimit || 0).toLocaleString() %></strong></span>
+        <span class="muted"><%= t('guildConfig.translationSummary.currentAllowance', { defaultValue: 'Current allowance' }) %>: <strong><%= Number(translationSummary?.allowance || 0).toLocaleString() %></strong></span>
+        <span class="muted"><%= t('guildConfig.translationSummary.usedThisMonth', { defaultValue: 'Used this month' }) %>: <strong><%= Number(translationSummary?.monthlyUsage || 0).toLocaleString() %></strong></span>
+        <span class="muted"><%= t('guildConfig.translationSummary.remaining', { defaultValue: 'Remaining' }) %>: <strong><%= Number(translationSummary?.remainingCharacters || 0).toLocaleString() %></strong></span>
+      </div>
+        </div>
+
+    <% if (!translationSubscriptionPlans || translationSubscriptionPlans.length === 0) { %>
+      <p class="muted"><%= t('guildConfig.noTranslationPlans', { defaultValue: 'No translation subscription plans are configured yet.' }) %></p>
+    <% } else { %>
+      <% const translationBasePlan = translationSubscriptionPlans[0] || null; %>
+      <% const translationBaseChars = Number(translationBasePlan?.charactersPerMonth || 0); %>
+      <% const translationBaseCents = Number(translationBasePlan?.unitAmountCents || 0); %>
+      <% const translationBaseRate = translationBaseChars > 0 ? (translationBaseCents / translationBaseChars) : 0; %>
+      <form method="post" action="/dashboard/<%= guild.id %>/translation/subscribe" class="credits-packs">
+        <% (translationSubscriptionPlans || []).forEach((plan, index) => { %>
+          <% const planChars = Number(plan.charactersPerMonth || 0); %>
+          <% const planCents = Number(plan.unitAmountCents || 0); %>
+          <% const planRate = planChars > 0 ? (planCents / planChars) : 0; %>
+          <% const translationSavingsPercent = (index > 0 && translationBaseRate > 0 && planRate > 0)
+            ? Math.max(0, Math.round((1 - (planRate / translationBaseRate)) * 100))
+            : 0; %>
+          <button type="submit" name="translation_plan_id" value="<%= plan.id %>" class="btn btn-primary tier-btn">
+            <span><%= plan.name %> · +<%= Number(plan.charactersPerMonth || 0).toLocaleString() %>/month · $<%= (Number(plan.unitAmountCents || 0) / 100).toFixed(2) %></span>
+            <% if (translationSavingsPercent > 0) { %>
+              <span class="tier-saving-badge"><%= translationSavingsPercent %>% <%= t('common.saving', { defaultValue: 'saving' }) %></span>
+            <% } %>
+          </button>
+        <% }) %>
+      </form>
+    <% } %>
+
+        <% if (translationSubscriptions && translationSubscriptions.length > 0) { %>
+      <div class="purchase-list">
+        <% translationSubscriptions.forEach((row) => { %>
+          <div class="purchase-item analytics-purchase-item">
+            <div>
+              <strong><%= row.planId %></strong>
+              <div class="muted">
+                +<%= Number(row.charactersPerMonth || 0).toLocaleString() %>/month ·
+                <%= t('guildConfig.statusLabel', { defaultValue: 'Status' }) %>: <%= row.status %>
+                <% if (row.cancelAtPeriodEnd) { %>
+                  · <%= t('guildConfig.cancelsAtPeriodEnd', { defaultValue: 'Cancels at period end' }) %>
+                <% } %>
+                <% if (row.currentPeriodEnd) { %>
+                  · <%= t('guildConfig.periodEnd', { defaultValue: 'Period end' }) %>: <%= new Date(row.currentPeriodEnd).toLocaleString() %>
+                <% } %>
+              </div>
+            </div>
+            <div class="form-actions" style="margin:0;">
+              <form method="post" action="/dashboard/<%= guild.id %>/translation/subscription/manage">
+                <input type="hidden" name="stripe_subscription_id" value="<%= row.stripeSubscriptionId %>" />
+                <button type="submit" class="btn btn-ghost"><%= t('guildConfig.manageInStripe', { defaultValue: 'Manage in Stripe' }) %></button>
+              </form>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+        <% } else { %>
+      <p class="muted"><%= t('guildConfig.noActiveTranslationSubs', { defaultValue: 'No active translation subscriptions for this guild yet.' }) %></p>
+        <% } %>
+      </div>
+    </details>
+  </section>
+
+  <section class="panel">
+    <details class="settings-expander">
+      <summary class="settings-expander-summary">
+        <div class="settings-expander-summary-main">
+          <h2 class="section-icon-title">
+            <span class="section-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M8 5h8v3a4 4 0 0 1-8 0V5z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M6 7H4a2 2 0 0 0 2 2M18 7h2a2 2 0 0 1-2 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M12 12v3M9 20h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            <%= t('guildConfig.gamificationLevels', { defaultValue: 'Gamification Levels' }) %>
+          </h2>
+          <p class="muted"><%= t('guildConfig.gamificationLevelsHelp', { defaultValue: 'Set level number, level name, and XP required to reach each level.' }) %></p>
+        </div>
+        <span class="schedule-expander-plus" aria-hidden="true">+</span>
+      </summary>
+      <div class="settings-expander-body">
+        <form method="post" action="/dashboard/<%= guild.id %>/levels" id="levelsForm">
+      <div id="levelRows" class="level-rows">
+        <% levels.forEach((row) => { %>
+          <div class="level-row">
+            <label>
+              <%= t('guildConfig.levels.level', { defaultValue: 'Level' }) %>
+              <input type="number" name="level" value="<%= row.level %>" min="0" max="100" required />
+            </label>
+            <label>
+              <%= t('guildConfig.levels.levelName', { defaultValue: 'Level Name' }) %>
+              <input type="text" name="level_name" value="<%= row.name %>" maxlength="24" required />
+            </label>
+            <label>
+              <%= t('guildConfig.levels.xpRequired', { defaultValue: 'XP Required' }) %>
+              <input type="number" name="interactions_required" value="<%= row.interactions_required %>" min="0" required />
+            </label>
+            <button type="button" class="btn btn-ghost remove-row"><%= t('common.remove', { defaultValue: 'Remove' }) %></button>
+          </div>
+        <% }) %>
+      </div>
+
+          <div class="form-actions">
+            <button type="button" id="addRowBtn" class="btn btn-ghost"><%= t('guildConfig.levels.addLevel', { defaultValue: 'Add Level' }) %></button>
+            <button type="submit" class="btn btn-primary"><%= t('guildConfig.levels.saveLevels', { defaultValue: 'Save Levels' }) %></button>
+          </div>
+        </form>
+      </div>
+    </details>
+  </section>
+
+  <section class="panel">
+    <details class="settings-expander">
+      <summary class="settings-expander-summary">
+        <div class="settings-expander-summary-main">
+          <h2 class="section-icon-title">
+            <span class="section-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 3l7 3v5c0 4.3-2.5 8.2-7 10-4.5-1.8-7-5.7-7-10V6l7-3z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M9.6 12.2l1.7 1.7 3.4-3.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            <%= t('guildConfig.customModerationWords.title', { defaultValue: 'Custom Moderation Words' }) %>
+          </h2>
+          <p class="muted"><%= t('guildConfig.customModerationWords.subtitle', { defaultValue: "Add custom words/phrases for this guild. These are checked in addition to DiscoBot's default moderation terms." }) %></p>
+        </div>
+        <span class="schedule-expander-plus" aria-hidden="true">+</span>
+      </summary>
+      <div class="settings-expander-body">
+        <form method="post" action="/dashboard/<%= guild.id %>/moderation-words/add" class="import-form">
+      <label>
+        <%= t('guildConfig.customModerationWords.addLabel', { defaultValue: 'Add Word/Phrase' }) %>
+        <input type="text" name="word" maxlength="64" placeholder="e.g. toxic phrase" required />
+      </label>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary"><%= t('guildConfig.customModerationWords.addButton', { defaultValue: 'Add Custom Word' }) %></button>
+      </div>
+    </form>
+
+        <% if (!customModerationTerms || customModerationTerms.length === 0) { %>
+      <p class="muted"><%= t('guildConfig.customModerationWords.none', { defaultValue: 'No custom moderation words configured yet.' }) %></p>
+        <% } else { %>
+      <div class="purchase-list">
+        <% customModerationTerms.forEach((term) => { %>
+          <div class="purchase-item">
+            <span><strong><%= term %></strong></span>
+            <form method="post" action="/dashboard/<%= guild.id %>/moderation-words/remove">
+              <input type="hidden" name="word" value="<%= term %>" />
+              <button type="submit" class="btn btn-ghost"><%= t('common.remove', { defaultValue: 'Remove' }) %></button>
+            </form>
+          </div>
+        <% }) %>
+      </div>
+        <% } %>
+      </div>
+    </details>
+  </section>
+
+  <section class="panel">
+    <details class="settings-expander">
+      <summary class="settings-expander-summary">
+        <div class="settings-expander-summary-main">
+          <h2 class="section-icon-title">
+            <span class="section-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 3l7 3v5c0 4.3-2.5 8.2-7 10-4.5-1.8-7-5.7-7-10V6l7-3z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M9.6 12.2l1.7 1.7 3.4-3.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            <%= t('guildConfig.moderationSnapshot.title', { defaultValue: 'Moderation Snapshot' }) %>
+          </h2>
+          <p class="muted"><%= t('guildConfig.moderationSnapshot.subtitle', { defaultValue: 'Quick view of top moderated users and action totals. Use the full summary for deeper analysis.' }) %></p>
+        </div>
+        <span class="schedule-expander-plus" aria-hidden="true">+</span>
+      </summary>
+      <div class="settings-expander-body">
+        <div class="purchase-list">
+      <div class="purchase-item">
+        <span class="muted"><%= t('guildConfig.moderationSnapshot.flagged', { defaultValue: 'Flagged' }) %>: <strong><%= Number(moderationSnapshotTotals?.flagged || 0) %></strong></span>
+        <span class="muted"><%= t('guildConfig.moderationSnapshot.approved', { defaultValue: 'Approved' }) %>: <strong><%= Number(moderationSnapshotTotals?.approved || 0) %></strong></span>
+        <span class="muted"><%= t('guildConfig.moderationSnapshot.rejected', { defaultValue: 'Rejected' }) %>: <strong><%= Number(moderationSnapshotTotals?.rejected || 0) %></strong></span>
+        <span class="muted"><%= t('guildConfig.moderationSnapshot.kicked', { defaultValue: 'Kicked' }) %>: <strong><%= Number(moderationSnapshotTotals?.kicked || 0) %></strong></span>
+        <span class="muted"><%= t('guildConfig.moderationSnapshot.banned', { defaultValue: 'Banned' }) %>: <strong><%= Number(moderationSnapshotTotals?.banned || 0) %></strong></span>
+      </div>
+      </div>
+
+        <% if (!topModeratedUsers || topModeratedUsers.length === 0) { %>
+      <p class="muted"><%= t('guildConfig.moderationSnapshot.none', { defaultValue: 'No moderation activity recorded yet.' }) %></p>
+        <% } else { %>
+      <div class="purchase-list">
+        <% topModeratedUsers.forEach((row) => { %>
+          <div class="purchase-item analytics-purchase-item">
+            <div>
+              <strong>
+                <% if (row.userIdDisplay) { %>
+                  <a href="https://discord.com/users/<%= row.userIdDisplay %>" target="_blank" rel="noopener noreferrer"><%= row.username %></a>
+                <% } else { %>
+                  <%= row.username %>
+                <% } %>
+              </strong>
+              <div class="muted">
+                <% if (row.userIdDisplay) { %>
+                  ID: <%= row.userIdDisplay %>
+                <% } %>
+              </div>
+            </div>
+            <div class="muted analytics-right">
+              <div>Flagged: <strong><%= row.moderationFlagCount %></strong></div>
+              <div>Approved: <strong><%= row.moderationApprovedCount %></strong></div>
+              <div>Rejected: <strong><%= row.moderationRejectedCount %></strong></div>
+              <div>Kicked: <strong><%= row.moderationKickCount %></strong></div>
+              <div>Banned: <strong><%= row.moderationBanCount %></strong></div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+        <% } %>
+
+        <div class="form-actions">
+          <a href="/dashboard/<%= guild.id %>/moderation-summary" class="btn btn-ghost"><%= t('guildConfig.moderationSnapshot.openFull', { defaultValue: 'Open Full Moderation Summary' }) %></a>
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <section class="panel">
+    <details class="settings-expander">
+      <summary class="settings-expander-summary">
+        <div class="settings-expander-summary-main">
+          <h2 class="section-icon-title">
+            <span class="section-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="5" width="18" height="16" rx="3" stroke="currentColor" stroke-width="1.8" />
+                <path d="M8 3v4M16 3v4M3 10h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                <path d="M12 14v3l2 1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            <%= t('guildConfig.scheduledMessages', { defaultValue: 'Scheduled Messages' }) %>
+          </h2>
+          <p class="muted"><%= t('guildConfig.scheduledMessagesHelp', { defaultValue: 'Create and manage automatic server messages. Choose a timezone per schedule.' }) %></p>
+        </div>
+        <span class="schedule-expander-plus" aria-hidden="true">+</span>
+      </summary>
+      <div class="settings-expander-body">
+    <% const normalizedScheduleTimezoneOptions = (Array.isArray(scheduleTimezoneOptions) ? scheduleTimezoneOptions : [])
+      .map((entry) => {
+        if (typeof entry === 'string') {
+          return { name: entry, label: entry };
+        }
+        if (entry && typeof entry === 'object') {
+          const name = String(entry.name || '').trim();
+          const label = String(entry.label || name).trim();
+          if (name) {
+            return { name, label: label || name };
+          }
+        }
+        return null;
+      })
+      .filter(Boolean); %>
+    <% const scheduleTimezoneSelectOptions = normalizedScheduleTimezoneOptions.length > 0
+      ? normalizedScheduleTimezoneOptions
+      : [{ name: 'UTC', label: '(UTC+00:00) UTC' }]; %>
+
+    <details class="schedule-expander schedule-create-expander">
+      <summary>
+        <span>Create Scheduled Message</span>
+        <span class="schedule-expander-plus" aria-hidden="true">+</span>
+      </summary>
+      <div class="schedule-expander-body">
+        <form method="post" action="/dashboard/<%= guild.id %>/schedules/create" class="import-form">
+          <div class="level-rows">
+            <div class="level-row schedule-row">
+              <label class="field-channel">
+                <%= t('guildConfig.scheduleForm.channel', { defaultValue: 'Channel' }) %>
+                <select name="channel_id" required>
+                  <% (guildTextChannels || []).forEach((channel) => { %>
+                    <option value="<%= channel.id %>">#<%= channel.name %></option>
+                  <% }) %>
+                </select>
+              </label>
+              <label class="field-frequency">
+                <%= t('guildConfig.scheduleForm.frequency', { defaultValue: 'Frequency' }) %>
+                <select name="recurrence" required>
+                  <option value="once"><%= t('guildConfig.scheduleForm.once', { defaultValue: 'Once' }) %></option>
+                  <option value="daily"><%= t('guildConfig.scheduleForm.daily', { defaultValue: 'Daily' }) %></option>
+                  <option value="weekly"><%= t('guildConfig.scheduleForm.weekly', { defaultValue: 'Weekly' }) %></option>
+                </select>
+              </label>
+              <label class="field-timezone">
+                <%= t('guildConfig.scheduleForm.timezone', { defaultValue: 'Timezone' }) %>
+                <select name="timezone_name" required>
+                  <% scheduleTimezoneSelectOptions.forEach((tz) => { %>
+                    <option value="<%= tz.name %>" <%= tz.name === 'UTC' ? 'selected' : '' %>><%= tz.label %></option>
+                  <% }) %>
+                </select>
+              </label>
+              <label class="field-custom-timezone">
+                <%= t('guildConfig.scheduleForm.customTimezone', { defaultValue: 'Custom Timezone (optional)' }) %>
+                <input type="text" name="custom_timezone_name" placeholder="e.g. Pacific/Auckland" />
+              </label>
+              <label class="field-next-run">
+                <%= t('guildConfig.scheduleForm.dateTimeToSend', { defaultValue: 'Date & Time to Send' }) %>
+                <input type="datetime-local" name="once_run_at" class="schedule-once-input" required />
+              </label>
+              <label class="field-start-date">
+                Start Date
+                <input type="date" name="start_date" class="schedule-start-date" required />
+              </label>
+              <label class="field-send-time">
+                Time to Send
+                <input type="time" name="send_time" class="schedule-send-time" required />
+              </label>
+              <label class="field-weekdays">
+                Days of Week
+                <div class="schedule-weekdays">
+                  <label><input type="checkbox" name="weekly_days" value="mon" />Mon</label>
+                  <label><input type="checkbox" name="weekly_days" value="tue" />Tue</label>
+                  <label><input type="checkbox" name="weekly_days" value="wed" />Wed</label>
+                  <label><input type="checkbox" name="weekly_days" value="thu" />Thu</label>
+                  <label><input type="checkbox" name="weekly_days" value="fri" />Fri</label>
+                  <label><input type="checkbox" name="weekly_days" value="sat" />Sat</label>
+                  <label><input type="checkbox" name="weekly_days" value="sun" />Sun</label>
+                </div>
+              </label>
+              <label class="field-end-date">
+                End Date (optional)
+                <input type="date" name="end_date" />
+              </label>
+            </div>
+          </div>
+          <label>
+            <%= t('guildConfig.scheduleForm.messageContent', { defaultValue: 'Message Content' }) %>
+            <textarea name="message_content" maxlength="1800" rows="4" required placeholder="Your scheduled message"></textarea>
+          </label>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary"><%= t('guildConfig.scheduleForm.create', { defaultValue: 'Create Scheduled Message' }) %></button>
+          </div>
+          <p class="muted helper-text">Timezone format uses IANA names (example: <strong>Europe/London</strong>). See <a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones" target="_blank" rel="noopener noreferrer">timezone list</a>.</p>
+        </form>
+      </div>
+    </details>
+
+    <h3 class="schedule-subheading">View/Edit Scheduled Messages</h3>
+
+    <% if (!scheduledMessages || scheduledMessages.length === 0) { %>
+      <p class="muted"><%= t('guildConfig.scheduleForm.none', { defaultValue: 'No scheduled messages configured yet.' }) %></p>
+    <% } else { %>
+      <div class="purchase-list">
+        <% scheduledMessages.forEach((row) => { %>
+          <% const rowChannelId = String(row.channel_id_display || row.channel_id || ''); %>
+          <% const messagePreviewRaw = String(row.message_content || '').replace(/\s+/g, ' ').trim(); %>
+          <% const messagePreview = messagePreviewRaw.length > 72 ? `${messagePreviewRaw.slice(0, 72)}…` : (messagePreviewRaw || '(No message content)'); %>
+          <% const recurrenceLabel = String(row.recurrence || 'once'); %>
+          <% const recurrenceDisplay = recurrenceLabel.charAt(0).toUpperCase() + recurrenceLabel.slice(1); %>
+          <% const nextRunDisplay = row.next_run_at ? new Date(row.next_run_at).toLocaleString() : 'No next run'; %>
+          <% const isActive = Boolean(row.active); %>
+          <details class="schedule-expander schedule-item-expander">
+            <summary>
+              <span class="schedule-item-summary-title"><%= messagePreview %></span>
+              <span class="schedule-item-summary-right">
+                <span class="schedule-item-summary-meta"><%= recurrenceDisplay %> · Next Run: <%= nextRunDisplay %></span>
+                <span class="schedule-status-pill <%= isActive ? 'is-active' : 'is-paused' %>"><%= isActive ? t('guildConfig.scheduleForm.active', { defaultValue: 'Active' }) : t('guildConfig.scheduleForm.paused', { defaultValue: 'Paused' }) %></span>
+                <span class="schedule-expander-plus" aria-hidden="true">+</span>
+              </span>
+            </summary>
+            <div class="schedule-expander-body">
+              <div class="purchase-item" style="display:block;">
+                <form method="post" action="/dashboard/<%= guild.id %>/schedules/<%= encodeURIComponent(row.schedule_id) %>/update" class="import-form">
+                  <div class="level-rows">
+                    <div class="level-row schedule-row">
+                  <label class="field-channel">
+                    <%= t('guildConfig.scheduleForm.channel', { defaultValue: 'Channel' }) %>
+                    <select name="channel_id" required>
+                      <% (guildTextChannels || []).forEach((channel) => { %>
+                        <option value="<%= channel.id %>" <%= String(channel.id) === rowChannelId ? 'selected' : '' %>>#<%= channel.name %></option>
+                      <% }) %>
+                    </select>
+                  </label>
+                  <label class="field-frequency">
+                    <%= t('guildConfig.scheduleForm.frequency', { defaultValue: 'Frequency' }) %>
+                    <select name="recurrence" required>
+                      <option value="once" <%= row.recurrence === 'once' ? 'selected' : '' %>><%= t('guildConfig.scheduleForm.once', { defaultValue: 'Once' }) %></option>
+                      <option value="daily" <%= row.recurrence === 'daily' ? 'selected' : '' %>><%= t('guildConfig.scheduleForm.daily', { defaultValue: 'Daily' }) %></option>
+                      <option value="weekly" <%= row.recurrence === 'weekly' ? 'selected' : '' %>><%= t('guildConfig.scheduleForm.weekly', { defaultValue: 'Weekly' }) %></option>
+                    </select>
+                  </label>
+                  <label class="field-timezone">
+                    <%= t('guildConfig.scheduleForm.timezone', { defaultValue: 'Timezone' }) %>
+                    <select name="timezone_name" required>
+                      <% scheduleTimezoneSelectOptions.forEach((tz) => { %>
+                        <option value="<%= tz.name %>" <%= String(row.timezone_name || 'UTC') === tz.name ? 'selected' : '' %>><%= tz.label %></option>
+                      <% }) %>
+                    </select>
+                  </label>
+                  <label class="field-custom-timezone">
+                    <%= t('guildConfig.scheduleForm.customTimezone', { defaultValue: 'Custom Timezone (optional)' }) %>
+                    <input type="text" name="custom_timezone_name" value="<%= scheduleTimezoneSelectOptions.some((tz) => String(tz.name || '') === String(row.timezone_name || 'UTC')) ? '' : String(row.timezone_name || '') %>" placeholder="e.g. Pacific/Auckland" />
+                  </label>
+                  <label class="field-next-run">
+                    <%= t('guildConfig.scheduleForm.dateTimeToSend', { defaultValue: 'Date & Time to Send' }) %>
+                    <input type="datetime-local" name="once_run_at" class="schedule-once-input" value="<%= row.once_run_at_local || toDateTimeLocalInputInTimeZone(row.next_run_at, row.timezone_name || 'UTC') %>" required />
+                  </label>
+                  <label class="field-start-date">
+                    Start Date
+                    <input type="date" name="start_date" class="schedule-start-date" value="<%= row.start_date_text || '' %>" required />
+                  </label>
+                  <label class="field-send-time">
+                    Time to Send
+                    <input type="time" name="send_time" class="schedule-send-time" value="<%= row.send_time_text || '' %>" required />
+                  </label>
+                  <label class="field-weekdays">
+                    Days of Week
+                    <% const rowWeeklyDays = Array.isArray(row.weekly_days) ? row.weekly_days : []; %>
+                    <div class="schedule-weekdays">
+                      <label><input type="checkbox" name="weekly_days" value="mon" <%= rowWeeklyDays.includes('mon') ? 'checked' : '' %> />Mon</label>
+                      <label><input type="checkbox" name="weekly_days" value="tue" <%= rowWeeklyDays.includes('tue') ? 'checked' : '' %> />Tue</label>
+                      <label><input type="checkbox" name="weekly_days" value="wed" <%= rowWeeklyDays.includes('wed') ? 'checked' : '' %> />Wed</label>
+                      <label><input type="checkbox" name="weekly_days" value="thu" <%= rowWeeklyDays.includes('thu') ? 'checked' : '' %> />Thu</label>
+                      <label><input type="checkbox" name="weekly_days" value="fri" <%= rowWeeklyDays.includes('fri') ? 'checked' : '' %> />Fri</label>
+                      <label><input type="checkbox" name="weekly_days" value="sat" <%= rowWeeklyDays.includes('sat') ? 'checked' : '' %> />Sat</label>
+                      <label><input type="checkbox" name="weekly_days" value="sun" <%= rowWeeklyDays.includes('sun') ? 'checked' : '' %> />Sun</label>
+                    </div>
+                  </label>
+                  <label class="field-end-date">
+                    End Date (optional)
+                    <input type="date" name="end_date" value="<%= row.end_date_text || '' %>" />
+                  </label>
+                  <label class="field-status">
+                    <%= t('guildConfig.statusLabel', { defaultValue: 'Status' }) %>
+                    <select name="active" required>
+                      <option value="true" <%= row.active ? 'selected' : '' %>><%= t('guildConfig.scheduleForm.active', { defaultValue: 'Active' }) %></option>
+                      <option value="false" <%= !row.active ? 'selected' : '' %>><%= t('guildConfig.scheduleForm.paused', { defaultValue: 'Paused' }) %></option>
+                    </select>
+                  </label>
+                </div>
+              </div>
+                  <label>
+                    <%= t('guildConfig.scheduleForm.messageContent', { defaultValue: 'Message Content' }) %>
+                    <textarea name="message_content" maxlength="1800" rows="3" required><%= row.message_content %></textarea>
+                  </label>
+                  <div class="form-actions">
+                    <button type="submit" class="btn btn-primary"><%= t('guildConfig.scheduleForm.save', { defaultValue: 'Save Schedule' }) %></button>
+                  </div>
+                  <p class="muted helper-text">Timezone format uses IANA names (example: <strong>Europe/London</strong>). See <a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones" target="_blank" rel="noopener noreferrer">timezone list</a>.</p>
+                  <p class="muted helper-text">Schedule ID: <strong><%= row.schedule_id %></strong> · Timezone: <strong><%= row.timezone_name || 'UTC' %></strong> · Runs sent: <strong><%= Number(row.run_count || 0) %></strong> · Last run: <strong><%= row.last_run_at ? new Date(row.last_run_at).toLocaleString() : 'Never' %></strong></p>
+                </form>
+
+                <form method="post" action="/dashboard/<%= guild.id %>/schedules/<%= encodeURIComponent(row.schedule_id) %>/delete">
+                  <button type="submit" class="btn btn-ghost"><%= t('guildConfig.scheduleForm.delete', { defaultValue: 'Delete Schedule' }) %></button>
+                </form>
+              </div>
+            </div>
+          </details>
+        <% }) %>
+      </div>
+    <% } %>
+      </div>
+    </details>
+  </section>
+
+  <section class="panel import-export-panel">
+    <details class="settings-expander">
+      <summary class="settings-expander-summary">
+        <div class="settings-expander-summary-main">
+          <h2><%= t('guildConfig.importExport.title', { defaultValue: 'Import / Export Preset' }) %></h2>
+          <p class="muted"><%= t('guildConfig.importExport.subtitle', { defaultValue: "Export this guild's settings to JSON or import a JSON file with all settings or just selected sections." }) %></p>
+        </div>
+        <span class="schedule-expander-plus" aria-hidden="true">+</span>
+      </summary>
+      <div class="settings-expander-body">
+        <script id="settingsExportPayload" type="application/json"><%- JSON.stringify(settingsExportPayload || {}) %></script>
+        <div class="form-actions">
+          <a href="/dashboard/<%= guild.id %>/settings/export" class="btn btn-ghost"><%= t('guildConfig.importExport.exportJson', { defaultValue: 'Export JSON' }) %></a>
+          <a href="/dashboard/settings/import-template" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">Example Template</a>
+          <button type="button" id="copyJsonBtn" class="btn btn-ghost"><%= t('guildConfig.importExport.copyCurrentJson', { defaultValue: 'Copy Current JSON' }) %></button>
+        </div>
+
+        <form method="post" action="/dashboard/<%= guild.id %>/settings/import" class="import-form">
+          <label>
+            <%= t('guildConfig.importExport.presetJson', { defaultValue: 'Preset JSON' }) %>
+            <textarea name="settings_json" id="levelsJsonInput" rows="12" placeholder='{"guild_features":{"moderation":{"enabled":true}},"gamification_levels":[{"level":0,"name":"Newcomer","interactions_required":0}],"moderation_custom_terms":["example term"],"scheduled_messages":[]}' required></textarea>
+          </label>
+          <p id="jsonValidationMessage" class="muted"></p>
+          <div class="form-actions">
+            <button type="button" id="validateJsonBtn" class="btn btn-ghost"><%= t('guildConfig.importExport.validateJson', { defaultValue: 'Validate JSON' }) %></button>
+            <button type="submit" id="importJsonBtn" class="btn btn-primary" disabled><%= t('guildConfig.importExport.importJson', { defaultValue: 'Import JSON' }) %></button>
+          </div>
+          <p class="muted helper-text">You can include all settings keys or only specific keys. Only included keys will be updated.</p>
+        </form>
+      </div>
+    </details>
+  </section>
+</main>
+
+<script>
+  const rowsContainer = document.getElementById('levelRows');
+  const addRowBtn = document.getElementById('addRowBtn');
+  const copyJsonBtn = document.getElementById('copyJsonBtn');
+  const validateJsonBtn = document.getElementById('validateJsonBtn');
+  const importJsonBtn = document.getElementById('importJsonBtn');
+  const levelsJsonInput = document.getElementById('levelsJsonInput');
+  const jsonValidationMessage = document.getElementById('jsonValidationMessage');
+
+  function validateSettingsPayload(rawText) {
+    let parsed;
+    try {
+      parsed = JSON.parse(String(rawText || '').trim());
+    } catch {
+      return { ok: false, reason: 'Invalid JSON syntax.' };
+    }
+
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+      return { ok: false, reason: 'Settings payload must be a JSON object.' };
+    }
+
+    const supportedKeys = ['guild_features', 'gamification_levels', 'moderation_custom_terms', 'scheduled_messages'];
+    const includedKeys = supportedKeys.filter((key) => Object.prototype.hasOwnProperty.call(parsed, key));
+    if (includedKeys.length === 0) {
+      return { ok: false, reason: `Include at least one supported key: ${supportedKeys.join(', ')}.` };
+    }
+
+    if (Object.prototype.hasOwnProperty.call(parsed, 'gamification_levels') && !Array.isArray(parsed.gamification_levels)) {
+      return { ok: false, reason: 'gamification_levels must be an array if included.' };
+    }
+
+    if (Object.prototype.hasOwnProperty.call(parsed, 'moderation_custom_terms') && !Array.isArray(parsed.moderation_custom_terms)) {
+      return { ok: false, reason: 'moderation_custom_terms must be an array if included.' };
+    }
+
+    if (Object.prototype.hasOwnProperty.call(parsed, 'scheduled_messages') && !Array.isArray(parsed.scheduled_messages)) {
+      return { ok: false, reason: 'scheduled_messages must be an array if included.' };
+    }
+
+    return { ok: true, includedKeys };
+  }
+
+  function wireRemoveButtons() {
+    document.querySelectorAll('.remove-row').forEach((btn) => {
+      btn.onclick = () => {
+        const rows = rowsContainer.querySelectorAll('.level-row');
+        if (rows.length <= 1) return;
+        btn.closest('.level-row').remove();
+      };
+    });
+  }
+
+  addRowBtn.addEventListener('click', () => {
+    const row = document.createElement('div');
+    row.className = 'level-row';
+    row.innerHTML = `
+      <label>Level<input type="number" name="level" min="0" max="100" required /></label>
+      <label>Level Name<input type="text" name="level_name" maxlength="24" required /></label>
+      <label>XP Required<input type="number" name="interactions_required" min="0" required /></label>
+      <button type="button" class="btn btn-ghost remove-row">Remove</button>
+    `;
+    rowsContainer.appendChild(row);
+    wireRemoveButtons();
+  });
+
+  copyJsonBtn.addEventListener('click', async () => {
+    const payloadNode = document.getElementById('settingsExportPayload');
+    const payloadText = payloadNode ? String(payloadNode.textContent || '').trim() : '{}';
+    let parsedPayload;
+    try {
+      parsedPayload = JSON.parse(payloadText);
+    } catch {
+      parsedPayload = {};
+    }
+
+    const json = JSON.stringify(parsedPayload, null, 2);
+    levelsJsonInput.value = json;
+
+    try {
+      await navigator.clipboard.writeText(json);
+      copyJsonBtn.textContent = 'Copied';
+      setTimeout(() => {
+        copyJsonBtn.textContent = 'Copy Current JSON';
+      }, 1400);
+    } catch {
+      copyJsonBtn.textContent = 'Filled Textarea';
+      setTimeout(() => {
+        copyJsonBtn.textContent = 'Copy Current JSON';
+      }, 1400);
+    }
+  });
+
+  validateJsonBtn.addEventListener('click', () => {
+    const result = validateSettingsPayload(levelsJsonInput.value);
+    jsonValidationMessage.classList.remove('validation-success', 'validation-error');
+
+    if (!result.ok) {
+      jsonValidationMessage.textContent = `❌ ${result.reason}`;
+      jsonValidationMessage.classList.add('validation-error');
+      importJsonBtn.disabled = true;
+      return;
+    }
+
+    jsonValidationMessage.textContent = `✅ Valid settings JSON (${(result.includedKeys || []).join(', ')}).`;
+    jsonValidationMessage.classList.add('validation-success');
+    importJsonBtn.disabled = false;
+  });
+
+  levelsJsonInput.addEventListener('input', () => {
+    importJsonBtn.disabled = true;
+    jsonValidationMessage.classList.remove('validation-success', 'validation-error');
+    jsonValidationMessage.textContent = 'Validation required after any edit.';
+  });
+
+  document.querySelectorAll('.feature-control-card').forEach((card) => {
+    const enabledInput = card.querySelector('.feature-enabled-input');
+    const cleanupLabel = card.querySelector('.feature-cleanup-label');
+    const cleanupInput = cleanupLabel ? cleanupLabel.querySelector('input[type="checkbox"]') : null;
+
+    if (!enabledInput || !cleanupLabel) {
+      return;
+    }
+
+    const syncCleanupVisibility = () => {
+      const isEnabled = enabledInput.checked;
+      cleanupLabel.classList.toggle('feature-cleanup-hidden', isEnabled);
+      if (isEnabled && cleanupInput) {
+        cleanupInput.checked = false;
+      }
+    };
+
+    enabledInput.addEventListener('change', syncCleanupVisibility);
+    syncCleanupVisibility();
+  });
+
+  function syncScheduleFormVisibility(form) {
+    if (!form) {
+      return;
+    }
+
+    const recurrenceSelect = form.querySelector('select[name="recurrence"]');
+    if (!recurrenceSelect) {
+      return;
+    }
+
+    const recurrence = String(recurrenceSelect.value || 'once').toLowerCase();
+    const onceInput = form.querySelector('.schedule-once-input');
+    const startDateInput = form.querySelector('.schedule-start-date');
+    const sendTimeInput = form.querySelector('.schedule-send-time');
+    const weekdayBoxes = Array.from(form.querySelectorAll('input[name="weekly_days"]'));
+
+    const setGroupVisibility = (selector, isVisible) => {
+      const group = form.querySelector(selector);
+      if (group) {
+        group.hidden = !isVisible;
+      }
+    };
+
+    const isOnce = recurrence === 'once';
+    const isDaily = recurrence === 'daily';
+    const isWeekly = recurrence === 'weekly';
+
+    setGroupVisibility('.field-next-run', isOnce);
+    setGroupVisibility('.field-start-date', isDaily || isWeekly);
+    setGroupVisibility('.field-send-time', isDaily || isWeekly);
+    setGroupVisibility('.field-weekdays', isWeekly);
+    setGroupVisibility('.field-end-date', isDaily || isWeekly);
+
+    if (onceInput) {
+      onceInput.required = isOnce;
+    }
+    if (startDateInput) {
+      startDateInput.required = !isOnce;
+    }
+    if (sendTimeInput) {
+      sendTimeInput.required = isDaily || isWeekly;
+    }
+    weekdayBoxes.forEach((checkbox) => {
+      checkbox.required = false;
+    });
+
+    if (isWeekly && weekdayBoxes.length > 0) {
+      const anyChecked = weekdayBoxes.some((checkbox) => checkbox.checked);
+      weekdayBoxes[0].required = !anyChecked;
+    }
+  }
+
+  function autoSelectScheduleTimezone(form) {
+    if (!form) {
+      return;
+    }
+
+    const action = String(form.getAttribute('action') || '');
+    if (!action.includes('/schedules/create')) {
+      return;
+    }
+
+    const timezoneSelect = form.querySelector('select[name="timezone_name"]');
+    const customTimezoneInput = form.querySelector('input[name="custom_timezone_name"]');
+    if (!timezoneSelect) {
+      return;
+    }
+
+    const currentValue = String(timezoneSelect.value || '').trim();
+    const hasCustomTimezone = customTimezoneInput && String(customTimezoneInput.value || '').trim().length > 0;
+    if (currentValue && currentValue !== 'UTC') {
+      return;
+    }
+    if (hasCustomTimezone) {
+      return;
+    }
+
+    const detectedTimeZone = String(Intl.DateTimeFormat().resolvedOptions().timeZone || '').trim();
+    if (!detectedTimeZone) {
+      return;
+    }
+
+    const matchingOption = Array.from(timezoneSelect.options).find((option) => String(option.value || '') === detectedTimeZone);
+    if (matchingOption) {
+      timezoneSelect.value = detectedTimeZone;
+      return;
+    }
+
+    if (customTimezoneInput && !String(customTimezoneInput.value || '').trim()) {
+      customTimezoneInput.value = detectedTimeZone;
+    }
+  }
+
+  function wirePickerIconClicks() {
+    const pickerInputs = document.querySelectorAll('input[type="date"], input[type="time"], input[type="datetime-local"]');
+
+    pickerInputs.forEach((input) => {
+      if (input.closest('.picker-input-wrap')) {
+        return;
+      }
+
+      input.classList.add('picker-enhanced');
+
+      const wrapper = document.createElement('span');
+      wrapper.className = 'picker-input-wrap';
+
+      const trigger = document.createElement('button');
+      trigger.type = 'button';
+      trigger.className = `picker-trigger picker-trigger-${input.type}`;
+
+      let tooltipText = 'Open Date/Time Picker';
+      if (input.type === 'date') {
+        tooltipText = 'Open Date Picker';
+      } else if (input.type === 'time') {
+        tooltipText = 'Open Time Picker';
+      }
+
+      trigger.title = tooltipText;
+      trigger.setAttribute('aria-label', tooltipText);
+
+      input.parentNode.insertBefore(wrapper, input);
+      wrapper.appendChild(input);
+      wrapper.appendChild(trigger);
+
+      trigger.addEventListener('click', () => {
+        input.focus();
+        if (typeof input.showPicker === 'function') {
+          try {
+            input.showPicker();
+            return;
+          } catch {}
+        }
+
+        input.click();
+      });
+    });
+  }
+
+  function syncScheduleStatusAppearance(form) {
+    if (!form) {
+      return;
+    }
+
+    const statusSelect = form.querySelector('select[name="active"]');
+    if (!statusSelect) {
+      return;
+    }
+
+    const value = String(statusSelect.value || '').trim().toLowerCase();
+    statusSelect.classList.remove('status-active', 'status-paused');
+
+    if (value === 'true') {
+      statusSelect.classList.add('status-active');
+      return;
+    }
+
+    statusSelect.classList.add('status-paused');
+  }
+
+  function wireCreateScheduleValidationExpander() {
+    const createForm = document.querySelector('form[action*="/schedules/create"]');
+    if (!createForm) {
+      return;
+    }
+
+    const createExpander = createForm.closest('details.schedule-create-expander');
+    if (!createExpander) {
+      return;
+    }
+
+    createForm.addEventListener(
+      'invalid',
+      (event) => {
+        const parentSettingsExpander = createExpander.closest('details.settings-expander');
+        if (parentSettingsExpander) {
+          parentSettingsExpander.open = true;
+        }
+        createExpander.open = true;
+        const target = event.target;
+        if (target && typeof target.scrollIntoView === 'function') {
+          target.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        }
+      },
+      true
+    );
+  }
+
+  document.querySelectorAll('form[action*="/schedules/"]').forEach((scheduleForm) => {
+    const recurrenceSelect = scheduleForm.querySelector('select[name="recurrence"]');
+    const weekdayBoxes = Array.from(scheduleForm.querySelectorAll('input[name="weekly_days"]'));
+    const statusSelect = scheduleForm.querySelector('select[name="active"]');
+
+    if (recurrenceSelect) {
+      recurrenceSelect.addEventListener('change', () => {
+        syncScheduleFormVisibility(scheduleForm);
+      });
+    }
+
+    weekdayBoxes.forEach((checkbox) => {
+      checkbox.addEventListener('change', () => {
+        syncScheduleFormVisibility(scheduleForm);
+      });
+    });
+
+    if (statusSelect) {
+      statusSelect.addEventListener('change', () => {
+        syncScheduleStatusAppearance(scheduleForm);
+      });
+    }
+
+    syncScheduleFormVisibility(scheduleForm);
+    syncScheduleStatusAppearance(scheduleForm);
+    autoSelectScheduleTimezone(scheduleForm);
+  });
+
+  wirePickerIconClicks();
+  wireCreateScheduleValidationExpander();
+
+  wireRemoveButtons();
+</script>
+
+<%- include('partials/foot') %>

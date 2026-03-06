@@ -1,0 +1,620 @@
+{
+  "meta": {
+    "siteName": "DiscoBot",
+    "homeTitle": "DiscoBot",
+    "termsTitle": "Algemene voorwaarden",
+    "privacyTitle": "Privacybeleid",
+    "helpTitle": "Help & Wiki"
+  },
+  "nav": {
+    "home": "Home",
+    "help": "Help",
+    "terms": "Voorwaarden",
+    "privacy": "Privacy",
+    "language": "Taal",
+    "signedInWithDiscord": "Aangemeld met Discord",
+    "dashboard": "Dashboard",
+    "aiCredits": "AI-credits",
+    "owner": "Eigenaar",
+    "ownerSettings": "Instellingen",
+    "ownerPurchases": "Aankopen",
+    "ownerTranslation": "Vertaling",
+    "ownerDiscounts": "Kortingen",
+    "signOut": "Uitloggen",
+    "signInWithDiscord": "Inloggen met Discord",
+    "ownerWebsiteErrors": "Websitefouten"
+  },
+  "footer": {
+    "help": "Help",
+    "terms": "Voorwaarden",
+    "privacy": "Privacy"
+  },
+  "home": {
+    "hero": {
+      "titlePrefix": "Automatiseer en verbeter je Discord-server met",
+      "titleSuffix": ".",
+      "body1": "De meest funky en psychedelische Discord-bot ooit! Hij is op zijn best in jouw server en regelt alles als een BOSS.",
+      "body2": "Vertaling, moderatie, AI-afbeeldingsgeneratie, gamification, planning en meer vanuit een modern dashboard of de app.",
+      "openDashboard": "Dashboard openen",
+      "signIn": "Inloggen met Discord",
+      "downloadApp": "App downloaden",
+      "logoAlt": "DiscoBot-logo"
+    },
+    "features": {
+      "smartModeration": {
+        "title": "Slimme Moderatie",
+        "description": "Markeer beledigende berichten met admin-goedkeuring en actiegeschiedenis."
+      },
+      "gamification": {
+        "title": "Gamification",
+        "description": "XP, levelprogressie, reputatie en ranglijsten voor meer betrokkenheid."
+      },
+      "globalCommunication": {
+        "title": "Wereldwijde Communicatie",
+        "description": "Directe, nauwkeurige en natuurlijke vertaling met DeepL Pro."
+      },
+      "scheduledMessaging": {
+        "title": "Geplande Berichten",
+        "description": "Terugkerende posts met dagelijkse/wekelijkse automatisering en tijdzonebeheer."
+      },
+      "aiImageGeneration": {
+        "title": "AI-Afbeeldingsgeneratie",
+        "description": "Genereer en bewerk afbeeldingen direct vanuit Discord met OpenAI-prompts."
+      },
+      "webDashboard": {
+        "title": "Webdashboard & App",
+        "description": "Configureer kerninstellingen via het webdashboard of de app zonder slash-commando's."
+      }
+    }
+  },
+  "terms": {
+    "title": "Algemene voorwaarden",
+    "intro": "Door DiscoBot en dit dashboard te gebruiken, ga je akkoord met deze voorwaarden.",
+    "acceptableUse": {
+      "title": "Toegestaan gebruik",
+      "body": "Je gaat ermee akkoord DiscoBot niet te gebruiken om Discord-voorwaarden te schenden, te spammen of gebruikers te misbruiken."
+    },
+    "serviceAvailability": {
+      "title": "Beschikbaarheid van de dienst",
+      "body": "Functies kunnen zonder voorafgaande kennisgeving veranderen, worden bijgewerkt of onbeschikbaar worden."
+    },
+    "accountResponsibility": {
+      "title": "Accountverantwoordelijkheid",
+      "body": "Je bent verantwoordelijk voor acties via je Discord-account en je serverconfiguratie."
+    },
+    "liability": {
+      "title": "Aansprakelijkheidsbeperking",
+      "body": "DiscoBot wordt geleverd zoals het is, zonder garanties. Gebruik op eigen risico."
+    }
+  },
+  "privacy": {
+    "title": "Privacybeleid",
+    "intro": "Deze pagina legt uit welke gegevens DiscoBot en deze website verwerken.",
+    "dataProcessed": {
+      "title": "Gegevens die we verwerken",
+      "body": "Discord-identiteitsgegevens voor login, serverlidmaatschapsgegevens voor toegangscontrole en configuratierecords in MongoDB."
+    },
+    "featureData": {
+      "title": "Botfunctiegegevens",
+      "body": "Afhankelijk van ingeschakelde functies kan DiscoBot gebruiksgegevens opslaan zoals moderatiestatistieken, gamificationstatistieken en planningen."
+    },
+    "dataUse": {
+      "title": "Gegevensgebruik",
+      "body": "Gegevens worden alleen gebruikt om botfuncties, dashboardbediening en serverspecifieke functionaliteit te leveren."
+    },
+    "dataRetention": {
+      "title": "Gegevensbewaring",
+      "body": "Gegevens blijven opgeslagen totdat operators ze verwijderen of functionaliteitsworkflows ze overschrijven."
+    },
+    "contact": {
+      "title": "Contact",
+      "body": "Neem contact op met het beheerteam voor gegevensverwijdering of privacyvragen."
+    }
+  },
+  "pwa": {
+    "updateAvailable": "Update beschikbaar",
+    "updateText": "Er staat een nieuwere versie van DiscoBot klaar.",
+    "refreshNow": "Nu vernieuwen",
+    "iosInstallHint": "Op iPhone/iPad: tik op Deel en daarna op Zet op beginscherm.",
+    "unavailableHint": "App-installatie is nog niet beschikbaar in deze browser."
+  },
+  "common": {
+    "back": "Terug",
+    "filters": "Filters",
+    "applyFilters": "Filters toepassen",
+    "reset": "Resetten",
+    "exportCsv": "CSV exporteren",
+    "enabled": "Ingeschakeld",
+    "saving": "Opslaan",
+    "remove": "Verwijderen",
+    "show": "Toon"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Beheer je globale AI-credits en geschikte Discord-servers.",
+    "myAiCredits": "Mijn AI-credits",
+    "noGuildsInstalled": "Geen servers gevonden waarop DiscoBot is geïnstalleerd voor je account.",
+    "noManageableGuilds": "Je hebt momenteel geen admin- of installateurstoegang om geïnstalleerde servers te beheren.",
+    "guildServers": "Servers",
+    "selectGuild": "Selecteer een server die je kunt beheren.",
+    "guildManageable": "Je kunt deze server beheren",
+    "manage": "Beheren"
+  },
+  "guildConfig": {
+    "titleSuffix": "Configuratie",
+    "heading": "Botconfiguratie",
+    "subtitle": "Bewerk alle DiscoBot-functies en instellingen voor je server.",
+    "leaderboard": "Ranglijst",
+    "moderationSummary": "Moderatieoverzicht",
+    "featureControls": "Functiebeheer",
+    "featureControlsHelp": "Schakel serverfuncties in of uit. Bij het uitschakelen van geselecteerde functies kun je optioneel gerelateerde DiscoBot-kanalen verwijderen.",
+    "saveFeatureSettings": "Functie-instellingen opslaan",
+    "translationCharacterLimit": "Vertaaltekenlimiet",
+    "translationCharacterLimitHelp": "Gratis gebruik en betaalde vertaal-add-ons worden per server beheerd en maandelijks gereset.",
+    "gamificationLevels": "Gamification-niveaus",
+    "gamificationLevelsHelp": "Stel niveaunummer, niveau-naam en benodigde XP per niveau in.",
+    "scheduledMessages": "Geplande berichten",
+    "scheduledMessagesHelp": "Maak en beheer automatische serverberichten. Kies een tijdzone per planning.",
+    "alerts": {
+      "saved": "Configuratie succesvol opgeslagen.",
+      "imported": "Niveaupreset succesvol geïmporteerd.",
+      "wordsAdded": "Aangepast moderatiewoord toegevoegd.",
+      "wordsRemoved": "Aangepast moderatiewoord verwijderd."
+    },
+    "cleanupPromptPrefix": "Wil je ook het gekoppelde kanaal verwijderen",
+    "translationSummary": {
+      "freeLimit": "Gratis limiet",
+      "currentAllowance": "Huidige limiet",
+      "usedThisMonth": "Deze maand gebruikt",
+      "remaining": "Resterend"
+    },
+    "noTranslationPlans": "Er zijn nog geen vertaalabonnementen geconfigureerd.",
+    "statusLabel": "Status",
+    "cancelsAtPeriodEnd": "Wordt beëindigd aan einde periode",
+    "periodEnd": "Einde periode",
+    "manageInStripe": "Beheren in Stripe",
+    "noActiveTranslationSubs": "Nog geen actieve vertaalabonnementen voor deze server.",
+    "levels": {
+      "level": "Niveau",
+      "levelName": "Niveaunaam",
+      "xpRequired": "Benodigde XP",
+      "addLevel": "Niveau toevoegen",
+      "saveLevels": "Niveaus opslaan"
+    },
+    "importExport": {
+      "title": "Preset importeren / exporteren",
+      "subtitle": "Exporteer de niveauconfiguratie van deze server naar JSON of importeer een preset van een andere server.",
+      "exportJson": "JSON exporteren",
+      "copyCurrentJson": "Huidige JSON kopiëren",
+      "presetJson": "Preset JSON",
+      "validateJson": "JSON valideren",
+      "importJson": "JSON importeren"
+    },
+    "customModerationWords": {
+      "title": "Aangepaste moderatiewoorden",
+      "subtitle": "Voeg aangepaste woorden/zinnen toe voor deze server. Deze worden gecontroleerd naast DiscoBot's standaard moderatietermen.",
+      "addLabel": "Woord/zinsdeel toevoegen",
+      "addButton": "Aangepast woord toevoegen",
+      "none": "Nog geen aangepaste moderatiewoorden geconfigureerd."
+    },
+    "moderationSnapshot": {
+      "title": "Moderatieoverzicht",
+      "subtitle": "Snelle weergave van meest gemodereerde gebruikers en totaalacties. Gebruik het volledige overzicht voor diepere analyse.",
+      "flagged": "Gemarkeerd",
+      "approved": "Goedgekeurd",
+      "rejected": "Afgewezen",
+      "kicked": "Verwijderd",
+      "banned": "Verbannen",
+      "none": "Nog geen moderatieactiviteit geregistreerd.",
+      "openFull": "Volledig moderatieoverzicht openen"
+    },
+    "scheduleForm": {
+      "channel": "Kanaal",
+      "frequency": "Frequentie",
+      "once": "Once",
+      "daily": "Dagelijks",
+      "weekly": "Wekelijks",
+      "timezone": "Tijdzone",
+      "customTimezone": "Aangepaste tijdzone (optioneel)",
+      "firstRun": "Eerste uitvoering (lokale tijd)",
+      "nextRun": "Volgende uitvoering (lokale tijd)",
+      "messageContent": "Berichtinhoud",
+      "create": "Gepland bericht maken",
+      "none": "Nog geen geplande berichten geconfigureerd.",
+      "active": "Active",
+      "paused": "Gepauzeerd",
+      "save": "Planning opslaan",
+      "delete": "Planning verwijderen"
+    }
+  },
+  "guildLeaderboard": {
+    "titleWord": "Ranglijst",
+    "titleSuffix": "Gamification-ranglijst",
+    "subtitle": "Bekijk XP/reputatiescores en pas waarden voor gebruikers direct aan.",
+    "adjustUpdated": "Gamification-waarden succesvol bijgewerkt.",
+    "adjustInvalid": "Voer een geldige gebruikers-ID in en minimaal één niet-nul XP/Reputatie-aanpassing.",
+    "adjustError": "Kon gamification-waarden niet bijwerken. Probeer opnieuw.",
+    "adjustSectionTitle": "Gebruiker XP / Reputatie aanpassen",
+    "applyAdjustment": "Aanpassing toepassen",
+    "usersSectionTitle": "Gebruikers in ranglijst",
+    "noRows": "Nog geen gamificationactiviteit gevonden voor deze server.",
+    "adjustSectionSubtitle": "Gebruik positieve getallen om toe te voegen en negatieve om te verwijderen. Waarden gaan niet onder nul.",
+    "usersSectionSubtitle": "Gebruikersranglijst met snelle aanpassingsopties per gebruiker.",
+    "snapshot": {
+      "title": "Ranglijstoverzicht",
+      "subtitle": "Snelle totalen voor gebruikers, XP, reputatie en berichtvolume.",
+      "activeUsers": "Actieve gebruikers",
+      "totalXp": "Totale XP",
+      "totalReputation": "Totale reputatie",
+      "totalMessages": "Totaal berichten"
+    },
+    "filtersSubtitle": "Filter ranglijstregels en sorteeropties.",
+    "filters": {
+      "userQuery": "Gebruikersnaam of gebruikers-ID",
+      "sortBy": "Sorteren op",
+      "resultLimit": "Resultaatlimiet"
+    },
+    "adjustForm": {
+      "userId": "Gebruikers-ID",
+      "username": "Gebruikersnaam (optioneel)",
+      "xpDelta": "XP-wijziging",
+      "reputationDelta": "Reputatie-wijziging",
+      "updateUser": "Gebruiker bijwerken"
+    }
+  },
+  "moderationSummary": {
+    "titleSuffix": "Moderatieoverzicht",
+    "subtitle": "Bekijk gemodereerde gebruikers en handhavingsresultaten voor deze server.",
+    "users": "Users",
+    "noRows": "Geen moderatieactiviteit gevonden voor deze server.",
+    "usersSubtitle": "Gedetailleerde moderatie-acties per gebruiker en laatste updates.",
+    "snapshot": {
+      "title": "Moderatie-overzicht",
+      "subtitle": "Snel overzicht van moderatieresultaten in deze server.",
+      "moderatedUsers": "Gegemodereerde gebruikers",
+      "flagged": "Gemarkeerd",
+      "approved": "Goedgekeurd",
+      "rejected": "Afgewezen",
+      "kicked": "Verwijderd",
+      "banned": "Verbannen"
+    },
+    "filtersSubtitle": "Filter gebruikers en aantal resultaten voor dit moderatierapport.",
+    "filters": {
+      "userQuery": "Gebruikersnaam of gebruikers-ID",
+      "resultLimit": "Resultaatlimiet"
+    }
+  },
+  "credits": {
+    "title": "AI-beeldcredits",
+    "subtitle": "Koop en beheer je persoonlijke credits voor AI-beeldgeneratie. Deze zijn persoonlijk en bruikbaar in elke server waar je lid bent en DiscoBot is geïnstalleerd.",
+    "yourBalance": "Je saldo",
+    "buyMore": "Meer credits kopen",
+    "monthlySubscriptions": "Maandelijkse abonnementen",
+    "activeSubscriptions": "Actieve abonnementen",
+    "manageSubscription": "Abonnement beheren",
+    "checkMissedCredits": "Gemiste credits controleren",
+    "recentPurchases": "Recente aankopen",
+    "generate": {
+      "download": "Downloaden",
+      "title": "AI-afbeelding genereren op de website",
+      "subtitle": "Gebruik je persoonlijke AI-credits direct op de website, zonder Discord-kanaal.",
+      "promptLabel": "Prompt",
+      "promptPlaceholder": "Voorbeeld: Een retrofuturistische skyline bij zonsondergang, neonlichten, filmische belichting",
+      "button": "Afbeelding genereren (1 credit)",
+      "sourceImageLabel": "Bronafbeelding",
+      "editPromptLabel": "Bewerkingsprompt",
+      "editPromptPlaceholder": "Voorbeeld: Verander dit in een aquarel met warme zonsondergangstinten",
+      "editButton": "Afbeelding bewerken (1 credit)",
+      "modeText": "Tekst-naar-afbeelding",
+      "modeEdit": "Afbeelding bewerken",
+      "success": "AI-afbeelding succesvol gegenereerd. 1 credit is gebruikt.",
+      "noCredits": "Je hebt niet genoeg AI-credits om een afbeelding te genereren.",
+      "invalidPrompt": "Voer een geldige prompt in voordat je genereert.",
+      "invalidImage": "Upload een geldige bronafbeelding voor de bewerkmodus.",
+      "unavailable": "Webafbeeldingsgeneratie is momenteel niet beschikbaar. Probeer later opnieuw.",
+      "failed": "Afbeeldingsgeneratie mislukt. Je credit is teruggestort."
+    }
+  },
+  "ownerSettings": {
+    "title": "Eigenaar-instellingen",
+    "subtitle": "Globale botkanaalconfiguratie en prijsniveaus van de website.",
+    "saved": "Eigenaar-instellingen succesvol opgeslagen.",
+    "metadata": "Instellingenmetadata",
+    "websiteUrl": "Website-URL",
+    "saveButton": "Eigenaar-instellingen opslaan",
+    "metadataSubtitle": "Auditinformatie over wanneer eigenaar-instellingen voor het laatst zijn bijgewerkt en door wie.",
+    "websiteUrlSubtitle": "Alleen eigenaar: gebruikt door het bot-commando /website.",
+    "gamificationChannels": {
+      "title": "Gamification-kanaalinstellingen",
+      "subtitle": "Configureer categorie-/kanaalgegevens voor gamificationfuncties."
+    },
+    "moderationChannels": {
+      "title": "Moderatiekanaalinstellingen",
+      "subtitle": "Configureer moderatiekanaalnamen en standaard beheerdersrichtlijnen."
+    },
+    "aiImageChannels": {
+      "title": "AI-afbeeldingskanaalinstellingen",
+      "subtitle": "Configureer waar AI-afbeeldingsinteracties naartoe gaan."
+    },
+    "creditPacks": {
+      "title": "Eenmalige creditpacks",
+      "subtitle": "Werk ID’s, weergavenamen, credits, interne kosten en prijs (cent) bij. Kosten zijn alleen voor de eigenaar en worden gebruikt voor winstanalyse."
+    },
+    "subscriptionPlans": {
+      "title": "Maandelijkse abonnementsplannen",
+      "subtitle": "Werk ID’s, weergavenamen, credits per maand, interne kosten en prijs (cent) bij."
+    },
+    "translationLimits": {
+      "title": "Guild-vertaallimieten",
+      "subtitle": "Configureer de gratis maandelijkse vertaaltekenlimiet en betaalde abonnementsopties per guild."
+    },
+    "translationPlans": {
+      "title": "Guild-vertaalabonnementsplannen",
+      "subtitle": "Werk ID’s, weergavenamen, extra tekens per maand, interne kosten en prijs (cent) bij."
+    }
+  },
+  "ownerPurchases": {
+    "title": "Eigenaar aankoopanalyse",
+    "subtitle": "Bekijk alle aankopen, filter resultaten en volg de populariteit van opties in de tijd.",
+    "snapshot": {
+      "title": "Verkoopoverzicht",
+      "subtitle": "Topniveau totalen voor verkoop, credits, kosten en winst.",
+      "totalSales": "Totale verkopen",
+      "creditsSold": "Verkochte credits",
+      "priceUsd": "Prijs (USD)",
+      "costUsd": "Kosten (USD)",
+      "profitUsd": "Winst (USD)"
+    },
+    "filtersSubtitle": "Filter op betaaltype, optie, datumbereik en gebruiker.",
+    "popularity": {
+      "title": "Populariteit per aankoopoptie",
+      "subtitle": "Verkoop en winstgevendheid uitgesplitst per optie-ID.",
+      "empty": "Geen aankopen gevonden voor deze filters."
+    },
+    "paymentSummary": {
+      "title": "Samenvatting per betaaltype",
+      "subtitle": "Geaggregeerde totalen gegroepeerd per betaaltype.",
+      "empty": "Geen betaaltypegegevens gevonden voor deze filters."
+    },
+    "recent": {
+      "title": "Recente aankopen",
+      "subtitle": "Laatste aankoopevents die overeenkomen met de huidige filters.",
+      "empty": "Geen aankopen gevonden voor deze filters."
+    }
+  },
+  "ownerTranslationPurchases": {
+    "title": "Eigenaar vertaalaankoopanalyse",
+    "subtitle": "Volg verkoop, populariteit en gebruik van vertaalabonnementen per server/admin.",
+    "snapshot": {
+      "title": "Verkoopoverzicht",
+      "subtitle": "Topniveau totalen voor vertaalabonnementen en winst.",
+      "totalSales": "Totale verkopen",
+      "charactersSoldPerMonth": "Verkochte tekens / maand",
+      "priceUsd": "Prijs (USD)",
+      "costUsd": "Kosten (USD)",
+      "profitUsd": "Winst (USD)"
+    },
+    "filtersSubtitle": "Filter op plan, datums, gebruiker en guild-ID’s.",
+    "popularity": {
+      "title": "Populariteit per plan",
+      "subtitle": "Overzicht van prestaties en marge per plan.",
+      "empty": "Geen vertaalaankopen gevonden voor deze filters."
+    },
+    "paymentSummary": {
+      "title": "Samenvatting per betaaltype",
+      "subtitle": "Geaggregeerde totalen gegroepeerd per abonnementsbetaalfase.",
+      "empty": "Geen betaaltypegegevens gevonden voor deze filters."
+    },
+    "recent": {
+      "title": "Recente vertaalaankopen",
+      "subtitle": "Laatste gebeurtenissen van vertaalaankopen.",
+      "empty": "Geen vertaalaankopen gevonden voor deze filters."
+    }
+  },
+  "ownerDiscounts": {
+    "title": "Kortingscodes eigenaar",
+    "subtitle": "Maak en beheer kortingscodes en volg wie elke code heeft gebruikt.",
+    "createTitle": "Kortingscode maken",
+    "createButton": "Code maken",
+    "filterTitle": "Codes filteren",
+    "applyFilter": "Filter toepassen",
+    "existingTitle": "Bestaande kortingscodes",
+    "createSubtitle": "Maak nieuwe kortingscodes met optionele beperkingen en vervaldatum.",
+    "filterSubtitle": "Filter kortingscodes op prefix en actieve status.",
+    "existingSubtitle": "Beheer actief/inactief en bekijk recent gebruik.",
+    "empty": "Geen kortingscodes gevonden.",
+    "alerts": {
+      "created": "Kortingscode succesvol aangemaakt.",
+      "statusUpdated": "Status van kortingscode bijgewerkt."
+    },
+    "errors": {
+      "duplicateCode": "Die code bestaat al.",
+      "invalidCode": "Voer een geldige code in (minimaal 3 letters/cijfers).",
+      "invalidDiscount": "Geef een geldig kortingstype en geldige waarde op.",
+      "percentTooHigh": "Procentuele kortingen moeten 95% of lager zijn.",
+      "invalidMaxDiscount": "Maximale kortingslimiet moet nul of hoger zijn (in centen).",
+      "invalidMinSpend": "Minimale besteding moet nul of hoger zijn (in centen).",
+      "invalidRestrictedGuild": "Beperkte guild-ID moet een geldige Discord-guild-ID zijn.",
+      "invalidExpiry": "Vervaldatum/-tijd is ongeldig.",
+      "notFound": "Kortingscode niet gevonden.",
+      "saveFailed": "Wijzigingen konden niet worden opgeslagen. Probeer opnieuw."
+    }
+  },
+  "help": {
+    "title": "DiscoBot Help & Wiki",
+    "subtitle": "Alles wat je nodig hebt voor DiscoBot-functies, website-instellingen, moderatieworkflows, planningen en AI-creditaankopen.",
+    "contents": "Inhoud",
+    "toc": {
+      "quickStart": "Snelle start",
+      "coreFeatures": "Kernfuncties",
+      "discordCommands": "Discord Commands",
+      "guildConfig": "Website: Server botconfiguratie",
+      "dashboardCredits": "Website: Dashboard & credits",
+      "disabledMessages": "Meldingen bij uitgeschakelde functie",
+      "troubleshooting": "Probleemoplossing"
+    },
+    "quickStart": {
+      "title": "Snelle start",
+      "item1": "Nodig DiscoBot uit op je server en meld je op de website aan met Discord.",
+      "item2": "Open Dashboard, kies je server en configureer functies in Server botconfiguratie.",
+      "item3": "Schakel functies op één plek in/uit en sla daarna alle functie-instellingen samen op.",
+      "item4": "Gebruik de AI-creditspagina om credits of abonnementen te kopen voor AI-beeldgeneratie."
+    },
+    "coreFeatures": {
+      "title": "Kernfuncties",
+      "smartModerationLabel": "Slimme moderatie",
+      "smartModerationBody": "markeert risicovolle inhoud voor admin-beoordeling, met goedkeuren/verwijderen/kicken/bannen en statistieken.",
+      "gamificationLabel": "Gamificatie",
+      "gamificationBody": "XP, niveaus, reputatie en ranglijstkanalen om betrokkenheid te vergroten.",
+      "globalCommunicationLabel": "Globale communicatie",
+      "globalCommunicationBody": "berichtvertaling via DeepL Pro.",
+      "scheduledMessagingLabel": "Geplande berichten",
+      "scheduledMessagingBody": "eenmalige, dagelijkse of wekelijkse geplande berichten met tijdzone-ondersteuning.",
+      "aiImageLabel": "AI-beeldgeneratie",
+      "aiImageBody": "rechtsklik-contextopdracht voor tekst/beeld-promptworkflows.",
+      "webDashboardLabel": "Webdashboard",
+      "webDashboardBody": "configureer de meeste serverinstellingen visueel via de website."
+    },
+    "discord": {
+      "title": "Discord-opdrachten",
+      "subtitle": "Beschikbaarheid van opdrachten hangt af van ingeschakelde functies en je rechten.",
+      "websiteLinksTitle": "Websitelinks",
+      "websiteLinksItem1": "opent de DiscoBot-websitelink.",
+      "websiteLinksItem2": "opent de DiscoBot-websitelink.",
+      "featureControlsTitle": "Functiebeheer",
+      "featureControlsItem1": "toont in-/uitgeschakelde functiestatus voor de server.",
+      "featureControlsItem2": "schakelt een functie in (admin).",
+      "featureControlsItem3": "schakelt een functie uit (admin).",
+      "gamificationTitle": "Gamificatie",
+      "gamificationItem1": "bekijk XP + niveau voor jezelf of een ander lid.",
+      "gamificationItem2": "toon XP/reputatie-ranglijst.",
+      "gamificationItem3": "toon niveauconfiguratie.",
+      "gamificationItem4": "maak/werk niveauconfiguratie bij (admin).",
+      "gamificationItem5": "zet niveaus terug naar standaard (admin).",
+      "gamificationItem6": "bekijk reputatie.",
+      "gamificationItem7": "geef reputatie aan een ander lid.",
+      "gamificationItem8": "admin-aanpassingen van reputatie.",
+      "schedulingTitle": "Planning",
+      "schedulingItem1": "maak een planning met Eenmalig (datum+tijd), Dagelijks (startdatum+tijd) of Wekelijks (startdatum+dagen+tijd), met optionele einddatum.",
+      "schedulingItem2": "lijst met actieve planningen.",
+      "schedulingItem3": "bewerk kanaal/bericht/tijdzone/herhaling, plus startdatum, verzendtijd, weekdagen en optionele einddatum.",
+      "schedulingItem4": "beheer actieve planningen.",
+      "schedulingItem5": "verwijder planning.",
+      "translationTitle": "Vertaling",
+      "translationItem1": "Bericht-contextopdracht:",
+      "translationItem2": "Bericht-contextopdracht:",
+      "translationItem3": "Vlagreactie-vertaling: reageer met ondersteunde vlagemoji's om berichten te vertalen.",
+      "translationCommand1": "Translate",
+      "translationCommand2": "Translate (Private)",
+      "aiImagesTitle": "AI-afbeeldingen",
+      "aiImagesItem1": "Bericht-contextopdracht:",
+      "aiImagesItem2": "Gebruik dit in het geconfigureerde AI-beeldkanaal voor genereer/bewerk-workflows.",
+      "aiImagesCommand": "Generate AI Image"
+    },
+    "guildConfig": {
+      "title": "Website: Server botconfiguratie",
+      "item1Label": "Functiebeheer",
+      "item1Body": "schakel meerdere functies in/uit en sla daarna één keer op.",
+      "item2Label": "Vertaaltekenlimiet",
+      "item2Body": "monitor gebruik en koop vertaalabonnementen voor servers.",
+      "item3Label": "Gamificatie-niveaus",
+      "item3Body": "bewerk niveaunamen/drempels; importeer/exporteer presets als JSON.",
+      "item4Label": "Aangepaste moderatiewoorden",
+      "item4Body": "voeg serverspecifieke geblokkeerde termen toe/verwijder ze.",
+      "item5Label": "Moderatieoverzicht",
+      "item5Body": "snelle geaggregeerde statistieken + meest gemodereerde gebruikers.",
+      "item6Label": "Geplande berichten",
+      "item6Body": "maak en beheer Eenmalig/Dagelijks/Wekelijks-planningen met startdatum, tijd, dagselectie en optionele einddatum.",
+      "item7Label": "Navigatieknoppen",
+      "item7Body": "ga direct naar de pagina's Ranglijst en Moderatieoverzicht."
+    },
+    "dashboardCredits": {
+      "title": "Website: Dashboard & credits",
+      "item1Label": "Dashboard",
+      "item1Body": "toont beheersbare servers waar DiscoBot is geïnstalleerd.",
+      "item2Label": "AI-creditspagina",
+      "item2Body": "koop eenmalige pakketten, start maandabonnementen, beheer abonnementen en vul gemiste credits aan.",
+      "item3Label": "Saldodetails",
+      "item3Body": "toont totaal gekocht/gebruikt en de status van abonnementcredits.",
+      "item4Label": "Aankoopgeschiedenis",
+      "item4Body": "toont recente aankopen van AI-credits."
+    },
+    "disabledFeatures": {
+      "title": "Meldingen bij uitgeschakelde functie",
+      "body": "Wanneer een functie is uitgeschakeld in website-instellingen, kunnen gerelateerde opdrachten verborgen zijn of een ephemeral bericht tonen dat de functie is uitgeschakeld en dat je contact moet opnemen met een beheerder."
+    },
+    "troubleshooting": {
+      "title": "Probleemoplossing",
+      "item1": "Als visuals verouderd lijken na deploy, accepteer de in-app update-melding en vernieuw.",
+      "item2": "Als een opdracht faalt, controleer of de functie is ingeschakeld in Server botconfiguratie.",
+      "item3": "Controleer bij AI-beeldproblemen je creditsaldo en kanaalrechten.",
+      "item4Prefix": "Controleer bij planningsproblemen tijdzonenamen (IANA-formaat, bijv.",
+      "item4Suffix": ").",
+      "item5": "Als een pagina/actie faalt, meld je af/aan en zorg dat je admin-/installateurrechten hebt."
+    }
+  },
+  "error": {
+    "returnHome": "Terug naar home",
+    "title": "Er is iets misgegaan",
+    "generic": "Er is een onverwachte fout opgetreden bij het verwerken van je verzoek.",
+    "mongoTimeout": "Er trad een tijdelijk probleem op met de databaseverbinding. Vernieuw de pagina en probeer het zo opnieuw.",
+    "reference": "Referentie-ID",
+    "reportIssue": "Meld aan boteigenaar",
+    "reportSubject": "DiscoBot-website foutrapport",
+    "reportIntro": "Beschrijf wat er is gebeurd:",
+    "reportPage": "Pagina",
+    "reportTime": "Tijd (UTC)",
+    "reportMessage": "Bericht"
+  },
+  "errors": {
+    "loginFailedTitle": "Inloggen mislukt",
+    "dashboardErrorTitle": "Dashboardfout",
+    "dashboardErrorMessage": "Kon je servers niet laden. Probeer opnieuw.",
+    "creditsErrorTitle": "Creditsfout",
+    "creditsErrorMessage": "Kon AI-beeldcredits niet laden.",
+    "settingsErrorTitle": "Instellingenfout",
+    "settingsErrorMessage": "Kon eigenaar-instellingen niet laden.",
+    "purchasesErrorTitle": "Aankoopfout",
+    "purchasesErrorMessage": "Kon aankoopanalyses van eigenaar niet laden.",
+    "translationPurchasesErrorTitle": "Vertaalaankoopfout",
+    "translationPurchasesErrorMessage": "Kon vertaalaankoopanalyses niet laden.",
+    "discountCodesErrorTitle": "Kortingscodefout",
+    "discountCodesErrorMessage": "Kon beheerpagina voor kortingscodes niet laden.",
+    "configurationErrorTitle": "Configuratiefout",
+    "configurationErrorMessage": "Kon serverconfiguratie niet laden.",
+    "moderationSummaryErrorTitle": "Moderatieoverzichtfout",
+    "moderationSummaryErrorMessage": "Kon moderatieoverzicht voor deze server niet laden.",
+    "leaderboardErrorTitle": "Ranglijstfout",
+    "leaderboardErrorMessage": "Kon ranglijst voor deze server niet laden.",
+    "websiteErrorsErrorTitle": "Fout op websitefoutenpagina",
+    "websiteErrorsErrorMessage": "Kon websitefoutlogboeken niet laden."
+  },
+  "ownerWebsiteErrors": {
+    "title": "Websitefouten (Owner)",
+    "subtitle": "Bekijk en filter websitefouten die gebruikers hebben gezien.",
+    "filtersSubtitle": "Filter op status, fouttype, datumbereik, route en gebruiker.",
+    "statusGroup": "Statusgroep",
+    "allStatuses": "Alle",
+    "errorType": "Fouttype",
+    "allTypes": "Alle",
+    "fromDate": "Vanaf datum",
+    "toDate": "Tot datum",
+    "pathOrMessage": "Pad, bericht of referentie-ID",
+    "userQuery": "Gebruikersnaam of gebruikers-ID",
+    "resultLimit": "Resultaatlimiet",
+    "summaryTitle": "Samenvatting",
+    "summarySubtitle": "Overzicht van de momenteel gefilterde resultaten.",
+    "totalMatching": "Totaal overeenkomend",
+    "mongoTimeouts": "Mongo-time-outs",
+    "recentTitle": "Recente websitefouten",
+    "recentSubtitle": "Nieuwste foutpagina’s die aan gebruikers zijn getoond.",
+    "empty": "Geen websitefouten gevonden voor deze filters.",
+    "unknownUser": "Onbekende gebruiker",
+    "typeMongoTimeout": "Mongo-time-out",
+    "typeServerError": "Serverfout",
+    "typeClientError": "Clientfout",
+    "pathPlaceholder": "bijv. /credits of ETIMEDOUT",
+    "userPlaceholder": "bijv. 1093318149732044870 of gebruikersnaam",
+    "testGenericErrorButton": "Genereer algemene testfout"
+  }
+}

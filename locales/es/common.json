@@ -1,0 +1,620 @@
+{
+  "meta": {
+    "siteName": "DiscoBot",
+    "homeTitle": "DiscoBot",
+    "termsTitle": "Términos y Condiciones",
+    "privacyTitle": "Política de Privacidad",
+    "helpTitle": "Ayuda y Wiki"
+  },
+  "nav": {
+    "home": "Inicio",
+    "help": "Ayuda",
+    "terms": "Términos",
+    "privacy": "Privacidad",
+    "language": "Idioma",
+    "signedInWithDiscord": "Conectado con Discord",
+    "dashboard": "Panel",
+    "aiCredits": "Créditos de IA",
+    "owner": "Propietario",
+    "ownerSettings": "Configuración",
+    "ownerPurchases": "Compras",
+    "ownerTranslation": "Traducción",
+    "ownerDiscounts": "Descuentos",
+    "signOut": "Cerrar sesión",
+    "signInWithDiscord": "Iniciar sesión con Discord",
+    "ownerWebsiteErrors": "Errores del sitio web"
+  },
+  "footer": {
+    "help": "Ayuda",
+    "terms": "Términos",
+    "privacy": "Privacidad"
+  },
+  "common": {
+    "back": "Volver",
+    "filters": "Filtros",
+    "applyFilters": "Aplicar filtros",
+    "reset": "Restablecer",
+    "exportCsv": "Exportar CSV",
+    "enabled": "Activado",
+    "saving": "Guardando",
+    "remove": "Eliminar",
+    "show": "Mostrar"
+  },
+  "dashboard": {
+    "title": "Panel",
+    "subtitle": "Gestiona tus créditos globales de IA y servidores de Discord elegibles.",
+    "myAiCredits": "Mis créditos de IA",
+    "guildServers": "Servidores",
+    "selectGuild": "Selecciona un servidor que puedas gestionar.",
+    "manage": "Gestionar",
+    "noGuildsInstalled": "No se encontraron servidores con DiscoBot instalado para tu cuenta.",
+    "noManageableGuilds": "Actualmente no tienes acceso de administrador o instalador para gestionar ningún servidor instalado.",
+    "guildManageable": "Puedes gestionar este servidor"
+  },
+  "guildConfig": {
+    "titleSuffix": "Configuración",
+    "heading": "Configuración del bot",
+    "subtitle": "Edita todas las funciones y ajustes de DiscoBot para tu servidor.",
+    "leaderboard": "Clasificación",
+    "moderationSummary": "Resumen de moderación",
+    "featureControls": "Controles de funciones",
+    "featureControlsHelp": "Activa o desactiva funciones del servidor. Al desactivar funciones seleccionadas, puedes eliminar opcionalmente los canales relacionados de DiscoBot.",
+    "saveFeatureSettings": "Guardar configuración de funciones",
+    "translationCharacterLimit": "Límite de caracteres de traducción",
+    "translationCharacterLimitHelp": "El uso gratuito y los complementos de traducción de pago se gestionan por servidor y se restablecen mensualmente.",
+    "gamificationLevels": "Niveles de gamificación",
+    "gamificationLevelsHelp": "Define número de nivel, nombre del nivel y XP requerida para alcanzar cada nivel.",
+    "scheduledMessages": "Mensajes programados",
+    "scheduledMessagesHelp": "Crea y gestiona mensajes automáticos del servidor. Elige una zona horaria por programación.",
+    "alerts": {
+      "saved": "Configuración guardada.",
+      "imported": "Preajuste de niveles importado.",
+      "wordsAdded": "Se añadió una palabra de moderación personalizada.",
+      "wordsRemoved": "Se eliminó una palabra de moderación personalizada."
+    },
+    "cleanupPromptPrefix": "¿También quieres eliminar el canal asociado",
+    "translationSummary": {
+      "freeLimit": "Límite gratuito",
+      "currentAllowance": "Asignación actual",
+      "usedThisMonth": "Usado este mes",
+      "remaining": "Restante"
+    },
+    "noTranslationPlans": "Todavía no hay planes de suscripción de traducción configurados.",
+    "statusLabel": "Estado",
+    "cancelsAtPeriodEnd": "Se cancela al final del período",
+    "periodEnd": "Fin del período",
+    "manageInStripe": "Gestionar en Stripe",
+    "noActiveTranslationSubs": "Todavía no hay suscripciones de traducción activas para este servidor.",
+    "levels": {
+      "level": "Nivel",
+      "levelName": "Nombre del nivel",
+      "xpRequired": "XP requerida",
+      "addLevel": "Añadir nivel",
+      "saveLevels": "Guardar niveles"
+    },
+    "importExport": {
+      "title": "Importar / Exportar preajuste",
+      "subtitle": "Exporta la configuración de niveles de este servidor a JSON o importa un preajuste de otro servidor.",
+      "exportJson": "Exportar JSON",
+      "copyCurrentJson": "Copiar JSON actual",
+      "presetJson": "JSON del preajuste",
+      "validateJson": "Validar JSON",
+      "importJson": "Importar JSON"
+    },
+    "customModerationWords": {
+      "title": "Palabras de moderación personalizadas",
+      "subtitle": "Añade palabras o frases personalizadas para este servidor. Se revisan además de los términos de moderación predeterminados de DiscoBot.",
+      "addLabel": "Añadir palabra/frase",
+      "addButton": "Añadir palabra personalizada",
+      "none": "Todavía no hay palabras de moderación personalizadas configuradas."
+    },
+    "moderationSnapshot": {
+      "title": "Resumen rápido de moderación",
+      "subtitle": "Vista rápida de usuarios más moderados y totales de acciones. Usa el resumen completo para un análisis más profundo.",
+      "flagged": "Marcados",
+      "approved": "Aprobados",
+      "rejected": "Rechazados",
+      "kicked": "Expulsados",
+      "banned": "Baneados",
+      "none": "Aún no hay actividad de moderación registrada.",
+      "openFull": "Abrir resumen completo de moderación"
+    },
+    "scheduleForm": {
+      "channel": "Canal",
+      "frequency": "Frecuencia",
+      "once": "Una vez",
+      "daily": "Diaria",
+      "weekly": "Semanal",
+      "timezone": "Zona horaria",
+      "customTimezone": "Zona horaria personalizada (opcional)",
+      "firstRun": "Primera ejecución (hora local)",
+      "nextRun": "Siguiente ejecución (hora local)",
+      "messageContent": "Contenido del mensaje",
+      "create": "Crear mensaje programado",
+      "none": "Todavía no hay mensajes programados configurados.",
+      "active": "Activo",
+      "paused": "Pausado",
+      "save": "Guardar programación",
+      "delete": "Eliminar programación"
+    }
+  },
+  "guildLeaderboard": {
+    "titleWord": "Clasificación",
+    "titleSuffix": "Clasificación de gamificación",
+    "subtitle": "Consulta XP/reputación y ajusta valores de usuarios.",
+    "adjustSectionTitle": "Ajustar XP/Reputación de usuario",
+    "applyAdjustment": "Aplicar ajuste",
+    "usersSectionTitle": "Usuarios de la clasificación",
+    "adjustUpdated": "Valores de gamificación actualizados correctamente.",
+    "adjustInvalid": "Proporciona un ID de usuario válido y al menos un ajuste de XP/Reputación distinto de cero.",
+    "adjustError": "No se pudieron actualizar los valores de gamificación. Inténtalo de nuevo.",
+    "noRows": "Aún no hay actividad de gamificación para este servidor.",
+    "adjustSectionSubtitle": "Usa números positivos para sumar y negativos para restar. Los valores no bajarán de cero.",
+    "usersSectionSubtitle": "Clasificación de usuarios con controles rápidos de ajuste por usuario.",
+    "snapshot": {
+      "title": "Resumen del ranking",
+      "subtitle": "Totales rápidos de usuarios, XP, reputación y volumen de mensajes.",
+      "activeUsers": "Usuarios activos",
+      "totalXp": "XP total",
+      "totalReputation": "Reputación total",
+      "totalMessages": "Mensajes totales"
+    },
+    "filtersSubtitle": "Filtra filas del ranking y opciones de ordenación.",
+    "filters": {
+      "userQuery": "Nombre de usuario o ID de usuario",
+      "sortBy": "Ordenar por",
+      "resultLimit": "Límite de resultados"
+    },
+    "adjustForm": {
+      "userId": "ID de usuario",
+      "username": "Nombre de usuario (opcional)",
+      "xpDelta": "Delta de XP",
+      "reputationDelta": "Delta de reputación",
+      "updateUser": "Actualizar usuario"
+    }
+  },
+  "moderationSummary": {
+    "titleSuffix": "Resumen de moderación",
+    "subtitle": "Revisa usuarios moderados y resultados de aplicación.",
+    "users": "Usuarios",
+    "noRows": "No se encontró actividad de moderación para este servidor.",
+    "usersSubtitle": "Acciones de moderación detalladas por usuario y últimas actualizaciones.",
+    "snapshot": {
+      "title": "Resumen de moderación",
+      "subtitle": "Vista rápida de los resultados de moderación en este servidor.",
+      "moderatedUsers": "Usuarios moderados",
+      "flagged": "Marcados",
+      "approved": "Aprobados",
+      "rejected": "Rechazados",
+      "kicked": "Expulsados",
+      "banned": "Baneados"
+    },
+    "filtersSubtitle": "Filtra usuarios y cantidad de resultados para este informe de moderación.",
+    "filters": {
+      "userQuery": "Nombre de usuario o ID de usuario",
+      "resultLimit": "Límite de resultados"
+    }
+  },
+  "credits": {
+    "title": "Créditos de imagen IA",
+    "subtitle": "Compra y gestiona tus créditos personales de generación de imágenes IA.",
+    "yourBalance": "Tu saldo",
+    "buyMore": "Comprar más créditos",
+    "monthlySubscriptions": "Suscripciones mensuales",
+    "activeSubscriptions": "Suscripciones activas",
+    "manageSubscription": "Gestionar suscripción",
+    "checkMissedCredits": "Comprobar créditos perdidos",
+    "recentPurchases": "Compras recientes",
+    "generate": {
+      "download": "Descargar",
+      "title": "Generar imagen IA en el sitio web",
+      "subtitle": "Usa tus créditos personales de IA directamente en el sitio web, sin necesitar un canal de Discord.",
+      "promptLabel": "Prompt",
+      "promptPlaceholder": "Ejemplo: Una ciudad retrofuturista al atardecer, luces neón, iluminación cinematográfica",
+      "button": "Generar imagen (1 crédito)",
+      "sourceImageLabel": "Imagen de origen",
+      "editPromptLabel": "Prompt de edición",
+      "editPromptPlaceholder": "Ejemplo: Convierte esto en una pintura de acuarela con tonos cálidos de atardecer",
+      "editButton": "Editar imagen (1 crédito)",
+      "modeText": "Texto a imagen",
+      "modeEdit": "Edición de imagen",
+      "success": "Imagen IA generada correctamente. Se usó 1 crédito.",
+      "noCredits": "No tienes suficientes créditos de IA para generar una imagen.",
+      "invalidPrompt": "Introduce un prompt válido antes de generar.",
+      "invalidImage": "Sube una imagen de origen válida para el modo edición.",
+      "unavailable": "La generación de imágenes en la web no está disponible ahora mismo. Inténtalo de nuevo más tarde.",
+      "failed": "La generación de imagen falló. Tu crédito fue reembolsado."
+    }
+  },
+  "ownerSettings": {
+    "title": "Configuración del propietario",
+    "subtitle": "Configuración global de canales del bot y niveles de precios del sitio.",
+    "metadata": "Metadatos de configuración",
+    "websiteUrl": "URL del sitio web",
+    "saveButton": "Guardar configuración del propietario",
+    "saved": "La configuración del propietario se guardó correctamente.",
+    "metadataSubtitle": "Información de auditoría sobre cuándo se actualizaron por última vez los ajustes de propietario y por quién.",
+    "websiteUrlSubtitle": "Solo para propietario: lo usa el comando /website del bot.",
+    "gamificationChannels": {
+      "title": "Configuración de canales de gamificación",
+      "subtitle": "Configura categoría y canales usados por las funciones de gamificación."
+    },
+    "moderationChannels": {
+      "title": "Configuración de canales de moderación",
+      "subtitle": "Configura nombres de canales de moderación y texto guía predeterminado para admins."
+    },
+    "aiImageChannels": {
+      "title": "Configuración de canales de imágenes IA",
+      "subtitle": "Configura a dónde se enrutan las interacciones de generación de imágenes IA."
+    },
+    "creditPacks": {
+      "title": "Paquetes de créditos de pago único",
+      "subtitle": "Actualiza IDs, nombres, créditos, costo interno y precio (centavos). El costo es solo para propietario y se usa para análisis de ganancias."
+    },
+    "subscriptionPlans": {
+      "title": "Planes de suscripción mensual",
+      "subtitle": "Actualiza IDs, nombres, créditos por mes, costo interno y precio (centavos)."
+    },
+    "translationLimits": {
+      "title": "Límites de traducción por servidor",
+      "subtitle": "Configura el límite mensual gratuito de caracteres de traducción y las opciones de suscripción pagada por servidor."
+    },
+    "translationPlans": {
+      "title": "Planes de suscripción de traducción por servidor",
+      "subtitle": "Actualiza IDs, nombres, caracteres adicionales por mes, costo interno y precio (centavos)."
+    }
+  },
+  "ownerPurchases": {
+    "title": "Analítica de compras del propietario",
+    "subtitle": "Consulta todas las compras y analiza popularidad.",
+    "snapshot": {
+      "title": "Resumen de ventas",
+      "subtitle": "Totales generales de ventas, créditos, costo y beneficio.",
+      "totalSales": "Ventas totales",
+      "creditsSold": "Créditos vendidos",
+      "priceUsd": "Precio (USD)",
+      "costUsd": "Costo (USD)",
+      "profitUsd": "Beneficio (USD)"
+    },
+    "filtersSubtitle": "Filtra por tipo de pago, opción, rango de fechas y usuario.",
+    "popularity": {
+      "title": "Popularidad por opción de compra",
+      "subtitle": "Ventas y rentabilidad desglosadas por ID de opción.",
+      "empty": "No se encontraron compras para este conjunto de filtros."
+    },
+    "paymentSummary": {
+      "title": "Resumen por tipo de pago",
+      "subtitle": "Totales agregados agrupados por tipo de pago.",
+      "empty": "No se encontraron datos por tipo de pago para este conjunto de filtros."
+    },
+    "recent": {
+      "title": "Compras recientes",
+      "subtitle": "Eventos de compra más recientes que coinciden con los filtros actuales.",
+      "empty": "No se encontraron compras para este conjunto de filtros."
+    }
+  },
+  "ownerTranslationPurchases": {
+    "title": "Analítica de compras de traducción del propietario",
+    "subtitle": "Sigue ventas de suscripciones de traducción por servidor/admin.",
+    "snapshot": {
+      "title": "Resumen de ventas",
+      "subtitle": "Totales generales de ventas y beneficio de suscripciones de traducción.",
+      "totalSales": "Ventas totales",
+      "charactersSoldPerMonth": "Caracteres vendidos / mes",
+      "priceUsd": "Precio (USD)",
+      "costUsd": "Costo (USD)",
+      "profitUsd": "Beneficio (USD)"
+    },
+    "filtersSubtitle": "Filtra por plan, fechas, usuario e identificadores de servidor.",
+    "popularity": {
+      "title": "Popularidad por plan",
+      "subtitle": "Resumen de rendimiento y margen por plan.",
+      "empty": "No se encontraron compras de traducción para este conjunto de filtros."
+    },
+    "paymentSummary": {
+      "title": "Resumen por tipo de pago",
+      "subtitle": "Totales agregados agrupados por fase de pago de suscripción.",
+      "empty": "No se encontraron datos por tipo de pago para este conjunto de filtros."
+    },
+    "recent": {
+      "title": "Compras recientes de traducción",
+      "subtitle": "Eventos de compra de suscripción de traducción más recientes.",
+      "empty": "No se encontraron compras de traducción para este conjunto de filtros."
+    }
+  },
+  "ownerDiscounts": {
+    "title": "Códigos de descuento del propietario",
+    "subtitle": "Crea y gestiona descuentos y revisa su uso.",
+    "createTitle": "Crear código de descuento",
+    "createButton": "Crear código",
+    "filterTitle": "Filtrar códigos",
+    "applyFilter": "Aplicar filtro",
+    "existingTitle": "Códigos existentes",
+    "createSubtitle": "Crea nuevos códigos de descuento con restricciones y vencimiento opcionales.",
+    "filterSubtitle": "Filtra códigos de descuento por prefijo y estado activo.",
+    "existingSubtitle": "Gestiona estado activo/inactivo y revisa uso reciente.",
+    "empty": "No se encontraron códigos de descuento.",
+    "alerts": {
+      "created": "Código de descuento creado correctamente.",
+      "statusUpdated": "Estado del código de descuento actualizado."
+    },
+    "errors": {
+      "duplicateCode": "Ese código ya existe.",
+      "invalidCode": "Ingresa un código válido (al menos 3 letras/números).",
+      "invalidDiscount": "Proporciona un tipo y valor de descuento válidos.",
+      "percentTooHigh": "Los descuentos porcentuales deben ser 95% o menos.",
+      "invalidMaxDiscount": "El tope máximo de descuento debe ser cero o mayor (en centavos).",
+      "invalidMinSpend": "El gasto mínimo debe ser cero o mayor (en centavos).",
+      "invalidRestrictedGuild": "El ID de servidor restringido debe ser un ID válido de Discord.",
+      "invalidExpiry": "La fecha/hora de vencimiento no es válida.",
+      "notFound": "No se encontró el código de descuento.",
+      "saveFailed": "No se pudieron guardar los cambios. Inténtalo de nuevo."
+    }
+  },
+  "help": {
+    "subtitle": "Todo lo que necesitas para usar funciones de DiscoBot, ajustes web, moderación, programación y compras de créditos IA.",
+    "contents": "Contenido",
+    "title": "Ayuda y Wiki de DiscoBot",
+    "toc": {
+      "quickStart": "Inicio rápido",
+      "coreFeatures": "Funciones principales",
+      "discordCommands": "Comandos de Discord",
+      "guildConfig": "Sitio web: Configuración del bot del servidor",
+      "dashboardCredits": "Sitio web: Panel y créditos",
+      "disabledMessages": "Mensajes de función desactivada",
+      "troubleshooting": "Solución de problemas"
+    },
+    "quickStart": {
+      "title": "Inicio rápido",
+      "item1": "Invita a DiscoBot a tu servidor e inicia sesión en el sitio web usando Discord.",
+      "item2": "Abre el panel, elige tu servidor y configura las funciones en Configuración del bot del servidor.",
+      "item3": "Activa o desactiva funciones en un solo lugar y guarda todas las configuraciones de una vez.",
+      "item4": "Usa la página de créditos de IA para comprar créditos o suscripciones para la generación de imágenes IA."
+    },
+    "coreFeatures": {
+      "title": "Funciones principales",
+      "smartModerationLabel": "Moderación inteligente",
+      "smartModerationBody": "marca contenido riesgoso para revisión de administradores, con acciones de aprobar/eliminar/expulsar/banear y estadísticas.",
+      "gamificationLabel": "Gamificación",
+      "gamificationBody": "XP, niveles, reputación y canales de clasificación para aumentar la participación.",
+      "globalCommunicationLabel": "Comunicación global",
+      "globalCommunicationBody": "traducción de mensajes impulsada por DeepL Pro.",
+      "scheduledMessagingLabel": "Mensajería programada",
+      "scheduledMessagingBody": "publicaciones programadas una vez, diarias o semanales con soporte de zona horaria.",
+      "aiImageLabel": "Generación de imágenes IA",
+      "aiImageBody": "comando contextual al hacer clic derecho para flujos de trabajo con prompts de texto/imagen.",
+      "webDashboardLabel": "Panel web",
+      "webDashboardBody": "configura visualmente la mayoría de los ajustes del servidor desde el sitio web."
+    },
+    "discord": {
+      "title": "Comandos de Discord",
+      "subtitle": "La disponibilidad de comandos depende de las funciones activadas y de tus permisos.",
+      "websiteLinksTitle": "Enlaces del sitio web",
+      "websiteLinksItem1": "abre el enlace del sitio web de DiscoBot.",
+      "websiteLinksItem2": "abre el enlace del sitio web de DiscoBot.",
+      "featureControlsTitle": "Controles de funciones",
+      "featureControlsItem1": "muestra el estado activado/desactivado de las funciones del servidor.",
+      "featureControlsItem2": "activa una función (admin).",
+      "featureControlsItem3": "desactiva una función (admin).",
+      "gamificationTitle": "Gamificación",
+      "gamificationItem1": "ver XP y nivel para ti o para otro miembro.",
+      "gamificationItem2": "mostrar clasificación de XP/reputación.",
+      "gamificationItem3": "mostrar configuración de niveles.",
+      "gamificationItem4": "crear/actualizar configuración de niveles (admin).",
+      "gamificationItem5": "restablecer niveles a los valores predeterminados (admin).",
+      "gamificationItem6": "ver reputación.",
+      "gamificationItem7": "dar reputación a otro miembro.",
+      "gamificationItem8": "ajustes de reputación por administrador.",
+      "schedulingTitle": "Programación",
+      "schedulingItem1": "crear una programación con Una vez (fecha+hora), Diaria (fecha de inicio+hora) o Semanal (fecha de inicio+días+hora), con fecha de fin opcional.",
+      "schedulingItem2": "listar programaciones activas.",
+      "schedulingItem3": "editar canal/mensaje/zona horaria/recurrencia, además de fecha de inicio, hora de envío, días de la semana y fecha de fin opcional.",
+      "schedulingItem4": "controlar programaciones activas.",
+      "schedulingItem5": "eliminar programación.",
+      "translationTitle": "Traducción",
+      "translationItem1": "Comando contextual de mensaje:",
+      "translationItem2": "Comando contextual de mensaje:",
+      "translationItem3": "Traducción con reacción de bandera: reacciona con emojis de bandera compatibles para traducir mensajes.",
+      "translationCommand1": "Translate",
+      "translationCommand2": "Translate (Private)",
+      "aiImagesTitle": "Imágenes IA",
+      "aiImagesItem1": "Comando contextual de mensaje:",
+      "aiImagesItem2": "Úsalo en el canal de imágenes IA configurado para flujos de generación/edición.",
+      "aiImagesCommand": "Generate AI Image"
+    },
+    "guildConfig": {
+      "title": "Sitio web: Configuración del bot del servidor",
+      "item1Label": "Controles de funciones",
+      "item1Body": "activa/desactiva múltiples funciones y guarda una sola vez.",
+      "item2Label": "Límite de caracteres de traducción",
+      "item2Body": "monitoriza uso y compra suscripciones de traducción para servidores.",
+      "item3Label": "Niveles de gamificación",
+      "item3Body": "edita nombres/umbrales de nivel; importa/exporta preajustes en JSON.",
+      "item4Label": "Palabras de moderación personalizadas",
+      "item4Body": "añade/elimina términos bloqueados específicos del servidor.",
+      "item5Label": "Resumen rápido de moderación",
+      "item5Body": "estadísticas agregadas rápidas y usuarios más moderados.",
+      "item6Label": "Mensajes programados",
+      "item6Body": "crear y gestionar programaciones Una vez/Diaria/Semanal con fecha de inicio, hora, selección de días y fecha de fin opcional.",
+      "item7Label": "Botones de navegación",
+      "item7Body": "salta directamente a las páginas de Clasificación y Resumen de moderación."
+    },
+    "dashboardCredits": {
+      "title": "Sitio web: Panel y créditos",
+      "item1Label": "Panel",
+      "item1Body": "muestra los servidores gestionables donde DiscoBot está instalado.",
+      "item2Label": "Página de créditos IA",
+      "item2Body": "compra paquetes únicos, inicia suscripciones mensuales, gestiona suscripciones y repone créditos perdidos.",
+      "item3Label": "Detalles de saldo",
+      "item3Body": "muestra totales comprados/usados y el estado de créditos de suscripción.",
+      "item4Label": "Historial de compras",
+      "item4Body": "muestra compras recientes de créditos IA."
+    },
+    "disabledFeatures": {
+      "title": "Mensajes de función desactivada",
+      "body": "Cuando una función está desactivada en la configuración web, los comandos relacionados pueden ocultarse o mostrar un mensaje efímero indicando que la función está desactivada y que debes contactar a un administrador."
+    },
+    "troubleshooting": {
+      "title": "Solución de problemas",
+      "item1": "Si la interfaz se ve desactualizada después del despliegue, acepta el aviso de actualización dentro de la app y recarga.",
+      "item2": "Si falla un comando, confirma que la función esté activada en Configuración del bot del servidor.",
+      "item3": "Para problemas de imágenes IA, revisa el saldo de créditos y los permisos del canal.",
+      "item4Prefix": "Para problemas de programación, valida los nombres de zona horaria (formato IANA, p. ej.",
+      "item4Suffix": ").",
+      "item5": "Si falla una página o acción, cierra sesión y vuelve a entrar, y asegúrate de tener permisos de administrador/instalador."
+    }
+  },
+  "error": {
+    "returnHome": "Volver al inicio",
+    "title": "Algo salió mal",
+    "generic": "Ocurrió un error inesperado al procesar tu solicitud.",
+    "mongoTimeout": "Se produjo un problema temporal de conexión con la base de datos. Actualiza e inténtalo de nuevo en un momento.",
+    "reference": "ID de referencia",
+    "reportIssue": "Informar al propietario del bot",
+    "reportSubject": "Informe de error del sitio web de DiscoBot",
+    "reportIntro": "Describe lo que ocurrió:",
+    "reportPage": "Página",
+    "reportTime": "Hora (UTC)",
+    "reportMessage": "Mensaje"
+  },
+  "home": {
+    "hero": {
+      "titlePrefix": "Automatiza y mejora tu servidor de Discord con",
+      "titleSuffix": ".",
+      "body1": "¡El bot de Discord más genial y psicodélico de todos! Este chico es más feliz cuando está en tu servidor, suena la música y gestiona todo como un JEFE.",
+      "body2": "Traducción, moderación, generación de imágenes con IA, gamificación, programación y más, todo desde un panel moderno o la app.",
+      "openDashboard": "Abrir panel",
+      "signIn": "Iniciar sesión con Discord",
+      "downloadApp": "Descargar app",
+      "logoAlt": "Logo de DiscoBot"
+    },
+    "features": {
+      "smartModeration": {
+        "title": "Moderación Inteligente",
+        "description": "Detecta mensajes ofensivos con flujos de aprobación de administradores y seguimiento de acciones."
+      },
+      "gamification": {
+        "title": "Gamificación",
+        "description": "XP, niveles, reputación y canales de clasificación para impulsar la participación."
+      },
+      "globalCommunication": {
+        "title": "Comunicación Global",
+        "description": "Traducción de mensajes instantánea, precisa y natural con DeepL Pro."
+      },
+      "scheduledMessaging": {
+        "title": "Mensajería Programada",
+        "description": "Publicaciones recurrentes con control diario/semanal y zona horaria."
+      },
+      "aiImageGeneration": {
+        "title": "Generación de Imágenes IA",
+        "description": "Genera y edita imágenes desde Discord con indicaciones impulsadas por OpenAI."
+      },
+      "webDashboard": {
+        "title": "Panel Web y App",
+        "description": "Configura ajustes clave desde el panel web o la app sin comandos slash si gestionas el servidor."
+      }
+    }
+  },
+  "terms": {
+    "title": "Términos y Condiciones",
+    "intro": "Al usar DiscoBot y este panel, aceptas estos términos.",
+    "acceptableUse": {
+      "title": "Uso Aceptable",
+      "body": "Aceptas no usar DiscoBot para violar los términos de Discord, hacer spam o abusar de usuarios."
+    },
+    "serviceAvailability": {
+      "title": "Disponibilidad del Servicio",
+      "body": "Las funciones pueden cambiar, actualizarse o no estar disponibles sin aviso previo."
+    },
+    "accountResponsibility": {
+      "title": "Responsabilidad de la Cuenta",
+      "body": "Eres responsable de las acciones realizadas con tu cuenta de Discord y de la configuración de tu servidor."
+    },
+    "liability": {
+      "title": "Limitación de Responsabilidad",
+      "body": "DiscoBot se proporciona tal cual, sin garantías. Úsalo bajo tu propio criterio."
+    }
+  },
+  "privacy": {
+    "title": "Política de Privacidad",
+    "intro": "Esta página explica qué datos procesa DiscoBot y este sitio web.",
+    "dataProcessed": {
+      "title": "Datos que Procesamos",
+      "body": "Datos de identidad de Discord para inicio de sesión, datos de membresía de servidores para controles de acceso y registros de configuración en MongoDB."
+    },
+    "featureData": {
+      "title": "Datos de Funciones del Bot",
+      "body": "Según las funciones activadas, DiscoBot puede almacenar datos de uso como estadísticas de moderación, gamificación y programación."
+    },
+    "dataUse": {
+      "title": "Uso de Datos",
+      "body": "Los datos se usan solo para ofrecer funciones del bot, controles del panel y funcionalidad específica por servidor."
+    },
+    "dataRetention": {
+      "title": "Retención de Datos",
+      "body": "Los datos se conservan hasta que los operadores los eliminen o sean reemplazados por los flujos de las funciones."
+    },
+    "contact": {
+      "title": "Contacto",
+      "body": "Si necesitas eliminar datos o tienes dudas de privacidad, contacta al operador/equipo administrador del bot."
+    }
+  },
+  "pwa": {
+    "updateAvailable": "Actualización disponible",
+    "updateText": "Una versión más reciente de DiscoBot está lista.",
+    "refreshNow": "Actualizar ahora",
+    "iosInstallHint": "En iPhone/iPad: toca Compartir y luego Añadir a pantalla de inicio.",
+    "unavailableHint": "La instalación de la app aún no está disponible en este navegador."
+  },
+  "errors": {
+    "loginFailedTitle": "Error de inicio de sesión",
+    "dashboardErrorTitle": "Error del panel",
+    "dashboardErrorMessage": "No se pudieron cargar tus servidores. Inténtalo de nuevo.",
+    "creditsErrorTitle": "Error de créditos",
+    "creditsErrorMessage": "No se pudieron cargar los créditos de imágenes IA.",
+    "settingsErrorTitle": "Error de configuración",
+    "settingsErrorMessage": "No se pudo cargar la configuración del propietario.",
+    "purchasesErrorTitle": "Error de compras",
+    "purchasesErrorMessage": "No se pudo cargar la analítica de compras del propietario.",
+    "translationPurchasesErrorTitle": "Error de compras de traducción",
+    "translationPurchasesErrorMessage": "No se pudo cargar la analítica de compras de traducción.",
+    "discountCodesErrorTitle": "Error de códigos de descuento",
+    "discountCodesErrorMessage": "No se pudo cargar la página de administración de códigos de descuento.",
+    "configurationErrorTitle": "Error de configuración",
+    "configurationErrorMessage": "No se pudo cargar la configuración del servidor.",
+    "moderationSummaryErrorTitle": "Error de resumen de moderación",
+    "moderationSummaryErrorMessage": "No se pudo cargar el resumen de moderación para este servidor.",
+    "leaderboardErrorTitle": "Error de clasificación",
+    "leaderboardErrorMessage": "No se pudo cargar la clasificación para este servidor.",
+    "websiteErrorsErrorTitle": "Error de la página de errores del sitio web",
+    "websiteErrorsErrorMessage": "No se pudieron cargar los registros de errores del sitio web."
+  },
+  "ownerWebsiteErrors": {
+    "title": "Errores del sitio web (Propietario)",
+    "subtitle": "Revisa y filtra los errores del sitio web que encontraron los usuarios.",
+    "filtersSubtitle": "Filtra por estado, tipo de error, rango de fechas, ruta y usuario.",
+    "statusGroup": "Grupo de estado",
+    "allStatuses": "Todos",
+    "errorType": "Tipo de error",
+    "allTypes": "Todos",
+    "fromDate": "Desde",
+    "toDate": "Hasta",
+    "pathOrMessage": "Ruta, mensaje o ID de referencia",
+    "userQuery": "Nombre de usuario o ID de usuario",
+    "resultLimit": "Límite de resultados",
+    "summaryTitle": "Resumen",
+    "summarySubtitle": "Resumen de los resultados filtrados actuales.",
+    "totalMatching": "Total coincidente",
+    "mongoTimeouts": "Tiempos de espera de Mongo",
+    "recentTitle": "Errores recientes del sitio web",
+    "recentSubtitle": "Páginas de error más recientes mostradas a usuarios.",
+    "empty": "No se encontraron errores del sitio web para estos filtros.",
+    "unknownUser": "Usuario desconocido",
+    "typeMongoTimeout": "Tiempo de espera de Mongo",
+    "typeServerError": "Error del servidor",
+    "typeClientError": "Error del cliente",
+    "pathPlaceholder": "p. ej. /credits o ETIMEDOUT",
+    "userPlaceholder": "p. ej. 1093318149732044870 o nombre de usuario",
+    "testGenericErrorButton": "Generar error genérico de prueba"
+  }
+}

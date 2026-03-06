@@ -1,0 +1,620 @@
+{
+  "meta": {
+    "siteName": "DiscoBot",
+    "homeTitle": "DiscoBot",
+    "termsTitle": "利用規約",
+    "privacyTitle": "プライバシーポリシー",
+    "helpTitle": "ヘルプとWiki"
+  },
+  "nav": {
+    "home": "ホーム",
+    "help": "ヘルプ",
+    "terms": "利用規約",
+    "privacy": "プライバシー",
+    "language": "言語",
+    "signedInWithDiscord": "Discordでサインイン中",
+    "dashboard": "ダッシュボード",
+    "aiCredits": "AIクレジット",
+    "owner": "オーナー",
+    "ownerSettings": "設定",
+    "ownerPurchases": "購入履歴",
+    "ownerTranslation": "翻訳",
+    "ownerDiscounts": "割引",
+    "signOut": "サインアウト",
+    "signInWithDiscord": "Discordでサインイン",
+    "ownerWebsiteErrors": "Webサイトエラー"
+  },
+  "footer": {
+    "help": "ヘルプ",
+    "terms": "利用規約",
+    "privacy": "プライバシー"
+  },
+  "common": {
+    "back": "戻る",
+    "filters": "フィルター",
+    "applyFilters": "フィルターを適用",
+    "reset": "リセット",
+    "exportCsv": "CSVをエクスポート",
+    "enabled": "有効",
+    "saving": "保存中",
+    "remove": "削除",
+    "show": "表示"
+  },
+  "dashboard": {
+    "title": "ダッシュボード",
+    "subtitle": "グローバルAIクレジットと管理可能なDiscordサーバーを管理します。",
+    "myAiCredits": "AIクレジット",
+    "guildServers": "サーバー一覧",
+    "selectGuild": "管理できるサーバーを選択してください。",
+    "manage": "管理",
+    "noGuildsInstalled": "このアカウントでDiscoBotがインストールされたギルドは見つかりませんでした。",
+    "noManageableGuilds": "現在、インストール済みギルドを管理できる管理者またはインストーラー権限がありません。",
+    "guildManageable": "このギルドを管理できます"
+  },
+  "guildConfig": {
+    "titleSuffix": "設定",
+    "heading": "ボット設定",
+    "subtitle": "このサーバーのDiscoBot機能と設定を編集します。",
+    "leaderboard": "ランキング",
+    "moderationSummary": "モデレーション概要",
+    "featureControls": "機能コントロール",
+    "featureControlsHelp": "ギルド機能を有効/無効にします。選択した機能を無効にする際、関連するDiscoBotチャンネルを任意で削除できます。",
+    "saveFeatureSettings": "機能設定を保存",
+    "translationCharacterLimit": "翻訳文字数上限",
+    "translationCharacterLimitHelp": "無料利用分と有料翻訳追加分はギルド単位で管理され、毎月リセットされます。",
+    "gamificationLevels": "ゲーミフィケーションレベル",
+    "gamificationLevelsHelp": "レベル番号、レベル名、各レベル到達に必要なXPを設定します。",
+    "scheduledMessages": "スケジュールメッセージ",
+    "scheduledMessagesHelp": "サーバーの自動メッセージを作成・管理します。スケジュールごとにタイムゾーンを選択できます。",
+    "alerts": {
+      "saved": "設定を保存しました。",
+      "imported": "レベルプリセットをインポートしました。",
+      "wordsAdded": "カスタムモデレーション語を追加しました。",
+      "wordsRemoved": "カスタムモデレーション語を削除しました。"
+    },
+    "cleanupPromptPrefix": "関連チャンネルも削除しますか",
+    "translationSummary": {
+      "freeLimit": "無料上限",
+      "currentAllowance": "現在の許容量",
+      "usedThisMonth": "今月の使用量",
+      "remaining": "残り"
+    },
+    "noTranslationPlans": "翻訳サブスクリプションプランはまだ設定されていません。",
+    "statusLabel": "ステータス",
+    "cancelsAtPeriodEnd": "期間終了時に解約",
+    "periodEnd": "期間終了日",
+    "manageInStripe": "Stripeで管理",
+    "noActiveTranslationSubs": "このギルドには有効な翻訳サブスクリプションがまだありません。",
+    "levels": {
+      "level": "レベル",
+      "levelName": "レベル名",
+      "xpRequired": "必要XP",
+      "addLevel": "レベルを追加",
+      "saveLevels": "レベルを保存"
+    },
+    "importExport": {
+      "title": "プリセットのインポート / エクスポート",
+      "subtitle": "このギルドのレベル設定をJSONでエクスポート、または他ギルドのプリセットをインポートできます。",
+      "exportJson": "JSONをエクスポート",
+      "copyCurrentJson": "現在のJSONをコピー",
+      "presetJson": "プリセットJSON",
+      "validateJson": "JSONを検証",
+      "importJson": "JSONをインポート"
+    },
+    "customModerationWords": {
+      "title": "カスタムモデレーション語",
+      "subtitle": "このギルド用の単語/フレーズを追加します。DiscoBotの既定モデレーション語に加えてチェックされます。",
+      "addLabel": "単語/フレーズを追加",
+      "addButton": "カスタム語を追加",
+      "none": "カスタムモデレーション語はまだ設定されていません。"
+    },
+    "moderationSnapshot": {
+      "title": "モデレーションスナップショット",
+      "subtitle": "主要な対象ユーザーとアクション合計を素早く確認できます。詳細分析には完全版サマリーを使用してください。",
+      "flagged": "フラグ付け",
+      "approved": "承認",
+      "rejected": "却下",
+      "kicked": "キック",
+      "banned": "BAN",
+      "none": "モデレーション活動はまだ記録されていません。",
+      "openFull": "完全版モデレーションサマリーを開く"
+    },
+    "scheduleForm": {
+      "channel": "チャンネル",
+      "frequency": "頻度",
+      "once": "1回のみ",
+      "daily": "毎日",
+      "weekly": "毎週",
+      "timezone": "タイムゾーン",
+      "customTimezone": "カスタムタイムゾーン（任意）",
+      "firstRun": "初回実行（ローカル時刻）",
+      "nextRun": "次回実行（ローカル時刻）",
+      "messageContent": "メッセージ内容",
+      "create": "スケジュールメッセージを作成",
+      "none": "スケジュールメッセージはまだ設定されていません。",
+      "active": "有効",
+      "paused": "一時停止",
+      "save": "スケジュールを保存",
+      "delete": "スケジュールを削除"
+    }
+  },
+  "guildLeaderboard": {
+    "titleWord": "ランキング",
+    "titleSuffix": "ゲーミフィケーションランキング",
+    "subtitle": "XP/評判の順位を確認し、ユーザー値を調整できます。",
+    "adjustSectionTitle": "ユーザーXP/評判を調整",
+    "applyAdjustment": "調整を適用",
+    "usersSectionTitle": "ランキングユーザー",
+    "adjustUpdated": "ゲーミフィケーション値を更新しました。",
+    "adjustInvalid": "有効なユーザーIDと、0以外のXP/評判調整の少なくとも1つを入力してください。",
+    "adjustError": "ゲーミフィケーション値を更新できませんでした。もう一度お試しください。",
+    "noRows": "このギルドのゲーミフィケーション活動はまだありません。",
+    "adjustSectionSubtitle": "正の値で加算、負の値で減算します。値は0未満になりません。",
+    "usersSectionSubtitle": "ユーザーごとに素早く調整できるランキング一覧です。",
+    "snapshot": {
+      "title": "ランキングスナップショット",
+      "subtitle": "ユーザー数、XP、評判、メッセージ量の概要です。",
+      "activeUsers": "アクティブユーザー",
+      "totalXp": "総XP",
+      "totalReputation": "総評判",
+      "totalMessages": "総メッセージ数"
+    },
+    "filtersSubtitle": "ランキング行と並び順を絞り込みます。",
+    "filters": {
+      "userQuery": "ユーザー名またはユーザーID",
+      "sortBy": "並び順",
+      "resultLimit": "表示件数上限"
+    },
+    "adjustForm": {
+      "userId": "ユーザーID",
+      "username": "ユーザー名（任意）",
+      "xpDelta": "XP増減",
+      "reputationDelta": "評判増減",
+      "updateUser": "ユーザーを更新"
+    }
+  },
+  "moderationSummary": {
+    "titleSuffix": "モデレーション概要",
+    "subtitle": "このサーバーのモデレーション結果を確認します。",
+    "users": "ユーザー",
+    "noRows": "このギルドのモデレーション活動は見つかりませんでした。",
+    "usersSubtitle": "ユーザー別の詳細なモデレーション操作と最新更新を表示します。",
+    "snapshot": {
+      "title": "モデレーションスナップショット",
+      "subtitle": "このサーバーのモデレーション結果の概要です。",
+      "moderatedUsers": "モデレート対象ユーザー",
+      "flagged": "フラグ済み",
+      "approved": "承認",
+      "rejected": "却下",
+      "kicked": "キック",
+      "banned": "BAN"
+    },
+    "filtersSubtitle": "このモデレーションレポートのユーザーと件数を絞り込みます。",
+    "filters": {
+      "userQuery": "ユーザー名またはユーザーID",
+      "resultLimit": "表示件数上限"
+    }
+  },
+  "credits": {
+    "title": "AI画像クレジット",
+    "subtitle": "個人用AI画像生成クレジットを購入・管理できます。",
+    "yourBalance": "残高",
+    "buyMore": "クレジットを購入",
+    "monthlySubscriptions": "月額サブスクリプション",
+    "activeSubscriptions": "有効なサブスクリプション",
+    "manageSubscription": "サブスクリプション管理",
+    "checkMissedCredits": "不足クレジットを確認",
+    "recentPurchases": "最近の購入",
+    "generate": {
+      "download": "ダウンロード",
+      "title": "WebサイトでAI画像を生成",
+      "subtitle": "Discordのギルドチャンネルがなくても、個人のAIクレジットをWebサイトで直接使えます。",
+      "promptLabel": "プロンプト",
+      "promptPlaceholder": "例: 夕焼けのレトロフューチャー都市、ネオン、シネマティック照明",
+      "button": "画像を生成 (1クレジット)",
+      "sourceImageLabel": "元画像",
+      "editPromptLabel": "編集プロンプト",
+      "editPromptPlaceholder": "例: これを暖色の夕景アクアレル風に変換して",
+      "editButton": "画像を編集 (1クレジット)",
+      "modeText": "テキストから画像",
+      "modeEdit": "画像編集",
+      "success": "AI画像を生成しました。1クレジット使用しました。",
+      "noCredits": "画像生成に必要なAIクレジットが不足しています。",
+      "invalidPrompt": "生成前に有効なプロンプトを入力してください。",
+      "invalidImage": "編集モードでは有効な元画像をアップロードしてください。",
+      "unavailable": "現在Web画像生成は利用できません。しばらくしてから再試行してください。",
+      "failed": "画像生成に失敗しました。クレジットは返却されました。"
+    }
+  },
+  "ownerSettings": {
+    "title": "オーナー設定",
+    "subtitle": "ボットのチャンネル設定とWeb料金プランを管理します。",
+    "metadata": "設定メタデータ",
+    "websiteUrl": "WebサイトURL",
+    "saveButton": "オーナー設定を保存",
+    "saved": "オーナー設定を正常に保存しました。",
+    "metadataSubtitle": "オーナー設定がいつ、誰によって更新されたかの監査情報です。",
+    "websiteUrlSubtitle": "オーナー専用: ボットの /website コマンドで使用されます。",
+    "gamificationChannels": {
+      "title": "ゲーミフィケーションチャンネル設定",
+      "subtitle": "ゲーミフィケーション機能で使うカテゴリ/チャンネル情報を設定します。"
+    },
+    "moderationChannels": {
+      "title": "モデレーションチャンネル設定",
+      "subtitle": "モデレーションチャンネル名と管理者向けガイダンス文を設定します。"
+    },
+    "aiImageChannels": {
+      "title": "AI画像チャンネル設定",
+      "subtitle": "AI画像生成の操作先チャンネルを設定します。"
+    },
+    "creditPacks": {
+      "title": "単発クレジットパック",
+      "subtitle": "ID、表示名、クレジット数、内部コスト、価格（セント）を更新します。内部コストはオーナー専用で利益分析に使用されます。"
+    },
+    "subscriptionPlans": {
+      "title": "月額サブスクリプションプラン",
+      "subtitle": "ID、表示名、月間クレジット、内部コスト、価格（セント）を更新します。"
+    },
+    "translationLimits": {
+      "title": "ギルド翻訳上限",
+      "subtitle": "ギルドごとの無料月間文字数上限と有料サブスク設定を構成します。"
+    },
+    "translationPlans": {
+      "title": "ギルド翻訳サブスクプラン",
+      "subtitle": "ID、表示名、追加文字数/月、内部コスト、価格（セント）を更新します。"
+    }
+  },
+  "ownerPurchases": {
+    "title": "オーナー購入分析",
+    "subtitle": "購入データの確認、フィルタ、人気分析。",
+    "snapshot": {
+      "title": "売上スナップショット",
+      "subtitle": "売上、クレジット、コスト、利益の概要です。",
+      "totalSales": "総販売数",
+      "creditsSold": "販売クレジット数",
+      "priceUsd": "価格 (USD)",
+      "costUsd": "コスト (USD)",
+      "profitUsd": "利益 (USD)"
+    },
+    "filtersSubtitle": "支払い種別、オプション、日付範囲、ユーザーで絞り込みます。",
+    "popularity": {
+      "title": "購入オプション別人気",
+      "subtitle": "オプションIDごとの売上と収益性です。",
+      "empty": "この条件では購入が見つかりませんでした。"
+    },
+    "paymentSummary": {
+      "title": "支払い種別サマリー",
+      "subtitle": "支払い種別ごとの集計です。",
+      "empty": "この条件では支払い種別データが見つかりませんでした。"
+    },
+    "recent": {
+      "title": "最近の購入",
+      "subtitle": "現在の条件に一致する最新購入イベントです。",
+      "empty": "この条件では購入が見つかりませんでした。"
+    }
+  },
+  "ownerTranslationPurchases": {
+    "title": "オーナー翻訳購入分析",
+    "subtitle": "翻訳サブスク販売をギルド/管理者別に追跡。",
+    "snapshot": {
+      "title": "売上スナップショット",
+      "subtitle": "翻訳サブスクの売上と利益の概要です。",
+      "totalSales": "総販売数",
+      "charactersSoldPerMonth": "販売文字数 / 月",
+      "priceUsd": "価格 (USD)",
+      "costUsd": "コスト (USD)",
+      "profitUsd": "利益 (USD)"
+    },
+    "filtersSubtitle": "プラン、日付、ユーザー、ギルド識別子で絞り込みます。",
+    "popularity": {
+      "title": "プラン別人気",
+      "subtitle": "プランごとの実績と利益率の概要です。",
+      "empty": "この条件では翻訳購入が見つかりませんでした。"
+    },
+    "paymentSummary": {
+      "title": "支払い種別サマリー",
+      "subtitle": "サブスク支払いフェーズごとの集計です。",
+      "empty": "この条件では支払い種別データが見つかりませんでした。"
+    },
+    "recent": {
+      "title": "最近の翻訳購入",
+      "subtitle": "最新の翻訳サブスク購入イベントです。",
+      "empty": "この条件では翻訳購入が見つかりませんでした。"
+    }
+  },
+  "ownerDiscounts": {
+    "title": "オーナー割引コード",
+    "subtitle": "割引コードの作成・管理と利用状況の確認。",
+    "createTitle": "割引コード作成",
+    "createButton": "コード作成",
+    "filterTitle": "コードを絞り込み",
+    "applyFilter": "フィルター適用",
+    "existingTitle": "既存の割引コード",
+    "createSubtitle": "制限や有効期限を任意で設定して割引コードを作成します。",
+    "filterSubtitle": "プレフィックスと有効状態で割引コードを絞り込みます。",
+    "existingSubtitle": "有効/無効の管理と最近の利用状況を確認します。",
+    "empty": "割引コードが見つかりません。",
+    "alerts": {
+      "created": "割引コードを作成しました。",
+      "statusUpdated": "割引コードの状態を更新しました。"
+    },
+    "errors": {
+      "duplicateCode": "そのコードは既に存在します。",
+      "invalidCode": "有効なコードを入力してください（英数字3文字以上）。",
+      "invalidDiscount": "有効な割引タイプと値を入力してください。",
+      "percentTooHigh": "パーセント割引は95%以下である必要があります。",
+      "invalidMaxDiscount": "最大割引額は0以上（セント）で指定してください。",
+      "invalidMinSpend": "最低購入額は0以上（セント）で指定してください。",
+      "invalidRestrictedGuild": "制限ギルドIDは有効なDiscordギルドIDである必要があります。",
+      "invalidExpiry": "有効期限の日時が不正です。",
+      "notFound": "割引コードが見つかりませんでした。",
+      "saveFailed": "変更を保存できませんでした。再試行してください。"
+    }
+  },
+  "help": {
+    "subtitle": "DiscoBot機能、Web設定、モデレーション、スケジュール、AIクレジット購入に必要な情報をまとめています。",
+    "contents": "目次",
+    "title": "DiscoBot ヘルプ＆Wiki",
+    "toc": {
+      "quickStart": "クイックスタート",
+      "coreFeatures": "主な機能",
+      "discordCommands": "Discord コマンド",
+      "guildConfig": "Webサイト: ギルドボット設定",
+      "dashboardCredits": "Webサイト: ダッシュボードとクレジット",
+      "disabledMessages": "機能無効時メッセージ",
+      "troubleshooting": "トラブルシューティング"
+    },
+    "quickStart": {
+      "title": "クイックスタート",
+      "item1": "DiscoBotをサーバーに招待し、DiscordでWebサイトにサインインします。",
+      "item2": "ダッシュボードを開いてギルドを選択し、ギルドボット設定で機能を設定します。",
+      "item3": "機能を一か所で有効/無効にし、まとめて保存します。",
+      "item4": "AI画像生成用に、AIクレジットページでクレジットやサブスクリプションを購入します。"
+    },
+    "coreFeatures": {
+      "title": "主な機能",
+      "smartModerationLabel": "スマートモデレーション",
+      "smartModerationBody": "リスクのある内容を管理者レビュー用にフラグし、承認/削除/キック/BAN操作と統計を提供します。",
+      "gamificationLabel": "ゲーミフィケーション",
+      "gamificationBody": "XP、レベル、評判、ランキングチャンネルでコミュニティ参加を高めます。",
+      "globalCommunicationLabel": "グローバルコミュニケーション",
+      "globalCommunicationBody": "DeepL Proによるメッセージ翻訳。",
+      "scheduledMessagingLabel": "スケジュールメッセージ",
+      "scheduledMessagingBody": "タイムゾーン対応で、1回・毎日・毎週の投稿をスケジュールできます。",
+      "aiImageLabel": "AI画像生成",
+      "aiImageBody": "右クリックのメッセージコンテキストコマンドで、テキスト/画像プロンプトのワークフローを実行します。",
+      "webDashboardLabel": "Webダッシュボード",
+      "webDashboardBody": "Webサイト上でサーバー設定の大部分を視覚的に構成できます。"
+    },
+    "discord": {
+      "title": "Discord コマンド",
+      "subtitle": "コマンドの利用可否は、有効化されている機能とあなたの権限に依存します。",
+      "websiteLinksTitle": "Webサイトリンク",
+      "websiteLinksItem1": "DiscoBotのWebサイトリンクを開きます。",
+      "websiteLinksItem2": "DiscoBotのWebサイトリンクを開きます。",
+      "featureControlsTitle": "機能コントロール",
+      "featureControlsItem1": "サーバー機能の有効/無効状態を表示します。",
+      "featureControlsItem2": "機能を有効化します（管理者）。",
+      "featureControlsItem3": "機能を無効化します（管理者）。",
+      "gamificationTitle": "ゲーミフィケーション",
+      "gamificationItem1": "自分または他メンバーのXPとレベルを表示します。",
+      "gamificationItem2": "XP/評判のランキングを表示します。",
+      "gamificationItem3": "レベル設定を表示します。",
+      "gamificationItem4": "レベル設定を作成/更新します（管理者）。",
+      "gamificationItem5": "レベルを既定値にリセットします（管理者）。",
+      "gamificationItem6": "評判を表示します。",
+      "gamificationItem7": "他メンバーに評判を付与します。",
+      "gamificationItem8": "管理者による評判調整。",
+      "schedulingTitle": "スケジューリング",
+      "schedulingItem1": "一回のみ（日付+時刻）、毎日（開始日+時刻）、毎週（開始日+曜日+時刻）でスケジュールを作成でき、終了日も任意で設定できます。",
+      "schedulingItem2": "有効なスケジュールを一覧表示します。",
+      "schedulingItem3": "チャンネル/メッセージ/タイムゾーン/繰り返しに加え、開始日、送信時刻、曜日、終了日（任意）を編集します。",
+      "schedulingItem4": "有効なスケジュールを操作します。",
+      "schedulingItem5": "スケジュールを削除します。",
+      "translationTitle": "翻訳",
+      "translationItem1": "メッセージコンテキストコマンド:",
+      "translationItem2": "メッセージコンテキストコマンド:",
+      "translationItem3": "旗リアクション翻訳: 対応する国旗絵文字でリアクションするとメッセージを翻訳します。",
+      "translationCommand1": "Translate",
+      "translationCommand2": "Translate (Private)",
+      "aiImagesTitle": "AI画像",
+      "aiImagesItem1": "メッセージコンテキストコマンド:",
+      "aiImagesItem2": "生成/編集ワークフローには、設定済みのAI画像チャンネルで使用します。",
+      "aiImagesCommand": "Generate AI Image"
+    },
+    "guildConfig": {
+      "title": "Webサイト: ギルドボット設定",
+      "item1Label": "機能コントロール",
+      "item1Body": "複数機能を有効/無効にし、一度で保存できます。",
+      "item2Label": "翻訳文字数上限",
+      "item2Body": "使用量を監視し、ギルド向け翻訳サブスクリプションを購入します。",
+      "item3Label": "ゲーミフィケーションレベル",
+      "item3Body": "レベル名/閾値を編集し、プリセットをJSONでインポート/エクスポートします。",
+      "item4Label": "カスタムモデレーション語",
+      "item4Body": "ギルド固有のブロック語を追加/削除します。",
+      "item5Label": "モデレーションスナップショット",
+      "item5Body": "集計統計と上位対象ユーザーを素早く確認します。",
+      "item6Label": "スケジュールメッセージ",
+      "item6Body": "開始日、時刻、曜日選択、終了日（任意）付きで、一回のみ/毎日/毎週スケジュールを作成・管理できます。",
+      "item7Label": "ナビゲーションボタン",
+      "item7Body": "ランキングとモデレーション概要ページへ直接移動します。"
+    },
+    "dashboardCredits": {
+      "title": "Webサイト: ダッシュボードとクレジット",
+      "item1Label": "ダッシュボード",
+      "item1Body": "DiscoBotが導入され、管理可能なギルドを表示します。",
+      "item2Label": "AIクレジットページ",
+      "item2Body": "単発パック購入、月額サブスク開始、サブスク管理、未付与クレジットの補填ができます。",
+      "item3Label": "残高詳細",
+      "item3Body": "購入/使用合計とサブスククレジットの状態を表示します。",
+      "item4Label": "購入履歴",
+      "item4Body": "最近のAIクレジット購入を表示します。"
+    },
+    "disabledFeatures": {
+      "title": "機能無効時メッセージ",
+      "body": "Web設定で機能が無効な場合、関連コマンドは非表示になるか、機能が無効であることと管理者への連絡を案内する一時メッセージが表示されます。"
+    },
+    "troubleshooting": {
+      "title": "トラブルシューティング",
+      "item1": "デプロイ後に表示が古い場合は、アプリ内の更新トーストを承認して再読み込みしてください。",
+      "item2": "コマンドが失敗する場合は、ギルドボット設定で該当機能が有効か確認してください。",
+      "item3": "AI画像の問題は、クレジット残高とチャンネル権限を確認してください。",
+      "item4Prefix": "スケジュールの問題は、タイムゾーン名（IANA形式、例:",
+      "item4Suffix": ").",
+      "item5": "ページや操作が失敗する場合は、サインアウト/サインインし直し、管理者/インストーラー権限があることを確認してください。"
+    }
+  },
+  "error": {
+    "returnHome": "ホームに戻る",
+    "title": "問題が発生しました",
+    "generic": "リクエスト処理中に予期しないエラーが発生しました。",
+    "mongoTimeout": "一時的なデータベース接続エラーが発生しました。ページを更新して、少し待ってから再試行してください。",
+    "reference": "参照ID",
+    "reportIssue": "Botオーナーに報告",
+    "reportSubject": "DiscoBot Webサイト エラーレポート",
+    "reportIntro": "発生した内容を記載してください:",
+    "reportPage": "ページ",
+    "reportTime": "時刻 (UTC)",
+    "reportMessage": "メッセージ"
+  },
+  "home": {
+    "hero": {
+      "titlePrefix": "Discordサーバーを自動化してさらに強化",
+      "titleSuffix": "。",
+      "body1": "超グルーヴィーでサイケデリックなDiscordボット！サーバーで大活躍し、あらゆる運用をパワフルにサポートします。",
+      "body2": "翻訳、モデレーション、AI画像生成、ゲーミフィケーション、スケジュール投稿などを、モダンなダッシュボードまたはアプリで管理できます。",
+      "openDashboard": "ダッシュボードを開く",
+      "signIn": "Discordでサインイン",
+      "downloadApp": "アプリをダウンロード",
+      "logoAlt": "DiscoBotロゴ"
+    },
+    "features": {
+      "smartModeration": {
+        "title": "スマートモデレーション",
+        "description": "不適切なメッセージを検知し、管理者承認フローと操作履歴で安全に運用。"
+      },
+      "gamification": {
+        "title": "ゲーミフィケーション",
+        "description": "XP、レベル、評判、ランキングでコミュニティ参加を促進。"
+      },
+      "globalCommunication": {
+        "title": "グローバルコミュニケーション",
+        "description": "DeepL Proによる自然で正確なメッセージ翻訳。"
+      },
+      "scheduledMessaging": {
+        "title": "スケジュールメッセージ",
+        "description": "タイムゾーン対応の定期投稿を日次/週次で自動化。"
+      },
+      "aiImageGeneration": {
+        "title": "AI画像生成",
+        "description": "OpenAIプロンプトでDiscordから直接画像を生成・編集。"
+      },
+      "webDashboard": {
+        "title": "Webダッシュボード＆アプリ",
+        "description": "Webダッシュボードまたはアプリから、スラッシュコマンドなしで主要設定を管理できます。"
+      }
+    }
+  },
+  "terms": {
+    "title": "利用規約",
+    "intro": "DiscoBotおよびこのダッシュボードを利用することで、本規約に同意したものとみなされます。",
+    "acceptableUse": {
+      "title": "適切な利用",
+      "body": "Discordの規約違反、スパム行為、ユーザーへの嫌がらせ目的でDiscoBotを使用しないでください。"
+    },
+    "serviceAvailability": {
+      "title": "サービス提供",
+      "body": "機能は予告なく変更・更新・停止される場合があります。"
+    },
+    "accountResponsibility": {
+      "title": "アカウント責任",
+      "body": "Discordアカウントを通じて行われた操作やサーバー設定については利用者が責任を負います。"
+    },
+    "liability": {
+      "title": "責任の制限",
+      "body": "DiscoBotは現状有姿で提供され、いかなる保証もありません。利用は自己責任で行ってください。"
+    }
+  },
+  "privacy": {
+    "title": "プライバシーポリシー",
+    "intro": "このページでは、DiscoBotと本サイトが処理するデータを説明します。",
+    "dataProcessed": {
+      "title": "処理するデータ",
+      "body": "ログイン用のDiscordアカウント情報、アクセス確認用のギルド所属情報、MongoDB上の設定データ。"
+    },
+    "featureData": {
+      "title": "ボット機能データ",
+      "body": "有効な機能に応じて、モデレーション統計、ゲーミフィケーション統計、スケジュール定義などの利用データを保存する場合があります。"
+    },
+    "dataUse": {
+      "title": "データ利用",
+      "body": "データはボット機能、ダッシュボード操作、サーバー固有機能の提供目的にのみ使用されます。"
+    },
+    "dataRetention": {
+      "title": "データ保持",
+      "body": "データは運営者が削除するか、機能ワークフローで上書きされるまで保持されます。"
+    },
+    "contact": {
+      "title": "お問い合わせ",
+      "body": "データ削除の依頼やプライバシーに関するお問い合わせは、ボット運営/管理チームへご連絡ください。"
+    }
+  },
+  "pwa": {
+    "updateAvailable": "アップデートがあります",
+    "updateText": "新しいDiscoBotバージョンの準備ができました。",
+    "refreshNow": "今すぐ更新",
+    "iosInstallHint": "iPhone/iPadでは「共有」→「ホーム画面に追加」を選択してください。",
+    "unavailableHint": "このブラウザではまだアプリをインストールできません。"
+  },
+  "errors": {
+    "loginFailedTitle": "ログイン失敗",
+    "dashboardErrorTitle": "ダッシュボードエラー",
+    "dashboardErrorMessage": "ギルドを読み込めませんでした。もう一度お試しください。",
+    "creditsErrorTitle": "クレジットエラー",
+    "creditsErrorMessage": "AI画像クレジットを読み込めませんでした。",
+    "settingsErrorTitle": "設定エラー",
+    "settingsErrorMessage": "オーナー設定を読み込めませんでした。",
+    "purchasesErrorTitle": "購入エラー",
+    "purchasesErrorMessage": "オーナー購入分析を読み込めませんでした。",
+    "translationPurchasesErrorTitle": "翻訳購入エラー",
+    "translationPurchasesErrorMessage": "翻訳購入分析を読み込めませんでした。",
+    "discountCodesErrorTitle": "割引コードエラー",
+    "discountCodesErrorMessage": "割引コード管理ページを読み込めませんでした。",
+    "configurationErrorTitle": "設定エラー",
+    "configurationErrorMessage": "ギルド設定を読み込めませんでした。",
+    "moderationSummaryErrorTitle": "モデレーション概要エラー",
+    "moderationSummaryErrorMessage": "このギルドのモデレーション概要を読み込めませんでした。",
+    "leaderboardErrorTitle": "ランキングエラー",
+    "leaderboardErrorMessage": "このギルドのランキングを読み込めませんでした。",
+    "websiteErrorsErrorTitle": "Webサイトエラーページのエラー",
+    "websiteErrorsErrorMessage": "Webサイトのエラーログを読み込めませんでした。"
+  },
+  "ownerWebsiteErrors": {
+    "title": "Webサイトエラー (Owner)",
+    "subtitle": "ユーザーが遭遇したWebサイトエラーを確認・フィルタできます。",
+    "filtersSubtitle": "ステータス、エラー種別、日付範囲、ルート、ユーザーで絞り込みます。",
+    "statusGroup": "ステータス区分",
+    "allStatuses": "すべて",
+    "errorType": "エラー種別",
+    "allTypes": "すべて",
+    "fromDate": "開始日",
+    "toDate": "終了日",
+    "pathOrMessage": "パス、メッセージ、または参照ID",
+    "userQuery": "ユーザー名またはユーザーID",
+    "resultLimit": "表示件数",
+    "summaryTitle": "概要",
+    "summarySubtitle": "現在の絞り込み結果のサマリーです。",
+    "totalMatching": "一致件数",
+    "mongoTimeouts": "Mongoタイムアウト",
+    "recentTitle": "最近のWebサイトエラー",
+    "recentSubtitle": "ユーザーに表示された最新のエラーページ。",
+    "empty": "この条件でWebサイトエラーは見つかりませんでした。",
+    "unknownUser": "不明なユーザー",
+    "typeMongoTimeout": "Mongoタイムアウト",
+    "typeServerError": "サーバーエラー",
+    "typeClientError": "クライアントエラー",
+    "pathPlaceholder": "例: /credits または ETIMEDOUT",
+    "userPlaceholder": "例: 1093318149732044870 またはユーザー名",
+    "testGenericErrorButton": "汎用テストエラーを生成"
+  }
+}

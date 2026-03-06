@@ -1,0 +1,233 @@
+<%- include('partials/head', { title }) %>
+<%- include('partials/nav') %>
+
+<main class="container page-section">
+  <div class="page-head">
+    <div>
+      <h1 class="section-icon-title">
+        <span class="section-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M20 12l-8 8-8-8 8-8 8 8z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" /><circle cx="12" cy="12" r="2.2" stroke="currentColor" stroke-width="1.8" /></svg>
+        </span>
+        <%= t('ownerDiscounts.title', { defaultValue: 'Owner Discount Codes' }) %>
+      </h1>
+      <p class="muted"><%= t('ownerDiscounts.subtitle', { defaultValue: 'Create and manage discount codes, and track who used each code.' }) %></p>
+    </div>
+    <a href="/owner/purchases" class="btn btn-ghost btn-with-icon"><span class="btn-icon" aria-hidden="true">←</span><%= t('common.back', { defaultValue: 'Back' }) %></a>
+  </div>
+
+  <% if (createStatus === '1') { %>
+    <div class="alert success"><%= t('ownerDiscounts.alerts.created', { defaultValue: 'Discount code created successfully.' }) %></div>
+  <% } %>
+  <% if (toggleStatus === '1') { %>
+    <div class="alert success"><%= t('ownerDiscounts.alerts.statusUpdated', { defaultValue: 'Discount code status updated.' }) %></div>
+  <% } %>
+  <% if (errorStatus === 'duplicate_code') { %>
+    <div class="alert warning"><%= t('ownerDiscounts.errors.duplicateCode', { defaultValue: 'That code already exists.' }) %></div>
+  <% } %>
+  <% if (errorStatus === 'invalid_code') { %>
+    <div class="alert warning"><%= t('ownerDiscounts.errors.invalidCode', { defaultValue: 'Please enter a valid code (at least 3 letters/numbers).' }) %></div>
+  <% } %>
+  <% if (errorStatus === 'invalid_discount') { %>
+    <div class="alert warning"><%= t('ownerDiscounts.errors.invalidDiscount', { defaultValue: 'Please provide a valid discount type and value.' }) %></div>
+  <% } %>
+  <% if (errorStatus === 'percent_too_high') { %>
+    <div class="alert warning"><%= t('ownerDiscounts.errors.percentTooHigh', { defaultValue: 'Percentage discounts must be 95% or less.' }) %></div>
+  <% } %>
+  <% if (errorStatus === 'invalid_max_discount') { %>
+    <div class="alert warning"><%= t('ownerDiscounts.errors.invalidMaxDiscount', { defaultValue: 'Max discount cap must be zero or greater (in cents).' }) %></div>
+  <% } %>
+  <% if (errorStatus === 'invalid_min_spend') { %>
+    <div class="alert warning"><%= t('ownerDiscounts.errors.invalidMinSpend', { defaultValue: 'Minimum spend must be zero or greater (in cents).' }) %></div>
+  <% } %>
+  <% if (errorStatus === 'invalid_restricted_guild') { %>
+    <div class="alert warning"><%= t('ownerDiscounts.errors.invalidRestrictedGuild', { defaultValue: 'Restricted guild ID must be a valid Discord guild ID.' }) %></div>
+  <% } %>
+  <% if (errorStatus === 'invalid_expiry') { %>
+    <div class="alert warning"><%= t('ownerDiscounts.errors.invalidExpiry', { defaultValue: 'Expiry date/time is invalid.' }) %></div>
+  <% } %>
+  <% if (errorStatus === 'not_found') { %>
+    <div class="alert warning"><%= t('ownerDiscounts.errors.notFound', { defaultValue: 'Discount code was not found.' }) %></div>
+  <% } %>
+  <% if (errorStatus === 'save_failed' || errorStatus === 'toggle_failed') { %>
+    <div class="alert warning"><%= t('ownerDiscounts.errors.saveFailed', { defaultValue: 'Could not save changes. Please try again.' }) %></div>
+  <% } %>
+
+  <section class="panel">
+    <details class="settings-expander">
+      <summary class="settings-expander-summary">
+        <div class="settings-expander-summary-main">
+          <h2 class="section-icon-title"><span class="section-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg></span><%= t('ownerDiscounts.createTitle', { defaultValue: 'Create Discount Code' }) %></h2>
+          <p class="muted"><%= t('ownerDiscounts.createSubtitle', { defaultValue: 'Create new discount codes with optional restrictions and expiry.' }) %></p>
+        </div>
+        <span class="schedule-expander-plus" aria-hidden="true">+</span>
+      </summary>
+      <div class="settings-expander-body">
+        <form method="post" action="/owner/discounts" class="level-rows">
+      <div class="level-row analytics-filter-row">
+        <label>
+          Code
+          <input type="text" name="code" maxlength="32" placeholder="THANKYOU10" required />
+        </label>
+        <label>
+          Discount Type
+          <select name="discount_type" required>
+            <option value="percent">Percentage (%)</option>
+            <option value="fixed_cents">Fixed amount (cents)</option>
+          </select>
+        </label>
+        <label>
+          Discount Value
+          <input type="number" name="discount_value" min="1" required />
+        </label>
+        <label>
+          Max Uses (blank = unlimited)
+          <input type="number" name="max_uses" min="1" placeholder="e.g. 1" />
+        </label>
+        <label>
+          Max Discount (cents, % only)
+          <input type="number" name="max_discount_cents" min="0" placeholder="blank or 0 = no cap" />
+        </label>
+        <label>
+          Min Spend (cents)
+          <input type="number" name="min_spend_cents" min="0" value="0" />
+        </label>
+      </div>
+
+      <div class="level-row analytics-filter-row">
+        <label>
+          Restricted Guild ID (optional)
+          <input type="text" name="restricted_guild_id" placeholder="Discord guild ID" />
+        </label>
+        <label>
+          Restricted User ID (optional)
+          <input type="text" name="restricted_user_id" placeholder="Discord user ID" />
+        </label>
+        <label>
+          Expires At (optional)
+          <input type="datetime-local" name="expires_at" />
+        </label>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary"><%= t('ownerDiscounts.createButton', { defaultValue: 'Create Code' }) %></button>
+      </div>
+      <p class="muted helper-text">For fixed discounts, enter value in cents (e.g. 500 = $5.00). Leave max cap blank (or set 0) to ignore it. Min spend defaults to 0 cents. Restricted guild/user are optional.</p>
+        </form>
+      </div>
+    </details>
+  </section>
+
+  <section class="panel">
+    <details class="settings-expander">
+      <summary class="settings-expander-summary">
+        <div class="settings-expander-summary-main">
+          <h2 class="section-icon-title"><span class="section-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M7 12h10M10 18h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg></span><%= t('ownerDiscounts.filterTitle', { defaultValue: 'Filter Codes' }) %></h2>
+          <p class="muted"><%= t('ownerDiscounts.filterSubtitle', { defaultValue: 'Filter discount codes by prefix and active state.' }) %></p>
+        </div>
+        <span class="schedule-expander-plus" aria-hidden="true">+</span>
+      </summary>
+      <div class="settings-expander-body">
+        <form method="get" action="/owner/discounts" class="level-rows">
+      <div class="level-row analytics-filter-row">
+        <label>
+          Code Prefix
+          <input type="text" name="code_query" value="<%= filters.codeQuery %>" placeholder="THANK" />
+        </label>
+        <label>
+          Active State
+          <select name="active">
+            <option value="all" <%= filters.active === 'all' ? 'selected' : '' %>>All</option>
+            <option value="true" <%= filters.active === 'true' ? 'selected' : '' %>>Active</option>
+            <option value="false" <%= filters.active === 'false' ? 'selected' : '' %>>Inactive</option>
+          </select>
+        </label>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary"><%= t('ownerDiscounts.applyFilter', { defaultValue: 'Apply Filter' }) %></button>
+        <a href="/owner/discounts" class="btn btn-ghost"><%= t('common.reset', { defaultValue: 'Reset' }) %></a>
+      </div>
+        </form>
+      </div>
+    </details>
+  </section>
+
+  <section class="panel">
+    <details class="settings-expander">
+      <summary class="settings-expander-summary">
+        <div class="settings-expander-summary-main">
+          <h2 class="section-icon-title"><span class="section-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.8" /><path d="M8 9h8M8 13h8M8 17h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg></span><%= t('ownerDiscounts.existingTitle', { defaultValue: 'Existing Discount Codes' }) %></h2>
+          <p class="muted"><%= t('ownerDiscounts.existingSubtitle', { defaultValue: 'Manage active/inactive state and review recent usage.' }) %></p>
+        </div>
+        <span class="schedule-expander-plus" aria-hidden="true">+</span>
+      </summary>
+      <div class="settings-expander-body">
+        <% if (!discountCodes || discountCodes.length === 0) { %>
+      <p class="muted"><%= t('ownerDiscounts.empty', { defaultValue: 'No discount codes found.' }) %></p>
+        <% } else { %>
+      <div class="purchase-list">
+        <% discountCodes.forEach((code) => { %>
+          <div class="purchase-item analytics-purchase-item">
+            <div>
+              <div>
+                <strong><%= code.code %></strong>
+                <span class="muted">· <%= code.is_active ? 'Active' : 'Inactive' %></span>
+              </div>
+              <div class="muted">
+                <%= code.discount_type === 'percent' ? `${code.discount_value}% off` : `$${(Number(code.discount_value || 0) / 100).toFixed(2)} off` %>
+                <% if (code.discount_type === 'percent' && Number(code.max_discount_cents || 0) > 0) { %>
+                  · Max discount: $<%= (Number(code.max_discount_cents || 0) / 100).toFixed(2) %>
+                <% } %>
+                · Min spend: $<%= (Math.max(Number(code.min_spend_cents || 0), 0) / 100).toFixed(2) %>
+                · Uses: <%= Number(code.uses_count || 0) %>
+                <% if (code.max_uses) { %>
+                  / <%= code.max_uses %>
+                <% } else { %>
+                  / unlimited
+                <% } %>
+                · Restricted guild: <%= code.restricted_guild_id || 'Any guild' %>
+                · Restricted user: <%= code.restricted_user_id || 'Any user' %>
+                · Expires: <%= code.expires_at ? new Date(code.expires_at).toLocaleString() : 'No expiry' %>
+              </div>
+
+              <% if (code.users && code.users.length) { %>
+                <div class="muted" style="margin-top: 6px;">
+                  <strong>Top users:</strong>
+                  <%= code.users.slice(0, 5).map((u) => `${u.username || u.user_id_display || 'Unknown'} (${u.count})`).join(' · ') %>
+                </div>
+              <% } %>
+
+              <% if (code.recent_usages && code.recent_usages.length) { %>
+                <div class="purchase-list" style="margin-top: 8px;">
+                  <% code.recent_usages.slice(0, 5).forEach((usage) => { %>
+                    <div class="purchase-item">
+                      <span>
+                        <% if (usage.user_id_display) { %>
+                          <a href="https://discord.com/users/<%= usage.user_id_display %>" target="_blank" rel="noopener noreferrer"><%= usage.username || usage.user_id_display %></a>
+                        <% } else { %>
+                          <%= usage.username || 'Unknown user' %>
+                        <% } %>
+                      </span>
+                      <span class="muted"><%= usage.pack_id %> · <%= usage.payment_type %></span>
+                      <span class="muted">Saved $<%= (Number(usage.discount_cents || 0) / 100).toFixed(2) %> · <%= usage.used_at ? new Date(usage.used_at).toLocaleString() : 'Unknown date' %></span>
+                    </div>
+                  <% }) %>
+                </div>
+              <% } %>
+            </div>
+
+            <div class="form-actions" style="margin-top: 0;">
+              <a href="/owner/discounts/<%= encodeURIComponent(code.code) %>/export.csv" class="btn btn-ghost">Export CSV</a>
+              <form method="post" action="/owner/discounts/<%= encodeURIComponent(code.code) %>/toggle">
+                <button type="submit" class="btn btn-ghost"><%= code.is_active ? 'Deactivate' : 'Activate' %></button>
+              </form>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+        <% } %>
+      </div>
+    </details>
+  </section>
+</main>
+
+<%- include('partials/foot') %>

@@ -1,0 +1,71 @@
+<%- include('partials/head', { title }) %>
+<%- include('partials/nav') %>
+
+<main class="container page-section">
+  <% const manageableGuilds = (guilds || []).filter((guild) => guild.canManage); %>
+
+  <div class="page-head">
+    <div>
+      <h1 class="section-icon-title">
+        <span class="section-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="4" width="18" height="16" rx="3" stroke="currentColor" stroke-width="1.8" />
+            <path d="M3 9h18M12 9v11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+          </svg>
+        </span>
+        <%= t('dashboard.title', { defaultValue: 'Dashboard' }) %>
+      </h1>
+      <p class="muted"><%= t('dashboard.subtitle', { defaultValue: 'Manage your global AI credits and eligible Discord servers.' }) %></p>
+    </div>
+    <a href="/credits" class="btn btn-primary btn-with-icon"><span class="btn-icon" aria-hidden="true">💳</span><%= t('dashboard.myAiCredits', { defaultValue: 'My AI Credits' }) %></a>
+  </div>
+
+  <% if (!guilds.length) { %>
+    <div class="panel">
+      <p><%= t('dashboard.noGuildsInstalled', { defaultValue: 'No guilds found with DiscoBot installed for your account.' }) %></p>
+    </div>
+  <% } %>
+
+  <% if (guilds.length && !manageableGuilds.length) { %>
+    <div class="panel">
+      <p><%= t('dashboard.noManageableGuilds', { defaultValue: 'You do not currently have admin or installer access to manage any installed guilds.' }) %></p>
+    </div>
+  <% } %>
+
+  <% if (manageableGuilds.length) { %>
+    <h2 class="section-icon-title">
+      <span class="section-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none">
+          <rect x="3" y="4" width="18" height="16" rx="3" stroke="currentColor" stroke-width="1.8" />
+          <path d="M3 9h18M12 9v11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+        </svg>
+      </span>
+      <%= t('dashboard.guildServers', { defaultValue: 'Guild Servers' }) %>
+    </h2>
+    <p class="muted"><%= t('dashboard.selectGuild', { defaultValue: 'Select a guild you can manage.' }) %></p>
+
+    <div class="guild-grid">
+    <% manageableGuilds.forEach((guild) => { %>
+      <article class="guild-card">
+        <div class="guild-head">
+          <% if (guild.iconUrl) { %>
+            <img src="<%= guild.iconUrl %>" alt="<%= guild.name %>" class="guild-icon" />
+          <% } else { %>
+            <div class="guild-icon guild-icon-fallback"><%= guild.name[0] %></div>
+          <% } %>
+          <div>
+            <h3><%= guild.name %></h3>
+            <p class="muted"><%= t('dashboard.guildManageable', { defaultValue: 'You can manage this guild' }) %></p>
+          </div>
+        </div>
+
+        <div class="guild-actions">
+          <a href="/dashboard/<%= guild.id %>" class="btn btn-primary"><%= t('dashboard.manage', { defaultValue: 'Manage' }) %></a>
+        </div>
+      </article>
+    <% }) %>
+    </div>
+  <% } %>
+</main>
+
+<%- include('partials/foot') %>

@@ -1,0 +1,417 @@
+<%- include('partials/head', { title }) %>
+<%- include('partials/nav') %>
+
+<main class="container page-section">
+  <div class="page-head">
+    <div>
+      <h1 class="section-icon-title">
+        <span class="section-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z" stroke="currentColor" stroke-width="1.8" />
+            <path d="M8 10h8M8 14h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+          </svg>
+        </span>
+        <%= t('credits.title', { defaultValue: 'AI Image Credits' }) %>
+      </h1>
+      <p class="muted"><%= t('credits.subtitle', { defaultValue: 'Buy and manage your personal AI image generation credits. These are personal to you, and can be used in any guild you are a member of that has DiscoBot installed.' }) %></p>
+    </div>
+    <a href="/dashboard" class="btn btn-ghost btn-with-icon"><span class="btn-icon" aria-hidden="true">←</span><%= t('common.back', { defaultValue: 'Back' }) %></a>
+  </div>
+
+  <% if (purchased) { %>
+    <div class="alert success">Credits added successfully.</div>
+  <% } %>
+  <% if (checkoutSuccess) { %>
+    <div class="alert success">Payment completed. Credits will appear shortly once payment confirmation is received.</div>
+  <% } %>
+  <% if (checkoutCanceled) { %>
+    <div class="alert">Checkout was canceled. No credits were charged.</div>
+  <% } %>
+  <% if (discountStatus === 'invalid') { %>
+    <div class="alert warning">Discount code is invalid.</div>
+  <% } %>
+  <% if (discountStatus === 'inactive') { %>
+    <div class="alert warning">Discount code is inactive.</div>
+  <% } %>
+  <% if (discountStatus === 'expired') { %>
+    <div class="alert warning">Discount code has expired.</div>
+  <% } %>
+  <% if (discountStatus === 'restricted') { %>
+    <div class="alert warning">Discount code is restricted to a different user.</div>
+  <% } %>
+  <% if (discountStatus === 'maxed') { %>
+    <div class="alert warning">Discount code has reached its maximum number of uses.</div>
+  <% } %>
+  <% if (discountStatus === 'min_spend') { %>
+    <div class="alert warning">This discount code requires a higher minimum spend for the selected pack.</div>
+  <% } %>
+  <% if (discountStatus === 'restricted_guild') { %>
+    <div class="alert warning">This discount code is restricted to a different guild.</div>
+  <% } %>
+  <% if (subscribedSuccess) { %>
+    <div class="alert success">Subscription activated. Monthly credits will be added after each successful Stripe invoice.</div>
+  <% } %>
+  <% if (backfillStatus === 'granted') { %>
+    <div class="alert success">Check complete. Missed credits found: <%= backfillCredits %>. Added to your balance.</div>
+  <% } %>
+  <% if (backfillStatus === 'already_applied') { %>
+    <div class="alert warning">Check complete. Missed credits found: <%= backfillCredits %>. No new credits were added.</div>
+  <% } %>
+  <% if (backfillStatus === 'no_subscription') { %>
+    <div class="alert warning">No Stripe subscription record was found for your account.</div>
+  <% } %>
+  <% if (backfillStatus === 'no_paid_invoice') { %>
+    <div class="alert warning">No paid subscription invoice was found to backfill.</div>
+  <% } %>
+  <% if (generationStatus === 'success') { %>
+    <div class="alert success"><%= t('credits.generate.success', { defaultValue: 'AI image generated successfully. 1 credit was used.' }) %></div>
+  <% } %>
+  <% if (generationStatus === 'no_credits') { %>
+    <div class="alert warning"><%= t('credits.generate.noCredits', { defaultValue: 'You do not have enough AI credits to generate an image.' }) %></div>
+  <% } %>
+  <% if (generationStatus === 'invalid_prompt') { %>
+    <div class="alert warning"><%= t('credits.generate.invalidPrompt', { defaultValue: 'Please enter a valid prompt before generating.' }) %></div>
+  <% } %>
+  <% if (generationStatus === 'invalid_image') { %>
+    <div class="alert warning"><%= t('credits.generate.invalidImage', { defaultValue: 'Please upload a valid source image for edit mode.' }) %></div>
+  <% } %>
+  <% if (generationStatus === 'unavailable') { %>
+    <div class="alert warning"><%= t('credits.generate.unavailable', { defaultValue: 'Web image generation is not available right now. Please try again later.' }) %></div>
+  <% } %>
+  <% if (generationStatus === 'failed') { %>
+    <div class="alert warning"><%= t('credits.generate.failed', { defaultValue: 'Image generation failed. Your credit was refunded.' }) %></div>
+  <% } %>
+
+  <% const totalRecurringCredits = (subscriptions || []).reduce((sum, row) => sum + (Number.parseInt(String(row.credits_per_month || 0), 10) || 0), 0); %>
+    <section class="panel">
+      <details class="settings-expander">
+        <summary class="settings-expander-summary">
+          <div class="settings-expander-summary-main">
+            <h2 class="section-icon-title">
+              <span class="section-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg>
+              </span>
+              <%= t('credits.yourBalance', { defaultValue: 'Your Balance' }) %>
+            </h2>
+            <p class="muted"><%= t('credits.balanceSubtitle', { defaultValue: 'Current available credits with purchased and used totals.' }) %></p>
+          </div>
+          <span class="schedule-expander-plus" aria-hidden="true">+</span>
+        </summary>
+        <div class="settings-expander-body">
+          <p><strong><%= t('credits.availableCredits', { defaultValue: 'Available credits:' }) %></strong> <%= summary.balance %></p>
+          <p class="muted"><%= t('credits.purchasedTotal', { defaultValue: 'Purchased total:' }) %> <%= summary.purchasedTotal %> · <%= t('credits.usedTotal', { defaultValue: 'Used total:' }) %> <%= summary.usedTotal %></p>
+        </div>
+      </details>
+    </section>
+
+    <section class="panel" id="website-image-generation">
+      <details class="settings-expander" open>
+        <summary class="settings-expander-summary">
+          <div class="settings-expander-summary-main">
+            <h2 class="section-icon-title">
+              <span class="section-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="16" rx="3" stroke="currentColor" stroke-width="1.8" /><circle cx="9" cy="10" r="2" stroke="currentColor" stroke-width="1.8" /><path d="M6 18l4.5-4.5 3 3L16.5 14 20 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </span>
+              <%= t('credits.generate.title', { defaultValue: 'Generate AI Image on Website' }) %>
+            </h2>
+            <p class="muted"><%= t('credits.generate.subtitle', { defaultValue: 'Use your personal AI credits directly on the website without needing a Discord guild channel.' }) %></p>
+          </div>
+          <span class="schedule-expander-plus" aria-hidden="true">+</span>
+        </summary>
+        <div class="settings-expander-body">
+          <div data-generation-root>
+            <div class="generation-loading-overlay" data-generation-loading hidden>
+              <div class="generation-loading-card" role="status" aria-live="polite">
+                <span class="generation-loading-spinner" aria-hidden="true"></span>
+                <div class="generation-loading-text">
+                  <span><%= t('credits.generate.loadingMessage', { defaultValue: 'Your image is being generated...' }) %></span>
+                  <span class="generation-loading-slow" data-generation-loading-slow hidden><%= t('credits.generate.loadingSlowMessage', { defaultValue: 'Still working... this can take a little longer for complex requests.' }) %></span>
+                </div>
+              </div>
+            </div>
+            <div class="form-actions" style="margin-bottom: 10px;">
+              <button type="button" class="btn btn-primary" data-generation-toggle="text" aria-pressed="true">
+                <%= t('credits.generate.toggleGenerate', { defaultValue: 'Generate Image' }) %>
+              </button>
+              <button type="button" class="btn btn-ghost" data-generation-toggle="edit" aria-pressed="false">
+                <%= t('credits.generate.toggleEdit', { defaultValue: 'Edit Image' }) %>
+              </button>
+            </div>
+
+            <div data-generation-panel="text">
+              <form method="post" action="/credits/generate-image" class="import-form">
+                <input type="hidden" name="generation_mode" value="text" />
+                <label>
+                  <%= t('credits.generate.promptLabel', { defaultValue: 'Prompt' }) %>
+                  <textarea name="prompt" rows="4" maxlength="1500" placeholder="<%= t('credits.generate.promptPlaceholder', { defaultValue: 'Example: A retro-futuristic city skyline at sunset, neon lights, cinematic lighting' }) %>" required></textarea>
+                </label>
+                <div class="form-actions">
+                  <button type="submit" class="btn btn-primary"><%= t('credits.generate.button', { defaultValue: 'Generate Image (1 credit)' }) %></button>
+                </div>
+              </form>
+            </div>
+
+            <div data-generation-panel="edit" hidden>
+              <form method="post" action="/credits/generate-image" enctype="multipart/form-data" class="import-form">
+                <input type="hidden" name="generation_mode" value="edit" />
+                <label>
+                  <%= t('credits.generate.sourceImageLabel', { defaultValue: 'Source Image' }) %>
+                  <input type="file" name="source_image" accept="image/*" required />
+                </label>
+                <label>
+                  <%= t('credits.generate.editPromptLabel', { defaultValue: 'Edit Prompt' }) %>
+                  <textarea name="prompt" rows="3" maxlength="1500" placeholder="<%= t('credits.generate.editPromptPlaceholder', { defaultValue: 'Example: Turn this into a watercolor painting with warm sunset tones' }) %>" required></textarea>
+                </label>
+                <div class="form-actions">
+                  <button type="submit" class="btn btn-primary"><%= t('credits.generate.editButton', { defaultValue: 'Edit Image (1 credit)' }) %></button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <% if (recentWebGenerations && recentWebGenerations.length) { %>
+            <div class="purchase-list" style="margin-top: 12px;">
+              <% recentWebGenerations.forEach((row) => { %>
+                <div class="purchase-item" style="align-items: flex-start; gap: 12px;">
+                  <img src="/credits/generated/<%= row.id %>" alt="Generated AI image" style="width: 128px; height: 128px; border-radius: 10px; object-fit: cover; border: 1px solid rgba(255,255,255,0.18);" />
+                  <div style="min-width: 0;">
+                    <div class="muted" style="margin-bottom: 6px;"><%= row.createdAt ? new Date(row.createdAt).toLocaleString() : '' %></div>
+                    <div><strong><%= row.prompt %></strong></div>
+                    <div class="muted"><%= row.mode === 'edit' ? t('credits.generate.modeEdit', { defaultValue: 'Image edit' }) : t('credits.generate.modeText', { defaultValue: 'Text-to-image' }) %> · <%= row.model %></div>
+                    <div class="form-actions" style="margin-top: 8px;">
+                      <a href="/credits/generated/<%= row.id %>?download=1" class="btn btn-ghost" download><%= t('credits.generate.download', { defaultValue: 'Download' }) %></a>
+                    </div>
+                  </div>
+                </div>
+              <% }) %>
+            </div>
+          <% } %>
+        </div>
+      </details>
+    </section>
+
+    <section class="panel">
+      <details class="settings-expander">
+        <summary class="settings-expander-summary">
+          <div class="settings-expander-summary-main">
+            <h2 class="section-icon-title">
+              <span class="section-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M3 12l9-9 9 9-9 9-9-9z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" /><path d="M12 8v8M8 12h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg>
+              </span>
+              <%= t('credits.buyMore', { defaultValue: 'Buy More Credits' }) %>
+            </h2>
+            <p class="muted"><%= t('credits.buyMoreSubtitle', { defaultValue: 'Choose a credit pack to top up your personal balance.' }) %></p>
+          </div>
+          <span class="schedule-expander-plus" aria-hidden="true">+</span>
+        </summary>
+        <div class="settings-expander-body">
+          <% if (!stripeConfigured) { %>
+            <p class="muted"><%= t('credits.stripeNotConfigured', { defaultValue: 'Stripe is not configured yet. Add `STRIPE_SECRET_KEY` and `STRIPE_WEBHOOK_SECRET` in your environment.' }) %></p>
+          <% } else { %>
+            <form method="post" action="/credits/checkout" class="credits-packs">
+              <label>
+                <%= t('credits.discountCodeOptional', { defaultValue: 'Discount Code (optional)' }) %>
+                <input type="text" name="discount_code" maxlength="32" placeholder="THANKYOU10" />
+              </label>
+              <% (creditPackOptions || []).forEach((pack) => { %>
+                <button type="submit" name="pack_id" value="<%= pack.id %>" class="btn btn-primary tier-btn">
+                  <span><%= pack.name %> · <%= pack.credits %> credit<%= pack.credits === 1 ? '' : 's' %> · $<%= (pack.unitAmountCents / 100).toFixed(2) %></span>
+                  <% if (pack.isMostPopular) { %>
+                    <span class="tier-saving-badge">Most popular · <%= Number(pack.purchaseCount || 0).toLocaleString() %> purchase<%= Number(pack.purchaseCount || 0) === 1 ? '' : 's' %></span>
+                  <% } %>
+                  <% if (pack.credits > 1) { %>
+                    <span class="tier-saving-badge"><%= pack.savingsPercent %>% saving</span>
+                  <% } %>
+                </button>
+              <% }) %>
+            </form>
+          <% } %>
+        </div>
+      </details>
+    </section>
+
+    <section class="panel">
+      <details class="settings-expander">
+        <summary class="settings-expander-summary">
+          <div class="settings-expander-summary-main">
+            <h2 class="section-icon-title">
+              <span class="section-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="3" stroke="currentColor" stroke-width="1.8" /><path d="M8 10h8M8 14h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg>
+              </span>
+              <%= t('credits.monthlySubscriptions', { defaultValue: 'Monthly Subscriptions' }) %>
+            </h2>
+            <p class="muted"><%= t('credits.monthlySubtitle', { defaultValue: 'Get credits added to your personal balance every month automatically.' }) %></p>
+          </div>
+          <span class="schedule-expander-plus" aria-hidden="true">+</span>
+        </summary>
+        <div class="settings-expander-body">
+          <% if ((subscriptions || []).length) { %>
+            <p class="muted helper-text"><strong><%= t('credits.totalRecurringMonthlyCredits', { defaultValue: 'Total recurring monthly credits:' }) %></strong> <%= totalRecurringCredits %></p>
+          <% } %>
+          <p class="muted helper-text"><%= t('credits.multiSubscriptionNote', { defaultValue: 'You can hold multiple subscriptions; credits from each active subscription are added to your balance.' }) %></p>
+
+          <% if (!stripeConfigured) { %>
+            <p class="muted"><%= t('credits.stripeNotConfigured', { defaultValue: 'Stripe is not configured yet. Add `STRIPE_SECRET_KEY` and `STRIPE_WEBHOOK_SECRET` in your environment.' }) %></p>
+          <% } else { %>
+            <form method="post" action="/credits/subscribe" class="credits-packs">
+              <% (subscriptionPlanOptions || []).forEach((plan) => { %>
+                <button type="submit" name="plan_id" value="<%= plan.id %>" class="btn btn-primary tier-btn">
+                  <span><%= plan.name %> · <%= plan.creditsPerMonth %> credit<%= plan.creditsPerMonth === 1 ? '' : 's' %>/month · $<%= (plan.unitAmountCents / 100).toFixed(2) %></span>
+                  <span class="tier-saving-badge"><%= plan.savingsPercent %>% saving</span>
+                </button>
+              <% }) %>
+            </form>
+          <% } %>
+
+          <% if (subscriptions && subscriptions.length) { %>
+            <div class="panel subscription-list-box">
+              <h3><%= t('credits.activeSubscriptions', { defaultValue: 'Active Subscriptions' }) %></h3>
+              <div class="purchase-list">
+                <% subscriptions.forEach((row) => { %>
+                  <div class="purchase-item subscription-item subscription-row <%= row.cancel_at_period_end ? 'subscription-item-canceled' : 'subscription-item-active' %>">
+                    <div>
+                      <div><strong><%= row.plan_id %></strong></div>
+                      <div class="muted">
+                        <%= row.credits_per_month %> credits/month ·
+                        <% if (row.cancel_at_period_end) { %>
+                          Active until
+                          <%= row.current_period_end ? new Date(row.current_period_end).toLocaleDateString() : 'period end' %>
+                          (Cancelled)
+                        <% } else { %>
+                          <%= row.status %>
+                        <% } %>
+                      </div>
+                    </div>
+                    <form method="post" action="/credits/subscription/manage" class="subscription-manage-form">
+                      <input type="hidden" name="stripe_subscription_id" value="<%= row.stripe_subscription_id %>" />
+                      <button type="submit" class="btn btn-success"><%= t('credits.manageSubscription', { defaultValue: 'Manage Subscription' }) %></button>
+                    </form>
+                  </div>
+                <% }) %>
+              </div>
+              <p class="muted helper-text"><%= t('credits.manageSubscriptionHelp', { defaultValue: 'Use Manage Subscription to edit, cancel or reinstate a monthly plan.' }) %></p>
+            </div>
+
+            <form method="post" action="/credits/subscription/backfill" class="credits-packs subscription-actions" style="margin-top: 10px;">
+              <button type="submit" class="btn btn-ghost"><%= t('credits.checkMissedCredits', { defaultValue: 'Check for missed credits' }) %></button>
+            </form>
+            <p class="muted helper-text"><%= t('credits.backfillHelp', { defaultValue: 'Use to check for any purchased credits you think may have been missed off your balance.' }) %></p>
+          <% } %>
+        </div>
+      </details>
+    </section>
+
+    <section class="panel">
+      <details class="settings-expander">
+        <summary class="settings-expander-summary">
+          <div class="settings-expander-summary-main">
+            <h2 class="section-icon-title">
+              <span class="section-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"><rect x="4" y="5" width="16" height="15" rx="2" stroke="currentColor" stroke-width="1.8" /><path d="M8 3v4M16 3v4M4 10h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg>
+              </span>
+              <%= t('credits.recentPurchases', { defaultValue: 'Recent Purchases' }) %>
+            </h2>
+            <p class="muted"><%= t('credits.recentSubtitle', { defaultValue: 'Latest credit purchase events for your account.' }) %></p>
+          </div>
+          <span class="schedule-expander-plus" aria-hidden="true">+</span>
+        </summary>
+        <div class="settings-expander-body">
+          <% if (!purchases.length) { %>
+            <p class="muted"><%= t('credits.noPurchases', { defaultValue: 'No credit purchases recorded yet.' }) %></p>
+          <% } else { %>
+            <div class="purchase-list">
+              <% purchases.forEach((row) => { %>
+                <div class="purchase-item">
+                  <span><strong>+<%= row.credits %></strong> credits</span>
+                  <span class="muted"><%= row.pack_id %></span>
+                  <span class="muted"><%= new Date(row.created_at).toLocaleString() %></span>
+                </div>
+              <% }) %>
+            </div>
+          <% } %>
+        </div>
+      </details>
+    </section>
+</main>
+
+<script>
+(() => {
+  const root = document.querySelector('[data-generation-root]');
+  if (!root) {
+    return;
+  }
+
+  const STORAGE_KEY = 'discobotCreditsGenerationMode';
+
+  const toggleButtons = Array.from(root.querySelectorAll('[data-generation-toggle]'));
+  const loadingOverlay = root.querySelector('[data-generation-loading]');
+  const loadingSlowMessage = root.querySelector('[data-generation-loading-slow]');
+  const generationForms = Array.from(root.querySelectorAll('form[action="/credits/generate-image"]'));
+  const panels = {
+    text: root.querySelector('[data-generation-panel="text"]'),
+    edit: root.querySelector('[data-generation-panel="edit"]'),
+  };
+
+  const setMode = (mode) => {
+    const nextMode = mode === 'edit' ? 'edit' : 'text';
+    if (panels.text) {
+      panels.text.hidden = nextMode !== 'text';
+    }
+    if (panels.edit) {
+      panels.edit.hidden = nextMode !== 'edit';
+    }
+
+    toggleButtons.forEach((button) => {
+      const isActive = button.getAttribute('data-generation-toggle') === nextMode;
+      button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+      button.classList.toggle('btn-primary', isActive);
+      button.classList.toggle('btn-ghost', !isActive);
+    });
+
+    try {
+      window.localStorage.setItem(STORAGE_KEY, nextMode);
+    } catch {
+    }
+  };
+
+  toggleButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      setMode(button.getAttribute('data-generation-toggle'));
+    });
+  });
+
+  const setLoadingState = () => {
+    if (loadingOverlay) {
+      loadingOverlay.hidden = false;
+      loadingOverlay.classList.add('is-visible');
+    }
+
+    root.classList.add('is-generation-loading');
+
+    window.setTimeout(() => {
+      if (loadingSlowMessage) {
+        loadingSlowMessage.hidden = false;
+      }
+    }, 30000);
+  };
+
+  generationForms.forEach((form) => {
+    form.addEventListener('submit', () => {
+      setLoadingState();
+    });
+  });
+
+  let initialMode = 'text';
+  try {
+    const savedMode = window.localStorage.getItem(STORAGE_KEY);
+    if (savedMode === 'edit' || savedMode === 'text') {
+      initialMode = savedMode;
+    }
+  } catch {
+  }
+
+  setMode(initialMode);
+})();
+</script>
+
+<%- include('partials/foot') %>

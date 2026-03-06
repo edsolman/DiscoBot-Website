@@ -1,0 +1,32 @@
+<%- include('partials/head', { title }) %>
+<%- include('partials/nav') %>
+
+<main class="container page-section">
+  <div class="panel">
+    <h1><%= title %></h1>
+    <p><%= message %></p>
+    <% if (typeof errorId === 'string' && errorId.length > 0) { %>
+      <p><strong><%= t('error.reference', { defaultValue: 'Reference ID' }) %>:</strong> <%= errorId %></p>
+    <% } %>
+    <a href="/" class="btn btn-primary"><%= t('error.returnHome', { defaultValue: 'Return Home' }) %></a>
+    <% if (typeof supportEmail === 'string' && supportEmail.length > 0) {
+      const reportSubject = `${t('error.reportSubject', { defaultValue: 'DiscoBot Website Error Report' })}: ${title || 'Error'}`;
+      const reportLines = [
+        t('error.reportIntro', { defaultValue: 'Please describe what happened:' }),
+        '',
+        `${t('error.reportPage', { defaultValue: 'Page' })}: ${pagePath || ''}`,
+        `${t('error.reportTime', { defaultValue: 'Time (UTC)' })}: ${new Date().toISOString()}`,
+        `${t('error.reportMessage', { defaultValue: 'Message' })}: ${message || ''}`,
+      ];
+      if (typeof errorId === 'string' && errorId.length > 0) {
+        reportLines.push(`${t('error.reference', { defaultValue: 'Reference ID' })}: ${errorId}`);
+      }
+      const reportBody = reportLines.join('\n');
+      const reportHref = `mailto:${supportEmail}?subject=${encodeURIComponent(reportSubject)}&body=${encodeURIComponent(reportBody)}`;
+    %>
+      <a href="<%= reportHref %>" class="btn btn-ghost"><%= t('error.reportIssue', { defaultValue: 'Report to Bot Owner' }) %></a>
+    <% } %>
+  </div>
+</main>
+
+<%- include('partials/foot') %>

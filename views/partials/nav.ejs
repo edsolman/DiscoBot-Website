@@ -1,0 +1,86 @@
+<header class="site-header">
+  <div class="container nav-wrap">
+    <a href="/" class="brand">
+      <img src="/assets/DiscoBot.png" alt="DiscoBot" class="brand-logo" />
+      <span>DiscoBot</span>
+    </a>
+
+    <button
+      id="navToggleButton"
+      class="nav-toggle"
+      type="button"
+      aria-label="Toggle navigation menu"
+      aria-controls="siteNavLinks"
+      aria-expanded="false"
+    >
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+    </button>
+
+    <nav id="siteNavLinks" class="nav-links">
+      <a href="/"><%= t('nav.home') %></a>
+      <a href="/help"><%= t('nav.help') %></a>
+      <a href="/terms"><%= t('nav.terms') %></a>
+      <a href="/privacy"><%= t('nav.privacy') %></a>
+      <% const languageFlagCodes = { en: 'us', es: 'es', fr: 'fr', de: 'de', it: 'it', pt: 'pt', nl: 'nl', ja: 'jp', ko: 'kr', zh: 'cn', ru: 'ru' }; %>
+      <% const selectedLanguageCode = (supportedLanguages || []).includes(currentLanguage) ? currentLanguage : (supportedLanguages && supportedLanguages[0]) || 'en'; %>
+      <% const selectedLanguageLabel = (languageLabels && languageLabels[selectedLanguageCode]) || selectedLanguageCode; %>
+      <% const selectedFlagCode = languageFlagCodes[selectedLanguageCode] || 'un'; %>
+      <details class="lang-menu">
+        <summary aria-label="<%= t('nav.language') %>">
+          <img src="https://flagcdn.com/w20/<%= selectedFlagCode %>.png" alt="" class="lang-flag" loading="lazy" decoding="async" />
+          <span><%= selectedLanguageLabel %></span>
+        </summary>
+        <div class="lang-menu-list">
+          <% for (const langCode of supportedLanguages || []) { %>
+            <% const langLabel = (languageLabels && languageLabels[langCode]) || langCode; %>
+            <% const langFlagCode = languageFlagCodes[langCode] || 'un'; %>
+            <% const langUrl = `/set-language?lang=${encodeURIComponent(langCode)}&redirect=${encodeURIComponent(pagePath || '/')}`; %>
+            <a href="<%= langUrl %>" class="lang-menu-item <%= currentLanguage === langCode ? 'is-active' : '' %>">
+              <img src="https://flagcdn.com/w20/<%= langFlagCode %>.png" alt="" class="lang-flag" loading="lazy" decoding="async" />
+              <span><%= langLabel %></span>
+            </a>
+          <% } %>
+        </div>
+      </details>
+      <% if (currentUser) { %>
+        <% const displayName = String(currentUser.globalName || currentUser.username || 'Discord User'); %>
+        <% const avatarUrl = currentUser.avatar
+          ? `https://cdn.discordapp.com/avatars/${currentUser.id}/${currentUser.avatar}.png?size=64`
+          : null; %>
+        <details class="user-menu">
+          <summary class="nav-user" title="<%= t('nav.signedInWithDiscord') %>">
+            <% if (avatarUrl) { %>
+              <img src="<%= avatarUrl %>" alt="<%= displayName %>" class="nav-user-avatar" />
+            <% } else { %>
+              <div class="nav-user-fallback"><%= displayName[0] %></div>
+            <% } %>
+            <span class="nav-user-name"><%= displayName %></span>
+          </summary>
+          <div class="user-menu-list">
+            <a href="/dashboard"><%= t('nav.dashboard') %></a>
+            <a href="/credits"><%= t('nav.aiCredits') %></a>
+            <% if (isOwner) { %>
+              <details class="owner-menu">
+                <summary><%= t('nav.owner') %></summary>
+                <div class="owner-menu-list">
+                  <a href="/owner/settings"><%= t('nav.ownerSettings') %></a>
+                  <a href="/owner/purchases"><%= t('nav.ownerPurchases') %></a>
+                  <a href="/owner/translation-purchases"><%= t('nav.ownerTranslation') %></a>
+                  <a href="/owner/discounts"><%= t('nav.ownerDiscounts') %></a>
+                  <a href="/owner/website-errors"><%= t('nav.ownerWebsiteErrors', { defaultValue: 'Website Errors' }) %></a>
+                </div>
+              </details>
+            <% } %>
+            <form action="/logout" method="post" class="inline-form user-menu-signout-form">
+              <button type="submit" class="user-menu-signout"><%= t('nav.signOut') %></button>
+            </form>
+          </div>
+        </details>
+      <% } else { %>
+        <a href="/auth/discord" class="btn btn-primary"><%= t('nav.signInWithDiscord') %></a>
+      <% } %>
+    </nav>
+  </div>
+</header>

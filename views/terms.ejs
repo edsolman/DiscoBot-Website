@@ -1,0 +1,21 @@
+<%- include('partials/head', { title }) %>
+<%- include('partials/nav') %>
+
+<main class="container page-section legal">
+  <h1><%= t('terms.title') %></h1>
+  <p><%= t('terms.intro') %></p>
+
+  <h2><%= t('terms.acceptableUse.title') %></h2>
+  <p><%= t('terms.acceptableUse.body') %></p>
+
+  <h2><%= t('terms.serviceAvailability.title') %></h2>
+  <p><%= t('terms.serviceAvailability.body') %></p>
+
+  <h2><%= t('terms.accountResponsibility.title') %></h2>
+  <p><%= t('terms.accountResponsibility.body') %></p>
+
+  <h2><%= t('terms.liability.title') %></h2>
+  <p><%= t('terms.liability.body') %></p>
+</main>
+
+<%- include('partials/foot') %>

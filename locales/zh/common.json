@@ -1,0 +1,620 @@
+{
+  "meta": {
+    "siteName": "DiscoBot",
+    "homeTitle": "DiscoBot",
+    "termsTitle": "服务条款",
+    "privacyTitle": "隐私政策",
+    "helpTitle": "帮助与维基"
+  },
+  "nav": {
+    "home": "首页",
+    "help": "帮助",
+    "terms": "条款",
+    "privacy": "隐私",
+    "language": "语言",
+    "signedInWithDiscord": "已通过 Discord 登录",
+    "dashboard": "控制台",
+    "aiCredits": "AI 积分",
+    "owner": "所有者",
+    "ownerSettings": "设置",
+    "ownerPurchases": "购买",
+    "ownerTranslation": "翻译",
+    "ownerDiscounts": "折扣",
+    "signOut": "退出登录",
+    "signInWithDiscord": "使用 Discord 登录",
+    "ownerWebsiteErrors": "网站错误"
+  },
+  "footer": {
+    "help": "帮助",
+    "terms": "条款",
+    "privacy": "隐私"
+  },
+  "common": {
+    "back": "返回",
+    "filters": "筛选",
+    "applyFilters": "应用筛选",
+    "reset": "重置",
+    "exportCsv": "导出 CSV",
+    "enabled": "已启用",
+    "saving": "保存中",
+    "remove": "移除",
+    "show": "显示"
+  },
+  "dashboard": {
+    "title": "控制台",
+    "subtitle": "管理你的全局 AI 积分和可管理的 Discord 服务器。",
+    "myAiCredits": "我的 AI 积分",
+    "guildServers": "服务器列表",
+    "selectGuild": "选择一个你可以管理的服务器。",
+    "manage": "管理",
+    "noGuildsInstalled": "未找到已为你的账号安装 DiscoBot 的公会。",
+    "noManageableGuilds": "你当前没有管理员或安装者权限来管理任何已安装的公会。",
+    "guildManageable": "你可以管理此公会"
+  },
+  "guildConfig": {
+    "titleSuffix": "配置",
+    "heading": "机器人配置",
+    "subtitle": "编辑此服务器的 DiscoBot 功能与设置。",
+    "leaderboard": "排行榜",
+    "moderationSummary": "审核摘要",
+    "featureControls": "功能控制",
+    "featureControlsHelp": "启用或禁用公会功能。禁用所选功能时，你还可以选择删除相关 DiscoBot 频道。",
+    "saveFeatureSettings": "保存功能设置",
+    "translationCharacterLimit": "翻译字符额度",
+    "translationCharacterLimitHelp": "免费用量和付费翻译扩展按公会管理，并按月重置。",
+    "gamificationLevels": "等级系统",
+    "gamificationLevelsHelp": "设置等级编号、等级名称以及达到每个等级所需的 XP。",
+    "scheduledMessages": "定时消息",
+    "scheduledMessagesHelp": "创建并管理服务器自动消息。可为每个计划选择时区。",
+    "alerts": {
+      "saved": "配置已保存。",
+      "imported": "等级预设已导入。",
+      "wordsAdded": "已添加自定义审核词。",
+      "wordsRemoved": "已移除自定义审核词。"
+    },
+    "cleanupPromptPrefix": "是否一并删除关联频道",
+    "translationSummary": {
+      "freeLimit": "免费额度",
+      "currentAllowance": "当前配额",
+      "usedThisMonth": "本月已用",
+      "remaining": "剩余"
+    },
+    "noTranslationPlans": "尚未配置翻译订阅计划。",
+    "statusLabel": "状态",
+    "cancelsAtPeriodEnd": "期末取消",
+    "periodEnd": "周期结束",
+    "manageInStripe": "在 Stripe 中管理",
+    "noActiveTranslationSubs": "此公会没有有效的翻译订阅。",
+    "levels": {
+      "level": "等级",
+      "levelName": "等级名称",
+      "xpRequired": "所需 XP",
+      "addLevel": "添加等级",
+      "saveLevels": "保存等级"
+    },
+    "importExport": {
+      "title": "导入 / 导出预设",
+      "subtitle": "将此公会的等级配置导出为 JSON，或导入其他公会的预设。",
+      "exportJson": "导出 JSON",
+      "copyCurrentJson": "复制当前 JSON",
+      "presetJson": "预设 JSON",
+      "validateJson": "校验 JSON",
+      "importJson": "导入 JSON"
+    },
+    "customModerationWords": {
+      "title": "自定义审核词",
+      "subtitle": "为此公会添加自定义单词或短语。",
+      "addLabel": "添加单词/短语",
+      "addButton": "添加单词",
+      "none": "尚未配置自定义审核词。"
+    },
+    "moderationSnapshot": {
+      "title": "审核快照",
+      "subtitle": "快速查看主要审核用户和操作汇总。",
+      "flagged": "已标记",
+      "approved": "已通过",
+      "rejected": "已拒绝",
+      "kicked": "已踢出",
+      "banned": "已封禁",
+      "none": "暂无已记录的审核活动。",
+      "openFull": "打开完整审核摘要"
+    },
+    "scheduleForm": {
+      "channel": "频道",
+      "frequency": "频率",
+      "once": "一次",
+      "daily": "每天",
+      "weekly": "每周",
+      "timezone": "时区",
+      "customTimezone": "自定义时区（可选）",
+      "firstRun": "首次运行（本地时间）",
+      "nextRun": "下次运行（本地时间）",
+      "messageContent": "消息内容",
+      "create": "创建定时消息",
+      "none": "尚未配置定时消息。",
+      "active": "启用",
+      "paused": "已暂停",
+      "save": "保存计划",
+      "delete": "删除计划"
+    }
+  },
+  "guildLeaderboard": {
+    "titleWord": "排行榜",
+    "titleSuffix": "等级系统排行榜",
+    "subtitle": "查看 XP/声望排行并直接调整用户数值。",
+    "adjustSectionTitle": "调整用户 XP / 声望",
+    "applyAdjustment": "应用调整",
+    "usersSectionTitle": "排行榜用户",
+    "adjustUpdated": "游戏化数值已成功更新。",
+    "adjustInvalid": "请提供有效的用户 ID，并至少填写一个非零的 XP/声望调整值。",
+    "adjustError": "无法更新游戏化数值，请重试。",
+    "noRows": "该公会尚无游戏化活动记录。",
+    "adjustSectionSubtitle": "使用正数增加、负数减少。数值不会低于 0。",
+    "usersSectionSubtitle": "按用户提供快速调整控件的排行榜列表。",
+    "snapshot": {
+      "title": "排行榜快照",
+      "subtitle": "用户、XP、声望和消息量的快速汇总。",
+      "activeUsers": "活跃用户",
+      "totalXp": "总 XP",
+      "totalReputation": "总声望",
+      "totalMessages": "总消息数"
+    },
+    "filtersSubtitle": "筛选排行榜行和排序选项。",
+    "filters": {
+      "userQuery": "用户名或用户 ID",
+      "sortBy": "排序方式",
+      "resultLimit": "结果上限"
+    },
+    "adjustForm": {
+      "userId": "用户 ID",
+      "username": "用户名（可选）",
+      "xpDelta": "XP 变化值",
+      "reputationDelta": "声望变化值",
+      "updateUser": "更新用户"
+    }
+  },
+  "moderationSummary": {
+    "titleSuffix": "审核摘要",
+    "subtitle": "查看此服务器的审核用户与处理结果。",
+    "users": "用户",
+    "noRows": "未找到该公会的审核活动。",
+    "usersSubtitle": "按用户展示详细审核操作和最近更新。",
+    "snapshot": {
+      "title": "审核快照",
+      "subtitle": "快速查看此服务器的审核结果。",
+      "moderatedUsers": "已审核用户",
+      "flagged": "已标记",
+      "approved": "已通过",
+      "rejected": "已拒绝",
+      "kicked": "已踢出",
+      "banned": "已封禁"
+    },
+    "filtersSubtitle": "筛选本审核报告的用户和结果数量。",
+    "filters": {
+      "userQuery": "用户名或用户 ID",
+      "resultLimit": "结果上限"
+    }
+  },
+  "credits": {
+    "title": "AI 图片积分",
+    "subtitle": "购买并管理你的个人 AI 图片生成积分。",
+    "yourBalance": "你的余额",
+    "buyMore": "购买更多积分",
+    "monthlySubscriptions": "月度订阅",
+    "activeSubscriptions": "有效订阅",
+    "manageSubscription": "管理订阅",
+    "checkMissedCredits": "检查遗漏积分",
+    "recentPurchases": "最近购买",
+    "generate": {
+      "download": "下载",
+      "title": "在网站上生成 AI 图片",
+      "subtitle": "无需 Discord 服务器频道，也可直接在网站使用你的个人 AI 积分。",
+      "promptLabel": "提示词",
+      "promptPlaceholder": "示例：日落时分的复古未来城市天际线、霓虹灯、电影级打光",
+      "button": "生成图片（1 积分）",
+      "sourceImageLabel": "源图片",
+      "editPromptLabel": "编辑提示词",
+      "editPromptPlaceholder": "示例：把这张图变成暖色夕阳调的水彩画风格",
+      "editButton": "编辑图片（1 积分）",
+      "modeText": "文生图",
+      "modeEdit": "图片编辑",
+      "success": "AI 图片生成成功。已使用 1 积分。",
+      "noCredits": "你的 AI 积分不足，无法生成图片。",
+      "invalidPrompt": "请先输入有效提示词再生成。",
+      "invalidImage": "编辑模式请上传有效的源图片。",
+      "unavailable": "网页图片生成功能当前不可用，请稍后重试。",
+      "failed": "图片生成失败。你的积分已退回。"
+    }
+  },
+  "ownerSettings": {
+    "title": "所有者设置",
+    "subtitle": "全局机器人频道配置与网站定价层级。",
+    "metadata": "设置元数据",
+    "websiteUrl": "网站 URL",
+    "saveButton": "保存所有者设置",
+    "saved": "所有者设置已保存。",
+    "metadataSubtitle": "审计信息：所有者设置最后由谁在何时更新。",
+    "websiteUrlSubtitle": "仅限所有者：用于机器人 /website 命令。",
+    "gamificationChannels": {
+      "title": "游戏化频道设置",
+      "subtitle": "配置游戏化功能使用的分类/频道详情。"
+    },
+    "moderationChannels": {
+      "title": "审核频道设置",
+      "subtitle": "配置审核频道名称和默认管理员指引文本。"
+    },
+    "aiImageChannels": {
+      "title": "AI 图片频道设置",
+      "subtitle": "配置 AI 图片生成交互的路由位置。"
+    },
+    "creditPacks": {
+      "title": "一次性积分包",
+      "subtitle": "更新 ID、显示名、积分、内部成本和价格（美分）。成本仅所有者可见并用于利润分析。"
+    },
+    "subscriptionPlans": {
+      "title": "月度订阅方案",
+      "subtitle": "更新 ID、显示名、每月积分、内部成本和价格（美分）。"
+    },
+    "translationLimits": {
+      "title": "公会翻译限制",
+      "subtitle": "配置每个公会的免费月度翻译字符上限和付费订阅选项。"
+    },
+    "translationPlans": {
+      "title": "公会翻译订阅方案",
+      "subtitle": "更新 ID、显示名、每月额外字符数、内部成本和价格（美分）。"
+    }
+  },
+  "ownerPurchases": {
+    "title": "所有者购买分析",
+    "subtitle": "查看全部购买、筛选结果并跟踪选项热度。",
+    "snapshot": {
+      "title": "销售快照",
+      "subtitle": "销售、积分、成本和利润的总体汇总。",
+      "totalSales": "总销售数",
+      "creditsSold": "已售积分",
+      "priceUsd": "价格 (USD)",
+      "costUsd": "成本 (USD)",
+      "profitUsd": "利润 (USD)"
+    },
+    "filtersSubtitle": "按支付类型、选项、日期范围和用户筛选。",
+    "popularity": {
+      "title": "按购买选项的热度",
+      "subtitle": "按选项 ID 细分销售和盈利情况。",
+      "empty": "此筛选条件下未找到购买记录。"
+    },
+    "paymentSummary": {
+      "title": "按支付类型汇总",
+      "subtitle": "按支付类型分组的聚合总计。",
+      "empty": "此筛选条件下未找到支付类型数据。"
+    },
+    "recent": {
+      "title": "最近购买",
+      "subtitle": "符合当前筛选条件的最新购买事件。",
+      "empty": "此筛选条件下未找到购买记录。"
+    }
+  },
+  "ownerTranslationPurchases": {
+    "title": "所有者翻译购买分析",
+    "subtitle": "按服务器/管理员跟踪翻译订阅销售与使用。",
+    "snapshot": {
+      "title": "销售快照",
+      "subtitle": "翻译订阅销售与利润的总体汇总。",
+      "totalSales": "总销售数",
+      "charactersSoldPerMonth": "每月售出字符数",
+      "priceUsd": "价格 (USD)",
+      "costUsd": "成本 (USD)",
+      "profitUsd": "利润 (USD)"
+    },
+    "filtersSubtitle": "按方案、日期、用户和公会标识筛选。",
+    "popularity": {
+      "title": "按方案热度",
+      "subtitle": "按方案的表现和利润率汇总。",
+      "empty": "此筛选条件下未找到翻译购买记录。"
+    },
+    "paymentSummary": {
+      "title": "按支付类型汇总",
+      "subtitle": "按订阅支付阶段分组的聚合总计。",
+      "empty": "此筛选条件下未找到支付类型数据。"
+    },
+    "recent": {
+      "title": "最近翻译购买",
+      "subtitle": "最新翻译订阅购买事件。",
+      "empty": "此筛选条件下未找到翻译购买记录。"
+    }
+  },
+  "ownerDiscounts": {
+    "title": "所有者折扣码",
+    "subtitle": "创建和管理折扣码，并跟踪使用情况。",
+    "createTitle": "创建折扣码",
+    "createButton": "创建代码",
+    "filterTitle": "筛选代码",
+    "applyFilter": "应用筛选",
+    "existingTitle": "现有折扣码",
+    "createSubtitle": "创建新折扣码，可选限制与过期时间。",
+    "filterSubtitle": "按前缀和启用状态筛选折扣码。",
+    "existingSubtitle": "管理启用/停用状态并查看最近使用情况。",
+    "empty": "未找到折扣码。",
+    "alerts": {
+      "created": "折扣码创建成功。",
+      "statusUpdated": "折扣码状态已更新。"
+    },
+    "errors": {
+      "duplicateCode": "该代码已存在。",
+      "invalidCode": "请输入有效代码（至少 3 个字母/数字）。",
+      "invalidDiscount": "请提供有效的折扣类型和数值。",
+      "percentTooHigh": "百分比折扣必须小于或等于 95%。",
+      "invalidMaxDiscount": "最大折扣上限必须为 0 或更高（美分）。",
+      "invalidMinSpend": "最低消费必须为 0 或更高（美分）。",
+      "invalidRestrictedGuild": "受限公会 ID 必须是有效的 Discord 公会 ID。",
+      "invalidExpiry": "过期日期/时间无效。",
+      "notFound": "未找到折扣码。",
+      "saveFailed": "无法保存更改，请重试。"
+    }
+  },
+  "help": {
+    "title": "DiscoBot 帮助与维基",
+    "subtitle": "你需要的所有内容：DiscoBot 功能、网站设置、审核流程、定时消息和 AI 积分购买。",
+    "contents": "目录",
+    "toc": {
+      "quickStart": "快速开始",
+      "coreFeatures": "核心功能",
+      "discordCommands": "Discord 命令",
+      "guildConfig": "网站：公会机器人配置",
+      "dashboardCredits": "网站：控制台与积分",
+      "disabledMessages": "功能禁用提示",
+      "troubleshooting": "故障排查"
+    },
+    "quickStart": {
+      "title": "快速开始",
+      "item1": "邀请 DiscoBot 到你的服务器，并使用 Discord 登录网站。",
+      "item2": "在控制台选择公会，并在公会配置中设置功能。",
+      "item3": "在一个界面内启用或禁用功能并一次性保存。",
+      "item4": "购买 AI 积分以启用 AI 图片生成功能。"
+    },
+    "coreFeatures": {
+      "title": "核心功能",
+      "smartModerationLabel": "智能审核",
+      "smartModerationBody": "识别风险内容并支持管理员审核与处理。",
+      "gamificationLabel": "游戏化",
+      "gamificationBody": "通过 XP、等级、声望和排行榜提升活跃度。",
+      "globalCommunicationLabel": "全球沟通",
+      "globalCommunicationBody": "基于 DeepL Pro 的消息翻译。",
+      "scheduledMessagingLabel": "定时消息",
+      "scheduledMessagingBody": "支持按天/周自动发布消息。",
+      "aiImageLabel": "AI 图片生成",
+      "aiImageBody": "通过消息上下文命令触发图片生成工作流。",
+      "webDashboardLabel": "网页控制台",
+      "webDashboardBody": "在网页端可视化管理服务器配置。"
+    },
+    "discord": {
+      "title": "Discord 命令",
+      "subtitle": "命令可用性取决于功能开关与权限。",
+      "websiteLinksTitle": "网站链接",
+      "websiteLinksItem1": "打开 DiscoBot 网站链接。",
+      "websiteLinksItem2": "打开 DiscoBot 网站链接。",
+      "featureControlsTitle": "功能控制",
+      "featureControlsItem1": "显示服务器功能启用状态。",
+      "featureControlsItem2": "启用某项功能（管理员）。",
+      "featureControlsItem3": "禁用某项功能（管理员）。",
+      "gamificationTitle": "游戏化",
+      "gamificationItem1": "查看自己或其他成员的 XP/等级。",
+      "gamificationItem2": "显示 XP/声望排行榜。",
+      "gamificationItem3": "显示等级配置。",
+      "gamificationItem4": "创建或编辑等级配置（管理员）。",
+      "gamificationItem5": "重置为默认等级（管理员）。",
+      "gamificationItem6": "查看声望。",
+      "gamificationItem7": "给予其他成员声望。",
+      "gamificationItem8": "管理员调整声望。",
+      "schedulingTitle": "排程",
+      "schedulingItem1": "可创建一次性（日期+时间）、每日（开始日期+时间）或每周（开始日期+星期+时间）计划，并可选设置结束日期。",
+      "schedulingItem2": "列出活动计划。",
+      "schedulingItem3": "编辑频道/消息/时区/重复方式，以及开始日期、发送时间、每周日期和可选结束日期。",
+      "schedulingItem4": "控制活动计划。",
+      "schedulingItem5": "删除计划。",
+      "translationTitle": "翻译",
+      "translationItem1": "消息上下文命令：",
+      "translationItem2": "消息上下文命令：",
+      "translationItem3": "通过支持的旗帜表情反应进行翻译。",
+      "translationCommand1": "Translate",
+      "translationCommand2": "Translate (Private)",
+      "aiImagesTitle": "AI 图片",
+      "aiImagesItem1": "消息上下文命令：",
+      "aiImagesItem2": "在配置的 AI 图片频道中使用生成/编辑工作流。",
+      "aiImagesCommand": "Generate AI Image"
+    },
+    "guildConfig": {
+      "title": "网站：公会机器人配置",
+      "item1Label": "功能控制",
+      "item1Body": "批量启用/禁用功能并一次保存。",
+      "item2Label": "翻译字符额度",
+      "item2Body": "监控用量并管理订阅购买。",
+      "item3Label": "游戏化等级",
+      "item3Body": "编辑等级名称/阈值，导入或导出 JSON 预设。",
+      "item4Label": "自定义审核词",
+      "item4Body": "添加或移除本公会专属词条。",
+      "item5Label": "审核快照",
+      "item5Body": "快速查看主要用户与汇总统计。",
+      "item6Label": "定时消息",
+      "item6Body": "创建并管理一次性/每日/每周计划，支持开始日期、时间、星期选择和可选结束日期。",
+      "item7Label": "导航按钮",
+      "item7Body": "快速跳转到排行榜和审核摘要。"
+    },
+    "dashboardCredits": {
+      "title": "网站：控制台与积分",
+      "item1Label": "控制台",
+      "item1Body": "显示安装了 DiscoBot 且你可管理的公会。",
+      "item2Label": "AI 积分页面",
+      "item2Body": "一次性购买、月度订阅、订阅管理和缺失积分修复。",
+      "item3Label": "余额信息",
+      "item3Body": "显示购买/使用总量与订阅积分状态。",
+      "item4Label": "购买记录",
+      "item4Body": "显示最近的 AI 积分购买记录。"
+    },
+    "disabledFeatures": {
+      "title": "功能禁用提示",
+      "body": "当功能在网页配置中被禁用时，相关命令会隐藏，或显示指导性的临时提示消息。"
+    },
+    "troubleshooting": {
+      "title": "故障排查",
+      "item1": "部署后页面仍旧旧版本时，请接受更新提示并刷新。",
+      "item2": "命令失败时，请在公会配置中确认功能已启用。",
+      "item3": "AI 图片异常时，请检查积分余额与频道权限。",
+      "item4Prefix": "排程异常时，请验证时区名称（IANA 格式，例如",
+      "item4Suffix": "）。",
+      "item5": "页面或操作失败时，退出并重新登录后再检查权限。"
+    }
+  },
+  "error": {
+    "returnHome": "返回首页",
+    "title": "发生错误",
+    "generic": "处理你的请求时发生了意外错误。",
+    "mongoTimeout": "发生了临时数据库连接问题。请刷新页面并稍后重试。",
+    "reference": "参考 ID",
+    "reportIssue": "报告给机器人所有者",
+    "reportSubject": "DiscoBot 网站错误报告",
+    "reportIntro": "请描述发生了什么：",
+    "reportPage": "页面",
+    "reportTime": "时间 (UTC)",
+    "reportMessage": "消息"
+  },
+  "errors": {
+    "loginFailedTitle": "登录失败",
+    "dashboardErrorTitle": "控制台错误",
+    "dashboardErrorMessage": "无法加载你的公会，请重试。",
+    "creditsErrorTitle": "积分错误",
+    "creditsErrorMessage": "无法加载 AI 图片积分。",
+    "settingsErrorTitle": "设置错误",
+    "settingsErrorMessage": "无法加载所有者设置。",
+    "purchasesErrorTitle": "购买错误",
+    "purchasesErrorMessage": "无法加载所有者购买分析。",
+    "translationPurchasesErrorTitle": "翻译购买错误",
+    "translationPurchasesErrorMessage": "无法加载翻译购买分析。",
+    "discountCodesErrorTitle": "折扣码错误",
+    "discountCodesErrorMessage": "无法加载折扣码管理页面。",
+    "configurationErrorTitle": "配置错误",
+    "configurationErrorMessage": "无法加载公会配置。",
+    "moderationSummaryErrorTitle": "审核摘要错误",
+    "moderationSummaryErrorMessage": "无法加载该公会的审核摘要。",
+    "leaderboardErrorTitle": "排行榜错误",
+    "leaderboardErrorMessage": "无法加载该公会的排行榜。",
+    "websiteErrorsErrorTitle": "网站错误页面错误",
+    "websiteErrorsErrorMessage": "无法加载网站错误日志。"
+  },
+  "home": {
+    "hero": {
+      "titlePrefix": "用以下工具自动化并提升你的 Discord 服务器：",
+      "titleSuffix": "",
+      "body1": "超有趣、超强大的 Discord 机器人，帮你轻松管理服务器。",
+      "body2": "翻译、审核、AI 图片生成、等级系统、定时消息等，统一在现代化控制台或应用中管理。",
+      "openDashboard": "打开控制台",
+      "signIn": "使用 Discord 登录",
+      "downloadApp": "下载应用",
+      "logoAlt": "DiscoBot 标志"
+    },
+    "features": {
+      "smartModeration": {
+        "title": "智能审核",
+        "description": "标记不当消息，支持管理员审批与操作追踪。"
+      },
+      "gamification": {
+        "title": "等级系统",
+        "description": "XP、等级、声望与排行榜，提升社区活跃度。"
+      },
+      "globalCommunication": {
+        "title": "全球沟通",
+        "description": "基于 DeepL Pro 的即时、准确、自然翻译。"
+      },
+      "scheduledMessaging": {
+        "title": "定时消息",
+        "description": "支持时区的每日/每周自动发送。"
+      },
+      "aiImageGeneration": {
+        "title": "AI 图片生成",
+        "description": "在 Discord 中直接使用 OpenAI 提示词生成/编辑图片。"
+      },
+      "webDashboard": {
+        "title": "网页控制台与应用",
+        "description": "可通过网页控制台或应用管理关键设置，无需斜杠命令。"
+      }
+    }
+  },
+  "terms": {
+    "title": "服务条款",
+    "intro": "使用 DiscoBot 与本控制台即表示你同意这些条款。",
+    "acceptableUse": {
+      "title": "可接受使用",
+      "body": "你同意不使用 DiscoBot 违反 Discord 条款、刷屏或骚扰用户。"
+    },
+    "serviceAvailability": {
+      "title": "服务可用性",
+      "body": "功能可能在不提前通知的情况下变更、更新或下线。"
+    },
+    "accountResponsibility": {
+      "title": "账户责任",
+      "body": "你需对通过 Discord 账户执行的操作和服务器配置负责。"
+    },
+    "liability": {
+      "title": "责任限制",
+      "body": "DiscoBot 按“现状”提供，不提供任何担保。"
+    }
+  },
+  "privacy": {
+    "title": "隐私政策",
+    "intro": "本页面说明 DiscoBot 与本网站处理的数据。",
+    "dataProcessed": {
+      "title": "我们处理的数据",
+      "body": "用于登录的 Discord 身份数据、用于访问检查的服务器成员数据、MongoDB 中的配置记录。"
+    },
+    "featureData": {
+      "title": "机器人功能数据",
+      "body": "根据启用功能，可能存储审核统计、等级系统统计和定时任务定义等数据。"
+    },
+    "dataUse": {
+      "title": "数据用途",
+      "body": "数据仅用于提供机器人功能、控制台操作和服务器专属功能。"
+    },
+    "dataRetention": {
+      "title": "数据保留",
+      "body": "数据会保留到被运营者删除或被功能流程覆盖。"
+    },
+    "contact": {
+      "title": "联系我们",
+      "body": "如需删除数据或有隐私问题，请联系机器人运营/管理员团队。"
+    }
+  },
+  "pwa": {
+    "updateAvailable": "有可用更新",
+    "updateText": "DiscoBot 新版本已准备就绪。",
+    "refreshNow": "立即刷新",
+    "iosInstallHint": "在 iPhone/iPad 上：点“共享”→“添加到主屏幕”。",
+    "unavailableHint": "当前浏览器暂不支持安装应用。"
+  },
+  "ownerWebsiteErrors": {
+    "title": "网站错误（Owner）",
+    "subtitle": "查看并筛选用户遇到的网站错误。",
+    "filtersSubtitle": "按状态、错误类型、日期范围、路由和用户筛选。",
+    "statusGroup": "状态分组",
+    "allStatuses": "全部",
+    "errorType": "错误类型",
+    "allTypes": "全部",
+    "fromDate": "开始日期",
+    "toDate": "结束日期",
+    "pathOrMessage": "路径、消息或参考 ID",
+    "userQuery": "用户名或用户 ID",
+    "resultLimit": "结果数量",
+    "summaryTitle": "摘要",
+    "summarySubtitle": "当前筛选结果概览。",
+    "totalMatching": "匹配总数",
+    "mongoTimeouts": "Mongo 超时",
+    "recentTitle": "最近的网站错误",
+    "recentSubtitle": "最近向用户显示的错误页面。",
+    "empty": "当前筛选条件下没有找到网站错误。",
+    "unknownUser": "未知用户",
+    "typeMongoTimeout": "Mongo 超时",
+    "typeServerError": "服务器错误",
+    "typeClientError": "客户端错误",
+    "pathPlaceholder": "例如：/credits 或 ETIMEDOUT",
+    "userPlaceholder": "例如：1093318149732044870 或用户名",
+    "testGenericErrorButton": "生成通用测试错误"
+  }
+}

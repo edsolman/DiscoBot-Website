@@ -1,0 +1,160 @@
+<%- include('partials/head', { title }) %>
+<%- include('partials/nav') %>
+
+<main class="container page-section">
+  <div class="page-head">
+    <div>
+      <h1 class="section-icon-title">
+        <span class="section-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M12 3l7 3v5c0 4.3-2.5 8.2-7 10-4.5-1.8-7-5.7-7-10V6l7-3z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M9.6 12.2l1.7 1.7 3.4-3.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </span>
+        <%= guild.name %> · <%= t('moderationSummary.titleSuffix', { defaultValue: 'Moderation Summary' }) %>
+      </h1>
+      <p class="muted"><%= t('moderationSummary.subtitle', { defaultValue: 'Review moderated users and enforcement outcomes for this server.' }) %></p>
+    </div>
+    <a href="/dashboard/<%= guild.id %>" class="btn btn-ghost btn-with-icon"><span class="btn-icon" aria-hidden="true">←</span><%= t('common.back', { defaultValue: 'Back' }) %></a>
+  </div>
+
+  <section class="panel">
+    <details class="settings-expander">
+      <summary class="settings-expander-summary">
+        <div class="settings-expander-summary-main">
+          <h2 class="section-icon-title">
+            <span class="section-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 3l7 3v5c0 4.3-2.5 8.2-7 10-4.5-1.8-7-5.7-7-10V6l7-3z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M9.6 12.2l1.7 1.7 3.4-3.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            <%= t('moderationSummary.snapshot.title', { defaultValue: 'Moderation Snapshot' }) %>
+          </h2>
+          <p class="muted"><%= t('moderationSummary.snapshot.subtitle', { defaultValue: 'Quick overview of moderation outcomes in this guild.' }) %></p>
+        </div>
+        <span class="schedule-expander-plus" aria-hidden="true">+</span>
+      </summary>
+      <div class="settings-expander-body analytics-stats">
+        <div>
+          <p class="muted"><%= t('moderationSummary.snapshot.moderatedUsers', { defaultValue: 'Moderated Users' }) %></p>
+          <h2><%= totals.moderatedUsers %></h2>
+        </div>
+        <div>
+          <p class="muted"><%= t('moderationSummary.snapshot.flagged', { defaultValue: 'Flagged' }) %></p>
+          <h2><%= totals.flagged %></h2>
+        </div>
+        <div>
+          <p class="muted"><%= t('moderationSummary.snapshot.approved', { defaultValue: 'Approved' }) %></p>
+          <h2><%= totals.approved %></h2>
+        </div>
+        <div>
+          <p class="muted"><%= t('moderationSummary.snapshot.rejected', { defaultValue: 'Rejected' }) %></p>
+          <h2><%= totals.rejected %></h2>
+        </div>
+        <div>
+          <p class="muted"><%= t('moderationSummary.snapshot.kicked', { defaultValue: 'Kicked' }) %></p>
+          <h2><%= totals.kicked %></h2>
+        </div>
+        <div>
+          <p class="muted"><%= t('moderationSummary.snapshot.banned', { defaultValue: 'Banned' }) %></p>
+          <h2><%= totals.banned %></h2>
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <section class="panel">
+    <details class="settings-expander">
+      <summary class="settings-expander-summary">
+        <div class="settings-expander-summary-main">
+          <h2 class="section-icon-title">
+            <span class="section-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M4 6h16M7 12h10M10 18h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+              </svg>
+            </span>
+            <%= t('common.filters', { defaultValue: 'Filters' }) %>
+          </h2>
+          <p class="muted"><%= t('moderationSummary.filtersSubtitle', { defaultValue: 'Filter users and result count for this moderation report.' }) %></p>
+        </div>
+        <span class="schedule-expander-plus" aria-hidden="true">+</span>
+      </summary>
+      <div class="settings-expander-body">
+        <form method="get" action="/dashboard/<%= guild.id %>/moderation-summary" class="level-rows analytics-filters">
+      <div class="level-row analytics-filter-row">
+        <label>
+          <%= t('moderationSummary.filters.userQuery', { defaultValue: 'Username or User ID' }) %>
+          <input type="text" name="user_query" value="<%= filters.userQuery %>" placeholder="e.g. 1093318149732044870 or username" />
+        </label>
+        <label>
+          <%= t('moderationSummary.filters.resultLimit', { defaultValue: 'Result Limit' }) %>
+          <input type="number" name="limit" min="20" max="500" value="<%= filters.limit %>" />
+        </label>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary"><%= t('common.applyFilters', { defaultValue: 'Apply Filters' }) %></button>
+        <a href="/dashboard/<%= guild.id %>/moderation-summary" class="btn btn-ghost"><%= t('common.reset', { defaultValue: 'Reset' }) %></a>
+      </div>
+        </form>
+      </div>
+    </details>
+  </section>
+
+  <section class="panel">
+    <details class="settings-expander">
+      <summary class="settings-expander-summary">
+        <div class="settings-expander-summary-main">
+          <h2 class="section-icon-title">
+            <span class="section-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                <circle cx="9.5" cy="7" r="3" stroke="currentColor" stroke-width="1.8" />
+                <path d="M20 8v6M17 11h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+              </svg>
+            </span>
+            <%= t('moderationSummary.users', { defaultValue: 'Users' }) %>
+          </h2>
+          <p class="muted"><%= t('moderationSummary.usersSubtitle', { defaultValue: 'Detailed user-level moderation actions and latest updates.' }) %></p>
+        </div>
+        <span class="schedule-expander-plus" aria-hidden="true">+</span>
+      </summary>
+      <div class="settings-expander-body">
+        <% if (!moderationRows || moderationRows.length === 0) { %>
+      <p class="muted"><%= t('moderationSummary.noRows', { defaultValue: 'No moderation activity found for this guild.' }) %></p>
+        <% } else { %>
+      <div class="purchase-list">
+        <% moderationRows.forEach((row) => { %>
+          <div class="purchase-item analytics-purchase-item">
+            <div>
+              <strong>
+                <% if (row.userIdDisplay) { %>
+                  <a href="https://discord.com/users/<%= row.userIdDisplay %>" target="_blank" rel="noopener noreferrer"><%= row.username %></a>
+                <% } else { %>
+                  <%= row.username %>
+                <% } %>
+              </strong>
+              <div class="muted">
+                <% if (row.userIdDisplay) { %>
+                  ID: <%= row.userIdDisplay %> ·
+                <% } %>
+                Last updated: <%= row.updatedAt ? new Date(row.updatedAt).toLocaleString() : 'Unknown' %>
+              </div>
+            </div>
+            <div class="muted analytics-right">
+              <div>Flagged: <strong><%= row.moderationFlagCount %></strong></div>
+              <div>Approved: <strong><%= row.moderationApprovedCount %></strong></div>
+              <div>Rejected: <strong><%= row.moderationRejectedCount %></strong></div>
+              <div>Kicked: <strong><%= row.moderationKickCount %></strong></div>
+              <div>Banned: <strong><%= row.moderationBanCount %></strong></div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+        <% } %>
+      </div>
+    </details>
+  </section>
+</main>
+
+<%- include('partials/foot') %>

@@ -1,0 +1,152 @@
+<%- include('partials/head', { title }) %>
+<%- include('partials/nav') %>
+
+<main class="container page-section">
+  <div class="page-head">
+    <div>
+      <h1><%= t('help.title', { defaultValue: 'DiscoBot Help & Wiki' }) %></h1>
+      <p class="muted"><%= t('help.subtitle', { defaultValue: 'Everything you need to run DiscoBot features, website settings, moderation workflows, schedules, and AI credit purchases.' }) %></p>
+    </div>
+  </div>
+
+  <div class="help-layout">
+    <aside class="panel help-toc" id="toc">
+      <h2><%= t('help.contents', { defaultValue: 'Contents' }) %></h2>
+      <ul>
+        <li><a href="#quick-start"><%= t('help.toc.quickStart', { defaultValue: 'Quick Start' }) %></a></li>
+        <li><a href="#core-features"><%= t('help.toc.coreFeatures', { defaultValue: 'Core Features' }) %></a></li>
+        <li>
+          <a href="#discord-commands"><%= t('help.toc.discordCommands', { defaultValue: 'Discord Commands' }) %></a>
+          <ul>
+            <li><a href="#discord-website-links"><%= t('help.discord.websiteLinksTitle', { defaultValue: 'Website Links' }) %></a></li>
+            <li><a href="#discord-feature-controls"><%= t('help.discord.featureControlsTitle', { defaultValue: 'Feature Controls' }) %></a></li>
+            <li><a href="#discord-gamification"><%= t('help.discord.gamificationTitle', { defaultValue: 'Gamification' }) %></a></li>
+            <li><a href="#discord-scheduling"><%= t('help.discord.schedulingTitle', { defaultValue: 'Scheduling' }) %></a></li>
+            <li><a href="#discord-translation"><%= t('help.discord.translationTitle', { defaultValue: 'Translation' }) %></a></li>
+            <li><a href="#discord-ai-images"><%= t('help.discord.aiImagesTitle', { defaultValue: 'AI Images' }) %></a></li>
+          </ul>
+        </li>
+        <li><a href="#guild-config-help"><%= t('help.toc.guildConfig', { defaultValue: 'Website: Guild Bot Configuration' }) %></a></li>
+        <li><a href="#dashboard-credits-help"><%= t('help.toc.dashboardCredits', { defaultValue: 'Website: Dashboard & Credits' }) %></a></li>
+        <li><a href="#disabled-feature-help"><%= t('help.toc.disabledMessages', { defaultValue: 'Feature Disabled Messages' }) %></a></li>
+        <li><a href="#troubleshooting"><%= t('help.toc.troubleshooting', { defaultValue: 'Troubleshooting' }) %></a></li>
+      </ul>
+    </aside>
+
+    <div class="help-content">
+      <section class="panel" id="quick-start">
+        <h2><%= t('help.quickStart.title', { defaultValue: 'Quick Start' }) %></h2>
+        <ul>
+          <li><%= t('help.quickStart.item1', { defaultValue: 'Invite DiscoBot to your server and sign in on the website using Discord.' }) %></li>
+          <li><%= t('help.quickStart.item2', { defaultValue: 'Open Dashboard, choose your guild, then configure features in Guild Bot Configuration.' }) %></li>
+          <li><%= t('help.quickStart.item3', { defaultValue: 'Enable/disable features in one place, then save all feature settings together.' }) %></li>
+          <li><%= t('help.quickStart.item4', { defaultValue: 'Use AI credits page to buy credits or subscriptions for AI image generation.' }) %></li>
+        </ul>
+      </section>
+
+      <section class="panel" id="core-features">
+        <h2><%= t('help.coreFeatures.title', { defaultValue: 'Core Features' }) %></h2>
+        <ul>
+          <li><strong><%= t('help.coreFeatures.smartModerationLabel', { defaultValue: 'Smart Moderation' }) %>:</strong> <%= t('help.coreFeatures.smartModerationBody', { defaultValue: 'flags risky content for admin review, with approve/remove/kick/ban actions and stats.' }) %></li>
+          <li><strong><%= t('help.coreFeatures.gamificationLabel', { defaultValue: 'Gamification' }) %>:</strong> <%= t('help.coreFeatures.gamificationBody', { defaultValue: 'XP, levels, reputation, and leaderboard channels to boost engagement.' }) %></li>
+          <li><strong><%= t('help.coreFeatures.globalCommunicationLabel', { defaultValue: 'Global Communication' }) %>:</strong> <%= t('help.coreFeatures.globalCommunicationBody', { defaultValue: 'message translation powered by DeepL Pro.' }) %></li>
+          <li><strong><%= t('help.coreFeatures.scheduledMessagingLabel', { defaultValue: 'Scheduled Messaging' }) %>:</strong> <%= t('help.coreFeatures.scheduledMessagingBody', { defaultValue: 'one-time, daily, or weekly scheduled posts with timezone support.' }) %></li>
+          <li><strong><%= t('help.coreFeatures.aiImageLabel', { defaultValue: 'AI Image Generation' }) %>:</strong> <%= t('help.coreFeatures.aiImageBody', { defaultValue: 'right-click message context command for text/image prompt workflows.' }) %> <%= t('help.coreFeatures.aiImageWebsiteBody', { defaultValue: 'Image generation and editing are also available directly on the website via AI Credits.' }) %></li>
+          <li><strong><%= t('help.coreFeatures.webDashboardLabel', { defaultValue: 'Web Dashboard' }) %>:</strong> <%= t('help.coreFeatures.webDashboardBody', { defaultValue: 'configure most server settings visually from the website.' }) %></li>
+        </ul>
+      </section>
+
+      <section class="panel" id="discord-commands">
+        <h2><%= t('help.discord.title', { defaultValue: 'Discord Commands' }) %></h2>
+        <p class="muted"><%= t('help.discord.subtitle', { defaultValue: 'Command availability depends on enabled features and your permissions.' }) %></p>
+
+        <h3 id="discord-website-links"><%= t('help.discord.websiteLinksTitle', { defaultValue: 'Website Links' }) %></h3>
+        <ul>
+          <li><code>/website</code> — <%= t('help.discord.websiteLinksItem1', { defaultValue: 'opens DiscoBot website link.' }) %></li>
+        </ul>
+
+        <h3 id="discord-feature-controls"><%= t('help.discord.featureControlsTitle', { defaultValue: 'Feature Controls' }) %></h3>
+        <ul>
+          <li><code>/features</code> — <%= t('help.discord.featureControlsItem1', { defaultValue: 'shows enabled/disabled feature status for the server.' }) %></li>
+          <li><code>/feature-enable</code> — <%= t('help.discord.featureControlsItem2', { defaultValue: 'enables a feature (admin).' }) %></li>
+          <li><code>/feature-disable</code> — <%= t('help.discord.featureControlsItem3', { defaultValue: 'disables a feature (admin).' }) %></li>
+        </ul>
+
+        <h3 id="discord-gamification"><%= t('help.discord.gamificationTitle', { defaultValue: 'Gamification' }) %></h3>
+        <ul>
+          <li><code>/xp</code> — <%= t('help.discord.gamificationItem1', { defaultValue: 'view XP + level for yourself or another member.' }) %></li>
+          <li><code>/xp_leaderboard</code> — <%= t('help.discord.gamificationItem2', { defaultValue: 'show XP/reputation leaderboard.' }) %></li>
+          <li><code>/levels_show</code> — <%= t('help.discord.gamificationItem3', { defaultValue: 'show level configuration.' }) %></li>
+          <li><code>/level_set</code> — <%= t('help.discord.gamificationItem4', { defaultValue: 'create/update level config (admin).' }) %></li>
+          <li><code>/levels_reset</code> — <%= t('help.discord.gamificationItem5', { defaultValue: 'reset levels to defaults (admin).' }) %></li>
+          <li><code>/rep</code> — <%= t('help.discord.gamificationItem6', { defaultValue: 'view reputation.' }) %></li>
+          <li><code>/rep_give</code> — <%= t('help.discord.gamificationItem7', { defaultValue: 'give reputation to another member.' }) %></li>
+          <li><code>/rep_add</code> / <code>/rep_remove</code> — <%= t('help.discord.gamificationItem8', { defaultValue: 'admin reputation adjustments.' }) %></li>
+        </ul>
+
+        <h3 id="discord-scheduling"><%= t('help.discord.schedulingTitle', { defaultValue: 'Scheduling' }) %></h3>
+        <ul>
+          <li><code>/schedule_create</code> — <%= t('help.discord.schedulingItem1', { defaultValue: 'create schedule for a channel message.' }) %></li>
+          <li><code>/schedule_list</code> — <%= t('help.discord.schedulingItem2', { defaultValue: 'list active schedules.' }) %></li>
+          <li><code>/schedule_edit</code> — <%= t('help.discord.schedulingItem3', { defaultValue: 'edit channel/text/timezone/recurrence.' }) %></li>
+          <li><code>/schedule_pause</code> / <code>/schedule_resume</code> — <%= t('help.discord.schedulingItem4', { defaultValue: 'control active schedules.' }) %></li>
+          <li><code>/schedule_delete</code> — <%= t('help.discord.schedulingItem5', { defaultValue: 'remove schedule.' }) %></li>
+        </ul>
+
+        <h3 id="discord-translation"><%= t('help.discord.translationTitle', { defaultValue: 'Translation' }) %></h3>
+        <ul>
+          <li><%= t('help.discord.translationItem1', { defaultValue: 'Message context command:' }) %> <strong><%= t('help.discord.translationCommand1', { defaultValue: 'Translate' }) %></strong></li>
+          <li><%= t('help.discord.translationItem2', { defaultValue: 'Message context command:' }) %> <strong><%= t('help.discord.translationCommand2', { defaultValue: 'Translate (Private)' }) %></strong></li>
+          <li><%= t('help.discord.translationItem3', { defaultValue: 'Flag-reaction translation: react with supported flag emojis to translate messages.' }) %></li>
+        </ul>
+
+        <h3 id="discord-ai-images"><%= t('help.discord.aiImagesTitle', { defaultValue: 'AI Images' }) %></h3>
+        <ul>
+          <li><%= t('help.discord.aiImagesItem1', { defaultValue: 'Message context command:' }) %> <strong><%= t('help.discord.aiImagesCommand', { defaultValue: 'Generate AI Image' }) %></strong></li>
+          <li><%= t('help.discord.aiImagesItem2', { defaultValue: 'Use in the configured AI image channel for generation/edit workflows.' }) %></li>
+        </ul>
+      </section>
+
+      <section class="panel" id="guild-config-help">
+        <h2><%= t('help.guildConfig.title', { defaultValue: 'Website: Guild Bot Configuration' }) %></h2>
+        <ul>
+          <li><strong><%= t('help.guildConfig.item1Label', { defaultValue: 'Feature Controls' }) %>:</strong> <%= t('help.guildConfig.item1Body', { defaultValue: 'enable/disable multiple features, then save once.' }) %></li>
+          <li><strong><%= t('help.guildConfig.item2Label', { defaultValue: 'Translation Character Limit' }) %>:</strong> <%= t('help.guildConfig.item2Body', { defaultValue: 'monitor usage + purchase translation subscriptions for guilds.' }) %></li>
+          <li><strong><%= t('help.guildConfig.item3Label', { defaultValue: 'Gamification Levels' }) %>:</strong> <%= t('help.guildConfig.item3Body', { defaultValue: 'edit level names/thresholds; import/export presets as JSON.' }) %></li>
+          <li><strong><%= t('help.guildConfig.item4Label', { defaultValue: 'Custom Moderation Words' }) %>:</strong> <%= t('help.guildConfig.item4Body', { defaultValue: 'add/remove guild-specific blocked terms.' }) %></li>
+          <li><strong><%= t('help.guildConfig.item5Label', { defaultValue: 'Moderation Snapshot' }) %>:</strong> <%= t('help.guildConfig.item5Body', { defaultValue: 'quick aggregate stats + top moderated users.' }) %></li>
+          <li><strong><%= t('help.guildConfig.item6Label', { defaultValue: 'Scheduled Messages' }) %>:</strong> <%= t('help.guildConfig.item6Body', { defaultValue: 'create, edit, pause, resume, delete schedules.' }) %></li>
+          <li><strong><%= t('help.guildConfig.item7Label', { defaultValue: 'Navigation Buttons' }) %>:</strong> <%= t('help.guildConfig.item7Body', { defaultValue: 'jump directly to Leaderboard and Moderation Summary pages.' }) %></li>
+        </ul>
+      </section>
+
+      <section class="panel" id="dashboard-credits-help">
+        <h2><%= t('help.dashboardCredits.title', { defaultValue: 'Website: Dashboard & Credits' }) %></h2>
+        <ul>
+          <li><strong><%= t('help.dashboardCredits.item1Label', { defaultValue: 'Dashboard' }) %>:</strong> <%= t('help.dashboardCredits.item1Body', { defaultValue: 'shows manageable guilds where DiscoBot is installed.' }) %></li>
+          <li><strong><%= t('help.dashboardCredits.item2Label', { defaultValue: 'AI Credits page' }) %>:</strong> <%= t('help.dashboardCredits.item2Body', { defaultValue: 'buy one-time packs, start monthly subscriptions, manage subscriptions, and backfill missed credits.' }) %> <a href="/credits#website-image-generation"><%= t('help.dashboardCredits.imageGenerationLinkLabel', { defaultValue: 'Open Website Image Generation' }) %></a>.</li>
+          <li><strong><%= t('help.dashboardCredits.item3Label', { defaultValue: 'Balance details' }) %>:</strong> <%= t('help.dashboardCredits.item3Body', { defaultValue: 'shows purchased/used totals and subscription credit state.' }) %></li>
+          <li><strong><%= t('help.dashboardCredits.item4Label', { defaultValue: 'Purchases history' }) %>:</strong> <%= t('help.dashboardCredits.item4Body', { defaultValue: 'shows recent AI credit purchases.' }) %></li>
+        </ul>
+      </section>
+
+      <section class="panel" id="disabled-feature-help">
+        <h2><%= t('help.disabledFeatures.title', { defaultValue: 'Feature Disabled Messages' }) %></h2>
+        <p><%= t('help.disabledFeatures.body', { defaultValue: 'When a feature is disabled in website settings, related commands may either be hidden or show an ephemeral message explaining the feature is disabled and to contact an administrator.' }) %></p>
+      </section>
+
+      <section class="panel" id="troubleshooting">
+        <h2><%= t('help.troubleshooting.title', { defaultValue: 'Troubleshooting' }) %></h2>
+        <ul>
+          <li><%= t('help.troubleshooting.item1', { defaultValue: 'If visuals look outdated after deploy, accept the in-app update toast and refresh.' }) %></li>
+          <li><%= t('help.troubleshooting.item2', { defaultValue: 'If a command fails, confirm the feature is enabled in Guild Bot Configuration.' }) %></li>
+          <li><%= t('help.troubleshooting.item3', { defaultValue: 'For AI image issues, check credits balance and channel permissions.' }) %></li>
+          <li><%= t('help.troubleshooting.item4Prefix', { defaultValue: 'For scheduling issues, validate timezone names (IANA format, e.g.' }) %> <code>Europe/London</code><%= t('help.troubleshooting.item4Suffix', { defaultValue: ').' }) %></li>
+          <li><%= t('help.troubleshooting.item5', { defaultValue: 'If a page/action fails, sign out/in and ensure you have admin/installer permissions.' }) %></li>
+        </ul>
+      </section>
+    </div>
+  </div>
+</main>
+
+<%- include('partials/foot') %>
