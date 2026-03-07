@@ -7,10 +7,10 @@
     "helpTitle": "Help & Wiki"
   },
   "nav": {
-    "home": "Home",
-    "help": "Help",
+    "home": "Start",
+    "help": "Hulp",
     "terms": "Voorwaarden",
-    "privacy": "Privacy",
+    "privacy": "Privacybeleid",
     "language": "Taal",
     "signedInWithDiscord": "Aangemeld met Discord",
     "dashboard": "Dashboard",
@@ -27,9 +27,9 @@
     "ownerWebsiteErrors": "Websitefouten"
   },
   "footer": {
-    "help": "Help",
+    "help": "Hulp",
     "terms": "Voorwaarden",
-    "privacy": "Privacy"
+    "privacy": "Privacybeleid"
   },
   "home": {
     "hero": {
@@ -57,7 +57,7 @@
       },
       "scheduledMessaging": {
         "title": "Geplande Berichten",
-        "description": "Timezone-aware one-off or recurring posts with daily/weekly automation controls."
+        "description": "Terugkerende posts met dagelijkse/wekelijkse automatisering en tijdzonebeheer."
       },
       "aiImageGeneration": {
         "title": "AI-Afbeeldingsgeneratie",

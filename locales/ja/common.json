@@ -549,7 +549,7 @@
       },
       "scheduledMessaging": {
         "title": "スケジュールメッセージ",
-        "description": "Timezone-aware one-off or recurring posts with daily/weekly automation controls."
+        "description": "タイムゾーン対応の定期投稿を日次/週次で自動化。"
       },
       "aiImageGeneration": {
         "title": "AI画像生成",

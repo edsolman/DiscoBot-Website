@@ -57,7 +57,7 @@
       },
       "scheduledMessaging": {
         "title": "Messagerie planifiée",
-        "description": "Timezone-aware one-off or recurring posts with daily/weekly automation controls."
+        "description": "Publications récurrentes avec gestion quotidienne/hebdomadaire et fuseau horaire."
       },
       "aiImageGeneration": {
         "title": "Génération d’images IA",

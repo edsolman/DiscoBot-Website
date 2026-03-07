@@ -549,7 +549,7 @@
       },
       "scheduledMessaging": {
         "title": "Mensajería Programada",
-        "description": "Timezone-aware one-off or recurring posts with daily/weekly automation controls."
+        "description": "Publicaciones recurrentes con control diario/semanal y zona horaria."
       },
       "aiImageGeneration": {
         "title": "Generación de Imágenes IA",

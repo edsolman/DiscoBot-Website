@@ -572,7 +572,7 @@
       },
       "scheduledMessaging": {
         "title": "예약 메시지",
-        "description": "Timezone-aware one-off or recurring posts with daily/weekly automation controls."
+        "description": "시간대 기반 반복 메시지를 자동화합니다."
       },
       "aiImageGeneration": {
         "title": "AI 이미지 생성",

@@ -7,10 +7,10 @@
     "helpTitle": "Aiuto e Wiki"
   },
   "nav": {
-    "home": "Home",
+    "home": "Pagina iniziale",
     "help": "Aiuto",
     "terms": "Termini",
-    "privacy": "Privacy",
+    "privacy": "Informativa privacy",
     "language": "Lingua",
     "signedInWithDiscord": "Accesso effettuato con Discord",
     "dashboard": "Dashboard",
@@ -29,7 +29,7 @@
   "footer": {
     "help": "Aiuto",
     "terms": "Termini",
-    "privacy": "Privacy"
+    "privacy": "Informativa privacy"
   },
   "home": {
     "hero": {
@@ -57,7 +57,7 @@
       },
       "scheduledMessaging": {
         "title": "Messaggi Programmati",
-        "description": "Timezone-aware one-off or recurring posts with daily/weekly automation controls."
+        "description": "Post ricorrenti con gestione fusi orari e controlli giornalieri/settimanali."
       },
       "aiImageGeneration": {
         "title": "Generazione Immagini AI",

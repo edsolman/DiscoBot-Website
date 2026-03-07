@@ -572,7 +572,7 @@
       },
       "scheduledMessaging": {
         "title": "Запланированные сообщения",
-        "description": "Timezone-aware one-off or recurring posts with daily/weekly automation controls."
+        "description": "Повторяющиеся публикации с учетом часовых поясов."
       },
       "aiImageGeneration": {
         "title": "Генерация AI-изображений",

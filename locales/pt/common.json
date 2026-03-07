@@ -57,7 +57,7 @@
       },
       "scheduledMessaging": {
         "title": "Mensagens Agendadas",
-        "description": "Timezone-aware one-off or recurring posts with daily/weekly automation controls."
+        "description": "Publicações recorrentes com controles diários/semanais e fuso horário."
       },
       "aiImageGeneration": {
         "title": "Geração de Imagens por IA",
