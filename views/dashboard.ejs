@@ -10,12 +10,12 @@
         <img src="/assets/DiscoBot.png" alt="DiscoBot" class="dashboard-hero-logo" />
         <div>
           <h1><%= t('dashboard.title', { defaultValue: 'Dashboard' }) %></h1>
-          <p class="dashboard-hero-subtitle"><%= t('dashboard.subtitle', { defaultValue: 'Manage your global AI credits and eligible Discord servers.' }) %></p>
+          <p class="dashboard-hero-subtitle"><%- t('dashboard.subtitle', { defaultValue: 'Manage DiscoBot settings for all Discord servers you are an admin on with DiscoBot installed. Also manage your personal AI Image Generation credits that can be used in Discord, or directly on this website using the link below.' }).replace(/([.!?。])\s*/, '$1<br />') %></p>
         </div>
       </div>
       <div class="dashboard-hero-actions">
         <a href="/credits" class="btn btn-primary btn-with-icon"><span class="btn-icon" aria-hidden="true">💳</span><%= t('dashboard.myAiCredits', { defaultValue: 'My AI Credits' }) %></a>
-        <a href="/credits#website-image-generation" class="btn btn-ghost btn-with-icon dashboard-hero-secondary"><span class="btn-icon" aria-hidden="true">🎨</span><%= t('dashboard.generateAiImages', { defaultValue: 'Generate AI Images' }) %></a>
+        <a href="/ai-image-generation" class="btn btn-ghost btn-with-icon dashboard-hero-secondary"><span class="btn-icon" aria-hidden="true">🎨</span><%= t('nav.aiImageGeneration', { defaultValue: 'Generate AI Images' }) %></a>
       </div>
     </div>
   </section>
@@ -42,7 +42,7 @@
       </span>
       <%= t('dashboard.guildServers', { defaultValue: 'Guild Servers' }) %>
     </h2>
-    <p class="muted"><%= t('dashboard.selectGuild', { defaultValue: 'Select a guild you can manage.' }) %></p>
+    <p class="muted"><%= t('dashboard.selectGuild', { defaultValue: 'Choose a guild to manage DiscoBot settings for.' }) %></p>
 
     <div class="guild-grid">
     <% manageableGuilds.forEach((guild) => { %>
@@ -55,12 +55,11 @@
           <% } %>
           <div>
             <h3><%= guild.name %></h3>
-            <p class="muted"><%= t('dashboard.guildManageable', { defaultValue: 'You can manage this guild' }) %></p>
           </div>
         </div>
 
         <div class="guild-actions">
-          <a href="/dashboard/<%= guild.id %>" class="btn btn-primary"><%= t('dashboard.manage', { defaultValue: 'Manage' }) %></a>
+          <a href="/dashboard/<%= guild.id %>" class="btn btn-primary"><%= t('dashboard.manage', { defaultValue: 'Manage Settings' }) %></a>
         </div>
       </article>
     <% }) %>

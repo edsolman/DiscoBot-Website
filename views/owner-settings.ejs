@@ -14,8 +14,10 @@
         <%= t('ownerSettings.title', { defaultValue: 'Owner Settings' }) %>
       </h1>
       <p class="muted"><%= t('ownerSettings.subtitle', { defaultValue: 'Global bot channel configuration and website pricing tiers.' }) %></p>
+      <div class="form-actions" style="margin-top: 10px;">
+        <a href="/dashboard" class="btn btn-ghost btn-with-icon"><span class="btn-icon" aria-hidden="true">←</span><%= t('common.back', { defaultValue: 'Back' }) %></a>
+      </div>
     </div>
-    <a href="/dashboard" class="btn btn-ghost btn-with-icon"><span class="btn-icon" aria-hidden="true">←</span><%= t('common.back', { defaultValue: 'Back' }) %></a>
   </div>
 
   <% if (saved) { %>

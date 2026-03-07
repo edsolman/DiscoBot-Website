@@ -389,19 +389,21 @@ function resolvePreferredLanguage(req) {
 
 app.use((req, res, next) => {
   const preferredLanguage = resolvePreferredLanguage(req);
+  const isOwnerRoute = String(req.path || "").startsWith("/owner");
+  const effectiveLanguage = isOwnerRoute ? "en" : preferredLanguage;
 
   if (req.session && req.session.preferredLanguage !== preferredLanguage) {
     req.session.preferredLanguage = preferredLanguage;
   }
 
-  if (req.i18n && req.language !== preferredLanguage) {
-    req.i18n.changeLanguage(preferredLanguage);
+  if (req.i18n && req.language !== effectiveLanguage) {
+    req.i18n.changeLanguage(effectiveLanguage);
   }
 
   res.locals.currentUser = req.session.user || null;
   res.locals.pagePath = req.path;
   res.locals.t = req.t ? req.t.bind(req) : ((key) => key);
-  res.locals.currentLanguage = preferredLanguage;
+  res.locals.currentLanguage = effectiveLanguage;
   res.locals.supportedLanguages = SUPPORTED_LANGUAGES;
   res.locals.languageLabels = LANGUAGE_LABELS;
   res.locals.supportEmail = SUPPORT_EMAIL_ADDRESS;
@@ -3860,7 +3862,7 @@ app.get("/credits", requireAuth, async (req, res) => {
     await migrateLegacyUserCreditsToGlobalWallet(req.session.user.id, username);
     await reconcileUserSubscriptionStatuses(req.session.user.id);
 
-    const [summary, purchases, subscriptions, recentWebGenerations] = await Promise.all([
+    const [summary, purchases, subscriptions] = await Promise.all([
       getUserAiImageCreditsSummary(req.session.user.id),
       aiImageCreditPurchasesCollection
         .find(
@@ -3879,7 +3881,6 @@ app.get("/credits", requireAuth, async (req, res) => {
         .limit(20)
         .toArray(),
       getDisplayActiveSubscriptions(req.session.user.id),
-      getUserRecentWebGenerations(req.session.user.id, 10),
     ]);
 
     return res.render("credits", {
@@ -3895,13 +3896,38 @@ app.get("/credits", requireAuth, async (req, res) => {
       backfillStatus: String(req.query.backfill || "").trim().toLowerCase(),
       backfillCredits: Math.max(Number.parseInt(String(req.query.backfill_credits || "0"), 10) || 0, 0),
       discountStatus: String(req.query.discount || "").trim().toLowerCase(),
-      generationStatus: String(req.query.generate || "").trim().toLowerCase(),
       stripeConfigured: isStripeConfigured(),
       creditPackOptions: buildCreditPackOptions({
         mostPopularPackIds: creditPackPopularity.mostPopularPackIds,
         purchaseCountByPackId: creditPackPopularity.purchaseCountByPackId,
       }),
       subscriptionPlanOptions: buildSubscriptionPlanOptions(),
+    });
+  } catch (error) {
+    return res.status(500).render("error", {
+      title: req.t("errors.creditsErrorTitle", { defaultValue: "Credits Error" }),
+      message: req.t("errors.creditsErrorMessage", { defaultValue: "Could not load AI image credits." }),
+    });
+  }
+});
+
+app.get("/ai-image-generation", requireAuth, async (req, res) => {
+  try {
+    const guilds = await buildGuildAccessModel(req.session.discord.accessToken, req.session.user.id);
+    const username = String(req.session.user.globalName || req.session.user.username || "Unknown");
+
+    await migrateLegacyUserCreditsToGlobalWallet(req.session.user.id, username);
+
+    const [summary, recentWebGenerations] = await Promise.all([
+      getUserAiImageCreditsSummary(req.session.user.id),
+      getUserRecentWebGenerations(req.session.user.id, 10),
+    ]);
+
+    return res.render("ai-image-generation", {
+      title: req.t("credits.generate.title", { defaultValue: "Generate AI Image on Website" }),
+      guilds,
+      summary,
+      generationStatus: String(req.query.generate || "").trim().toLowerCase(),
       recentWebGenerations,
     });
   } catch (error) {
@@ -3912,10 +3938,10 @@ app.get("/credits", requireAuth, async (req, res) => {
   }
 });
 
-app.post("/credits/generate-image", requireAuth, aiImageUpload.single("source_image"), async (req, res) => {
+app.post(["/credits/generate-image", "/ai-image-generation/generate-image"], requireAuth, aiImageUpload.single("source_image"), async (req, res) => {
   try {
     if (!openai) {
-      return res.redirect("/credits?generate=unavailable");
+      return res.redirect("/ai-image-generation?generate=unavailable");
     }
 
     const username = String(req.session.user.globalName || req.session.user.username || "Unknown");
@@ -3925,18 +3951,18 @@ app.post("/credits/generate-image", requireAuth, aiImageUpload.single("source_im
       : "text";
 
     if (!prompt) {
-      return res.redirect("/credits?generate=invalid_prompt");
+      return res.redirect("/ai-image-generation?generate=invalid_prompt");
     }
 
     if (generationMode === "edit" && !req.file) {
-      return res.redirect("/credits?generate=invalid_image");
+      return res.redirect("/ai-image-generation?generate=invalid_image");
     }
 
     await migrateLegacyUserCreditsToGlobalWallet(req.session.user.id, username);
 
     const creditConsumeResult = await consumeUserAiImageCredit(req.session.user.id, username);
     if (!creditConsumeResult.consumed) {
-      return res.redirect("/credits?generate=no_credits");
+      return res.redirect("/ai-image-generation?generate=no_credits");
     }
 
     let generatedImageBuffer;
@@ -3953,7 +3979,7 @@ app.post("/credits/generate-image", requireAuth, aiImageUpload.single("source_im
       }
     } catch (error) {
       await refundUserAiImageCredit(req.session.user.id, username);
-      return res.redirect("/credits?generate=failed");
+      return res.redirect("/ai-image-generation?generate=failed");
     }
 
     await aiImageWebGenerationsCollection.insertOne({
@@ -3968,9 +3994,9 @@ app.post("/credits/generate-image", requireAuth, aiImageUpload.single("source_im
       created_at: new Date(),
     });
 
-    return res.redirect("/credits?generate=success");
+    return res.redirect("/ai-image-generation?generate=success");
   } catch (error) {
-    return res.redirect("/credits?generate=failed");
+    return res.redirect("/ai-image-generation?generate=failed");
   }
 });
 

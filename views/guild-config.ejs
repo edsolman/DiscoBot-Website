@@ -14,11 +14,11 @@
       </h1>
       <h2><%= t('guildConfig.heading', { defaultValue: 'Bot Configuration' }) %></h2>
       <p class="muted"><%= t('guildConfig.subtitle', { defaultValue: 'Edit all DiscoBot features and settings for your server.' }) %></p>
-    </div>
-    <div class="form-actions">
-      <a href="/dashboard/<%= guild.id %>/leaderboard" class="btn btn-ghost btn-with-icon"><span class="btn-icon" aria-hidden="true">🏆</span><%= t('guildConfig.leaderboard', { defaultValue: 'Leaderboard' }) %></a>
-      <a href="/dashboard/<%= guild.id %>/moderation-summary" class="btn btn-ghost btn-with-icon"><span class="btn-icon" aria-hidden="true">🛡️</span><%= t('guildConfig.moderationSummary', { defaultValue: 'Moderation Summary' }) %></a>
-      <a href="/dashboard" class="btn btn-ghost btn-with-icon"><span class="btn-icon" aria-hidden="true">←</span><%= t('common.back', { defaultValue: 'Back' }) %></a>
+      <div class="form-actions" style="margin-top: 10px;">
+        <a href="/dashboard/<%= guild.id %>/leaderboard" class="btn btn-ghost btn-with-icon"><span class="btn-icon" aria-hidden="true">🏆</span><%= t('guildConfig.leaderboard', { defaultValue: 'Leaderboard' }) %></a>
+        <a href="/dashboard/<%= guild.id %>/moderation-summary" class="btn btn-ghost btn-with-icon"><span class="btn-icon" aria-hidden="true">🛡️</span><%= t('guildConfig.moderationSummary', { defaultValue: 'Moderation Summary' }) %></a>
+        <a href="/dashboard" class="btn btn-ghost btn-with-icon"><span class="btn-icon" aria-hidden="true">←</span><%= t('common.back', { defaultValue: 'Back' }) %></a>
+      </div>
     </div>
   </div>
 

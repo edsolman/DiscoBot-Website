@@ -11,8 +11,10 @@
         <%= t('ownerDiscounts.title', { defaultValue: 'Owner Discount Codes' }) %>
       </h1>
       <p class="muted"><%= t('ownerDiscounts.subtitle', { defaultValue: 'Create and manage discount codes, and track who used each code.' }) %></p>
+      <div class="form-actions" style="margin-top: 10px;">
+        <a href="/owner/purchases" class="btn btn-ghost btn-with-icon"><span class="btn-icon" aria-hidden="true">←</span><%= t('common.back', { defaultValue: 'Back' }) %></a>
+      </div>
     </div>
-    <a href="/owner/purchases" class="btn btn-ghost btn-with-icon"><span class="btn-icon" aria-hidden="true">←</span><%= t('common.back', { defaultValue: 'Back' }) %></a>
   </div>
 
   <% if (createStatus === '1') { %>

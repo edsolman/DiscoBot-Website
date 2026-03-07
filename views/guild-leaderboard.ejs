@@ -15,8 +15,10 @@
         <%= guild.name %> · <%= t('guildLeaderboard.titleSuffix', { defaultValue: 'Gamification Leaderboard' }) %>
       </h1>
       <p class="muted"><%= t('guildLeaderboard.subtitle', { defaultValue: 'View XP/reputation standings and directly adjust values for users.' }) %></p>
+      <div class="form-actions" style="margin-top: 10px;">
+        <a href="/dashboard/<%= guild.id %>" class="btn btn-ghost btn-with-icon"><span class="btn-icon" aria-hidden="true">←</span><%= t('common.back', { defaultValue: 'Back' }) %></a>
+      </div>
     </div>
-    <a href="/dashboard/<%= guild.id %>" class="btn btn-ghost btn-with-icon"><span class="btn-icon" aria-hidden="true">←</span><%= t('common.back', { defaultValue: 'Back' }) %></a>
   </div>
 
   <% if (adjustStatus === 'updated') { %>
