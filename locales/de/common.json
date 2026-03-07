@@ -270,6 +270,7 @@
     "users": "Nutzer",
     "noRows": "Für diesen Server wurde keine Moderationsaktivität gefunden.",
     "usersSubtitle": "Detaillierte Moderationsaktionen pro Nutzer und letzte Aktualisierungen.",
+    "lastUpdated": "Zuletzt aktualisiert",
     "snapshot": {
       "title": "Moderations-Snapshot",
       "subtitle": "Schneller Überblick über Moderationsergebnisse auf diesem Server.",

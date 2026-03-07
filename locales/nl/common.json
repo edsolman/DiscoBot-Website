@@ -270,6 +270,7 @@
     "users": "Users",
     "noRows": "Geen moderatieactiviteit gevonden voor deze server.",
     "usersSubtitle": "Gedetailleerde moderatie-acties per gebruiker en laatste updates.",
+    "lastUpdated": "Laatst bijgewerkt",
     "snapshot": {
       "title": "Moderatie-overzicht",
       "subtitle": "Snel overzicht van moderatieresultaten in deze server.",

@@ -180,6 +180,7 @@
     "subtitle": "Review moderated users and enforcement outcomes for this server.",
     "users": "Users",
     "usersSubtitle": "Detailed user-level moderation actions and latest updates.",
+    "lastUpdated": "Last updated",
     "noRows": "No moderation activity found for this guild.",
     "snapshot": {
       "title": "Moderation Snapshot",

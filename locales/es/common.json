@@ -181,6 +181,7 @@
     "users": "Usuarios",
     "noRows": "No se encontró actividad de moderación para este servidor.",
     "usersSubtitle": "Acciones de moderación detalladas por usuario y últimas actualizaciones.",
+    "lastUpdated": "Última actualización",
     "snapshot": {
       "title": "Resumen de moderación",
       "subtitle": "Vista rápida de los resultados de moderación en este servidor.",

@@ -181,6 +181,7 @@
     "users": "用户",
     "noRows": "未找到该公会的审核活动。",
     "usersSubtitle": "按用户展示详细审核操作和最近更新。",
+    "lastUpdated": "最后更新",
     "snapshot": {
       "title": "审核快照",
       "subtitle": "快速查看此服务器的审核结果。",

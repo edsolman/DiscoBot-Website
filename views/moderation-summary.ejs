@@ -140,15 +140,15 @@
                 <% if (row.userIdDisplay) { %>
                   ID: <%= row.userIdDisplay %> ·
                 <% } %>
-                Last updated: <%= row.updatedAt ? new Date(row.updatedAt).toLocaleString() : 'Unknown' %>
+                <%= t('moderationSummary.lastUpdated', { defaultValue: 'Last updated' }) %>: <%= row.updatedAt ? new Date(row.updatedAt).toLocaleString() : 'Unknown' %>
               </div>
             </div>
             <div class="muted analytics-right">
-              <div>Flagged: <strong><%= row.moderationFlagCount %></strong></div>
-              <div>Approved: <strong><%= row.moderationApprovedCount %></strong></div>
-              <div>Rejected: <strong><%= row.moderationRejectedCount %></strong></div>
-              <div>Kicked: <strong><%= row.moderationKickCount %></strong></div>
-              <div>Banned: <strong><%= row.moderationBanCount %></strong></div>
+              <div><%= t('moderationSummary.snapshot.flagged', { defaultValue: 'Flagged' }) %>: <strong><%= row.moderationFlagCount %></strong></div>
+              <div><%= t('moderationSummary.snapshot.approved', { defaultValue: 'Approved' }) %>: <strong><%= row.moderationApprovedCount %></strong></div>
+              <div><%= t('moderationSummary.snapshot.rejected', { defaultValue: 'Rejected' }) %>: <strong><%= row.moderationRejectedCount %></strong></div>
+              <div><%= t('moderationSummary.snapshot.kicked', { defaultValue: 'Kicked' }) %>: <strong><%= row.moderationKickCount %></strong></div>
+              <div><%= t('moderationSummary.snapshot.banned', { defaultValue: 'Banned' }) %>: <strong><%= row.moderationBanCount %></strong></div>
             </div>
           </div>
         <% }) %>

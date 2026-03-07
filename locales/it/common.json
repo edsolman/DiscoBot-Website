@@ -270,6 +270,7 @@
     "users": "Utenti",
     "noRows": "Nessuna attività di moderazione trovata per questo server.",
     "usersSubtitle": "Azioni di moderazione dettagliate per utente e ultimi aggiornamenti.",
+    "lastUpdated": "Ultimo aggiornamento",
     "snapshot": {
       "title": "Panoramica moderazione",
       "subtitle": "Panoramica rapida dei risultati di moderazione in questo server.",
