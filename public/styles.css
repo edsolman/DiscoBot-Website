@@ -7,6 +7,8 @@
   --text-muted: #a9b4d0;
   --accent: #6d8cff;
   --accent-2: #56d8ff;
+  --link-brand: #d884ff;
+  --link-brand-hover: #ff7fcb;
   --success: #3ddc97;
   --danger: #ff6b81;
   --radius: 16px;
@@ -21,7 +23,33 @@ body {
   min-height: 100vh;
 }
 
-a { color: inherit; text-decoration: none; }
+a {
+  color: var(--link-brand);
+  text-decoration: none;
+}
+
+a:visited {
+  color: var(--link-brand);
+}
+
+a:hover,
+a:focus-visible {
+  color: var(--link-brand-hover);
+}
+
+.brand,
+.brand:hover,
+.nav-links > a,
+.nav-links > a:hover,
+.user-menu-list > a,
+.user-menu-list > a:hover,
+.owner-menu-list a,
+.owner-menu-list a:hover,
+.btn,
+.btn:hover,
+.btn:focus-visible {
+  text-decoration: none;
+}
 .container { width: min(1120px, 92vw); margin: 0 auto; }
 
 .site-header {
