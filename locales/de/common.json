@@ -57,15 +57,23 @@
       },
       "scheduledMessaging": {
         "title": "Geplante Nachrichten",
-        "description": "Wiederkehrende Posts mit täglicher/wöchentlicher Automatisierung und Zeitzonensteuerung."
+        "description": "Timezone-aware one-off or recurring posts with daily/weekly automation controls."
       },
       "aiImageGeneration": {
         "title": "KI-Bildgenerierung",
-        "description": "Erstelle und bearbeite Bilder direkt aus Discord mit OpenAI-Prompts."
+        "description": "Erstelle und bearbeite Bilder direkt aus Discord mit OpenAI-Prompts.",
+        "descriptionPrefix": "Kaufe ",
+        "aiCreditsLinkText": "persönliche KI-Credits",
+        "descriptionMiddle": " und nutze sie, um KI-Bilder mit dem neuesten ChatGPT-Modell über deinen Discord-Server oder über diese ",
+        "websiteLinkText": "Webseite",
+        "descriptionSuffix": "."
       },
       "webDashboard": {
         "title": "Web-Dashboard & App",
-        "description": "Wichtige Einstellungen im Web-Dashboard oder in der App konfigurieren – ohne Slash-Befehle."
+        "description": "Wichtige Einstellungen im Web-Dashboard oder in der App konfigurieren – ohne Slash-Befehle.",
+        "descriptionPrefix": "Verwalte alle Bot-Funktionen und Einstellungen über das ",
+        "linkText": "Web-Dashboard",
+        "descriptionSuffix": " oder die App – ganz ohne Slash-Befehle."
       }
     }
   },

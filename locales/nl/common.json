@@ -57,15 +57,23 @@
       },
       "scheduledMessaging": {
         "title": "Geplande Berichten",
-        "description": "Terugkerende posts met dagelijkse/wekelijkse automatisering en tijdzonebeheer."
+        "description": "Timezone-aware one-off or recurring posts with daily/weekly automation controls."
       },
       "aiImageGeneration": {
         "title": "AI-Afbeeldingsgeneratie",
-        "description": "Genereer en bewerk afbeeldingen direct vanuit Discord met OpenAI-prompts."
+        "description": "Genereer en bewerk afbeeldingen direct vanuit Discord met OpenAI-prompts.",
+        "descriptionPrefix": "Koop ",
+        "aiCreditsLinkText": "persoonlijke AI-credits",
+        "descriptionMiddle": " en gebruik ze om AI-afbeeldingen te genereren met het nieuwste ChatGPT-model vanuit je Discord-server, of via deze ",
+        "websiteLinkText": "website",
+        "descriptionSuffix": "."
       },
       "webDashboard": {
         "title": "Webdashboard & App",
-        "description": "Configureer kerninstellingen via het webdashboard of de app zonder slash-commando's."
+        "description": "Configureer kerninstellingen via het webdashboard of de app zonder slash-commando's.",
+        "descriptionPrefix": "Beheer alle botfuncties en instellingen via het ",
+        "linkText": "webdashboard",
+        "descriptionSuffix": " of de app zonder afhankelijk te zijn van slash-commando's."
       }
     }
   },

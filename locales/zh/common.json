@@ -572,15 +572,23 @@
       },
       "scheduledMessaging": {
         "title": "定时消息",
-        "description": "支持时区的每日/每周自动发送。"
+        "description": "Timezone-aware one-off or recurring posts with daily/weekly automation controls."
       },
       "aiImageGeneration": {
         "title": "AI 图片生成",
-        "description": "在 Discord 中直接使用 OpenAI 提示词生成/编辑图片。"
+        "description": "在 Discord 中直接使用 OpenAI 提示词生成/编辑图片。",
+        "descriptionPrefix": "购买",
+        "aiCreditsLinkText": "个人 AI 积分",
+        "descriptionMiddle": "，即可在 Discord 服务器中使用最新的 ChatGPT 模型生成图片，或在此",
+        "websiteLinkText": "网站",
+        "descriptionSuffix": "中使用。"
       },
       "webDashboard": {
         "title": "网页控制台与应用",
-        "description": "可通过网页控制台或应用管理关键设置，无需斜杠命令。"
+        "description": "可通过网页控制台或应用管理关键设置，无需斜杠命令。",
+        "descriptionPrefix": "通过",
+        "linkText": "网页控制台",
+        "descriptionSuffix": "或应用即可管理所有机器人功能与设置，无需依赖斜杠命令。"
       }
     }
   },

@@ -602,17 +602,25 @@
         "description": "Instant, accurate and natural message translation using the DeepL Pro engine."
       },
       "scheduledMessaging": {
-        "title": "Scheduled Messaging",
+        "title": "Scheduled Messages",
         "description": "Timezone-aware one-off or recurring posts with daily/weekly automation controls."
       },
       "aiImageGeneration": {
         "title": "AI Image Generation",
         "description": "Generate and edit images directly from Discord with OpenAI-powered prompts.",
+        "descriptionPrefix": "Buy ",
+        "aiCreditsLinkText": "personal AI credits",
+        "descriptionMiddle": " and use them to generate AI images using the latest ChatGPT model from your Discord server, or this ",
+        "websiteLinkText": "website",
+        "descriptionSuffix": ".",
         "websiteMention": "You can also generate and edit AI images directly on this website using your personal AI Credits."
       },
       "webDashboard": {
         "title": "Web Dashboard & App",
-        "description": "Manage all bot features & settings from the web dashboard or the app without relying on slash commands."
+        "description": "Manage all bot features & settings from the web dashboard or the app without relying on slash commands.",
+        "descriptionPrefix": "Manage all bot features & settings from the ",
+        "linkText": "web dashboard",
+        "descriptionSuffix": " or the app without relying on slash commands."
       }
     }
   },

@@ -57,15 +57,23 @@
       },
       "scheduledMessaging": {
         "title": "Messagerie planifiée",
-        "description": "Publications récurrentes avec gestion quotidienne/hebdomadaire et fuseau horaire."
+        "description": "Timezone-aware one-off or recurring posts with daily/weekly automation controls."
       },
       "aiImageGeneration": {
         "title": "Génération d’images IA",
-        "description": "Générez et modifiez des images depuis Discord avec des prompts OpenAI."
+        "description": "Générez et modifiez des images depuis Discord avec des prompts OpenAI.",
+        "descriptionPrefix": "Achetez des ",
+        "aiCreditsLinkText": "crédits IA personnels",
+        "descriptionMiddle": " et utilisez-les pour générer des images IA avec le dernier modèle ChatGPT depuis votre serveur Discord, ou sur ce ",
+        "websiteLinkText": "site web",
+        "descriptionSuffix": "."
       },
       "webDashboard": {
         "title": "Tableau de bord web & app",
-        "description": "Configurez les paramètres clés depuis le tableau de bord web ou l’app, sans commandes slash."
+        "description": "Configurez les paramètres clés depuis le tableau de bord web ou l’app, sans commandes slash.",
+        "descriptionPrefix": "Gérez toutes les fonctionnalités et paramètres du bot depuis le ",
+        "linkText": "tableau de bord web",
+        "descriptionSuffix": " ou l’app, sans dépendre des commandes slash."
       }
     }
   },

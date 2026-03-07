@@ -549,15 +549,23 @@
       },
       "scheduledMessaging": {
         "title": "スケジュールメッセージ",
-        "description": "タイムゾーン対応の定期投稿を日次/週次で自動化。"
+        "description": "Timezone-aware one-off or recurring posts with daily/weekly automation controls."
       },
       "aiImageGeneration": {
         "title": "AI画像生成",
-        "description": "OpenAIプロンプトでDiscordから直接画像を生成・編集。"
+        "description": "OpenAIプロンプトでDiscordから直接画像を生成・編集。",
+        "descriptionPrefix": "",
+        "aiCreditsLinkText": "個人用AIクレジット",
+        "descriptionMiddle": "を購入し、Discordサーバーで最新のChatGPTモデルによるAI画像生成に使うか、この",
+        "websiteLinkText": "Webサイト",
+        "descriptionSuffix": "でも利用できます。"
       },
       "webDashboard": {
         "title": "Webダッシュボード＆アプリ",
-        "description": "Webダッシュボードまたはアプリから、スラッシュコマンドなしで主要設定を管理できます。"
+        "description": "Webダッシュボードまたはアプリから、スラッシュコマンドなしで主要設定を管理できます。",
+        "descriptionPrefix": "ボットの全機能と設定を",
+        "linkText": "Webダッシュボード",
+        "descriptionSuffix": "またはアプリから、スラッシュコマンドに頼らず管理できます。"
       }
     }
   },

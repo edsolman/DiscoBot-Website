@@ -572,15 +572,23 @@
       },
       "scheduledMessaging": {
         "title": "Запланированные сообщения",
-        "description": "Повторяющиеся публикации с учетом часовых поясов."
+        "description": "Timezone-aware one-off or recurring posts with daily/weekly automation controls."
       },
       "aiImageGeneration": {
         "title": "Генерация AI-изображений",
-        "description": "Создавайте и редактируйте изображения в Discord с подсказками OpenAI."
+        "description": "Создавайте и редактируйте изображения в Discord с подсказками OpenAI.",
+        "descriptionPrefix": "Купите ",
+        "aiCreditsLinkText": "личные AI-кредиты",
+        "descriptionMiddle": " и используйте их для генерации изображений с новейшей моделью ChatGPT на вашем сервере Discord или на этом ",
+        "websiteLinkText": "сайте",
+        "descriptionSuffix": "."
       },
       "webDashboard": {
         "title": "Веб-панель и приложение",
-        "description": "Управляйте ключевыми настройками через веб-панель или приложение без slash-команд."
+        "description": "Управляйте ключевыми настройками через веб-панель или приложение без slash-команд.",
+        "descriptionPrefix": "Управляйте всеми функциями и настройками бота через ",
+        "linkText": "веб-панель",
+        "descriptionSuffix": " или приложение без использования slash-команд."
       }
     }
   },

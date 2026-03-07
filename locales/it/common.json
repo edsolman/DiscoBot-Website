@@ -57,15 +57,23 @@
       },
       "scheduledMessaging": {
         "title": "Messaggi Programmati",
-        "description": "Post ricorrenti con gestione fusi orari e controlli giornalieri/settimanali."
+        "description": "Timezone-aware one-off or recurring posts with daily/weekly automation controls."
       },
       "aiImageGeneration": {
         "title": "Generazione Immagini AI",
-        "description": "Genera e modifica immagini direttamente da Discord con prompt OpenAI."
+        "description": "Genera e modifica immagini direttamente da Discord con prompt OpenAI.",
+        "descriptionPrefix": "Acquista ",
+        "aiCreditsLinkText": "crediti IA personali",
+        "descriptionMiddle": " e usali per generare immagini IA con l’ultimo modello ChatGPT dal tuo server Discord, oppure da questo ",
+        "websiteLinkText": "sito web",
+        "descriptionSuffix": "."
       },
       "webDashboard": {
         "title": "Dashboard Web & App",
-        "description": "Configura le impostazioni principali dalla dashboard web o dall’app senza comandi slash."
+        "description": "Configura le impostazioni principali dalla dashboard web o dall’app senza comandi slash.",
+        "descriptionPrefix": "Gestisci tutte le funzionalità e impostazioni del bot dalla ",
+        "linkText": "dashboard web",
+        "descriptionSuffix": " o dall’app senza dipendere dai comandi slash."
       }
     }
   },
