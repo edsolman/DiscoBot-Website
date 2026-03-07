@@ -2729,15 +2729,18 @@ function normalizeGuildFeatures(rawFeatures) {
   };
 }
 
-function buildGuildFeatureControls(features) {
+function buildGuildFeatureControls(features, t) {
   const safeFeatures = normalizeGuildFeatures(features);
   const ownerChannels = getOwnerSettings().channels;
+  const translate = typeof t === "function" ? t : (key, options = {}) => options.defaultValue || key;
 
   return [
     {
       key: "moderation",
-      label: "Moderation",
-      description: "Admin moderation workflows and moderation summary.",
+      label: translate("home.features.smartModeration.title", { defaultValue: "Moderation" }),
+      description: translate("home.features.smartModeration.description", {
+        defaultValue: "Admin moderation workflows and moderation summary.",
+      }),
       enabled: safeFeatures.moderation.enabled,
       cleanupSupported: true,
       cleanupLabel: `Also remove associated channel #${ownerChannels.moderation.channel_name}`,
@@ -2745,8 +2748,10 @@ function buildGuildFeatureControls(features) {
     },
     {
       key: "gamification",
-      label: "Gamification",
-      description: "Levels, XP, and leaderboard features.",
+      label: translate("home.features.gamification.title", { defaultValue: "Gamification" }),
+      description: translate("home.features.gamification.description", {
+        defaultValue: "Levels, XP, and leaderboard features.",
+      }),
       enabled: safeFeatures.gamification.enabled,
       cleanupSupported: true,
       cleanupLabel: `Also remove associated channel #${ownerChannels.gamification.leaderboard_channel_name}`,
@@ -2754,8 +2759,10 @@ function buildGuildFeatureControls(features) {
     },
     {
       key: "ai_image",
-      label: "AI Image",
-      description: "AI image generation channel and related feature controls.",
+      label: translate("home.features.aiImageGeneration.title", { defaultValue: "AI Image" }),
+      description: translate("home.features.aiImageGeneration.description", {
+        defaultValue: "AI image generation channel and related feature controls.",
+      }),
       enabled: safeFeatures.ai_image.enabled,
       cleanupSupported: true,
       cleanupLabel: `Also remove associated channel #${ownerChannels.ai_image.channel_name}`,
@@ -2763,8 +2770,10 @@ function buildGuildFeatureControls(features) {
     },
     {
       key: "translation",
-      label: "Translation",
-      description: "Translation usage and subscription controls.",
+      label: translate("home.features.globalCommunication.title", { defaultValue: "Translation" }),
+      description: translate("home.features.globalCommunication.description", {
+        defaultValue: "Translation usage and subscription controls.",
+      }),
       enabled: safeFeatures.translation.enabled,
       cleanupSupported: false,
       cleanupLabel: "",
@@ -2772,8 +2781,10 @@ function buildGuildFeatureControls(features) {
     },
     {
       key: "scheduled_messages",
-      label: "Scheduled Messages",
-      description: "Scheduled message creation and management.",
+      label: translate("home.features.scheduledMessaging.title", { defaultValue: "Scheduled Messages" }),
+      description: translate("home.features.scheduledMessaging.description", {
+        defaultValue: "Scheduled message creation and management.",
+      }),
       enabled: safeFeatures.scheduled_messages.enabled,
       cleanupSupported: false,
       cleanupLabel: "",
@@ -5702,7 +5713,7 @@ app.get("/dashboard/:guildId", requireAuth, async (req, res) => {
       translationSubscriptionPlans: getTranslationSubscriptionPlans(),
       translationSubscriptions,
       translationStatus: String(req.query.translationSub || "").trim().toLowerCase(),
-      featureControls: buildGuildFeatureControls(guildFeatures),
+      featureControls: buildGuildFeatureControls(guildFeatures, req.t),
       featureStatus: String(req.query.feature || "").trim().toLowerCase(),
       featureKey: String(req.query.feature_key || "").trim().toLowerCase(),
       featureCleanupStatus: String(req.query.feature_cleanup || "").trim().toLowerCase(),

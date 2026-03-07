@@ -35,64 +35,64 @@
     <div class="alert success"><%= t('guildConfig.alerts.wordsRemoved', { defaultValue: 'Custom moderation word removed.' }) %></div>
   <% } %>
   <% if (moderationWordsStatus === 'exists') { %>
-    <div class="alert warning">That custom moderation word is already on the list.</div>
+    <div class="alert warning"><%= t('guildConfig.alerts.wordsExists', { defaultValue: 'That custom moderation word is already on the list.' }) %></div>
   <% } %>
   <% if (moderationWordsStatus === 'missing') { %>
-    <div class="alert warning">That custom moderation word was not found.</div>
+    <div class="alert warning"><%= t('guildConfig.alerts.wordsMissing', { defaultValue: 'That custom moderation word was not found.' }) %></div>
   <% } %>
   <% if (moderationWordsStatus === 'invalid') { %>
-    <div class="alert warning">Please enter a valid word/phrase between 2 and 64 characters.</div>
+    <div class="alert warning"><%= t('guildConfig.alerts.wordsInvalid', { defaultValue: 'Please enter a valid word/phrase between 2 and 64 characters.' }) %></div>
   <% } %>
   <% if (scheduleStatus === 'created') { %>
-    <div class="alert success">Scheduled message created.</div>
+    <div class="alert success"><%= t('guildConfig.alerts.scheduleCreated', { defaultValue: 'Scheduled message created.' }) %></div>
   <% } %>
   <% if (scheduleStatus === 'updated') { %>
-    <div class="alert success">Scheduled message updated.</div>
+    <div class="alert success"><%= t('guildConfig.alerts.scheduleUpdated', { defaultValue: 'Scheduled message updated.' }) %></div>
   <% } %>
   <% if (scheduleStatus === 'deleted') { %>
-    <div class="alert success">Scheduled message deleted.</div>
+    <div class="alert success"><%= t('guildConfig.alerts.scheduleDeleted', { defaultValue: 'Scheduled message deleted.' }) %></div>
   <% } %>
   <% if (scheduleStatus === 'missing') { %>
-    <div class="alert warning">Scheduled message not found.</div>
+    <div class="alert warning"><%= t('guildConfig.alerts.scheduleMissing', { defaultValue: 'Scheduled message not found.' }) %></div>
   <% } %>
   <% if (scheduleStatus === 'invalid') { %>
-    <div class="alert warning">Please provide valid schedule details.</div>
+    <div class="alert warning"><%= t('guildConfig.alerts.scheduleInvalid', { defaultValue: 'Please provide valid schedule details.' }) %></div>
   <% } %>
   <% if (scheduleStatus === 'past') { %>
-    <div class="alert warning">First run must be in the future for the selected timezone.</div>
+    <div class="alert warning"><%= t('guildConfig.alerts.schedulePast', { defaultValue: 'First run must be in the future for the selected timezone.' }) %></div>
   <% } %>
   <% if (translationStatus === 'success') { %>
-    <div class="alert success">Translation subscription checkout completed successfully.</div>
+    <div class="alert success"><%= t('guildConfig.alerts.translationSuccess', { defaultValue: 'Translation subscription checkout completed successfully.' }) %></div>
   <% } %>
   <% if (translationStatus === 'canceled') { %>
-    <div class="alert warning">Translation subscription checkout was canceled.</div>
+    <div class="alert warning"><%= t('guildConfig.alerts.translationCanceled', { defaultValue: 'Translation subscription checkout was canceled.' }) %></div>
   <% } %>
   <% if (translationStatus === 'invalid_plan') { %>
-    <div class="alert warning">Please select a valid translation subscription plan.</div>
+    <div class="alert warning"><%= t('guildConfig.alerts.translationInvalidPlan', { defaultValue: 'Please select a valid translation subscription plan.' }) %></div>
   <% } %>
   <% if (translationStatus === 'no_subscription') { %>
-    <div class="alert warning">No active translation subscription found to manage for this guild.</div>
+    <div class="alert warning"><%= t('guildConfig.alerts.translationNoSubscription', { defaultValue: 'No active translation subscription found to manage for this guild.' }) %></div>
   <% } %>
   <% if (translationStatus === 'error') { %>
-    <div class="alert warning">Could not process translation subscription request. Please try again.</div>
+    <div class="alert warning"><%= t('guildConfig.alerts.translationError', { defaultValue: 'Could not process translation subscription request. Please try again.' }) %></div>
   <% } %>
   <% if (featureStatus === 'updated') { %>
-    <div class="alert success">Feature settings updated.</div>
+    <div class="alert success"><%= t('guildConfig.alerts.featureUpdated', { defaultValue: 'Feature settings updated.' }) %></div>
   <% } %>
   <% if (featureStatus === 'error') { %>
-    <div class="alert warning">Could not update feature settings. Please try again.</div>
+    <div class="alert warning"><%= t('guildConfig.alerts.featureError', { defaultValue: 'Could not update feature settings. Please try again.' }) %></div>
   <% } %>
   <% if (featureStatus === 'invalid') { %>
-    <div class="alert warning">Invalid feature selected.</div>
+    <div class="alert warning"><%= t('guildConfig.alerts.featureInvalid', { defaultValue: 'Invalid feature selected.' }) %></div>
   <% } %>
   <% if (featureStatus === 'updated' && featureCleanupStatus === 'removed') { %>
-    <div class="alert success">Associated channel(s) were removed.</div>
+    <div class="alert success"><%= t('guildConfig.alerts.featureCleanupRemoved', { defaultValue: 'Associated channel(s) were removed.' }) %></div>
   <% } %>
   <% if (featureStatus === 'updated' && featureCleanupStatus === 'partial') { %>
-    <div class="alert warning">Feature was disabled, but some associated channels could not be removed.</div>
+    <div class="alert warning"><%= t('guildConfig.alerts.featureCleanupPartial', { defaultValue: 'Feature was disabled, but some associated channels could not be removed.' }) %></div>
   <% } %>
   <% if (featureStatus === 'updated' && featureCleanupStatus === 'failed') { %>
-    <div class="alert warning">Feature was disabled, but channel cleanup failed.</div>
+    <div class="alert warning"><%= t('guildConfig.alerts.featureCleanupFailed', { defaultValue: 'Feature was disabled, but channel cleanup failed.' }) %></div>
   <% } %>
 
   <section class="panel">
@@ -300,7 +300,7 @@
         <form method="post" action="/dashboard/<%= guild.id %>/moderation-words/add" class="import-form">
       <label>
         <%= t('guildConfig.customModerationWords.addLabel', { defaultValue: 'Add Word/Phrase' }) %>
-        <input type="text" name="word" maxlength="64" placeholder="e.g. toxic phrase" required />
+        <input type="text" name="word" maxlength="64" placeholder="<%= t('guildConfig.customModerationWords.placeholder', { defaultValue: 'e.g. toxic phrase' }) %>" required />
       </label>
       <div class="form-actions">
         <button type="submit" class="btn btn-primary"><%= t('guildConfig.customModerationWords.addButton', { defaultValue: 'Add Custom Word' }) %></button>
@@ -370,16 +370,16 @@
               </strong>
               <div class="muted">
                 <% if (row.userIdDisplay) { %>
-                  ID: <%= row.userIdDisplay %>
+                  <%= t('guildConfig.moderationSnapshot.userIdLabel', { defaultValue: 'ID' }) %>: <%= row.userIdDisplay %>
                 <% } %>
               </div>
             </div>
             <div class="muted analytics-right">
-              <div>Flagged: <strong><%= row.moderationFlagCount %></strong></div>
-              <div>Approved: <strong><%= row.moderationApprovedCount %></strong></div>
-              <div>Rejected: <strong><%= row.moderationRejectedCount %></strong></div>
-              <div>Kicked: <strong><%= row.moderationKickCount %></strong></div>
-              <div>Banned: <strong><%= row.moderationBanCount %></strong></div>
+              <div><%= t('guildConfig.moderationSnapshot.flagged', { defaultValue: 'Flagged' }) %>: <strong><%= row.moderationFlagCount %></strong></div>
+              <div><%= t('guildConfig.moderationSnapshot.approved', { defaultValue: 'Approved' }) %>: <strong><%= row.moderationApprovedCount %></strong></div>
+              <div><%= t('guildConfig.moderationSnapshot.rejected', { defaultValue: 'Rejected' }) %>: <strong><%= row.moderationRejectedCount %></strong></div>
+              <div><%= t('guildConfig.moderationSnapshot.kicked', { defaultValue: 'Kicked' }) %>: <strong><%= row.moderationKickCount %></strong></div>
+              <div><%= t('guildConfig.moderationSnapshot.banned', { defaultValue: 'Banned' }) %>: <strong><%= row.moderationBanCount %></strong></div>
             </div>
           </div>
         <% }) %>
@@ -433,7 +433,7 @@
 
     <details class="schedule-expander schedule-create-expander">
       <summary>
-        <span>Create Scheduled Message</span>
+        <span><%= t('guildConfig.scheduleForm.create', { defaultValue: 'Create Scheduled Message' }) %></span>
         <span class="schedule-expander-plus" aria-hidden="true">+</span>
       </summary>
       <div class="schedule-expander-body">
@@ -466,51 +466,51 @@
               </label>
               <label class="field-custom-timezone">
                 <%= t('guildConfig.scheduleForm.customTimezone', { defaultValue: 'Custom Timezone (optional)' }) %>
-                <input type="text" name="custom_timezone_name" placeholder="e.g. Pacific/Auckland" />
+                <input type="text" name="custom_timezone_name" placeholder="<%= t('guildConfig.scheduleForm.customTimezonePlaceholder', { defaultValue: 'e.g. Pacific/Auckland' }) %>" />
               </label>
               <label class="field-next-run">
                 <%= t('guildConfig.scheduleForm.dateTimeToSend', { defaultValue: 'Date & Time to Send' }) %>
                 <input type="datetime-local" name="once_run_at" class="schedule-once-input" required />
               </label>
               <label class="field-start-date">
-                Start Date
+                <%= t('guildConfig.scheduleForm.startDate', { defaultValue: 'Start Date' }) %>
                 <input type="date" name="start_date" class="schedule-start-date" required />
               </label>
               <label class="field-send-time">
-                Time to Send
+                <%= t('guildConfig.scheduleForm.sendTime', { defaultValue: 'Time to Send' }) %>
                 <input type="time" name="send_time" class="schedule-send-time" required />
               </label>
               <label class="field-weekdays">
-                Days of Week
+                <%= t('guildConfig.scheduleForm.daysOfWeek', { defaultValue: 'Days of Week' }) %>
                 <div class="schedule-weekdays">
-                  <label><input type="checkbox" name="weekly_days" value="mon" />Mon</label>
-                  <label><input type="checkbox" name="weekly_days" value="tue" />Tue</label>
-                  <label><input type="checkbox" name="weekly_days" value="wed" />Wed</label>
-                  <label><input type="checkbox" name="weekly_days" value="thu" />Thu</label>
-                  <label><input type="checkbox" name="weekly_days" value="fri" />Fri</label>
-                  <label><input type="checkbox" name="weekly_days" value="sat" />Sat</label>
-                  <label><input type="checkbox" name="weekly_days" value="sun" />Sun</label>
+                  <label><input type="checkbox" name="weekly_days" value="mon" /><%= t('guildConfig.scheduleForm.weekdays.mon', { defaultValue: 'Mon' }) %></label>
+                  <label><input type="checkbox" name="weekly_days" value="tue" /><%= t('guildConfig.scheduleForm.weekdays.tue', { defaultValue: 'Tue' }) %></label>
+                  <label><input type="checkbox" name="weekly_days" value="wed" /><%= t('guildConfig.scheduleForm.weekdays.wed', { defaultValue: 'Wed' }) %></label>
+                  <label><input type="checkbox" name="weekly_days" value="thu" /><%= t('guildConfig.scheduleForm.weekdays.thu', { defaultValue: 'Thu' }) %></label>
+                  <label><input type="checkbox" name="weekly_days" value="fri" /><%= t('guildConfig.scheduleForm.weekdays.fri', { defaultValue: 'Fri' }) %></label>
+                  <label><input type="checkbox" name="weekly_days" value="sat" /><%= t('guildConfig.scheduleForm.weekdays.sat', { defaultValue: 'Sat' }) %></label>
+                  <label><input type="checkbox" name="weekly_days" value="sun" /><%= t('guildConfig.scheduleForm.weekdays.sun', { defaultValue: 'Sun' }) %></label>
                 </div>
               </label>
               <label class="field-end-date">
-                End Date (optional)
+                <%= t('guildConfig.scheduleForm.endDateOptional', { defaultValue: 'End Date (optional)' }) %>
                 <input type="date" name="end_date" />
               </label>
             </div>
           </div>
           <label>
             <%= t('guildConfig.scheduleForm.messageContent', { defaultValue: 'Message Content' }) %>
-            <textarea name="message_content" maxlength="1800" rows="4" required placeholder="Your scheduled message"></textarea>
+            <textarea name="message_content" maxlength="1800" rows="4" required placeholder="<%= t('guildConfig.scheduleForm.messagePlaceholder', { defaultValue: 'Your scheduled message' }) %>"></textarea>
           </label>
           <div class="form-actions">
             <button type="submit" class="btn btn-primary"><%= t('guildConfig.scheduleForm.create', { defaultValue: 'Create Scheduled Message' }) %></button>
           </div>
-          <p class="muted helper-text">Timezone format uses IANA names (example: <strong>Europe/London</strong>). See <a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones" target="_blank" rel="noopener noreferrer">timezone list</a>.</p>
+          <p class="muted helper-text"><%= t('guildConfig.scheduleForm.timezoneHelpPrefix', { defaultValue: 'Timezone format uses IANA names (example:' }) %> <strong>Europe/London</strong>). <%= t('guildConfig.scheduleForm.timezoneHelpSee', { defaultValue: 'See' }) %> <a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones" target="_blank" rel="noopener noreferrer"><%= t('guildConfig.scheduleForm.timezoneListLabel', { defaultValue: 'timezone list' }) %></a>.</p>
         </form>
       </div>
     </details>
 
-    <h3 class="schedule-subheading">View/Edit Scheduled Messages</h3>
+    <h3 class="schedule-subheading"><%= t('guildConfig.scheduleForm.viewEditTitle', { defaultValue: 'View/Edit Scheduled Messages' }) %></h3>
 
     <% if (!scheduledMessages || scheduledMessages.length === 0) { %>
       <p class="muted"><%= t('guildConfig.scheduleForm.none', { defaultValue: 'No scheduled messages configured yet.' }) %></p>
@@ -519,16 +519,20 @@
         <% scheduledMessages.forEach((row) => { %>
           <% const rowChannelId = String(row.channel_id_display || row.channel_id || ''); %>
           <% const messagePreviewRaw = String(row.message_content || '').replace(/\s+/g, ' ').trim(); %>
-          <% const messagePreview = messagePreviewRaw.length > 72 ? `${messagePreviewRaw.slice(0, 72)}…` : (messagePreviewRaw || '(No message content)'); %>
+          <% const messagePreview = messagePreviewRaw.length > 72 ? `${messagePreviewRaw.slice(0, 72)}…` : (messagePreviewRaw || t('guildConfig.scheduleForm.noMessageContent', { defaultValue: '(No message content)' })); %>
           <% const recurrenceLabel = String(row.recurrence || 'once'); %>
-          <% const recurrenceDisplay = recurrenceLabel.charAt(0).toUpperCase() + recurrenceLabel.slice(1); %>
-          <% const nextRunDisplay = row.next_run_at ? new Date(row.next_run_at).toLocaleString() : 'No next run'; %>
+          <% const recurrenceDisplay = recurrenceLabel === 'daily'
+            ? t('guildConfig.scheduleForm.daily', { defaultValue: 'Daily' })
+            : recurrenceLabel === 'weekly'
+              ? t('guildConfig.scheduleForm.weekly', { defaultValue: 'Weekly' })
+              : t('guildConfig.scheduleForm.once', { defaultValue: 'Once' }); %>
+          <% const nextRunDisplay = row.next_run_at ? new Date(row.next_run_at).toLocaleString() : t('guildConfig.scheduleForm.noNextRun', { defaultValue: 'No next run' }); %>
           <% const isActive = Boolean(row.active); %>
           <details class="schedule-expander schedule-item-expander">
             <summary>
               <span class="schedule-item-summary-title"><%= messagePreview %></span>
               <span class="schedule-item-summary-right">
-                <span class="schedule-item-summary-meta"><%= recurrenceDisplay %> · Next Run: <%= nextRunDisplay %></span>
+                <span class="schedule-item-summary-meta"><%= recurrenceDisplay %> · <%= t('guildConfig.scheduleForm.nextRunLabel', { defaultValue: 'Next Run' }) %>: <%= nextRunDisplay %></span>
                 <span class="schedule-status-pill <%= isActive ? 'is-active' : 'is-paused' %>"><%= isActive ? t('guildConfig.scheduleForm.active', { defaultValue: 'Active' }) : t('guildConfig.scheduleForm.paused', { defaultValue: 'Paused' }) %></span>
                 <span class="schedule-expander-plus" aria-hidden="true">+</span>
               </span>
@@ -564,35 +568,35 @@
                   </label>
                   <label class="field-custom-timezone">
                     <%= t('guildConfig.scheduleForm.customTimezone', { defaultValue: 'Custom Timezone (optional)' }) %>
-                    <input type="text" name="custom_timezone_name" value="<%= scheduleTimezoneSelectOptions.some((tz) => String(tz.name || '') === String(row.timezone_name || 'UTC')) ? '' : String(row.timezone_name || '') %>" placeholder="e.g. Pacific/Auckland" />
+                    <input type="text" name="custom_timezone_name" value="<%= scheduleTimezoneSelectOptions.some((tz) => String(tz.name || '') === String(row.timezone_name || 'UTC')) ? '' : String(row.timezone_name || '') %>" placeholder="<%= t('guildConfig.scheduleForm.customTimezonePlaceholder', { defaultValue: 'e.g. Pacific/Auckland' }) %>" />
                   </label>
                   <label class="field-next-run">
                     <%= t('guildConfig.scheduleForm.dateTimeToSend', { defaultValue: 'Date & Time to Send' }) %>
                     <input type="datetime-local" name="once_run_at" class="schedule-once-input" value="<%= row.once_run_at_local || toDateTimeLocalInputInTimeZone(row.next_run_at, row.timezone_name || 'UTC') %>" required />
                   </label>
                   <label class="field-start-date">
-                    Start Date
+                    <%= t('guildConfig.scheduleForm.startDate', { defaultValue: 'Start Date' }) %>
                     <input type="date" name="start_date" class="schedule-start-date" value="<%= row.start_date_text || '' %>" required />
                   </label>
                   <label class="field-send-time">
-                    Time to Send
+                    <%= t('guildConfig.scheduleForm.sendTime', { defaultValue: 'Time to Send' }) %>
                     <input type="time" name="send_time" class="schedule-send-time" value="<%= row.send_time_text || '' %>" required />
                   </label>
                   <label class="field-weekdays">
-                    Days of Week
+                    <%= t('guildConfig.scheduleForm.daysOfWeek', { defaultValue: 'Days of Week' }) %>
                     <% const rowWeeklyDays = Array.isArray(row.weekly_days) ? row.weekly_days : []; %>
                     <div class="schedule-weekdays">
-                      <label><input type="checkbox" name="weekly_days" value="mon" <%= rowWeeklyDays.includes('mon') ? 'checked' : '' %> />Mon</label>
-                      <label><input type="checkbox" name="weekly_days" value="tue" <%= rowWeeklyDays.includes('tue') ? 'checked' : '' %> />Tue</label>
-                      <label><input type="checkbox" name="weekly_days" value="wed" <%= rowWeeklyDays.includes('wed') ? 'checked' : '' %> />Wed</label>
-                      <label><input type="checkbox" name="weekly_days" value="thu" <%= rowWeeklyDays.includes('thu') ? 'checked' : '' %> />Thu</label>
-                      <label><input type="checkbox" name="weekly_days" value="fri" <%= rowWeeklyDays.includes('fri') ? 'checked' : '' %> />Fri</label>
-                      <label><input type="checkbox" name="weekly_days" value="sat" <%= rowWeeklyDays.includes('sat') ? 'checked' : '' %> />Sat</label>
-                      <label><input type="checkbox" name="weekly_days" value="sun" <%= rowWeeklyDays.includes('sun') ? 'checked' : '' %> />Sun</label>
+                      <label><input type="checkbox" name="weekly_days" value="mon" <%= rowWeeklyDays.includes('mon') ? 'checked' : '' %> /><%= t('guildConfig.scheduleForm.weekdays.mon', { defaultValue: 'Mon' }) %></label>
+                      <label><input type="checkbox" name="weekly_days" value="tue" <%= rowWeeklyDays.includes('tue') ? 'checked' : '' %> /><%= t('guildConfig.scheduleForm.weekdays.tue', { defaultValue: 'Tue' }) %></label>
+                      <label><input type="checkbox" name="weekly_days" value="wed" <%= rowWeeklyDays.includes('wed') ? 'checked' : '' %> /><%= t('guildConfig.scheduleForm.weekdays.wed', { defaultValue: 'Wed' }) %></label>
+                      <label><input type="checkbox" name="weekly_days" value="thu" <%= rowWeeklyDays.includes('thu') ? 'checked' : '' %> /><%= t('guildConfig.scheduleForm.weekdays.thu', { defaultValue: 'Thu' }) %></label>
+                      <label><input type="checkbox" name="weekly_days" value="fri" <%= rowWeeklyDays.includes('fri') ? 'checked' : '' %> /><%= t('guildConfig.scheduleForm.weekdays.fri', { defaultValue: 'Fri' }) %></label>
+                      <label><input type="checkbox" name="weekly_days" value="sat" <%= rowWeeklyDays.includes('sat') ? 'checked' : '' %> /><%= t('guildConfig.scheduleForm.weekdays.sat', { defaultValue: 'Sat' }) %></label>
+                      <label><input type="checkbox" name="weekly_days" value="sun" <%= rowWeeklyDays.includes('sun') ? 'checked' : '' %> /><%= t('guildConfig.scheduleForm.weekdays.sun', { defaultValue: 'Sun' }) %></label>
                     </div>
                   </label>
                   <label class="field-end-date">
-                    End Date (optional)
+                    <%= t('guildConfig.scheduleForm.endDateOptional', { defaultValue: 'End Date (optional)' }) %>
                     <input type="date" name="end_date" value="<%= row.end_date_text || '' %>" />
                   </label>
                   <label class="field-status">
@@ -611,8 +615,8 @@
                   <div class="form-actions">
                     <button type="submit" class="btn btn-primary"><%= t('guildConfig.scheduleForm.save', { defaultValue: 'Save Schedule' }) %></button>
                   </div>
-                  <p class="muted helper-text">Timezone format uses IANA names (example: <strong>Europe/London</strong>). See <a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones" target="_blank" rel="noopener noreferrer">timezone list</a>.</p>
-                  <p class="muted helper-text">Schedule ID: <strong><%= row.schedule_id %></strong> · Timezone: <strong><%= row.timezone_name || 'UTC' %></strong> · Runs sent: <strong><%= Number(row.run_count || 0) %></strong> · Last run: <strong><%= row.last_run_at ? new Date(row.last_run_at).toLocaleString() : 'Never' %></strong></p>
+                  <p class="muted helper-text"><%= t('guildConfig.scheduleForm.timezoneHelpPrefix', { defaultValue: 'Timezone format uses IANA names (example:' }) %> <strong>Europe/London</strong>). <%= t('guildConfig.scheduleForm.timezoneHelpSee', { defaultValue: 'See' }) %> <a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones" target="_blank" rel="noopener noreferrer"><%= t('guildConfig.scheduleForm.timezoneListLabel', { defaultValue: 'timezone list' }) %></a>.</p>
+                  <p class="muted helper-text"><%= t('guildConfig.scheduleForm.scheduleIdLabel', { defaultValue: 'Schedule ID' }) %>: <strong><%= row.schedule_id %></strong> · <%= t('guildConfig.scheduleForm.timezone', { defaultValue: 'Timezone' }) %>: <strong><%= row.timezone_name || 'UTC' %></strong> · <%= t('guildConfig.scheduleForm.runsSentLabel', { defaultValue: 'Runs sent' }) %>: <strong><%= Number(row.run_count || 0) %></strong> · <%= t('guildConfig.scheduleForm.lastRunLabel', { defaultValue: 'Last run' }) %>: <strong><%= row.last_run_at ? new Date(row.last_run_at).toLocaleString() : t('guildConfig.scheduleForm.never', { defaultValue: 'Never' }) %></strong></p>
                 </form>
 
                 <form method="post" action="/dashboard/<%= guild.id %>/schedules/<%= encodeURIComponent(row.schedule_id) %>/delete">
@@ -641,7 +645,7 @@
         <script id="settingsExportPayload" type="application/json"><%- JSON.stringify(settingsExportPayload || {}) %></script>
         <div class="form-actions">
           <a href="/dashboard/<%= guild.id %>/settings/export" class="btn btn-ghost"><%= t('guildConfig.importExport.exportJson', { defaultValue: 'Export JSON' }) %></a>
-          <a href="/dashboard/settings/import-template" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">Example Template</a>
+          <a href="/dashboard/settings/import-template" class="btn btn-ghost" target="_blank" rel="noopener noreferrer"><%= t('guildConfig.importExport.exampleTemplate', { defaultValue: 'Example Template' }) %></a>
           <button type="button" id="copyJsonBtn" class="btn btn-ghost"><%= t('guildConfig.importExport.copyCurrentJson', { defaultValue: 'Copy Current JSON' }) %></button>
         </div>
 
@@ -655,7 +659,7 @@
             <button type="button" id="validateJsonBtn" class="btn btn-ghost"><%= t('guildConfig.importExport.validateJson', { defaultValue: 'Validate JSON' }) %></button>
             <button type="submit" id="importJsonBtn" class="btn btn-primary" disabled><%= t('guildConfig.importExport.importJson', { defaultValue: 'Import JSON' }) %></button>
           </div>
-          <p class="muted helper-text">You can include all settings keys or only specific keys. Only included keys will be updated.</p>
+          <p class="muted helper-text"><%= t('guildConfig.importExport.includeKeysHelp', { defaultValue: 'You can include all settings keys or only specific keys. Only included keys will be updated.' }) %></p>
         </form>
       </div>
     </details>
