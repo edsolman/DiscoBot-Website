@@ -537,6 +537,156 @@ a { color: inherit; text-decoration: none; }
   margin: 6px 0 0;
 }
 
+.page-head.page-head-branded {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 16px;
+  padding: 20px;
+  background:
+    radial-gradient(circle at 82% 16%, rgba(255, 154, 96, 0.28), transparent 40%),
+    radial-gradient(circle at 12% 90%, rgba(112, 237, 255, 0.22), transparent 42%),
+    linear-gradient(132deg, #1f2f72 0%, #5e2d93 46%, #1f6788 100%);
+  border-radius: var(--radius);
+  border: 1px solid rgba(255,255,255,0.2);
+  box-shadow: 0 16px 34px rgba(10, 15, 36, 0.38);
+}
+
+.page-head.page-head-branded::before {
+  content: "";
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background-color: rgba(8, 12, 27, 0.42);
+  background-image: url('/assets/DiscoBot.png');
+  background-size: 32px;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: 1px solid rgba(255,255,255,0.25);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.28);
+  pointer-events: none;
+}
+
+.page-head.page-head-branded::after {
+  content: "";
+  position: absolute;
+  inset: auto -70px -90px auto;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 120, 182, 0.34), rgba(255, 120, 182, 0));
+  pointer-events: none;
+}
+
+.page-head.page-head-branded > div,
+.page-head.page-head-branded > .form-actions,
+.page-head.page-head-branded > .btn {
+  position: relative;
+  z-index: 1;
+}
+
+.page-head.page-head-branded .muted {
+  color: rgba(238, 243, 255, 0.9);
+}
+
+.page-head.page-head-branded h1,
+.page-head.page-head-branded h2 {
+  margin-top: 0;
+}
+
+.page-head.page-head-branded.owner-page-head {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.page-head.page-head-branded.owner-page-head > .btn,
+.page-head.page-head-branded.owner-page-head > .form-actions {
+  align-self: flex-start;
+}
+
+.dashboard-hero {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 16px;
+  padding: 22px;
+  background:
+    radial-gradient(circle at 85% 20%, rgba(255, 154, 96, 0.32), transparent 40%),
+    radial-gradient(circle at 10% 88%, rgba(112, 237, 255, 0.28), transparent 42%),
+    linear-gradient(132deg, #1f2f72 0%, #5e2d93 46%, #1f6788 100%);
+  border: 1px solid rgba(255,255,255,0.2);
+  box-shadow: 0 16px 34px rgba(10, 15, 36, 0.4);
+}
+
+.dashboard-hero::before {
+  content: "";
+  position: absolute;
+  inset: auto -70px -90px auto;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 120, 182, 0.4), rgba(255, 120, 182, 0));
+  pointer-events: none;
+}
+
+.dashboard-hero-content {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 14px;
+}
+
+.dashboard-hero-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.dashboard-hero-logo {
+  width: 62px;
+  height: 62px;
+  border-radius: 16px;
+  padding: 8px;
+  background: rgba(8, 12, 27, 0.4);
+  border: 1px solid rgba(255,255,255,0.28);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.25);
+  object-fit: contain;
+  flex: 0 0 62px;
+}
+
+.dashboard-hero h1 {
+  margin: 0;
+  font-size: clamp(1.7rem, 3.6vw, 2.2rem);
+  line-height: 1.15;
+}
+
+.dashboard-hero-subtitle {
+  margin: 8px 0 0;
+  color: rgba(238, 243, 255, 0.9);
+  max-width: 66ch;
+}
+
+.dashboard-hero-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.dashboard-hero .btn-primary {
+  box-shadow: 0 10px 22px color-mix(in srgb, var(--accent) 44%, transparent);
+}
+
+.dashboard-hero-secondary {
+  background: rgba(11, 16, 32, 0.35);
+  border: 1px solid rgba(255,255,255,0.28);
+}
+
+.dashboard-hero-secondary:hover {
+  background: rgba(11, 16, 32, 0.52);
+}
+
 .page-title-with-icon {
   display: inline-flex;
   align-items: center;
@@ -1390,6 +1540,16 @@ textarea {
   .page-head .form-actions { width: 100%; }
   .page-head .form-actions .btn { width: 100%; }
   .hero-actions .btn { width: 100%; }
+  .page-head.page-head-branded {
+    padding: 18px;
+  }
+  .page-head.page-head-branded::before {
+    width: 42px;
+    height: 42px;
+    background-size: 28px;
+  }
+  .dashboard-hero-brand { align-items: flex-start; }
+  .dashboard-hero-actions .btn { width: 100%; }
   .leaderboard-user-row { flex-direction: column; }
   .nav-links { flex-wrap: wrap; justify-content: flex-end; }
   .owner-menu-list {
@@ -1480,6 +1640,14 @@ textarea {
   }
   .page-section {
     padding: 22px 0 46px;
+  }
+  .dashboard-hero {
+    padding: 18px;
+  }
+  .dashboard-hero-logo {
+    width: 54px;
+    height: 54px;
+    flex-basis: 54px;
   }
 }
 

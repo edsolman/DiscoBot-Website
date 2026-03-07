@@ -4,21 +4,21 @@
 <main class="container page-section">
   <% const manageableGuilds = (guilds || []).filter((guild) => guild.canManage); %>
 
-  <div class="page-head">
-    <div>
-      <h1 class="section-icon-title">
-        <span class="section-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none">
-            <rect x="3" y="4" width="18" height="16" rx="3" stroke="currentColor" stroke-width="1.8" />
-            <path d="M3 9h18M12 9v11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
-          </svg>
-        </span>
-        <%= t('dashboard.title', { defaultValue: 'Dashboard' }) %>
-      </h1>
-      <p class="muted"><%= t('dashboard.subtitle', { defaultValue: 'Manage your global AI credits and eligible Discord servers.' }) %></p>
+  <section class="dashboard-hero panel">
+    <div class="dashboard-hero-content">
+      <div class="dashboard-hero-brand">
+        <img src="/assets/DiscoBot.png" alt="DiscoBot" class="dashboard-hero-logo" />
+        <div>
+          <h1><%= t('dashboard.title', { defaultValue: 'Dashboard' }) %></h1>
+          <p class="dashboard-hero-subtitle"><%= t('dashboard.subtitle', { defaultValue: 'Manage your global AI credits and eligible Discord servers.' }) %></p>
+        </div>
+      </div>
+      <div class="dashboard-hero-actions">
+        <a href="/credits" class="btn btn-primary btn-with-icon"><span class="btn-icon" aria-hidden="true">💳</span><%= t('dashboard.myAiCredits', { defaultValue: 'My AI Credits' }) %></a>
+        <a href="/credits#website-image-generation" class="btn btn-ghost btn-with-icon dashboard-hero-secondary"><span class="btn-icon" aria-hidden="true">🎨</span><%= t('dashboard.generateAiImages', { defaultValue: 'Generate AI Images' }) %></a>
+      </div>
     </div>
-    <a href="/credits" class="btn btn-primary btn-with-icon"><span class="btn-icon" aria-hidden="true">💳</span><%= t('dashboard.myAiCredits', { defaultValue: 'My AI Credits' }) %></a>
-  </div>
+  </section>
 
   <% if (!guilds.length) { %>
     <div class="panel">

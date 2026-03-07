@@ -2,9 +2,14 @@
 <%- include('partials/nav') %>
 
 <main class="container page-section">
+  <div class="page-head page-head-branded">
+    <div>
+      <h1><%= title %></h1>
+      <p class="muted"><%= message %></p>
+    </div>
+  </div>
+
   <div class="panel">
-    <h1><%= title %></h1>
-    <p><%= message %></p>
     <% if (typeof errorId === 'string' && errorId.length > 0) { %>
       <p><strong><%= t('error.reference', { defaultValue: 'Reference ID' }) %>:</strong> <%= errorId %></p>
     <% } %>

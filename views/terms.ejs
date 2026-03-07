@@ -2,8 +2,12 @@
 <%- include('partials/nav') %>
 
 <main class="container page-section legal">
-  <h1><%= t('terms.title') %></h1>
-  <p><%= t('terms.intro') %></p>
+  <div class="page-head page-head-branded">
+    <div>
+      <h1><%= t('terms.title') %></h1>
+      <p class="muted"><%= t('terms.intro') %></p>
+    </div>
+  </div>
 
   <h2><%= t('terms.acceptableUse.title') %></h2>
   <p><%= t('terms.acceptableUse.body') %></p>
