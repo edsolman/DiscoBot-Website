@@ -602,7 +602,7 @@
       },
       "scheduledMessaging": {
         "title": "Scheduled Messaging",
-        "description": "Timezone-aware recurring posts with daily/weekly automation controls."
+        "description": "Timezone-aware one-off or recurring posts with daily/weekly automation controls."
       },
       "aiImageGeneration": {
         "title": "AI Image Generation",
@@ -611,7 +611,7 @@
       },
       "webDashboard": {
         "title": "Web Dashboard & App",
-        "description": "Manage key server settings from the web dashboard or the app without relying on slash commands."
+        "description": "Manage all bot features & settings from the web dashboard or the app without relying on slash commands."
       }
     }
   },
