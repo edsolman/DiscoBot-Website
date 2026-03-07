@@ -607,7 +607,7 @@
       "aiImageGeneration": {
         "title": "AI Image Generation",
         "description": "Generate and edit images directly from Discord with OpenAI-powered prompts.",
-        "websiteMention": "You can also generate and edit images directly on the website from AI Credits."
+        "websiteMention": "You can also generate and edit AI images directly on this website using your personal AI Credits."
       },
       "webDashboard": {
         "title": "Web Dashboard & App",
