@@ -53,7 +53,7 @@
       },
       "globalCommunication": {
         "title": "Wereldwijde Communicatie",
-        "description": "Directe, nauwkeurige en natuurlijke vertaling met DeepL Pro."
+        "description": "Directe, nauwkeurige en natuurlijke berichtvertaling met de DeepL Pro-engine. Koop vertaaltegoedabonnementen voor je Guild of voor jezelf."
       },
       "scheduledMessaging": {
         "title": "Geplande Berichten",
@@ -121,6 +121,11 @@
       "body": "Neem contact op met het beheerteam voor gegevensverwijdering of privacyvragen."
     }
   },
+  "mySubscriptions": {
+    "navLabel": "Mijn abonnementen",
+    "title": "Mijn abonnementen",
+    "subtitle": "Beheer je persoonlijke AI- en vertaalabonnementen. Persoonlijk vertaalgebruik werkt op al je DiscoBot-servers."
+  },
   "pwa": {
     "updateAvailable": "Update beschikbaar",
     "updateText": "Er staat een nieuwere versie van DiscoBot klaar.",
@@ -141,7 +146,7 @@
   },
   "dashboard": {
     "title": "Dashboard",
-    "subtitle": "Beheer DiscoBot-instellingen voor alle Discord-servers waarop je beheerder bent en waarop DiscoBot is geïnstalleerd. Beheer ook je persoonlijke AI-afbeeldingsgeneratiecredits, die je in Discord of direct op deze website kunt gebruiken via de link hieronder.",
+    "subtitle": "Beheer DiscoBot-instellingen en vertaalabonnementen voor alle Discord-servers waar DiscoBot is geïnstalleerd en waar jij beheerder of eigenaar bent. Beheer ook je persoonlijke credits en abonnementen voor AI-afbeeldingsgeneratie en vertaling, die je kunt gebruiken op elke server waarvan je lid bent en waar DiscoBot is geïnstalleerd. Je kunt je persoonlijke AI-afbeeldingscredits ook direct op deze website gebruiken om afbeeldingen te genereren via de link hieronder.",
     "myAiCredits": "Mijn AI-credits",
     "noGuildsInstalled": "Geen servers gevonden waarop DiscoBot is geïnstalleerd voor je account.",
     "noManageableGuilds": "Je hebt momenteel geen admin- of installateurstoegang om geïnstalleerde servers te beheren.",
@@ -354,18 +359,18 @@
     "availableCredits": "Beschikbare credits:",
     "purchasedTotal": "Totaal gekocht:",
     "usedTotal": "Totaal gebruikt:",
-    "buyMore": "Meer credits kopen",
+    "buyMore": "AI-afbeeldingscredits kopen",
     "buyMoreSubtitle": "Kies een creditpakket om je persoonlijke saldo op te waarderen.",
     "discountCodeOptional": "Kortingscode (optioneel)",
-    "monthlySubscriptions": "Maandelijkse abonnementen",
+    "monthlySubscriptions": "AI-afbeeldingsabonnementen kopen",
     "monthlySubtitle": "Ontvang elke maand automatisch credits op je persoonlijke saldo.",
     "totalRecurringMonthlyCredits": "Totaal terugkerende maandelijkse credits:",
     "multiSubscriptionNote": "Je kunt meerdere abonnementen hebben; credits van elk actief abonnement worden aan je saldo toegevoegd.",
     "activeSubscriptions": "Actieve abonnementen",
     "manageSubscription": "Abonnement beheren",
     "manageSubscriptionHelp": "Gebruik Abonnement beheren om een maandplan te wijzigen, te annuleren of opnieuw te activeren.",
-    "checkMissedCredits": "Gemiste credits controleren",
-    "backfillHelp": "Gebruik dit om te controleren of gekochte credits mogelijk niet aan je saldo zijn toegevoegd.",
+    "checkMissedCredits": "Ontbrekende aankopen controleren",
+    "backfillHelp": "Controleert zowel eenmalige aankopen als abonnementsfactureringsgebeurtenissen om ontbrekende credits te herstellen.",
     "recentPurchases": "Recente aankopen",
     "recentSubtitle": "Laatste creditaankoopgebeurtenissen voor je account.",
     "noPurchases": "Er zijn nog geen creditaankopen geregistreerd.",
@@ -381,10 +386,10 @@
     "discountMinSpend": "Deze kortingscode vereist een hogere minimale besteding voor het geselecteerde pakket.",
     "discountRestrictedGuild": "Deze kortingscode is beperkt tot een andere server.",
     "subscribedSuccess": "Abonnement geactiveerd. Maandelijkse credits worden toegevoegd na elke succesvolle Stripe-factuur.",
-    "backfillGranted": "Controle voltooid. Gemiste credits gevonden: {{count}}. Toegevoegd aan je saldo.",
-    "backfillAlreadyApplied": "Controle voltooid. Gemiste credits gevonden: {{count}}. Er zijn geen nieuwe credits toegevoegd.",
-    "backfillNoSubscription": "Er is geen Stripe-abonnement gevonden voor je account.",
-    "backfillNoPaidInvoice": "Er is geen betaalde abonnementsfactuur gevonden om aan te vullen.",
+    "backfillGranted": "Controle over eenmalige aankopen en abonnementen voltooid. Ontbrekende credits gevonden: {{count}}. Toegevoegd aan je saldo.",
+    "backfillAlreadyApplied": "Controle over eenmalige aankopen en abonnementen voltooid. Ontbrekende credits gevonden: {{count}}. Er zijn geen nieuwe credits toegevoegd.",
+    "backfillNoSubscription": "Er zijn geen Stripe-aankopen gevonden voor je account.",
+    "backfillNoPaidInvoice": "Er zijn geen betaalde Stripe-aankopen gevonden om te herstellen.",
     "creditSingular": "credit",
     "creditPlural": "credits",
     "purchaseSingular": "aankoop",
@@ -418,7 +423,8 @@
       "invalidImage": "Upload een geldige bronafbeelding voor de bewerkmodus.",
       "unavailable": "Webafbeeldingsgeneratie is momenteel niet beschikbaar. Probeer later opnieuw.",
       "failed": "Afbeeldingsgeneratie mislukt. Je credit is teruggestort."
-    }
+    },
+    "personalTranslationTitle": "Persoonlijke vertaalabonnementen kopen"
   },
   "ownerSettings": {
     "title": "Eigenaar-instellingen",
@@ -442,11 +448,11 @@
       "subtitle": "Configureer waar AI-afbeeldingsinteracties naartoe gaan."
     },
     "creditPacks": {
-      "title": "Eenmalige creditpacks",
+      "title": "AI-afbeelding eenmalige kredietpakketten",
       "subtitle": "Werk ID’s, weergavenamen, credits, interne kosten en prijs (cent) bij. Kosten zijn alleen voor de eigenaar en worden gebruikt voor winstanalyse."
     },
     "subscriptionPlans": {
-      "title": "Maandelijkse abonnementsplannen",
+      "title": "AI-afbeelding maandelijkse abonnementsplannen",
       "subtitle": "Werk ID’s, weergavenamen, credits per maand, interne kosten en prijs (cent) bij."
     },
     "translationLimits": {

@@ -15,9 +15,9 @@
     "signedInWithDiscord": "Accesso effettuato con Discord",
     "dashboard": "Dashboard",
     "aiCredits": "Crediti AI",
-      "aiImageGeneration": "Genera immagini IA",
+    "aiImageGeneration": "Genera immagini IA",
     "ownerOptions": "Opzioni proprietario",
-      "owner": "Proprietario",
+    "owner": "Proprietario",
     "ownerSettings": "Impostazioni",
     "ownerPurchases": "Acquisti",
     "ownerTranslation": "Traduzione",
@@ -53,7 +53,7 @@
       },
       "globalCommunication": {
         "title": "Comunicazione Globale",
-        "description": "Traduzione istantanea, accurata e naturale con DeepL Pro."
+        "description": "Traduzione dei messaggi istantanea, accurata e naturale con il motore DeepL Pro. Acquista abbonamenti di crediti di traduzione per la tua Guild o per te stesso."
       },
       "scheduledMessaging": {
         "title": "Messaggi Programmati",
@@ -121,6 +121,11 @@
       "body": "Per rimozione dati o dubbi sulla privacy, contatta il team operatore/admin del bot."
     }
   },
+  "mySubscriptions": {
+    "navLabel": "I miei abbonamenti",
+    "title": "I miei abbonamenti",
+    "subtitle": "Gestisci i tuoi abbonamenti personali IA e traduzione. L'utilizzo personale della traduzione funziona su tutti i tuoi server DiscoBot."
+  },
   "pwa": {
     "updateAvailable": "Aggiornamento disponibile",
     "updateText": "È pronta una nuova versione di DiscoBot.",
@@ -141,7 +146,7 @@
   },
   "dashboard": {
     "title": "Dashboard",
-    "subtitle": "Gestisci le impostazioni di DiscoBot per tutti i server Discord in cui sei amministratore e in cui DiscoBot è installato. Gestisci anche i tuoi crediti personali per la generazione di immagini AI, utilizzabili in Discord o direttamente su questo sito web tramite il link qui sotto.",
+    "subtitle": "Gestisci le impostazioni di DiscoBot e gli abbonamenti di traduzione per tutti i server Discord in cui è installato e in cui sei amministratore o proprietario. Gestisci anche i tuoi crediti e abbonamenti personali per la generazione di immagini AI e la traduzione, che puoi usare su qualsiasi server di cui fai parte con DiscoBot installato. Puoi anche usare i tuoi crediti personali per immagini AI per generare immagini direttamente su questo sito web tramite il link qui sotto.",
     "myAiCredits": "I miei crediti AI",
     "noGuildsInstalled": "Nessun server con DiscoBot installato trovato per il tuo account.",
     "noManageableGuilds": "Attualmente non hai accesso admin o installatore per gestire server installati.",
@@ -354,18 +359,18 @@
     "availableCredits": "Crediti disponibili:",
     "purchasedTotal": "Totale acquistato:",
     "usedTotal": "Totale utilizzato:",
-    "buyMore": "Compra altri crediti",
+    "buyMore": "Acquista crediti immagini AI",
     "buyMoreSubtitle": "Scegli un pacchetto crediti per ricaricare il tuo saldo personale.",
     "discountCodeOptional": "Codice sconto (opzionale)",
-    "monthlySubscriptions": "Abbonamenti mensili",
+    "monthlySubscriptions": "Acquista abbonamenti immagini AI",
     "monthlySubtitle": "Ricevi automaticamente crediti sul tuo saldo personale ogni mese.",
     "totalRecurringMonthlyCredits": "Totale crediti mensili ricorrenti:",
     "multiSubscriptionNote": "Puoi avere più abbonamenti; i crediti di ogni abbonamento attivo vengono aggiunti al tuo saldo.",
     "activeSubscriptions": "Abbonamenti attivi",
     "manageSubscription": "Gestisci abbonamento",
     "manageSubscriptionHelp": "Usa Gestisci abbonamento per modificare, annullare o riattivare un piano mensile.",
-    "checkMissedCredits": "Controlla crediti mancanti",
-    "backfillHelp": "Usalo per verificare se alcuni crediti acquistati non sono stati aggiunti al tuo saldo.",
+    "checkMissedCredits": "Controlla acquisti mancanti",
+    "backfillHelp": "Controlla sia gli acquisti una tantum sia gli eventi di fatturazione degli abbonamenti per ripristinare eventuali crediti mancanti.",
     "recentPurchases": "Acquisti recenti",
     "recentSubtitle": "Ultimi eventi di acquisto crediti del tuo account.",
     "noPurchases": "Nessun acquisto di crediti registrato finora.",
@@ -381,10 +386,10 @@
     "discountMinSpend": "Questo codice sconto richiede una spesa minima più alta per il pacchetto selezionato.",
     "discountRestrictedGuild": "Questo codice sconto è limitato a un altro server.",
     "subscribedSuccess": "Abbonamento attivato. I crediti mensili verranno aggiunti dopo ogni fattura Stripe andata a buon fine.",
-    "backfillGranted": "Controllo completato. Crediti mancanti trovati: {{count}}. Aggiunti al tuo saldo.",
-    "backfillAlreadyApplied": "Controllo completato. Crediti mancanti trovati: {{count}}. Nessun nuovo credito è stato aggiunto.",
-    "backfillNoSubscription": "Nessun abbonamento Stripe trovato per il tuo account.",
-    "backfillNoPaidInvoice": "Nessuna fattura di abbonamento pagata trovata per il recupero.",
+    "backfillGranted": "Controllo completato su acquisti una tantum e abbonamenti. Crediti mancanti trovati: {{count}}. Aggiunti al tuo saldo.",
+    "backfillAlreadyApplied": "Controllo completato su acquisti una tantum e abbonamenti. Crediti mancanti trovati: {{count}}. Nessun nuovo credito è stato aggiunto.",
+    "backfillNoSubscription": "Nessun acquisto Stripe trovato per il tuo account.",
+    "backfillNoPaidInvoice": "Nessun acquisto Stripe pagato trovato da recuperare.",
     "creditSingular": "credito",
     "creditPlural": "crediti",
     "purchaseSingular": "acquisto",
@@ -418,7 +423,8 @@
       "invalidImage": "Carica un’immagine sorgente valida per la modalità modifica.",
       "unavailable": "La generazione immagini dal web non è disponibile al momento. Riprova più tardi.",
       "failed": "La generazione dell’immagine è fallita. Il tuo credito è stato rimborsato."
-    }
+    },
+    "personalTranslationTitle": "Acquista abbonamenti personali di traduzione"
   },
   "ownerSettings": {
     "title": "Impostazioni proprietario",
@@ -442,11 +448,11 @@
       "subtitle": "Configura dove instradare le interazioni di generazione immagini AI."
     },
     "creditPacks": {
-      "title": "Pacchetti crediti una tantum",
+      "title": "Pacchetti una tantum di crediti immagini AI",
       "subtitle": "Aggiorna ID, nomi visualizzati, crediti, costo interno e prezzo (centesimi). Il costo è solo proprietario ed è usato per analisi profitto."
     },
     "subscriptionPlans": {
-      "title": "Piani di abbonamento mensile",
+      "title": "Piani di abbonamento mensili immagini AI",
       "subtitle": "Aggiorna ID, nomi visualizzati, crediti al mese, costo interno e prezzo (centesimi)."
     },
     "translationLimits": {

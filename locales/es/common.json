@@ -44,7 +44,7 @@
   },
   "dashboard": {
     "title": "Panel",
-    "subtitle": "Administra la configuración de DiscoBot para todos los servidores de Discord en los que eres administrador y donde DiscoBot está instalado. También administra tus créditos personales de generación de imágenes con IA, que puedes usar en Discord o directamente en este sitio web con el enlace de abajo.",
+    "subtitle": "Administra la configuración de DiscoBot y las suscripciones de traducción para todos los servidores de Discord donde esté instalado y donde seas administrador o propietario. También administra tus créditos y suscripciones personales para generación de imágenes con IA y traducción, que puedes usar en cualquier servidor donde seas miembro y tenga DiscoBot instalado. También puedes usar tus créditos personales de imágenes con IA para generar imágenes directamente en este sitio web usando el enlace de abajo.",
     "myAiCredits": "Mis créditos de IA",
     "guildServers": "Servidores",
     "selectGuild": "Elige un servidor para gestionar la configuración de DiscoBot.",
@@ -257,18 +257,18 @@
     "availableCredits": "Créditos disponibles:",
     "purchasedTotal": "Total comprado:",
     "usedTotal": "Total usado:",
-    "buyMore": "Comprar más créditos",
+    "buyMore": "Comprar créditos de imágenes con IA",
     "buyMoreSubtitle": "Elige un paquete de créditos para recargar tu saldo personal.",
     "discountCodeOptional": "Código de descuento (opcional)",
-    "monthlySubscriptions": "Suscripciones mensuales",
+    "monthlySubscriptions": "Comprar suscripciones de imágenes con IA",
     "monthlySubtitle": "Recibe créditos en tu saldo personal cada mes automáticamente.",
     "totalRecurringMonthlyCredits": "Total de créditos recurrentes mensuales:",
     "multiSubscriptionNote": "Puedes tener varias suscripciones; los créditos de cada suscripción activa se añaden a tu saldo.",
     "activeSubscriptions": "Suscripciones activas",
     "manageSubscription": "Gestionar suscripción",
     "manageSubscriptionHelp": "Usa Gestionar suscripción para editar, cancelar o reactivar un plan mensual.",
-    "checkMissedCredits": "Comprobar créditos perdidos",
-    "backfillHelp": "Úsalo para comprobar si algún crédito comprado no se añadió a tu saldo.",
+    "checkMissedCredits": "Buscar compras faltantes",
+    "backfillHelp": "Revisa tanto compras únicas como eventos de facturación de suscripciones para restaurar créditos faltantes.",
     "recentPurchases": "Compras recientes",
     "recentSubtitle": "Últimos eventos de compra de créditos de tu cuenta.",
     "noPurchases": "Aún no se registraron compras de créditos.",
@@ -284,10 +284,10 @@
     "discountMinSpend": "Este código de descuento requiere un gasto mínimo mayor para el paquete seleccionado.",
     "discountRestrictedGuild": "Este código de descuento está restringido a otro servidor.",
     "subscribedSuccess": "Suscripción activada. Los créditos mensuales se añadirán tras cada factura de Stripe pagada correctamente.",
-    "backfillGranted": "Comprobación completada. Créditos perdidos encontrados: {{count}}. Se añadieron a tu saldo.",
-    "backfillAlreadyApplied": "Comprobación completada. Créditos perdidos encontrados: {{count}}. No se añadieron créditos nuevos.",
-    "backfillNoSubscription": "No se encontró un registro de suscripción de Stripe para tu cuenta.",
-    "backfillNoPaidInvoice": "No se encontró ninguna factura de suscripción pagada para recuperar créditos.",
+    "backfillGranted": "Comprobación completada en compras únicas y suscripciones. Créditos faltantes encontrados: {{count}}. Se añadieron a tu saldo.",
+    "backfillAlreadyApplied": "Comprobación completada en compras únicas y suscripciones. Créditos faltantes encontrados: {{count}}. No se añadieron créditos nuevos.",
+    "backfillNoSubscription": "No se encontraron compras de Stripe para tu cuenta.",
+    "backfillNoPaidInvoice": "No se encontraron compras pagadas de Stripe para recuperar.",
     "creditSingular": "crédito",
     "creditPlural": "créditos",
     "purchaseSingular": "compra",
@@ -321,7 +321,8 @@
       "invalidImage": "Sube una imagen de origen válida para el modo edición.",
       "unavailable": "La generación de imágenes en la web no está disponible ahora mismo. Inténtalo de nuevo más tarde.",
       "failed": "La generación de imagen falló. Tu crédito fue reembolsado."
-    }
+    },
+    "personalTranslationTitle": "Comprar suscripciones personales de traducción"
   },
   "ownerSettings": {
     "title": "Configuración del propietario",
@@ -345,11 +346,11 @@
       "subtitle": "Configura a dónde se enrutan las interacciones de generación de imágenes IA."
     },
     "creditPacks": {
-      "title": "Paquetes de créditos de pago único",
+      "title": "Paquetes de créditos únicos de imágenes con IA",
       "subtitle": "Actualiza IDs, nombres, créditos, costo interno y precio (centavos). El costo es solo para propietario y se usa para análisis de ganancias."
     },
     "subscriptionPlans": {
-      "title": "Planes de suscripción mensual",
+      "title": "Planes mensuales de suscripción de imágenes con IA",
       "subtitle": "Actualiza IDs, nombres, créditos por mes, costo interno y precio (centavos)."
     },
     "translationLimits": {
@@ -596,7 +597,7 @@
       },
       "globalCommunication": {
         "title": "Comunicación Global",
-        "description": "Traducción de mensajes instantánea, precisa y natural con DeepL Pro."
+        "description": "Traducción de mensajes instantánea, precisa y natural con el motor DeepL Pro. Compra suscripciones de créditos de traducción para tu Guild o para ti."
       },
       "scheduledMessaging": {
         "title": "Mensajería Programada",
@@ -663,6 +664,11 @@
       "title": "Contacto",
       "body": "Si necesitas eliminar datos o tienes dudas de privacidad, contacta al operador/equipo administrador del bot."
     }
+  },
+  "mySubscriptions": {
+    "navLabel": "Mis suscripciones",
+    "title": "Mis suscripciones",
+    "subtitle": "Administra tus suscripciones personales de IA y traducción. El uso personal de traducción funciona en todos tus servidores con DiscoBot."
   },
   "pwa": {
     "updateAvailable": "Actualización disponible",

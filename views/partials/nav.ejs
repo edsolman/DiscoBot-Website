@@ -66,8 +66,7 @@
             <span class="nav-user-name"><%= displayName %></span>
           </summary>
           <div class="user-menu-list">
-            <a href="/dashboard" class="<%= isTopNavActive('/dashboard') ? 'is-active' : '' %>"><span class="menu-item-icon" aria-hidden="true">🏠</span><span><%= t('nav.dashboard') %></span></a>
-            <a href="/credits" class="<%= isTopNavActive('/credits') ? 'is-active' : '' %>"><span class="menu-item-icon" aria-hidden="true">💳</span><span><%= t('nav.aiCredits') %></span></a>
+            <a href="/my-account" class="<%= isTopNavActive('/my-account') || isTopNavActive('/dashboard') ? 'is-active' : '' %>"><span class="menu-item-icon" aria-hidden="true">🏠</span><span><%= t('nav.dashboard') %></span></a>
             <a href="/ai-image-generation" class="<%= isTopNavActive('/ai-image-generation') ? 'is-active' : '' %>"><span class="menu-item-icon" aria-hidden="true">🎨</span><span><%= t('nav.aiImageGeneration', { defaultValue: 'Generate AI Images' }) %></span></a>
             <% if (isOwner) { %>
               <details class="owner-menu">

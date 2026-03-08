@@ -53,7 +53,7 @@
       },
       "globalCommunication": {
         "title": "Communication globale",
-        "description": "Traduction instantanée, précise et naturelle avec DeepL Pro."
+        "description": "Traduction de messages instantanée, précise et naturelle grâce au moteur DeepL Pro. Achetez des abonnements de crédits de traduction pour votre Guild ou pour vous-même."
       },
       "scheduledMessaging": {
         "title": "Messagerie planifiée",
@@ -121,6 +121,11 @@
       "body": "Pour supprimer vos données ou pour toute question de confidentialité, contactez l’équipe opératrice/admin."
     }
   },
+  "mySubscriptions": {
+    "navLabel": "Mes abonnements",
+    "title": "Mes abonnements",
+    "subtitle": "Gérez vos abonnements personnels IA et traduction. L'utilisation personnelle de traduction fonctionne sur tous vos serveurs DiscoBot."
+  },
   "pwa": {
     "updateAvailable": "Mise à jour disponible",
     "updateText": "Une nouvelle version de DiscoBot est prête.",
@@ -141,7 +146,7 @@
   },
   "dashboard": {
     "title": "Tableau de bord",
-    "subtitle": "Gérez les paramètres de DiscoBot pour tous les serveurs Discord dont vous êtes administrateur et où DiscoBot est installé. Gérez aussi vos crédits personnels de génération d’images IA, utilisables dans Discord ou directement sur ce site web via le lien ci-dessous.",
+    "subtitle": "Gérez les paramètres de DiscoBot et les abonnements de traduction pour tous les serveurs Discord où il est installé et où vous êtes administrateur ou propriétaire. Gérez également vos crédits et abonnements personnels pour la génération d’images IA et la traduction, que vous pouvez utiliser sur tout serveur dont vous êtes membre et où DiscoBot est installé. Vous pouvez aussi utiliser vos crédits personnels d’images IA pour générer des images directement sur ce site via le lien ci-dessous.",
     "myAiCredits": "Mes crédits IA",
     "noGuildsInstalled": "Aucun serveur avec DiscoBot installé n’a été trouvé pour votre compte.",
     "noManageableGuilds": "Vous n’avez actuellement pas les droits admin ou installateur pour gérer des serveurs installés.",
@@ -354,18 +359,18 @@
     "availableCredits": "Crédits disponibles :",
     "purchasedTotal": "Total acheté :",
     "usedTotal": "Total utilisé :",
-    "buyMore": "Acheter plus de crédits",
+    "buyMore": "Acheter des crédits d’images IA",
     "buyMoreSubtitle": "Choisissez un pack de crédits pour recharger votre solde personnel.",
     "discountCodeOptional": "Code promo (optionnel)",
-    "monthlySubscriptions": "Abonnements mensuels",
+    "monthlySubscriptions": "Acheter des abonnements d’images IA",
     "monthlySubtitle": "Recevez automatiquement des crédits sur votre solde personnel chaque mois.",
     "totalRecurringMonthlyCredits": "Total des crédits mensuels récurrents :",
     "multiSubscriptionNote": "Vous pouvez avoir plusieurs abonnements ; les crédits de chaque abonnement actif sont ajoutés à votre solde.",
     "activeSubscriptions": "Abonnements actifs",
     "manageSubscription": "Gérer l’abonnement",
     "manageSubscriptionHelp": "Utilisez Gérer l’abonnement pour modifier, annuler ou réactiver un forfait mensuel.",
-    "checkMissedCredits": "Vérifier les crédits manquants",
-    "backfillHelp": "Utilisez ceci pour vérifier si des crédits achetés n’ont pas été ajoutés à votre solde.",
+    "checkMissedCredits": "Vérifier les achats manquants",
+    "backfillHelp": "Vérifie à la fois les achats ponctuels et les événements de facturation d’abonnement pour restaurer les crédits manquants.",
     "recentPurchases": "Achats récents",
     "recentSubtitle": "Derniers événements d’achat de crédits pour votre compte.",
     "noPurchases": "Aucun achat de crédits enregistré pour le moment.",
@@ -381,10 +386,10 @@
     "discountMinSpend": "Ce code promo exige un montant minimum plus élevé pour le pack sélectionné.",
     "discountRestrictedGuild": "Ce code promo est limité à un autre serveur.",
     "subscribedSuccess": "Abonnement activé. Les crédits mensuels seront ajoutés après chaque facture Stripe payée.",
-    "backfillGranted": "Vérification terminée. Crédits manqués trouvés : {{count}}. Ajoutés à votre solde.",
-    "backfillAlreadyApplied": "Vérification terminée. Crédits manqués trouvés : {{count}}. Aucun nouveau crédit n’a été ajouté.",
-    "backfillNoSubscription": "Aucun abonnement Stripe n’a été trouvé pour votre compte.",
-    "backfillNoPaidInvoice": "Aucune facture d’abonnement payée n’a été trouvée pour rattrapage.",
+    "backfillGranted": "Vérification terminée sur les achats ponctuels et les abonnements. Crédits manquants trouvés : {{count}}. Ajoutés à votre solde.",
+    "backfillAlreadyApplied": "Vérification terminée sur les achats ponctuels et les abonnements. Crédits manquants trouvés : {{count}}. Aucun nouveau crédit n’a été ajouté.",
+    "backfillNoSubscription": "Aucun achat Stripe n’a été trouvé pour votre compte.",
+    "backfillNoPaidInvoice": "Aucun achat Stripe payé à régulariser n’a été trouvé.",
     "creditSingular": "crédit",
     "creditPlural": "crédits",
     "purchaseSingular": "achat",
@@ -418,7 +423,8 @@
       "invalidImage": "Veuillez téléverser une image source valide pour le mode édition.",
       "unavailable": "La génération d’images web n’est pas disponible pour le moment. Réessayez plus tard.",
       "failed": "La génération d’image a échoué. Votre crédit a été remboursé."
-    }
+    },
+    "personalTranslationTitle": "Acheter des abonnements personnels de traduction"
   },
   "ownerSettings": {
     "title": "Paramètres propriétaire",
@@ -442,11 +448,11 @@
       "subtitle": "Configurez où sont redirigées les interactions de génération d’images IA."
     },
     "creditPacks": {
-      "title": "Packs de crédits à achat unique",
+      "title": "Packs de crédits uniques d’images IA",
       "subtitle": "Mettez à jour les ID, noms d’affichage, crédits, coût interne et prix (centimes). Le coût est réservé au propriétaire et sert à l’analyse de profit."
     },
     "subscriptionPlans": {
-      "title": "Plans d’abonnement mensuel",
+      "title": "Plans d’abonnement mensuels d’images IA",
       "subtitle": "Mettez à jour les ID, noms d’affichage, crédits par mois, coût interne et prix (centimes)."
     },
     "translationLimits": {

@@ -53,7 +53,7 @@
       },
       "globalCommunication": {
         "title": "Globale Kommunikation",
-        "description": "Sofortige, präzise und natürliche Übersetzung mit DeepL Pro."
+        "description": "Sofortige, präzise und natürliche Nachrichtenübersetzung mit der DeepL-Pro-Engine. Kaufe Übersetzungs-Guthabenabonnements für deine Guild oder für dich selbst."
       },
       "scheduledMessaging": {
         "title": "Geplante Nachrichten",
@@ -121,6 +121,11 @@
       "body": "Wenn du Datenlöschung benötigst oder Datenschutzfragen hast, kontaktiere das Betreiber-/Admin-Team."
     }
   },
+  "mySubscriptions": {
+    "navLabel": "Meine Abonnements",
+    "title": "Meine Abonnements",
+    "subtitle": "Verwalte deine persönlichen KI- und Übersetzungsabonnements. Die persönliche Übersetzungsnutzung funktioniert serverübergreifend in all deinen DiscoBot-Servern."
+  },
   "pwa": {
     "updateAvailable": "Update verfügbar",
     "updateText": "Eine neuere DiscoBot-Version ist bereit.",
@@ -141,7 +146,7 @@
   },
   "dashboard": {
     "title": "Dashboard",
-    "subtitle": "Verwalte DiscoBot-Einstellungen für alle Discord-Server, auf denen du Administrator bist und auf denen DiscoBot installiert ist. Verwalte außerdem deine persönlichen KI-Bildgenerierungs-Credits, die du in Discord oder direkt auf dieser Website über den untenstehenden Link verwenden kannst.",
+    "subtitle": "Verwalte DiscoBot-Einstellungen und Übersetzungsabonnements für alle Discord-Server, auf denen DiscoBot installiert ist und auf denen du Admin oder Besitzer bist. Verwalte außerdem deine persönlichen Guthaben und Abonnements für die KI-Bildgenerierung und Übersetzung, die du auf jedem Server nutzen kannst, auf dem du Mitglied bist und auf dem DiscoBot installiert ist. Du kannst deine persönlichen KI-Bildguthaben auch direkt auf dieser Website über den untenstehenden Link verwenden.",
     "myAiCredits": "Meine KI-Guthaben",
     "noGuildsInstalled": "Für dein Konto wurden keine Server mit installiertem DiscoBot gefunden.",
     "noManageableGuilds": "Du hast derzeit keine Admin- oder Installer-Rechte, um installierte Server zu verwalten.",
@@ -354,18 +359,18 @@
     "availableCredits": "Verfügbare Guthaben:",
     "purchasedTotal": "Insgesamt gekauft:",
     "usedTotal": "Insgesamt verwendet:",
-    "buyMore": "Mehr Guthaben kaufen",
+    "buyMore": "KI-Bildguthaben kaufen",
     "buyMoreSubtitle": "Wähle ein Guthabenpaket, um dein persönliches Guthaben aufzuladen.",
     "discountCodeOptional": "Rabattcode (optional)",
-    "monthlySubscriptions": "Monatliche Abonnements",
+    "monthlySubscriptions": "KI-Bild-Abonnements kaufen",
     "monthlySubtitle": "Erhalte jeden Monat automatisch Guthaben auf dein persönliches Konto.",
     "totalRecurringMonthlyCredits": "Gesamte wiederkehrende monatliche Guthaben:",
     "multiSubscriptionNote": "Du kannst mehrere Abonnements gleichzeitig haben; Guthaben aus jedem aktiven Abonnement wird deinem Konto hinzugefügt.",
     "activeSubscriptions": "Aktive Abonnements",
     "manageSubscription": "Abo verwalten",
     "manageSubscriptionHelp": "Nutze „Abo verwalten“, um einen Monatsplan zu bearbeiten, zu kündigen oder wieder zu aktivieren.",
-    "checkMissedCredits": "Fehlende Guthaben prüfen",
-    "backfillHelp": "Hiermit kannst du prüfen, ob gekaufte Guthaben eventuell nicht auf deinem Konto angekommen sind.",
+    "checkMissedCredits": "Auf fehlende Käufe prüfen",
+    "backfillHelp": "Prüft sowohl Einmalkäufe als auch Abrechnungsereignisse von Abonnements, um fehlende Guthaben wiederherzustellen.",
     "recentPurchases": "Letzte Käufe",
     "recentSubtitle": "Neueste Guthabenkauf-Ereignisse für dein Konto.",
     "noPurchases": "Es wurden noch keine Guthabenkäufe erfasst.",
@@ -381,10 +386,10 @@
     "discountMinSpend": "Dieser Rabattcode erfordert einen höheren Mindestbetrag für das ausgewählte Paket.",
     "discountRestrictedGuild": "Dieser Rabattcode ist auf einen anderen Server beschränkt.",
     "subscribedSuccess": "Abonnement aktiviert. Monatliche Guthaben werden nach jeder erfolgreichen Stripe-Rechnung hinzugefügt.",
-    "backfillGranted": "Prüfung abgeschlossen. Gefundene fehlende Guthaben: {{count}}. Deinem Guthaben hinzugefügt.",
-    "backfillAlreadyApplied": "Prüfung abgeschlossen. Gefundene fehlende Guthaben: {{count}}. Es wurden keine neuen Guthaben hinzugefügt.",
-    "backfillNoSubscription": "Für dein Konto wurde kein Stripe-Abonnement gefunden.",
-    "backfillNoPaidInvoice": "Es wurde keine bezahlte Abonnement-Rechnung zum Nachtragen gefunden.",
+    "backfillGranted": "Prüfung über Einmalkäufe und Abonnements abgeschlossen. Gefundene fehlende Guthaben: {{count}}. Deinem Kontostand hinzugefügt.",
+    "backfillAlreadyApplied": "Prüfung über Einmalkäufe und Abonnements abgeschlossen. Gefundene fehlende Guthaben: {{count}}. Es wurden keine neuen Guthaben hinzugefügt.",
+    "backfillNoSubscription": "Für dein Konto wurden keine Stripe-Käufe gefunden.",
+    "backfillNoPaidInvoice": "Es wurden keine bezahlten Stripe-Käufe zum Nachtragen gefunden.",
     "creditSingular": "Guthaben",
     "creditPlural": "Guthaben",
     "purchaseSingular": "Kauf",
@@ -418,7 +423,8 @@
       "invalidImage": "Bitte lade für den Bearbeitungsmodus ein gültiges Quellbild hoch.",
       "unavailable": "Web-Bildgenerierung ist derzeit nicht verfügbar. Bitte versuche es später erneut.",
       "failed": "Die Bildgenerierung ist fehlgeschlagen. Dein Guthaben wurde erstattet."
-    }
+    },
+    "personalTranslationTitle": "Persönliche Übersetzungsabonnements kaufen"
   },
   "ownerSettings": {
     "title": "Inhaber-Einstellungen",
@@ -442,11 +448,11 @@
       "subtitle": "Konfiguriere, wohin KI-Bild-Interaktionen geleitet werden."
     },
     "creditPacks": {
-      "title": "Einmalige Guthabenpakete",
+      "title": "KI-Bild Einmal-Guthabenpakete",
       "subtitle": "Aktualisiere IDs, Anzeigenamen, Guthaben, interne Kosten und Preis (Cent). Kosten sind nur für Inhaber und für Gewinnanalysen."
     },
     "subscriptionPlans": {
-      "title": "Monatliche Abopläne",
+      "title": "KI-Bild Monatliche Abonnementpläne",
       "subtitle": "Aktualisiere IDs, Anzeigenamen, Guthaben pro Monat, interne Kosten und Preis (Cent)."
     },
     "translationLimits": {

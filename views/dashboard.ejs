@@ -3,6 +3,7 @@
 
 <main class="container page-section">
   <% const manageableGuilds = (guilds || []).filter((guild) => guild.canManage); %>
+  <% const totalRecurringCredits = (subscriptions || []).reduce((sum, row) => sum + (Number.parseInt(String(row.credits_per_month || 0), 10) || 0), 0); %>
 
   <section class="dashboard-hero panel">
     <div class="dashboard-hero-content">
@@ -10,61 +11,289 @@
         <img src="/assets/DiscoBot.png" alt="DiscoBot" class="dashboard-hero-logo" />
         <div>
           <h1><%= t('dashboard.title', { defaultValue: 'Dashboard' }) %></h1>
-          <p class="dashboard-hero-subtitle"><%- t('dashboard.subtitle', { defaultValue: 'Manage DiscoBot settings for all Discord servers you are an admin on with DiscoBot installed. Also manage your personal AI Image Generation credits that can be used in Discord, or directly on this website using the link below.' }).replace(/([.!?。])\s*/, '$1<br />') %></p>
+          <p class="dashboard-hero-subtitle"><%- t('dashboard.subtitle', { defaultValue: 'Manage DiscoBot settings and Translation subscriptions for all Discord servers where it is installed and you are an admin or owner. Also manage your personal credits and Subscriptions for AI Image generation and Translation, which you can use on any server you are a member of with DiscoBot installed. You can also use your personal AI Image credits to generate images directly on this website using the link below.' }).replace(/([.!?。])\s*/g, '$1<br /><br />') %></p>
         </div>
       </div>
       <div class="dashboard-hero-actions">
-        <a href="/credits" class="btn btn-primary btn-with-icon"><span class="btn-icon" aria-hidden="true">💳</span><%= t('dashboard.myAiCredits', { defaultValue: 'My AI Credits' }) %></a>
-        <a href="/ai-image-generation" class="btn btn-ghost btn-with-icon dashboard-hero-secondary"><span class="btn-icon" aria-hidden="true">🎨</span><%= t('nav.aiImageGeneration', { defaultValue: 'Generate AI Images' }) %></a>
+        <a href="/ai-image-generation" class="btn btn-primary btn-with-icon"><span class="btn-icon" aria-hidden="true">🎨</span><%= t('nav.aiImageGeneration', { defaultValue: 'Generate AI Images' }) %></a>
       </div>
     </div>
   </section>
 
-  <% if (!guilds.length) { %>
-    <div class="panel">
-      <p><%= t('dashboard.noGuildsInstalled', { defaultValue: 'No guilds found with DiscoBot installed for your account.' }) %></p>
-    </div>
-  <% } %>
-
-  <% if (guilds.length && !manageableGuilds.length) { %>
-    <div class="panel">
-      <p><%= t('dashboard.noManageableGuilds', { defaultValue: 'You do not currently have admin or installer access to manage any installed guilds.' }) %></p>
-    </div>
-  <% } %>
+  <% if (purchased) { %><div class="alert success"><%= t('credits.purchasedSuccess', { defaultValue: 'Credits added successfully.' }) %></div><% } %>
+  <% if (checkoutSuccess) { %><div class="alert success"><%= t('credits.checkoutSuccess', { defaultValue: 'Payment completed. Credits will appear shortly once payment confirmation is received.' }) %></div><% } %>
+  <% if (checkoutCanceled) { %><div class="alert"><%= t('credits.checkoutCanceled', { defaultValue: 'Checkout was canceled. No credits were charged.' }) %></div><% } %>
+  <% if (discountStatus === 'invalid' || discountStatus === 'purchase_type') { %><div class="alert warning"><%= t('credits.discountInvalid', { defaultValue: 'Discount code is invalid for this purchase.' }) %></div><% } %>
+  <% if (discountStatus === 'inactive') { %><div class="alert warning"><%= t('credits.discountInactive', { defaultValue: 'Discount code is inactive.' }) %></div><% } %>
+  <% if (discountStatus === 'expired') { %><div class="alert warning"><%= t('credits.discountExpired', { defaultValue: 'Discount code has expired.' }) %></div><% } %>
+  <% if (discountStatus === 'restricted') { %><div class="alert warning"><%= t('credits.discountRestrictedUser', { defaultValue: 'Discount code is restricted to a different user.' }) %></div><% } %>
+  <% if (discountStatus === 'maxed') { %><div class="alert warning"><%= t('credits.discountMaxed', { defaultValue: 'Discount code has reached its maximum number of uses.' }) %></div><% } %>
+  <% if (discountStatus === 'min_spend') { %><div class="alert warning"><%= t('credits.discountMinSpend', { defaultValue: 'This discount code requires a higher minimum spend for the selected purchase.' }) %></div><% } %>
+  <% if (discountStatus === 'restricted_guild') { %><div class="alert warning"><%= t('credits.discountRestrictedGuild', { defaultValue: 'This discount code is restricted to a different guild.' }) %></div><% } %>
+  <% if (subscribedSuccess) { %><div class="alert success"><%= t('credits.subscribedSuccess', { defaultValue: 'Subscription activated. Monthly credits will be added after each successful Stripe invoice.' }) %></div><% } %>
+  <% if (translationSubscribedSuccess) { %><div class="alert success"><%= t('credits.translationSubscribedSuccess', { defaultValue: 'Personal translation subscription activated successfully.' }) %></div><% } %>
+  <% if (translationSubscriptionCanceled) { %><div class="alert"><%= t('credits.translationSubscriptionCanceled', { defaultValue: 'Personal translation checkout was canceled. No charge was made.' }) %></div><% } %>
+  <% if (translationSubscriptionStatus === 'invalid_plan') { %><div class="alert warning"><%= t('credits.translationInvalidPlan', { defaultValue: 'Please select a valid personal translation plan.' }) %></div><% } %>
+  <% if (translationSubscriptionStatus === 'no_subscription') { %><div class="alert warning"><%= t('credits.translationNoSubscription', { defaultValue: 'No active personal translation subscription found to manage.' }) %></div><% } %>
+  <% if (translationSubscriptionStatus === 'error') { %><div class="alert warning"><%= t('credits.translationError', { defaultValue: 'Could not process personal translation subscription request. Please try again.' }) %></div><% } %>
+  <% if (backfillStatus === 'granted') { %><div class="alert success"><%= t('credits.backfillGranted', { defaultValue: 'Check complete across one-time purchases and subscriptions. Missed credits found: {{count}}. Added to your balance.', count: backfillCredits }) %></div><% } %>
+  <% if (backfillStatus === 'already_applied') { %><div class="alert warning"><%= t('credits.backfillAlreadyApplied', { defaultValue: 'Check complete across one-time purchases and subscriptions. Missed credits found: {{count}}. No new credits were added.', count: backfillCredits }) %></div><% } %>
+  <% if (backfillStatus === 'no_subscription') { %><div class="alert warning"><%= t('credits.backfillNoSubscription', { defaultValue: 'No Stripe purchases were found for your account.' }) %></div><% } %>
+  <% if (backfillStatus === 'no_paid_invoice') { %><div class="alert warning"><%= t('credits.backfillNoPaidInvoice', { defaultValue: 'No paid Stripe purchases were found to backfill.' }) %></div><% } %>
 
   <% if (manageableGuilds.length) { %>
-    <h2 class="section-icon-title">
-      <span class="section-icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none">
-          <rect x="3" y="4" width="18" height="16" rx="3" stroke="currentColor" stroke-width="1.8" />
-          <path d="M3 9h18M12 9v11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
-        </svg>
-      </span>
-      <%= t('dashboard.guildServers', { defaultValue: 'Guild Servers' }) %>
-    </h2>
-    <p class="muted"><%= t('dashboard.selectGuild', { defaultValue: 'Choose a guild to manage DiscoBot settings for.' }) %></p>
-
-    <div class="guild-grid">
-    <% manageableGuilds.forEach((guild) => { %>
-      <article class="guild-card">
-        <div class="guild-head">
-          <% if (guild.iconUrl) { %>
-            <img src="<%= guild.iconUrl %>" alt="<%= guild.name %>" class="guild-icon" />
-          <% } else { %>
-            <div class="guild-icon guild-icon-fallback"><%= guild.name[0] %></div>
-          <% } %>
-          <div>
-            <h3><%= guild.name %></h3>
-          </div>
-        </div>
-
-        <div class="guild-actions">
-          <a href="/dashboard/<%= guild.id %>" class="btn btn-primary"><%= t('dashboard.manage', { defaultValue: 'Manage Settings' }) %></a>
-        </div>
-      </article>
-    <% }) %>
-    </div>
+    <section class="panel">
+      <h2 class="section-icon-title"><span class="section-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="16" rx="3" stroke="currentColor" stroke-width="1.8" /><path d="M3 9h18M12 9v11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg></span><%= t('dashboard.guildServers', { defaultValue: 'Guild Servers' }) %></h2>
+      <p class="muted"><%= t('dashboard.selectGuild', { defaultValue: 'Choose a guild to manage DiscoBot settings for.' }) %></p>
+      <div class="guild-grid">
+        <% manageableGuilds.forEach((guild) => { %>
+          <article class="guild-card">
+            <div class="guild-head">
+              <% if (guild.iconUrl) { %><img src="<%= guild.iconUrl %>" alt="<%= guild.name %>" class="guild-icon" /><% } else { %><div class="guild-icon guild-icon-fallback"><%= guild.name[0] %></div><% } %>
+              <div><h3><%= guild.name %></h3></div>
+            </div>
+            <div class="guild-actions"><a href="/dashboard/<%= guild.id %>" class="btn btn-primary"><%= t('dashboard.manage', { defaultValue: 'Manage Settings' }) %></a></div>
+          </article>
+        <% }) %>
+      </div>
+    </section>
   <% } %>
+
+  <section class="panel">
+    <h2 class="section-icon-title"><span class="section-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg></span>Your Balance & Purchases</h2>
+    <p class="muted"><%= t('credits.balanceSubtitle', { defaultValue: 'Current available balances for AI and personal translation usage.' }) %></p>
+    <p><strong>AI image credits:</strong> <%= summary.balance %> · <span class="muted"><%= t('credits.purchasedTotal', { defaultValue: 'Purchased total:' }) %> <%= summary.purchasedTotal %> · <%= t('credits.usedTotal', { defaultValue: 'Used total:' }) %> <%= summary.usedTotal %></span></p>
+    <p><strong>Translation characters:</strong> <%= Number(personalTranslationSummary?.remaining || 0).toLocaleString() %> remaining · <span class="muted">Allowance <%= Number(personalTranslationSummary?.allowance || 0).toLocaleString() %> · Used <%= Number(personalTranslationSummary?.monthlyUsage || 0).toLocaleString() %></span></p>
+    <% if (stripeConfigured) { %>
+      <form method="post" action="/credits/subscription/backfill" class="credits-packs subscription-actions" style="margin-top: 10px;">
+        <button type="submit" class="btn btn-ghost"><%= t('credits.checkMissedCredits', { defaultValue: 'Check for missed purchases' }) %></button>
+      </form>
+      <p class="muted helper-text"><%= t('credits.backfillHelp', { defaultValue: 'Checks both one-time purchases and subscription billing events to restore any missing credits.' }) %></p>
+    <% } %>
+
+    <% const moneyFormatter = new Intl.NumberFormat(undefined, { style: 'currency', currency: 'USD' }); %>
+    <% const nowMs = Date.now(); %>
+    <% const formatMoney = (cents, currency) => {
+      const amount = (Number.parseInt(String(cents || 0), 10) || 0) / 100;
+      const code = String(currency || 'usd').toUpperCase();
+      try {
+        return new Intl.NumberFormat(undefined, { style: 'currency', currency: code }).format(amount);
+      } catch {
+        return moneyFormatter.format(amount);
+      }
+    }; %>
+    <% const aiSubscriptionMap = {}; (subscriptions || []).forEach((row) => { const key = String(row?.stripe_subscription_id || '').trim(); if (key) { aiSubscriptionMap[key] = row; } }); %>
+    <% const translationSubscriptionMap = {}; (personalTranslationSubscriptions || []).forEach((row) => { const key = String(row?.stripe_subscription_id || '').trim(); if (key) { translationSubscriptionMap[key] = row; } }); %>
+
+    <% const aiPurchaseEvents = (purchases || []).map((row) => {
+      const paymentType = String(row?.payment_type || '').trim().toLowerCase();
+      const isSubscription = paymentType.startsWith('subscription');
+      const paidCents = Number.parseInt(String(row?.amount_total_cents || 0), 10) || 0;
+      const discountCents = Number.parseInt(String(row?.discount_cents || 0), 10) || 0;
+      const subscriptionId = String(row?.stripe_subscription_id || '').trim();
+      const subState = subscriptionId ? aiSubscriptionMap[subscriptionId] : null;
+      const cancelAtPeriodEnd = subState ? Boolean(subState?.cancel_at_period_end) : false;
+      const currentPeriodEnd = subState?.current_period_end || null;
+      const currentPeriodEndMs = currentPeriodEnd ? new Date(currentPeriodEnd).getTime() : 0;
+      const statusLower = subState ? String(subState?.status || '').trim().toLowerCase() : '';
+      let statusLabel = '';
+      if (isSubscription) {
+        if (cancelAtPeriodEnd) {
+          statusLabel = currentPeriodEndMs > nowMs ? 'Cancelled' : 'Expired';
+        } else {
+          statusLabel = statusLower === 'canceled' ? 'Expired' : 'Active';
+        }
+      }
+      return {
+        kind: isSubscription ? 'ai_subscription' : 'ai_credits',
+        icon: isSubscription ? '↻' : '•',
+        typeLabel: isSubscription ? 'AI Credits Subscription' : 'AI Credits',
+        ts: row?.created_at ? new Date(row.created_at).getTime() : 0,
+        createdAt: row?.created_at || null,
+        title: String(row?.pack_id || (isSubscription ? 'AI subscription' : 'AI credits')),
+        credits: Number.parseInt(String(row?.credits || 0), 10) || 0,
+        paidCents,
+        discountCents,
+        originalCents: paidCents + Math.max(discountCents, 0),
+        currency: String(row?.currency || 'usd'),
+        discountCode: String(row?.discount_code || '').trim(),
+        stripeSubscriptionId: subscriptionId,
+        status: subState ? String(subState?.status || '') : '',
+        cancelAtPeriodEnd,
+        currentPeriodEnd,
+        statusLabel,
+      };
+    }); %>
+
+    <% const translationPurchaseEvents = (translationPurchases || []).map((row) => {
+      const paymentType = String(row?.payment_type || '').trim().toLowerCase();
+      const isSubscription = paymentType.startsWith('subscription');
+      const paidCents = Number.parseInt(String(row?.amount_total_cents || 0), 10) || 0;
+      const discountCents = Number.parseInt(String(row?.discount_cents || 0), 10) || 0;
+      const subscriptionId = String(row?.stripe_subscription_id || '').trim();
+      const subState = subscriptionId ? translationSubscriptionMap[subscriptionId] : null;
+      const cancelAtPeriodEnd = subState ? Boolean(subState?.cancel_at_period_end) : false;
+      const currentPeriodEnd = subState?.current_period_end || null;
+      const currentPeriodEndMs = currentPeriodEnd ? new Date(currentPeriodEnd).getTime() : 0;
+      const statusLower = subState ? String(subState?.status || '').trim().toLowerCase() : '';
+      let statusLabel = '';
+      if (isSubscription) {
+        if (cancelAtPeriodEnd) {
+          statusLabel = currentPeriodEndMs > nowMs ? 'Cancelled' : 'Expired';
+        } else {
+          statusLabel = statusLower === 'canceled' ? 'Expired' : 'Active';
+        }
+      }
+      return {
+        kind: 'translation_subscription',
+        icon: isSubscription ? '↻' : '•',
+        typeLabel: 'Translation Subscription',
+        ts: row?.created_at ? new Date(row.created_at).getTime() : 0,
+        createdAt: row?.created_at || null,
+        title: String(row?.plan_id || 'Personal translation subscription'),
+        charactersPerMonth: Number.parseInt(String(row?.characters_per_month || 0), 10) || 0,
+        paidCents,
+        discountCents,
+        originalCents: paidCents + Math.max(discountCents, 0),
+        currency: String(row?.currency || 'usd'),
+        discountCode: String(row?.discount_code || '').trim(),
+        stripeSubscriptionId: subscriptionId,
+        status: subState ? String(subState?.status || '') : '',
+        cancelAtPeriodEnd,
+        currentPeriodEnd,
+        statusLabel,
+      };
+    }); %>
+
+    <% const mergedPurchaseActivity = [...aiPurchaseEvents, ...translationPurchaseEvents].sort((a, b) => (b.ts || 0) - (a.ts || 0)); %>
+
+    <h3 style="margin-top: 18px;"><%= t('credits.recentPurchases', { defaultValue: 'Your Purchases' }) %></h3>
+    <p class="muted"><%= t('credits.recentSubtitle', { defaultValue: 'Latest credit purchase events for your account.' }) %></p>
+    <% if (!mergedPurchaseActivity.length) { %>
+      <p class="muted"><%= t('credits.noPurchases', { defaultValue: 'No credit purchases recorded yet.' }) %></p>
+    <% } else { %>
+      <div class="purchase-list">
+        <% mergedPurchaseActivity.forEach((row) => { %>
+          <details class="settings-expander purchase-item purchase-record <%= (row.kind === 'ai_subscription' || row.kind === 'translation_subscription') ? 'subscription-item subscription-row ' + (row.cancelAtPeriodEnd ? 'subscription-item-canceled' : 'subscription-item-active') : '' %>">
+            <summary class="settings-expander-summary">
+              <div class="settings-expander-summary-main">
+                <div class="purchase-summary-title-row">
+                  <strong><span class="purchase-kind-icon" aria-hidden="true"><%= row.icon %></span> <%= row.typeLabel %></strong>
+                  <% if (row.kind === 'ai_subscription' || row.kind === 'translation_subscription') { %>
+                    <span class="purchase-status-badge purchase-status-<%= String(row.statusLabel || 'active').toLowerCase() %>"><%= row.statusLabel || 'Active' %></span>
+                  <% } %>
+                </div>
+                <div class="muted"><%= row.title %></div>
+              </div>
+              <span class="schedule-expander-plus" aria-hidden="true">+</span>
+            </summary>
+            <div class="settings-expander-body">
+              <p class="purchase-detail-row"><strong>Purchase Type:</strong> <span><%= row.typeLabel %></span> · <strong>Product:</strong> <span><%= row.title %></span> · <strong>Credits:</strong> <span><%= row.kind === 'translation_subscription' ? `${Number(row.charactersPerMonth || 0).toLocaleString()} chars/mo` : `${row.credits || 0}` %></span> · <strong>Date of Purchase:</strong> <span><%= row.createdAt ? new Date(row.createdAt).toLocaleString() : 'Unknown' %></span></p>
+              <p class="purchase-detail-row"><strong>Original Price:</strong> <span><%= formatMoney(row.originalCents, row.currency) %></span> · <strong>Discount Code Used:</strong> <span><%= row.discountCode || 'None' %></span> · <strong>Paid Price:</strong> <span><%= formatMoney(row.paidCents, row.currency) %></span></p>
+
+              <% if ((row.kind === 'ai_subscription' || row.kind === 'translation_subscription') && row.stripeSubscriptionId) { %>
+                <div class="purchase-manage-row">
+                  <% if (row.kind === 'ai_subscription') { %>
+                    <form method="post" action="/credits/subscription/manage" class="subscription-manage-form">
+                      <input type="hidden" name="stripe_subscription_id" value="<%= row.stripeSubscriptionId %>" />
+                      <button type="submit" class="btn btn-success"><%= t('credits.manageSubscription', { defaultValue: 'Manage Subscription' }) %></button>
+                    </form>
+                  <% } else { %>
+                    <form method="post" action="/subscriptions/translation/subscription/manage" class="subscription-manage-form">
+                      <input type="hidden" name="stripe_subscription_id" value="<%= row.stripeSubscriptionId %>" />
+                      <button type="submit" class="btn btn-success"><%= t('credits.manageSubscription', { defaultValue: 'Manage Subscription' }) %></button>
+                    </form>
+                  <% } %>
+                </div>
+              <% } %>
+            </div>
+          </details>
+        <% }) %>
+      </div>
+    <% } %>
+  </section>
+
+  <section class="panel">
+    <details class="settings-expander">
+      <summary class="settings-expander-summary">
+        <div class="settings-expander-summary-main">
+          <h2 class="section-icon-title"><span class="section-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M3 12l9-9 9 9-9 9-9-9z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" /><path d="M12 8v8M8 12h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg></span><%= t('credits.buyMore', { defaultValue: 'Buy AI Image Credits' }) %></h2>
+          <p class="muted"><%= t('credits.buyMoreSubtitle', { defaultValue: 'Choose a credit pack to top up your personal balance.' }) %></p>
+        </div>
+        <span class="schedule-expander-plus" aria-hidden="true">+</span>
+      </summary>
+      <div class="settings-expander-body">
+        <% if (!stripeConfigured) { %>
+          <p class="muted"><%= t('credits.stripeNotConfigured', { defaultValue: 'Stripe is not configured yet. Add `STRIPE_SECRET_KEY` and `STRIPE_WEBHOOK_SECRET` in your environment.' }) %></p>
+        <% } else { %>
+          <form method="post" action="/credits/checkout" class="credits-packs">
+            <label><%= t('credits.discountCodeOptional', { defaultValue: 'Discount Code (optional)' }) %><input type="text" name="discount_code" maxlength="32" placeholder="THANKYOU10" /></label>
+            <% (creditPackOptions || []).forEach((pack) => { %>
+              <button type="submit" name="pack_id" value="<%= pack.id %>" class="btn btn-primary tier-btn">
+                <span><%= pack.name %> · <%= pack.credits %> <%= pack.credits === 1 ? t('credits.creditSingular', { defaultValue: 'credit' }) : t('credits.creditPlural', { defaultValue: 'credits' }) %> · $<%= (pack.unitAmountCents / 100).toFixed(2) %></span>
+                <% if (pack.isMostPopular) { %><span class="tier-saving-badge"><%= t('credits.mostPopular', { defaultValue: 'Most popular' }) %> · <%= Number(pack.purchaseCount || 0).toLocaleString() %></span><% } %>
+                <% if (pack.credits > 1) { %><span class="tier-saving-badge"><%= pack.savingsPercent %>% <%= t('common.saving', { defaultValue: 'saving' }) %></span><% } %>
+              </button>
+            <% }) %>
+          </form>
+        <% } %>
+      </div>
+    </details>
+  </section>
+
+  <section class="panel">
+    <details class="settings-expander">
+      <summary class="settings-expander-summary">
+        <div class="settings-expander-summary-main">
+          <h2 class="section-icon-title"><span class="section-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="3" stroke="currentColor" stroke-width="1.8" /><path d="M8 10h8M8 14h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg></span><%= t('credits.monthlySubscriptions', { defaultValue: 'Buy AI Image Subscriptions' }) %></h2>
+          <p class="muted"><%= t('credits.monthlySubtitle', { defaultValue: 'Get credits added to your personal balance every month automatically.' }) %></p>
+        </div>
+        <span class="schedule-expander-plus" aria-hidden="true">+</span>
+      </summary>
+      <div class="settings-expander-body">
+        <% if ((subscriptions || []).length) { %><p class="muted helper-text"><strong><%= t('credits.totalRecurringMonthlyCredits', { defaultValue: 'Total recurring monthly credits:' }) %></strong> <%= totalRecurringCredits %></p><% } %>
+        <% if (!stripeConfigured) { %>
+          <p class="muted"><%= t('credits.stripeNotConfigured', { defaultValue: 'Stripe is not configured yet. Add `STRIPE_SECRET_KEY` and `STRIPE_WEBHOOK_SECRET` in your environment.' }) %></p>
+        <% } else { %>
+          <form method="post" action="/credits/subscribe" class="credits-packs">
+            <label><%= t('credits.discountCodeOptional', { defaultValue: 'Discount Code (optional)' }) %><input type="text" name="discount_code" maxlength="32" placeholder="THANKYOU10" /></label>
+            <% (subscriptionPlanOptions || []).forEach((plan) => { %>
+              <button type="submit" name="plan_id" value="<%= plan.id %>" class="btn btn-primary tier-btn">
+                <span><%= plan.name %> · <%= plan.creditsPerMonth %> <%= t('credits.creditsPerMonth', { defaultValue: 'credits/month' }) %> · $<%= (plan.unitAmountCents / 100).toFixed(2) %></span>
+                <span class="tier-saving-badge"><%= plan.savingsPercent %>% <%= t('common.saving', { defaultValue: 'saving' }) %></span>
+              </button>
+            <% }) %>
+          </form>
+
+        <% } %>
+      </div>
+    </details>
+  </section>
+
+  <section class="panel">
+    <details class="settings-expander">
+      <summary class="settings-expander-summary">
+        <div class="settings-expander-summary-main">
+          <h2 class="section-icon-title"><span class="section-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /><path d="M8 4v16M16 4v16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg></span><%= t('credits.personalTranslationTitle', { defaultValue: 'Buy Personal Translation Subscriptions' }) %></h2>
+          <p class="muted"><%= t('credits.personalTranslationSubtitle', { defaultValue: 'Use personal translation characters across all your guilds after guild limits are used.' }) %></p>
+        </div>
+        <span class="schedule-expander-plus" aria-hidden="true">+</span>
+      </summary>
+      <div class="settings-expander-body">
+        <% if (!stripeConfigured) { %>
+          <p class="muted"><%= t('credits.stripeNotConfigured', { defaultValue: 'Stripe is not configured yet. Add `STRIPE_SECRET_KEY` and `STRIPE_WEBHOOK_SECRET` in your environment.' }) %></p>
+        <% } else { %>
+          <form method="post" action="/subscriptions/translation/subscribe" class="credits-packs">
+            <label><%= t('credits.discountCodeOptional', { defaultValue: 'Discount Code (optional)' }) %><input type="text" name="discount_code" maxlength="32" placeholder="THANKYOU10" /></label>
+            <% (translationSubscriptionPlanOptions || []).forEach((plan) => { %>
+              <button type="submit" name="translation_plan_id" value="<%= plan.id %>" class="btn btn-primary tier-btn"><span><%= plan.name %> · <%= Number(plan.charactersPerMonth || 0).toLocaleString() %> <%= t('credits.charactersPerMonth', { defaultValue: 'characters/month' }) %> · $<%= (plan.unitAmountCents / 100).toFixed(2) %></span></button>
+            <% }) %>
+          </form>
+
+        <% } %>
+      </div>
+    </details>
+  </section>
 </main>
 
 <%- include('partials/foot') %>

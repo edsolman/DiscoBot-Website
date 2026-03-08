@@ -71,6 +71,14 @@
           <input type="text" name="code" maxlength="32" placeholder="THANKYOU10" required />
         </label>
         <label>
+          Applies To
+          <select name="applies_to" required>
+            <option value="both">One-off + Subscription</option>
+            <option value="one_time">One-off only</option>
+            <option value="subscription">Subscription only</option>
+          </select>
+        </label>
+        <label>
           Discount Type
           <select name="discount_type" required>
             <option value="percent">Percentage (%)</option>
@@ -136,6 +144,15 @@
           <input type="text" name="code_query" value="<%= filters.codeQuery %>" placeholder="THANK" />
         </label>
         <label>
+          Applies To
+          <select name="applies_to">
+            <option value="all" <%= filters.appliesTo === 'all' ? 'selected' : '' %>>All</option>
+            <option value="both" <%= filters.appliesTo === 'both' ? 'selected' : '' %>>One-off + Subscription</option>
+            <option value="one_time" <%= filters.appliesTo === 'one_time' ? 'selected' : '' %>>One-off only</option>
+            <option value="subscription" <%= filters.appliesTo === 'subscription' ? 'selected' : '' %>>Subscription only</option>
+          </select>
+        </label>
+        <label>
           Active State
           <select name="active">
             <option value="all" <%= filters.active === 'all' ? 'selected' : '' %>>All</option>
@@ -176,6 +193,7 @@
               </div>
               <div class="muted">
                 <%= code.discount_type === 'percent' ? `${code.discount_value}% off` : `$${(Number(code.discount_value || 0) / 100).toFixed(2)} off` %>
+                · Applies to: <%= code.applies_to === 'one_time' ? 'One-off only' : code.applies_to === 'subscription' ? 'Subscription only' : 'One-off + Subscription' %>
                 <% if (code.discount_type === 'percent' && Number(code.max_discount_cents || 0) > 0) { %>
                   · Max discount: $<%= (Number(code.max_discount_cents || 0) / 100).toFixed(2) %>
                 <% } %>

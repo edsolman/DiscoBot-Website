@@ -14,7 +14,7 @@
         </p>
         <div class="hero-actions">
           <% if (currentUser) { %>
-            <a href="/dashboard" class="btn btn-primary"><%= t('home.hero.openDashboard') %></a>
+            <a href="/my-account" class="btn btn-primary"><%= t('nav.dashboard', { defaultValue: 'My Account' }) %></a>
           <% } else { %>
             <a href="/auth/discord" class="btn btn-primary"><%= t('home.hero.signIn') %></a>
           <% } %>
@@ -67,7 +67,7 @@
         </span>
         <%= t('home.features.globalCommunication.title') %>
       </h3>
-      <p><%= t('home.features.globalCommunication.description') %></p>
+      <p><%= t('home.features.globalCommunication.description', { defaultValue: 'Instant, accurate and natural message translation using the DeepL Pro engine. Buy translation credit subscriptions for your Guild, or for yourself.' }) %></p>
     </article>
     <article class="feature-card">
       <h3 class="feature-title">
@@ -93,7 +93,7 @@
         </span>
         <%= t('home.features.aiImageGeneration.title') %>
       </h3>
-      <p><%= t('home.features.aiImageGeneration.descriptionPrefix', { defaultValue: 'Buy ' }) %><a href="/credits"><%= t('home.features.aiImageGeneration.aiCreditsLinkText', { defaultValue: 'personal AI credits' }) %></a><%= t('home.features.aiImageGeneration.descriptionMiddle', { defaultValue: ' and use them to generate AI images using the latest ChatGPT model from your Discord server, or this ' }) %><a href="/ai-image-generation"><%= t('home.features.aiImageGeneration.websiteLinkText', { defaultValue: 'website' }) %></a><%= t('home.features.aiImageGeneration.descriptionSuffix', { defaultValue: '.' }) %></p>
+      <p><%= t('home.features.aiImageGeneration.descriptionPrefix', { defaultValue: 'Buy ' }) %><a href="/subscriptions"><%= t('home.features.aiImageGeneration.aiCreditsLinkText', { defaultValue: 'personal AI credits' }) %></a><%= t('home.features.aiImageGeneration.descriptionMiddle', { defaultValue: ' and use them to generate AI images using the latest ChatGPT model from your Discord server, or this ' }) %><a href="/ai-image-generation"><%= t('home.features.aiImageGeneration.websiteLinkText', { defaultValue: 'website' }) %></a><%= t('home.features.aiImageGeneration.descriptionSuffix', { defaultValue: '.' }) %></p>
     </article>
     <article class="feature-card">
       <h3 class="feature-title">
@@ -105,7 +105,7 @@
         </span>
         <%= t('home.features.webDashboard.title') %>
       </h3>
-      <p><%= t('home.features.webDashboard.descriptionPrefix', { defaultValue: 'Manage all bot features & settings from the ' }) %><a href="/dashboard"><%= t('home.features.webDashboard.linkText', { defaultValue: 'web dashboard' }) %></a><%= t('home.features.webDashboard.descriptionSuffix', { defaultValue: ' or the app without relying on slash commands.' }) %></p>
+      <p><%= t('home.features.webDashboard.descriptionPrefix', { defaultValue: 'Manage all bot features & settings from the ' }) %><a href="/my-account"><%= t('home.features.webDashboard.linkText', { defaultValue: 'web dashboard' }) %></a><%= t('home.features.webDashboard.descriptionSuffix', { defaultValue: ' or the app without relying on slash commands.' }) %></p>
     </article>
   </section>
 </main>

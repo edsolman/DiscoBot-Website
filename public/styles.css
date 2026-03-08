@@ -88,7 +88,7 @@ a:focus-visible {
 }
 .nav-links > a.btn-primary,
 .nav-links > a.btn-primary:hover {
-  color: #ffffff;
+  color: #060912;
   font-weight: 700;
 }
 .inline-form { margin: 0; }
@@ -435,7 +435,25 @@ a.btn,
 a.btn:visited,
 a.btn:hover,
 a.btn:focus-visible {
-  color: #ffffff;
+  text-decoration: none;
+}
+
+a.btn-primary,
+a.btn-primary:visited,
+a.btn-primary:hover,
+a.btn-primary:focus-visible {
+  color: #060912;
+}
+
+a.btn-ghost,
+a.btn-ghost:visited,
+a.btn-ghost:hover,
+a.btn-ghost:focus-visible,
+a.btn-success,
+a.btn-success:visited,
+a.btn-success:hover,
+a.btn-success:focus-visible {
+  color: var(--text);
 }
 
 .hero { padding: 64px 0 40px; }
@@ -811,6 +829,15 @@ a.btn:focus-visible {
   gap: 10px;
   align-items: end;
 }
+
+.website-url-row {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.website-url-row > label,
+.website-url-row > label > input {
+  width: 100%;
+}
 .schedule-row {
   grid-template-columns: repeat(12, minmax(0, 1fr));
   column-gap: 10px;
@@ -891,6 +918,7 @@ a.btn:focus-visible {
 }
 
 .settings-expander-summary-main {
+  flex: 1 1 auto;
   min-width: 0;
 }
 
@@ -948,7 +976,8 @@ a.btn:focus-visible {
   border-radius: 999px;
   border: 1px solid rgba(255,255,255,0.28);
   font-weight: 800;
-  margin-left: 8px;
+  margin-left: auto;
+  flex: 0 0 auto;
 }
 
 .schedule-item-summary-title {
@@ -1448,6 +1477,73 @@ select option {
 
 .subscription-manage-form {
   margin: 0;
+}
+
+.purchase-record .settings-expander-summary {
+  align-items: center;
+}
+
+details.purchase-item {
+  display: block;
+}
+
+details.purchase-item > .settings-expander-summary {
+  width: 100%;
+}
+
+.purchase-summary-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.purchase-kind-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  font-size: 1.2rem;
+  line-height: 1;
+  color: var(--link-brand);
+}
+
+.purchase-status-badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 2px 10px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border: 1px solid rgba(255,255,255,0.22);
+}
+
+.purchase-status-active {
+  color: var(--success);
+  border-color: color-mix(in srgb, var(--success) 60%, rgba(255,255,255,0.24));
+  background: color-mix(in srgb, var(--success) 18%, transparent);
+}
+
+.purchase-status-cancelled {
+  color: var(--link-brand-hover);
+  border-color: color-mix(in srgb, var(--link-brand-hover) 60%, rgba(255,255,255,0.24));
+  background: color-mix(in srgb, var(--link-brand-hover) 18%, transparent);
+}
+
+.purchase-status-expired {
+  color: var(--text-muted);
+  border-color: rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.06);
+}
+
+.purchase-detail-row {
+  margin: 6px 0;
+  line-height: 1.4;
+}
+
+.purchase-manage-row {
+  margin-top: 10px;
 }
 
 [data-generation-root] {

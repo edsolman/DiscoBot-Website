@@ -11,13 +11,13 @@
             <path d="M8 10h8M8 14h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
           </svg>
         </span>
-        <%= t('credits.title', { defaultValue: 'AI Image Credits' }) %>
+        <%= t('mySubscriptions.title', { defaultValue: 'My Subscriptions' }) %>
       </h1>
-      <p class="muted"><%= t('credits.subtitle', { defaultValue: 'Buy and manage your personal AI image generation credits. These are personal to you, and can be used in any guild you are a member of that has DiscoBot installed.' }) %></p>
+      <p class="muted"><%= t('mySubscriptions.subtitle', { defaultValue: 'Manage your personal AI and translation subscriptions. Personal translation usage works across all your DiscoBot guilds.' }) %></p>
     </div>
     <div class="form-actions">
       <a href="/ai-image-generation" class="btn btn-primary btn-with-icon"><span class="btn-icon" aria-hidden="true">🎨</span><%= t('nav.aiImageGeneration', { defaultValue: 'Generate AI Images' }) %></a>
-      <a href="/dashboard" class="btn btn-ghost btn-with-icon"><span class="btn-icon" aria-hidden="true">←</span><%= t('common.back', { defaultValue: 'Back' }) %></a>
+      <a href="/my-account" class="btn btn-ghost btn-with-icon"><span class="btn-icon" aria-hidden="true">←</span><%= t('common.back', { defaultValue: 'Back' }) %></a>
     </div>
   </div>
 
@@ -54,6 +54,21 @@
   <% if (subscribedSuccess) { %>
     <div class="alert success"><%= t('credits.subscribedSuccess', { defaultValue: 'Subscription activated. Monthly credits will be added after each successful Stripe invoice.' }) %></div>
   <% } %>
+  <% if (translationSubscribedSuccess) { %>
+    <div class="alert success"><%= t('credits.translationSubscribedSuccess', { defaultValue: 'Personal translation subscription activated successfully.' }) %></div>
+  <% } %>
+  <% if (translationSubscriptionCanceled) { %>
+    <div class="alert"><%= t('credits.translationSubscriptionCanceled', { defaultValue: 'Personal translation checkout was canceled. No charge was made.' }) %></div>
+  <% } %>
+  <% if (translationSubscriptionStatus === 'invalid_plan') { %>
+    <div class="alert warning"><%= t('credits.translationInvalidPlan', { defaultValue: 'Please select a valid personal translation plan.' }) %></div>
+  <% } %>
+  <% if (translationSubscriptionStatus === 'no_subscription') { %>
+    <div class="alert warning"><%= t('credits.translationNoSubscription', { defaultValue: 'No active personal translation subscription found to manage.' }) %></div>
+  <% } %>
+  <% if (translationSubscriptionStatus === 'error') { %>
+    <div class="alert warning"><%= t('credits.translationError', { defaultValue: 'Could not process personal translation subscription request. Please try again.' }) %></div>
+  <% } %>
   <% if (backfillStatus === 'granted') { %>
     <div class="alert success"><%= t('credits.backfillGranted', { defaultValue: 'Check complete. Missed credits found: {{count}}. Added to your balance.', count: backfillCredits }) %></div>
   <% } %>
@@ -84,6 +99,76 @@
         <div class="settings-expander-body">
           <p><strong><%= t('credits.availableCredits', { defaultValue: 'Available credits:' }) %></strong> <%= summary.balance %></p>
           <p class="muted"><%= t('credits.purchasedTotal', { defaultValue: 'Purchased total:' }) %> <%= summary.purchasedTotal %> · <%= t('credits.usedTotal', { defaultValue: 'Used total:' }) %> <%= summary.usedTotal %></p>
+        </div>
+      </details>
+    </section>
+
+    <section class="panel">
+      <details class="settings-expander">
+        <summary class="settings-expander-summary">
+          <div class="settings-expander-summary-main">
+            <h2 class="section-icon-title">
+              <span class="section-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /><path d="M8 4v16M16 4v16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg>
+              </span>
+              <%= t('credits.personalTranslationTitle', { defaultValue: 'Personal Translation Subscriptions' }) %>
+            </h2>
+            <p class="muted"><%= t('credits.personalTranslationSubtitle', { defaultValue: 'Use personal translation characters across all your guilds after guild limits are used.' }) %></p>
+          </div>
+          <span class="schedule-expander-plus" aria-hidden="true">+</span>
+        </summary>
+        <div class="settings-expander-body">
+          <p>
+            <strong><%= t('credits.personalTranslationAllowance', { defaultValue: 'Allowance this month:' }) %></strong>
+            <%= Number(personalTranslationSummary?.allowance || 0).toLocaleString() %>
+            ·
+            <strong><%= t('credits.personalTranslationUsed', { defaultValue: 'Used:' }) %></strong>
+            <%= Number(personalTranslationSummary?.monthlyUsage || 0).toLocaleString() %>
+            ·
+            <strong><%= t('credits.personalTranslationRemaining', { defaultValue: 'Remaining:' }) %></strong>
+            <%= Number(personalTranslationSummary?.remaining || 0).toLocaleString() %>
+          </p>
+
+          <% if (!stripeConfigured) { %>
+            <p class="muted"><%= t('credits.stripeNotConfigured', { defaultValue: 'Stripe is not configured yet. Add `STRIPE_SECRET_KEY` and `STRIPE_WEBHOOK_SECRET` in your environment.' }) %></p>
+          <% } else { %>
+            <form method="post" action="/subscriptions/translation/subscribe" class="credits-packs">
+              <% (translationSubscriptionPlanOptions || []).forEach((plan) => { %>
+                <button type="submit" name="translation_plan_id" value="<%= plan.id %>" class="btn btn-primary tier-btn">
+                  <span><%= plan.name %> · <%= Number(plan.charactersPerMonth || 0).toLocaleString() %> <%= t('credits.charactersPerMonth', { defaultValue: 'characters/month' }) %> · $<%= (plan.unitAmountCents / 100).toFixed(2) %></span>
+                </button>
+              <% }) %>
+            </form>
+          <% } %>
+
+          <% if (personalTranslationSubscriptions && personalTranslationSubscriptions.length) { %>
+            <div class="panel subscription-list-box">
+              <h3><%= t('credits.activePersonalTranslationSubscriptions', { defaultValue: 'Active Personal Translation Subscriptions' }) %></h3>
+              <div class="purchase-list">
+                <% personalTranslationSubscriptions.forEach((row) => { %>
+                  <div class="purchase-item subscription-item subscription-row <%= row.cancel_at_period_end ? 'subscription-item-canceled' : 'subscription-item-active' %>">
+                    <div>
+                      <div><strong><%= row.plan_id %></strong></div>
+                      <div class="muted">
+                        <%= Number(row.characters_per_month || 0).toLocaleString() %> <%= t('credits.charactersPerMonth', { defaultValue: 'characters/month' }) %> ·
+                        <% if (row.cancel_at_period_end) { %>
+                          <%= t('credits.activeUntil', { defaultValue: 'Active until' }) %>
+                          <%= row.current_period_end ? new Date(row.current_period_end).toLocaleDateString() : t('credits.periodEnd', { defaultValue: 'period end' }) %>
+                          (<%= t('credits.cancelled', { defaultValue: 'Cancelled' }) %>)
+                        <% } else { %>
+                          <%= row.status %>
+                        <% } %>
+                      </div>
+                    </div>
+                    <form method="post" action="/subscriptions/translation/subscription/manage" class="subscription-manage-form">
+                      <input type="hidden" name="stripe_subscription_id" value="<%= row.stripe_subscription_id %>" />
+                      <button type="submit" class="btn btn-success"><%= t('credits.manageSubscription', { defaultValue: 'Manage Subscription' }) %></button>
+                    </form>
+                  </div>
+                <% }) %>
+              </div>
+            </div>
+          <% } %>
         </div>
       </details>
     </section>

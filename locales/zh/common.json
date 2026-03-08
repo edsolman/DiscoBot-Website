@@ -44,10 +44,10 @@
   },
   "dashboard": {
     "title": "控制台",
-    "subtitle": "管理所有你是管理员且已安装 DiscoBot 的 Discord 服务器的 DiscoBot 设置。你还可以管理个人 AI 图片生成积分，这些积分可在 Discord 中使用，或通过下方链接直接在本网站使用。",
+    "subtitle": "管理已安装 DiscoBot 且你是管理员或所有者的所有 Discord 服务器上的 DiscoBot 设置和翻译订阅。你还可以管理用于 AI 图像生成和翻译的个人积分与订阅，并可在你加入且已安装 DiscoBot 的任何服务器中使用。你还可以通过下方链接直接在本网站使用个人 AI 图像积分生成图片。",
     "myAiCredits": "我的 AI 积分",
     "guildServers": "服务器列表",
-      "selectGuild": "选择一个要管理 DiscoBot 设置的服务器。",
+    "selectGuild": "选择一个要管理 DiscoBot 设置的服务器。",
     "manage": "管理设置",
     "noGuildsInstalled": "未找到已为你的账号安装 DiscoBot 的公会。",
     "noManageableGuilds": "你当前没有管理员或安装者权限来管理任何已安装的公会。",
@@ -257,18 +257,18 @@
     "availableCredits": "可用积分：",
     "purchasedTotal": "已购买总计：",
     "usedTotal": "已使用总计：",
-    "buyMore": "购买更多积分",
+    "buyMore": "购买 AI 图像积分",
     "buyMoreSubtitle": "选择一个积分包为你的个人余额充值。",
     "discountCodeOptional": "优惠码（可选）",
-    "monthlySubscriptions": "月度订阅",
+    "monthlySubscriptions": "购买 AI 图像订阅",
     "monthlySubtitle": "每月自动将积分添加到你的个人余额。",
     "totalRecurringMonthlyCredits": "每月循环积分总计：",
     "multiSubscriptionNote": "你可以同时持有多个订阅；每个有效订阅的积分都会添加到你的余额中。",
     "activeSubscriptions": "有效订阅",
     "manageSubscription": "管理订阅",
     "manageSubscriptionHelp": "使用“管理订阅”可编辑、取消或恢复月度计划。",
-    "checkMissedCredits": "检查遗漏积分",
-    "backfillHelp": "如果你认为购买积分未计入余额，可使用此功能检查。",
+    "checkMissedCredits": "检查遗漏购买",
+    "backfillHelp": "会同时检查一次性购买和订阅计费事件，以恢复缺失的积分。",
     "recentPurchases": "最近购买",
     "recentSubtitle": "你账户最近的积分购买记录。",
     "noPurchases": "暂无积分购买记录。",
@@ -284,10 +284,10 @@
     "discountMinSpend": "该折扣码对所选套餐要求更高的最低消费。",
     "discountRestrictedGuild": "该折扣码仅限其他服务器使用。",
     "subscribedSuccess": "订阅已激活。每次 Stripe 账单支付成功后都会发放月度积分。",
-    "backfillGranted": "检查完成。发现遗漏积分：{{count}}。已添加到你的余额。",
-    "backfillAlreadyApplied": "检查完成。发现遗漏积分：{{count}}。没有新增积分。",
-    "backfillNoSubscription": "未找到与你账户关联的 Stripe 订阅记录。",
-    "backfillNoPaidInvoice": "未找到可补发积分的已支付订阅账单。",
+    "backfillGranted": "已完成一次性购买和订阅检查。发现缺失积分：{{count}}。已添加到你的余额。",
+    "backfillAlreadyApplied": "已完成一次性购买和订阅检查。发现缺失积分：{{count}}。未新增积分。",
+    "backfillNoSubscription": "未找到与你账户相关的 Stripe 购买记录。",
+    "backfillNoPaidInvoice": "未找到可补录的已支付 Stripe 购买记录。",
     "creditSingular": "积分",
     "creditPlural": "积分",
     "purchaseSingular": "购买",
@@ -321,7 +321,8 @@
       "invalidImage": "编辑模式请上传有效的源图片。",
       "unavailable": "网页图片生成功能当前不可用，请稍后重试。",
       "failed": "图片生成失败。你的积分已退回。"
-    }
+    },
+    "personalTranslationTitle": "购买个人翻译订阅"
   },
   "ownerSettings": {
     "title": "所有者设置",
@@ -345,11 +346,11 @@
       "subtitle": "配置 AI 图片生成交互的路由位置。"
     },
     "creditPacks": {
-      "title": "一次性积分包",
+      "title": "AI 图像一次性积分包",
       "subtitle": "更新 ID、显示名、积分、内部成本和价格（美分）。成本仅所有者可见并用于利润分析。"
     },
     "subscriptionPlans": {
-      "title": "月度订阅方案",
+      "title": "AI 图像月度订阅方案",
       "subtitle": "更新 ID、显示名、每月积分、内部成本和价格（美分）。"
     },
     "translationLimits": {
@@ -619,7 +620,7 @@
       },
       "globalCommunication": {
         "title": "全球沟通",
-        "description": "基于 DeepL Pro 的即时、准确、自然翻译。"
+        "description": "使用 DeepL Pro 引擎实现即时、准确、自然的消息翻译。可为你的 Guild 或你自己购买翻译积分订阅。"
       },
       "scheduledMessaging": {
         "title": "定时消息",
@@ -686,6 +687,11 @@
       "title": "联系我们",
       "body": "如需删除数据或有隐私问题，请联系机器人运营/管理员团队。"
     }
+  },
+  "mySubscriptions": {
+    "navLabel": "我的订阅",
+    "title": "我的订阅",
+    "subtitle": "管理你的个人 AI 与翻译订阅。个人翻译配额可在你所有安装了 DiscoBot 的服务器中通用。"
   },
   "pwa": {
     "updateAvailable": "有可用更新",

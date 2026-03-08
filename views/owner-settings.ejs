@@ -15,7 +15,7 @@
       </h1>
       <p class="muted"><%= t('ownerSettings.subtitle', { defaultValue: 'Global bot channel configuration and website pricing tiers.' }) %></p>
       <div class="form-actions" style="margin-top: 10px;">
-        <a href="/dashboard" class="btn btn-ghost btn-with-icon"><span class="btn-icon" aria-hidden="true">←</span><%= t('common.back', { defaultValue: 'Back' }) %></a>
+        <a href="/my-account" class="btn btn-ghost btn-with-icon"><span class="btn-icon" aria-hidden="true">←</span><%= t('common.back', { defaultValue: 'Back' }) %></a>
       </div>
     </div>
   </div>
@@ -91,7 +91,7 @@
         </summary>
         <div class="settings-expander-body">
           <div class="level-rows">
-        <div class="level-row">
+        <div class="level-row website-url-row">
           <label>
             Website Base URL
             <input type="url" name="website_base_url" value="<%= settings.website.base_url %>" placeholder="https://yourdomain.com" required />
@@ -226,7 +226,7 @@
               <span class="section-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.8" /><path d="M3 10h18" stroke="currentColor" stroke-width="1.8" /></svg>
               </span>
-              <%= t('ownerSettings.creditPacks.title', { defaultValue: 'One-Time Credit Packs' }) %>
+              <%= t('ownerSettings.creditPacks.title', { defaultValue: 'AI Image One-Time Credit Packs' }) %>
             </h2>
             <p class="muted"><%= t('ownerSettings.creditPacks.subtitle', { defaultValue: 'Update IDs, display names, credits, internal cost, and price (cents). Cost is owner-only and used for profit analytics.' }) %></p>
           </div>
@@ -283,7 +283,7 @@
               <span class="section-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="3" stroke="currentColor" stroke-width="1.8" /><path d="M8 10h8M8 14h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg>
               </span>
-              <%= t('ownerSettings.subscriptionPlans.title', { defaultValue: 'Monthly Subscription Plans' }) %>
+              <%= t('ownerSettings.subscriptionPlans.title', { defaultValue: 'AI Image Monthly Subscription Plans' }) %>
             </h2>
             <p class="muted"><%= t('ownerSettings.subscriptionPlans.subtitle', { defaultValue: 'Update IDs, display names, credits per month, internal cost, and price (cents).' }) %></p>
           </div>
@@ -378,35 +378,87 @@
           <span class="schedule-expander-plus" aria-hidden="true">+</span>
         </summary>
         <div class="settings-expander-body">
-          <div class="level-rows" id="translationPlanRows">
-        <% settings.pricing.translation_subscription_plans.forEach((plan) => { %>
+          <div class="level-rows" id="translationGuildPlanRows">
+        <% settings.pricing.translation_subscription_plans_guild.forEach((plan) => { %>
           <div class="level-row pricing-row">
             <label>
               ID
-              <input type="text" name="translation_plan_id" value="<%= plan.id %>" maxlength="40" required />
+              <input type="text" name="translation_plan_guild_id" value="<%= plan.id %>" maxlength="40" required />
             </label>
             <label>
               Name
-              <input type="text" name="translation_plan_name" value="<%= plan.name %>" maxlength="64" required />
+              <input type="text" name="translation_plan_guild_name" value="<%= plan.name %>" maxlength="64" required />
             </label>
             <label>
               Characters / month
-              <input type="number" name="translation_plan_characters_per_month" value="<%= plan.charactersPerMonth %>" min="1" required />
+              <input type="number" name="translation_plan_guild_characters_per_month" value="<%= plan.charactersPerMonth %>" min="1" required />
             </label>
             <label>
               Cost (cents)
-              <input type="number" name="translation_plan_cost_cents" value="<%= Number(plan.costUnitCents || 0) %>" min="0" required />
+              <input type="number" name="translation_plan_guild_cost_cents" value="<%= Number(plan.costUnitCents || 0) %>" min="0" required />
             </label>
             <label>
               Price (cents)
-              <input type="number" name="translation_plan_price_cents" value="<%= plan.unitAmountCents %>" min="1" required />
+              <input type="number" name="translation_plan_guild_price_cents" value="<%= plan.unitAmountCents %>" min="1" required />
             </label>
             <button type="button" class="btn btn-ghost remove-pricing-row">Remove</button>
           </div>
         <% }) %>
           </div>
           <div class="form-actions">
-            <button type="button" id="addTranslationPlanRowBtn" class="btn btn-ghost">Add Translation Plan</button>
+            <button type="button" id="addTranslationGuildPlanRowBtn" class="btn btn-ghost">Add Guild Translation Plan</button>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <section class="panel">
+      <details class="settings-expander">
+        <summary class="settings-expander-summary">
+          <div class="settings-expander-summary-main">
+            <h2 class="section-icon-title">
+        <span class="section-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z" stroke="currentColor" stroke-width="1.8" />
+            <path d="M3 12h18M12 3c2.2 2.2 3.5 5.4 3.5 9S14.2 18.8 12 21M12 3c-2.2 2.2-3.5 5.4-3.5 9S9.8 18.8 12 21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+          </svg>
+        </span>
+        Personal Translation Subscription Plans
+            </h2>
+          <p class="muted">Configure personal translation plans separately from guild plans.</p>
+          </div>
+          <span class="schedule-expander-plus" aria-hidden="true">+</span>
+        </summary>
+        <div class="settings-expander-body">
+          <div class="level-rows" id="translationPersonalPlanRows">
+        <% settings.pricing.translation_subscription_plans_personal.forEach((plan) => { %>
+          <div class="level-row pricing-row">
+            <label>
+              ID
+              <input type="text" name="translation_plan_personal_id" value="<%= plan.id %>" maxlength="40" required />
+            </label>
+            <label>
+              Name
+              <input type="text" name="translation_plan_personal_name" value="<%= plan.name %>" maxlength="64" required />
+            </label>
+            <label>
+              Characters / month
+              <input type="number" name="translation_plan_personal_characters_per_month" value="<%= plan.charactersPerMonth %>" min="1" required />
+            </label>
+            <label>
+              Cost (cents)
+              <input type="number" name="translation_plan_personal_cost_cents" value="<%= Number(plan.costUnitCents || 0) %>" min="0" required />
+            </label>
+            <label>
+              Price (cents)
+              <input type="number" name="translation_plan_personal_price_cents" value="<%= plan.unitAmountCents %>" min="1" required />
+            </label>
+            <button type="button" class="btn btn-ghost remove-pricing-row">Remove</button>
+          </div>
+        <% }) %>
+          </div>
+          <div class="form-actions">
+            <button type="button" id="addTranslationPersonalPlanRowBtn" class="btn btn-ghost">Add Personal Translation Plan</button>
           </div>
         </div>
       </details>
@@ -421,10 +473,12 @@
 <script>
   const creditPackRows = document.getElementById('creditPackRows');
   const subscriptionPlanRows = document.getElementById('subscriptionPlanRows');
-  const translationPlanRows = document.getElementById('translationPlanRows');
+  const translationGuildPlanRows = document.getElementById('translationGuildPlanRows');
+  const translationPersonalPlanRows = document.getElementById('translationPersonalPlanRows');
   const addCreditPackRowBtn = document.getElementById('addCreditPackRowBtn');
   const addSubscriptionPlanRowBtn = document.getElementById('addSubscriptionPlanRowBtn');
-  const addTranslationPlanRowBtn = document.getElementById('addTranslationPlanRowBtn');
+  const addTranslationGuildPlanRowBtn = document.getElementById('addTranslationGuildPlanRowBtn');
+  const addTranslationPersonalPlanRowBtn = document.getElementById('addTranslationPersonalPlanRowBtn');
 
   function wireRemovePricingButtons() {
     document.querySelectorAll('.remove-pricing-row').forEach((button) => {
@@ -505,20 +559,37 @@
     wireRemovePricingButtons();
   });
 
-  addTranslationPlanRowBtn?.addEventListener('click', () => {
-    if (!translationPlanRows) {
+  addTranslationGuildPlanRowBtn?.addEventListener('click', () => {
+    if (!translationGuildPlanRows) {
       return;
     }
 
     const row = createPricingRow([
-      { label: 'ID', type: 'text', name: 'translation_plan_id', maxLength: 40, placeholder: 'e.g. translation_enterprise_monthly' },
-      { label: 'Name', type: 'text', name: 'translation_plan_name', maxLength: 64, placeholder: 'e.g. Enterprise Translation' },
-      { label: 'Characters / month', type: 'number', name: 'translation_plan_characters_per_month', min: 1, value: 10000 },
-      { label: 'Cost (cents)', type: 'number', name: 'translation_plan_cost_cents', min: 0, value: 0 },
-      { label: 'Price (cents)', type: 'number', name: 'translation_plan_price_cents', min: 1, value: 100 },
+      { label: 'ID', type: 'text', name: 'translation_plan_guild_id', maxLength: 40, placeholder: 'e.g. translation_enterprise_monthly' },
+      { label: 'Name', type: 'text', name: 'translation_plan_guild_name', maxLength: 64, placeholder: 'e.g. Enterprise Translation' },
+      { label: 'Characters / month', type: 'number', name: 'translation_plan_guild_characters_per_month', min: 1, value: 10000 },
+      { label: 'Cost (cents)', type: 'number', name: 'translation_plan_guild_cost_cents', min: 0, value: 0 },
+      { label: 'Price (cents)', type: 'number', name: 'translation_plan_guild_price_cents', min: 1, value: 100 },
     ]);
 
-    translationPlanRows.appendChild(row);
+    translationGuildPlanRows.appendChild(row);
+    wireRemovePricingButtons();
+  });
+
+  addTranslationPersonalPlanRowBtn?.addEventListener('click', () => {
+    if (!translationPersonalPlanRows) {
+      return;
+    }
+
+    const row = createPricingRow([
+      { label: 'ID', type: 'text', name: 'translation_plan_personal_id', maxLength: 40, placeholder: 'e.g. translation_personal_monthly' },
+      { label: 'Name', type: 'text', name: 'translation_plan_personal_name', maxLength: 64, placeholder: 'e.g. Personal Translation' },
+      { label: 'Characters / month', type: 'number', name: 'translation_plan_personal_characters_per_month', min: 1, value: 10000 },
+      { label: 'Cost (cents)', type: 'number', name: 'translation_plan_personal_cost_cents', min: 0, value: 0 },
+      { label: 'Price (cents)', type: 'number', name: 'translation_plan_personal_price_cents', min: 1, value: 100 },
+    ]);
+
+    translationPersonalPlanRows.appendChild(row);
     wireRemovePricingButtons();
   });
 

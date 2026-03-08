@@ -44,7 +44,7 @@
   },
   "dashboard": {
     "title": "ダッシュボード",
-    "subtitle": "DiscoBot がインストールされている、あなたが管理者のすべての Discord サーバーの DiscoBot 設定を管理します。さらに、Discord でもこのサイトでも下のリンクから使える、個人用の AI 画像生成クレジットを管理できます。",
+    "subtitle": "DiscoBot がインストールされており、あなたが管理者またはオーナーであるすべての Discord サーバーの設定と翻訳サブスクリプションを管理できます。さらに、AI 画像生成と翻訳の個人クレジットおよびサブスクリプションも管理でき、DiscoBot が導入された参加中の任意のサーバーで利用できます。下のリンクから、このサイト上で個人の AI 画像クレジットを使って直接画像を生成することもできます。",
     "myAiCredits": "AIクレジット",
     "guildServers": "サーバー一覧",
     "selectGuild": "DiscoBot の設定を管理するサーバーを選択してください。",
@@ -257,18 +257,18 @@
     "availableCredits": "利用可能クレジット：",
     "purchasedTotal": "購入合計：",
     "usedTotal": "使用合計：",
-    "buyMore": "クレジットを購入",
+    "buyMore": "AI画像クレジットを購入",
     "buyMoreSubtitle": "個人残高を補充するクレジットパックを選択してください。",
     "discountCodeOptional": "割引コード（任意）",
-    "monthlySubscriptions": "月額サブスクリプション",
+    "monthlySubscriptions": "AI画像サブスクリプションを購入",
     "monthlySubtitle": "毎月、自動的に個人残高へクレジットが追加されます。",
     "totalRecurringMonthlyCredits": "毎月の継続クレジット合計：",
     "multiSubscriptionNote": "複数のサブスクリプションを保持できます。各有効サブスクリプションのクレジットが残高に追加されます。",
     "activeSubscriptions": "有効なサブスクリプション",
     "manageSubscription": "サブスクリプション管理",
     "manageSubscriptionHelp": "サブスクリプション管理から、月額プランの変更・解約・再開ができます。",
-    "checkMissedCredits": "不足クレジットを確認",
-    "backfillHelp": "購入したクレジットが残高に反映されていないと思われる場合に確認できます。",
+    "checkMissedCredits": "不足している購入を確認",
+    "backfillHelp": "不足クレジットを復元するために、単発購入とサブスクリプション請求イベントの両方を確認します。",
     "recentPurchases": "最近の購入",
     "recentSubtitle": "あなたのアカウントの最新クレジット購入イベントです。",
     "noPurchases": "クレジット購入履歴はまだありません。",
@@ -284,10 +284,10 @@
     "discountMinSpend": "この割引コードは、選択したパックに対してより高い最低購入金額が必要です。",
     "discountRestrictedGuild": "この割引コードは別のサーバー向けに制限されています。",
     "subscribedSuccess": "サブスクリプションが有効化されました。毎月のクレジットは Stripe の請求が成功するたびに追加されます。",
-    "backfillGranted": "確認完了。未反映クレジットを検出: {{count}}。残高に追加しました。",
-    "backfillAlreadyApplied": "確認完了。未反映クレジットを検出: {{count}}。新たに追加されたクレジットはありません。",
-    "backfillNoSubscription": "このアカウントに Stripe サブスクリプション情報が見つかりませんでした。",
-    "backfillNoPaidInvoice": "補填対象の支払い済みサブスクリプション請求が見つかりませんでした。",
+    "backfillGranted": "単発購入とサブスクリプション全体の確認が完了しました。不足クレジット: {{count}}。残高に追加しました。",
+    "backfillAlreadyApplied": "単発購入とサブスクリプション全体の確認が完了しました。不足クレジット: {{count}}。新しいクレジットの追加はありませんでした。",
+    "backfillNoSubscription": "このアカウントでは Stripe の購入が見つかりませんでした。",
+    "backfillNoPaidInvoice": "補填対象の支払い済み Stripe 購入が見つかりませんでした。",
     "creditSingular": "クレジット",
     "creditPlural": "クレジット",
     "purchaseSingular": "購入",
@@ -321,7 +321,8 @@
       "invalidImage": "編集モードでは有効な元画像をアップロードしてください。",
       "unavailable": "現在Web画像生成は利用できません。しばらくしてから再試行してください。",
       "failed": "画像生成に失敗しました。クレジットは返却されました。"
-    }
+    },
+    "personalTranslationTitle": "個人向け翻訳サブスクリプションを購入"
   },
   "ownerSettings": {
     "title": "オーナー設定",
@@ -345,11 +346,11 @@
       "subtitle": "AI画像生成の操作先チャンネルを設定します。"
     },
     "creditPacks": {
-      "title": "単発クレジットパック",
+      "title": "AI画像のワンタイムクレジットパック",
       "subtitle": "ID、表示名、クレジット数、内部コスト、価格（セント）を更新します。内部コストはオーナー専用で利益分析に使用されます。"
     },
     "subscriptionPlans": {
-      "title": "月額サブスクリプションプラン",
+      "title": "AI画像の月額サブスクリプションプラン",
       "subtitle": "ID、表示名、月間クレジット、内部コスト、価格（セント）を更新します。"
     },
     "translationLimits": {
@@ -596,7 +597,7 @@
       },
       "globalCommunication": {
         "title": "グローバルコミュニケーション",
-        "description": "DeepL Proによる自然で正確なメッセージ翻訳。"
+        "description": "DeepL Pro エンジンによる、即時・高精度・自然なメッセージ翻訳。あなたの Guild 用、またはあなた自身用に翻訳クレジットのサブスクリプションを購入できます。"
       },
       "scheduledMessaging": {
         "title": "スケジュールメッセージ",
@@ -663,6 +664,11 @@
       "title": "お問い合わせ",
       "body": "データ削除の依頼やプライバシーに関するお問い合わせは、ボット運営/管理チームへご連絡ください。"
     }
+  },
+  "mySubscriptions": {
+    "navLabel": "マイサブスクリプション",
+    "title": "マイサブスクリプション",
+    "subtitle": "個人向けAIと翻訳のサブスクリプションを管理します。個人翻訳の利用は、あなたのすべてのDiscoBotサーバーで共通して使えます。"
   },
   "pwa": {
     "updateAvailable": "アップデートがあります",

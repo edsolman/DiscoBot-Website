@@ -13,7 +13,7 @@
     "privacy": "Privacy",
     "language": "Language",
     "signedInWithDiscord": "Signed in with Discord",
-    "dashboard": "Dashboard",
+    "dashboard": "My Account",
     "aiCredits": "AI Credits",
     "aiImageGeneration": "Generate AI Images",
     "ownerOptions": "Owner Options",
@@ -43,8 +43,8 @@
     "show": "Show"
   },
   "dashboard": {
-    "title": "Dashboard",
-    "subtitle": "Manage DiscoBot settings for all Discord servers you are an admin on with DiscoBot installed. Also manage your personal AI Image Generation credits that can be used in Discord, or directly on this website using the link below.",
+    "title": "My Account",
+    "subtitle": "Manage DiscoBot settings and Translation subscriptions for all Discord servers where it is installed and you are an admin or owner. Also manage your personal credits and Subscriptions for AI Image generation and Translation, which you can use on any server you are a member of with DiscoBot installed. You can also use your personal AI Image credits to generate images directly on this website using the link below.",
     "myAiCredits": "My AI Credits",
     "noGuildsInstalled": "No guilds found with DiscoBot installed for your account.",
     "noManageableGuilds": "You do not currently have admin or installer access to manage any installed guilds.",
@@ -257,18 +257,18 @@
     "availableCredits": "Available credits:",
     "purchasedTotal": "Purchased total:",
     "usedTotal": "Used total:",
-    "buyMore": "Buy More Credits",
+    "buyMore": "Buy AI Image Credits",
     "buyMoreSubtitle": "Choose a credit pack to top up your personal balance.",
     "discountCodeOptional": "Discount Code (optional)",
-    "monthlySubscriptions": "Monthly Subscriptions",
+    "monthlySubscriptions": "Buy AI Image Subscriptions",
     "monthlySubtitle": "Get credits added to your personal balance every month automatically.",
     "totalRecurringMonthlyCredits": "Total recurring monthly credits:",
     "multiSubscriptionNote": "You can hold multiple subscriptions; credits from each active subscription are added to your balance.",
     "activeSubscriptions": "Active Subscriptions",
     "manageSubscription": "Manage Subscription",
     "manageSubscriptionHelp": "Use Manage Subscription to edit, cancel or reinstate a monthly plan.",
-    "checkMissedCredits": "Check for missed credits",
-    "backfillHelp": "Use to check for any purchased credits you think may have been missed off your balance.",
+    "checkMissedCredits": "Check for missed purchases",
+    "backfillHelp": "Checks both one-time purchases and subscription billing events to restore any missing credits.",
     "recentPurchases": "Recent Purchases",
     "recentSubtitle": "Latest credit purchase events for your account.",
     "noPurchases": "No credit purchases recorded yet.",
@@ -284,10 +284,10 @@
     "discountMinSpend": "This discount code requires a higher minimum spend for the selected pack.",
     "discountRestrictedGuild": "This discount code is restricted to a different guild.",
     "subscribedSuccess": "Subscription activated. Monthly credits will be added after each successful Stripe invoice.",
-    "backfillGranted": "Check complete. Missed credits found: {{count}}. Added to your balance.",
-    "backfillAlreadyApplied": "Check complete. Missed credits found: {{count}}. No new credits were added.",
-    "backfillNoSubscription": "No Stripe subscription record was found for your account.",
-    "backfillNoPaidInvoice": "No paid subscription invoice was found to backfill.",
+    "backfillGranted": "Check complete across one-time purchases and subscriptions. Missed credits found: {{count}}. Added to your balance.",
+    "backfillAlreadyApplied": "Check complete across one-time purchases and subscriptions. Missed credits found: {{count}}. No new credits were added.",
+    "backfillNoSubscription": "No Stripe purchases were found for your account.",
+    "backfillNoPaidInvoice": "No paid Stripe purchases were found to backfill.",
     "creditSingular": "credit",
     "creditPlural": "credits",
     "purchaseSingular": "purchase",
@@ -321,7 +321,8 @@
       "invalidImage": "Please upload a valid source image for edit mode.",
       "unavailable": "Web image generation is not available right now. Please try again later.",
       "failed": "Image generation failed. Your credit was refunded."
-    }
+    },
+    "personalTranslationTitle": "Buy Personal Translation Subscriptions"
   },
   "ownerSettings": {
     "title": "Owner Settings",
@@ -345,11 +346,11 @@
       "subtitle": "Configure where AI image generation interactions are routed."
     },
     "creditPacks": {
-      "title": "One-Time Credit Packs",
+      "title": "AI Image One-Time Credit Packs",
       "subtitle": "Update IDs, display names, credits, internal cost, and price (cents). Cost is owner-only and used for profit analytics."
     },
     "subscriptionPlans": {
-      "title": "Monthly Subscription Plans",
+      "title": "AI Image Monthly Subscription Plans",
       "subtitle": "Update IDs, display names, credits per month, internal cost, and price (cents)."
     },
     "translationLimits": {
@@ -650,7 +651,7 @@
       },
       "globalCommunication": {
         "title": "Global Communication",
-        "description": "Instant, accurate and natural message translation using the DeepL Pro engine."
+        "description": "Instant, accurate and natural message translation using the DeepL Pro engine. Buy translation credit subscriptions for your Guild, or for yourself."
       },
       "scheduledMessaging": {
         "title": "Scheduled Messages",
@@ -718,6 +719,11 @@
       "title": "Contact",
       "body": "If you need data removal or have privacy concerns, contact the bot operator/admin team."
     }
+  },
+  "mySubscriptions": {
+    "navLabel": "My Subscriptions",
+    "title": "My Subscriptions",
+    "subtitle": "Manage your personal AI and translation subscriptions. Personal translation usage works across all your DiscoBot guilds."
   },
   "pwa": {
     "updateAvailable": "Update available",

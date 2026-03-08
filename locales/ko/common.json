@@ -44,7 +44,7 @@
   },
   "dashboard": {
     "title": "대시보드",
-    "subtitle": "DiscoBot이 설치된, 본인이 관리자 권한을 가진 모든 Discord 서버의 DiscoBot 설정을 관리하세요. 또한 아래 링크를 통해 Discord 또는 이 웹사이트에서 직접 사용할 수 있는 개인 AI 이미지 생성 크레딧도 관리하세요.",
+    "subtitle": "DiscoBot이 설치되어 있고 회원님이 관리자 또는 소유자인 모든 Discord 서버의 DiscoBot 설정과 번역 구독을 관리하세요. 또한 AI 이미지 생성 및 번역용 개인 크레딧과 구독도 관리할 수 있으며, DiscoBot이 설치된 회원님의 모든 서버에서 사용할 수 있습니다. 아래 링크를 통해 이 웹사이트에서 개인 AI 이미지 크레딧으로 직접 이미지를 생성할 수도 있습니다.",
     "myAiCredits": "내 AI 크레딧",
     "guildServers": "서버 목록",
     "selectGuild": "DiscoBot 설정을 관리할 서버를 선택하세요.",
@@ -257,18 +257,18 @@
     "availableCredits": "사용 가능한 크레딧:",
     "purchasedTotal": "구매 총합:",
     "usedTotal": "사용 총합:",
-    "buyMore": "크레딧 추가 구매",
+    "buyMore": "AI 이미지 크레딧 구매",
     "buyMoreSubtitle": "개인 잔액을 충전할 크레딧 팩을 선택하세요.",
     "discountCodeOptional": "할인 코드 (선택)",
-    "monthlySubscriptions": "월간 구독",
+    "monthlySubscriptions": "AI 이미지 구독 구매",
     "monthlySubtitle": "매달 개인 잔액에 크레딧이 자동으로 추가됩니다.",
     "totalRecurringMonthlyCredits": "월간 반복 크레딧 총합:",
     "multiSubscriptionNote": "여러 구독을 보유할 수 있으며, 각 활성 구독의 크레딧이 잔액에 추가됩니다.",
     "activeSubscriptions": "활성 구독",
     "manageSubscription": "구독 관리",
     "manageSubscriptionHelp": "구독 관리를 통해 월간 플랜을 수정, 취소 또는 재활성화할 수 있습니다.",
-    "checkMissedCredits": "누락 크레딧 확인",
-    "backfillHelp": "구매한 크레딧이 잔액에 누락되었다고 생각될 때 확인하는 데 사용하세요.",
+    "checkMissedCredits": "누락된 구매 확인",
+    "backfillHelp": "누락된 크레딧을 복원하기 위해 일회성 구매와 구독 청구 이벤트를 모두 확인합니다.",
     "recentPurchases": "최근 구매",
     "recentSubtitle": "계정의 최근 크레딧 구매 이벤트입니다.",
     "noPurchases": "아직 기록된 크레딧 구매가 없습니다.",
@@ -284,10 +284,10 @@
     "discountMinSpend": "선택한 팩에는 더 높은 최소 결제 금액이 필요합니다.",
     "discountRestrictedGuild": "이 할인 코드는 다른 서버로 제한되어 있습니다.",
     "subscribedSuccess": "구독이 활성화되었습니다. 월간 크레딧은 Stripe 청구가 성공할 때마다 추가됩니다.",
-    "backfillGranted": "확인 완료. 누락된 크레딧 발견: {{count}}. 잔액에 추가되었습니다.",
-    "backfillAlreadyApplied": "확인 완료. 누락된 크레딧 발견: {{count}}. 새로 추가된 크레딧은 없습니다.",
-    "backfillNoSubscription": "계정에 대한 Stripe 구독 기록을 찾을 수 없습니다.",
-    "backfillNoPaidInvoice": "보정할 결제 완료 구독 청구서를 찾을 수 없습니다.",
+    "backfillGranted": "일회성 구매 및 구독 전체 확인이 완료되었습니다. 누락된 크레딧: {{count}}. 잔액에 추가되었습니다.",
+    "backfillAlreadyApplied": "일회성 구매 및 구독 전체 확인이 완료되었습니다. 누락된 크레딧: {{count}}. 새로 추가된 크레딧은 없습니다.",
+    "backfillNoSubscription": "이 계정에서 Stripe 구매를 찾을 수 없습니다.",
+    "backfillNoPaidInvoice": "복구할 결제 완료 Stripe 구매를 찾을 수 없습니다.",
     "creditSingular": "크레딧",
     "creditPlural": "크레딧",
     "purchaseSingular": "구매",
@@ -321,7 +321,8 @@
       "invalidImage": "편집 모드에서는 유효한 원본 이미지를 업로드해 주세요.",
       "unavailable": "현재 웹 이미지 생성 기능을 사용할 수 없습니다. 잠시 후 다시 시도해 주세요.",
       "failed": "이미지 생성에 실패했습니다. 크레딧이 환불되었습니다."
-    }
+    },
+    "personalTranslationTitle": "개인 번역 구독 구매"
   },
   "ownerSettings": {
     "title": "소유자 설정",
@@ -345,11 +346,11 @@
       "subtitle": "AI 이미지 생성 상호작용이 전달될 위치를 설정합니다."
     },
     "creditPacks": {
-      "title": "일회성 크레딧 팩",
+      "title": "AI 이미지 1회성 크레딧 팩",
       "subtitle": "ID, 표시명, 크레딧, 내부 비용, 가격(센트)을 업데이트합니다. 비용은 소유자 전용이며 수익 분석에 사용됩니다."
     },
     "subscriptionPlans": {
-      "title": "월간 구독 플랜",
+      "title": "AI 이미지 월간 구독 플랜",
       "subtitle": "ID, 표시명, 월간 크레딧, 내부 비용, 가격(센트)을 업데이트합니다."
     },
     "translationLimits": {
@@ -619,7 +620,7 @@
       },
       "globalCommunication": {
         "title": "글로벌 커뮤니케이션",
-        "description": "DeepL Pro 기반의 자연스러운 번역을 제공합니다."
+        "description": "DeepL Pro 엔진을 사용한 즉시, 정확하고 자연스러운 메시지 번역. 길드용 또는 개인용 번역 크레딧 구독을 구매하세요."
       },
       "scheduledMessaging": {
         "title": "예약 메시지",
@@ -686,6 +687,11 @@
       "title": "문의",
       "body": "삭제 요청 또는 개인정보 문의는 운영팀에 연락하세요."
     }
+  },
+  "mySubscriptions": {
+    "navLabel": "내 구독",
+    "title": "내 구독",
+    "subtitle": "개인 AI 및 번역 구독을 관리하세요. 개인 번역 사용량은 DiscoBot이 설치된 모든 서버에서 공통으로 사용할 수 있습니다."
   },
   "pwa": {
     "updateAvailable": "업데이트 가능",

@@ -53,7 +53,7 @@
       },
       "globalCommunication": {
         "title": "Comunicação Global",
-        "description": "Tradução instantânea, precisa e natural com DeepL Pro."
+        "description": "Tradução de mensagens instantânea, precisa e natural com o mecanismo DeepL Pro. Compre assinaturas de créditos de tradução para sua Guild ou para você."
       },
       "scheduledMessaging": {
         "title": "Mensagens Agendadas",
@@ -121,6 +121,11 @@
       "body": "Se precisar remover dados ou tiver preocupações com privacidade, contate a equipe operadora/admin."
     }
   },
+  "mySubscriptions": {
+    "navLabel": "Minhas assinaturas",
+    "title": "Minhas assinaturas",
+    "subtitle": "Gerencie suas assinaturas pessoais de IA e tradução. O uso pessoal de tradução funciona em todos os seus servidores com DiscoBot."
+  },
   "pwa": {
     "updateAvailable": "Atualização disponível",
     "updateText": "Uma versão mais recente do DiscoBot está pronta.",
@@ -141,7 +146,7 @@
   },
   "dashboard": {
     "title": "Dashboard",
-    "subtitle": "Gerencie as configurações do DiscoBot para todos os servidores do Discord em que você é administrador e onde o DiscoBot está instalado. Também gerencie seus créditos pessoais de Geração de Imagens por IA, que podem ser usados no Discord ou diretamente neste site pelo link abaixo.",
+    "subtitle": "Gerencie as configurações do DiscoBot e as assinaturas de tradução para todos os servidores do Discord onde ele está instalado e onde você é administrador ou proprietário. Também gerencie seus créditos e assinaturas pessoais de geração de imagens por IA e tradução, que você pode usar em qualquer servidor do qual faz parte com o DiscoBot instalado. Você também pode usar seus créditos pessoais de imagem por IA para gerar imagens diretamente neste site usando o link abaixo.",
     "myAiCredits": "Meus créditos de IA",
     "noGuildsInstalled": "Nenhum servidor com DiscoBot instalado foi encontrado para sua conta.",
     "noManageableGuilds": "No momento, você não tem acesso de admin ou instalador para gerenciar servidores instalados.",
@@ -354,18 +359,18 @@
     "availableCredits": "Créditos disponíveis:",
     "purchasedTotal": "Total comprado:",
     "usedTotal": "Total usado:",
-    "buyMore": "Comprar mais créditos",
+    "buyMore": "Comprar créditos de imagem por IA",
     "buyMoreSubtitle": "Escolha um pacote de créditos para recarregar seu saldo pessoal.",
     "discountCodeOptional": "Código de desconto (opcional)",
-    "monthlySubscriptions": "Assinaturas mensais",
+    "monthlySubscriptions": "Comprar assinaturas de imagem por IA",
     "monthlySubtitle": "Receba créditos no seu saldo pessoal automaticamente todos os meses.",
     "totalRecurringMonthlyCredits": "Total de créditos mensais recorrentes:",
     "multiSubscriptionNote": "Você pode ter várias assinaturas; os créditos de cada assinatura ativa são adicionados ao seu saldo.",
     "activeSubscriptions": "Assinaturas ativas",
     "manageSubscription": "Gerenciar assinatura",
     "manageSubscriptionHelp": "Use Gerenciar assinatura para editar, cancelar ou reativar um plano mensal.",
-    "checkMissedCredits": "Verificar créditos perdidos",
-    "backfillHelp": "Use para verificar se algum crédito comprado pode não ter sido adicionado ao seu saldo.",
+    "checkMissedCredits": "Verificar compras ausentes",
+    "backfillHelp": "Verifica compras avulsas e eventos de cobrança de assinaturas para restaurar créditos ausentes.",
     "recentPurchases": "Compras recentes",
     "recentSubtitle": "Últimos eventos de compra de créditos da sua conta.",
     "noPurchases": "Nenhuma compra de créditos registrada ainda.",
@@ -381,10 +386,10 @@
     "discountMinSpend": "Este código de desconto exige um gasto mínimo maior para o pacote selecionado.",
     "discountRestrictedGuild": "Este código de desconto é restrito a outro servidor.",
     "subscribedSuccess": "Assinatura ativada. Créditos mensais serão adicionados após cada fatura Stripe paga com sucesso.",
-    "backfillGranted": "Verificação concluída. Créditos perdidos encontrados: {{count}}. Adicionados ao seu saldo.",
-    "backfillAlreadyApplied": "Verificação concluída. Créditos perdidos encontrados: {{count}}. Nenhum novo crédito foi adicionado.",
-    "backfillNoSubscription": "Nenhum registro de assinatura Stripe foi encontrado para sua conta.",
-    "backfillNoPaidInvoice": "Nenhuma fatura de assinatura paga foi encontrada para reposição.",
+    "backfillGranted": "Verificação concluída em compras avulsas e assinaturas. Créditos ausentes encontrados: {{count}}. Adicionados ao seu saldo.",
+    "backfillAlreadyApplied": "Verificação concluída em compras avulsas e assinaturas. Créditos ausentes encontrados: {{count}}. Nenhum crédito novo foi adicionado.",
+    "backfillNoSubscription": "Nenhuma compra Stripe foi encontrada para sua conta.",
+    "backfillNoPaidInvoice": "Nenhuma compra Stripe paga foi encontrada para recuperação.",
     "creditSingular": "crédito",
     "creditPlural": "créditos",
     "purchaseSingular": "compra",
@@ -418,7 +423,8 @@
       "invalidImage": "Envie uma imagem de origem válida para o modo de edição.",
       "unavailable": "A geração de imagens pelo site não está disponível no momento. Tente novamente mais tarde.",
       "failed": "A geração da imagem falhou. Seu crédito foi reembolsado."
-    }
+    },
+    "personalTranslationTitle": "Comprar assinaturas pessoais de tradução"
   },
   "ownerSettings": {
     "title": "Configurações do proprietário",
@@ -442,11 +448,11 @@
       "subtitle": "Configure para onde vão as interações de geração de imagens IA."
     },
     "creditPacks": {
-      "title": "Pacotes de créditos avulsos",
+      "title": "Pacotes avulsos de créditos de imagem por IA",
       "subtitle": "Atualize IDs, nomes de exibição, créditos, custo interno e preço (centavos). O custo é apenas para o proprietário e usado para análise de lucro."
     },
     "subscriptionPlans": {
-      "title": "Planos de assinatura mensal",
+      "title": "Planos mensais de assinatura de imagem por IA",
       "subtitle": "Atualize IDs, nomes de exibição, créditos por mês, custo interno e preço (centavos)."
     },
     "translationLimits": {
