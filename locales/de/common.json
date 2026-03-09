@@ -291,6 +291,11 @@
         "sat": "Sat",
         "sun": "Sun"
       }
+    },
+    "aiCreditsSummary": {
+      "allowance": "Monatliches KI-Credit-Kontingent der Guild:",
+      "usedThisMonth": "Diesen Monat verwendet:",
+      "remainingThisMonth": "Diesen Monat verbleibend:"
     }
   },
   "guildLeaderboard": {
@@ -422,7 +427,14 @@
       "invalidPrompt": "Bitte gib vor dem Generieren einen gültigen Prompt ein.",
       "invalidImage": "Bitte lade für den Bearbeitungsmodus ein gültiges Quellbild hoch.",
       "unavailable": "Web-Bildgenerierung ist derzeit nicht verfügbar. Bitte versuche es später erneut.",
-      "failed": "Die Bildgenerierung ist fehlgeschlagen. Dein Guthaben wurde erstattet."
+      "failed": "Die Bildgenerierung ist fehlgeschlagen. Dein Guthaben wurde erstattet.",
+      "createTitle": "KI-Bild erstellen",
+      "buttonLoading": "Wird erstellt...",
+      "historyTitle": "Bildverlauf",
+      "historySubtitle": "Deine neuesten KI-Bildgenerierungen von der Website und aus DiscoBot.",
+      "sourceDiscordBot": "DiscoBot",
+      "sourceWebsite": "Website",
+      "historyEmpty": "Noch keine Bilder generiert."
     },
     "personalTranslationTitle": "Persönliche Übersetzungsabonnements kaufen"
   },

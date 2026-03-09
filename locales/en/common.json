@@ -189,6 +189,11 @@
         "sat": "Sat",
         "sun": "Sun"
       }
+    },
+    "aiCreditsSummary": {
+      "allowance": "Monthly guild AI credits allowance:",
+      "usedThisMonth": "Used this month:",
+      "remainingThisMonth": "Remaining this month:"
     }
   },
   "guildLeaderboard": {
@@ -320,7 +325,14 @@
       "invalidPrompt": "Please enter a valid prompt before generating.",
       "invalidImage": "Please upload a valid source image for edit mode.",
       "unavailable": "Web image generation is not available right now. Please try again later.",
-      "failed": "Image generation failed. Your credit was refunded."
+      "failed": "Image generation failed. Your credit was refunded.",
+      "createTitle": "Create AI Image",
+      "buttonLoading": "Generating...",
+      "historyTitle": "Image History",
+      "historySubtitle": "Your recent AI image generations from the website and DiscoBot.",
+      "sourceDiscordBot": "DiscoBot",
+      "sourceWebsite": "Website",
+      "historyEmpty": "No images generated yet."
     },
     "personalTranslationTitle": "Buy Personal Translation Subscriptions"
   },

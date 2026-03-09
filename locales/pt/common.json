@@ -291,6 +291,11 @@
         "sat": "Sat",
         "sun": "Sun"
       }
+    },
+    "aiCreditsSummary": {
+      "allowance": "Limite mensal de créditos de IA do servidor:",
+      "usedThisMonth": "Usados neste mês:",
+      "remainingThisMonth": "Restantes neste mês:"
     }
   },
   "guildLeaderboard": {
@@ -422,7 +427,14 @@
       "invalidPrompt": "Informe um prompt válido antes de gerar.",
       "invalidImage": "Envie uma imagem de origem válida para o modo de edição.",
       "unavailable": "A geração de imagens pelo site não está disponível no momento. Tente novamente mais tarde.",
-      "failed": "A geração da imagem falhou. Seu crédito foi reembolsado."
+      "failed": "A geração da imagem falhou. Seu crédito foi reembolsado.",
+      "createTitle": "Criar imagem com IA",
+      "buttonLoading": "Gerando...",
+      "historyTitle": "Histórico de imagens",
+      "historySubtitle": "Suas gerações recentes de imagens com IA no site e no DiscoBot.",
+      "sourceDiscordBot": "DiscoBot",
+      "sourceWebsite": "Site",
+      "historyEmpty": "Nenhuma imagem gerada ainda."
     },
     "personalTranslationTitle": "Comprar assinaturas pessoais de tradução"
   },

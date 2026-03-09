@@ -189,6 +189,11 @@
         "sat": "Sat",
         "sun": "Sun"
       }
+    },
+    "aiCreditsSummary": {
+      "allowance": "サーバーの月間AIクレジット上限:",
+      "usedThisMonth": "今月の使用数:",
+      "remainingThisMonth": "今月の残り:"
     }
   },
   "guildLeaderboard": {
@@ -320,7 +325,14 @@
       "invalidPrompt": "生成前に有効なプロンプトを入力してください。",
       "invalidImage": "編集モードでは有効な元画像をアップロードしてください。",
       "unavailable": "現在Web画像生成は利用できません。しばらくしてから再試行してください。",
-      "failed": "画像生成に失敗しました。クレジットは返却されました。"
+      "failed": "画像生成に失敗しました。クレジットは返却されました。",
+      "createTitle": "AI画像を作成",
+      "buttonLoading": "生成中...",
+      "historyTitle": "画像履歴",
+      "historySubtitle": "WebサイトとDiscoBotで最近生成したAI画像です。",
+      "sourceDiscordBot": "DiscoBot",
+      "sourceWebsite": "Webサイト",
+      "historyEmpty": "まだ画像は生成されていません。"
     },
     "personalTranslationTitle": "個人向け翻訳サブスクリプションを購入"
   },

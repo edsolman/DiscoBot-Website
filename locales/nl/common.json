@@ -291,6 +291,11 @@
         "sat": "Za",
         "sun": "Zo"
       }
+    },
+    "aiCreditsSummary": {
+      "allowance": "Maandelijkse AI-creditslimiet van de server:",
+      "usedThisMonth": "Deze maand gebruikt:",
+      "remainingThisMonth": "Deze maand resterend:"
     }
   },
   "guildLeaderboard": {
@@ -422,7 +427,14 @@
       "invalidPrompt": "Voer een geldige prompt in voordat je genereert.",
       "invalidImage": "Upload een geldige bronafbeelding voor de bewerkmodus.",
       "unavailable": "Webafbeeldingsgeneratie is momenteel niet beschikbaar. Probeer later opnieuw.",
-      "failed": "Afbeeldingsgeneratie mislukt. Je credit is teruggestort."
+      "failed": "Afbeeldingsgeneratie mislukt. Je credit is teruggestort.",
+      "createTitle": "AI-afbeelding maken",
+      "buttonLoading": "Bezig met genereren...",
+      "historyTitle": "Afbeeldingsgeschiedenis",
+      "historySubtitle": "Je recente AI-afbeeldingsgeneraties vanaf de website en DiscoBot.",
+      "sourceDiscordBot": "DiscoBot",
+      "sourceWebsite": "Website",
+      "historyEmpty": "Er zijn nog geen afbeeldingen gegenereerd."
     },
     "personalTranslationTitle": "Persoonlijke vertaalabonnementen kopen"
   },

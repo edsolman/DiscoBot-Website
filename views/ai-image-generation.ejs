@@ -1,7 +1,7 @@
 <%- include('partials/head', { title }) %>
 <%- include('partials/nav') %>
 
-<main class="container page-section">
+<main class="container page-section" data-generation-status="<%= generationStatus %>">
   <div class="page-head page-head-branded">
     <div>
       <h1 class="section-icon-title">
@@ -66,22 +66,13 @@
             <span class="section-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="16" rx="3" stroke="currentColor" stroke-width="1.8" /><circle cx="9" cy="10" r="2" stroke="currentColor" stroke-width="1.8" /><path d="M6 18l4.5-4.5 3 3L16.5 14 20 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
             </span>
-            <%= t('credits.generate.title', { defaultValue: 'Generate AI Image on Website' }) %>
+            <%= t('credits.generate.createTitle', { defaultValue: 'Create AI Image' }) %>
           </h2>
         </div>
         <span class="schedule-expander-plus" aria-hidden="true">+</span>
       </summary>
       <div class="settings-expander-body">
         <div data-generation-root>
-          <div class="generation-loading-overlay" data-generation-loading hidden>
-            <div class="generation-loading-card" role="status" aria-live="polite">
-              <span class="generation-loading-spinner" aria-hidden="true"></span>
-              <div class="generation-loading-text">
-                <span><%= t('credits.generate.loadingMessage', { defaultValue: 'Your image is being generated...' }) %></span>
-                <span class="generation-loading-slow" data-generation-loading-slow hidden><%= t('credits.generate.loadingSlowMessage', { defaultValue: 'Still working... this can take a little longer for complex requests.' }) %></span>
-              </div>
-            </div>
-          </div>
           <div class="form-actions" style="margin-bottom: 10px;">
             <button type="button" class="btn btn-primary" data-generation-toggle="text" aria-pressed="true">
               <%= t('credits.generate.toggleGenerate', { defaultValue: 'Generate Image' }) %>
@@ -99,7 +90,12 @@
                 <textarea name="prompt" rows="4" maxlength="1500" placeholder="<%= t('credits.generate.promptPlaceholder', { defaultValue: 'Example: A retro-futuristic city skyline at sunset, neon lights, cinematic lighting' }) %>" required></textarea>
               </label>
               <div class="form-actions">
-                <button type="submit" class="btn btn-primary"><%= t('credits.generate.button', { defaultValue: 'Generate Image (1 credit)' }) %></button>
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  data-default-label="<%= t('credits.generate.button', { defaultValue: 'Generate Image (1 credit)' }) %>"
+                  data-loading-label="<%= t('credits.generate.buttonLoading', { defaultValue: 'Generating...' }) %>"
+                ><%= t('credits.generate.button', { defaultValue: 'Generate Image (1 credit)' }) %></button>
               </div>
             </form>
           </div>
@@ -116,33 +112,83 @@
                 <textarea name="prompt" rows="3" maxlength="1500" placeholder="<%= t('credits.generate.editPromptPlaceholder', { defaultValue: 'Example: Turn this into a watercolor painting with warm sunset tones' }) %>" required></textarea>
               </label>
               <div class="form-actions">
-                <button type="submit" class="btn btn-primary"><%= t('credits.generate.editButton', { defaultValue: 'Edit Image (1 credit)' }) %></button>
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  data-default-label="<%= t('credits.generate.editButton', { defaultValue: 'Edit Image (1 credit)' }) %>"
+                  data-loading-label="<%= t('credits.generate.buttonLoading', { defaultValue: 'Generating...' }) %>"
+                ><%= t('credits.generate.editButton', { defaultValue: 'Edit Image (1 credit)' }) %></button>
               </div>
             </form>
           </div>
         </div>
+      </div>
+    </details>
+  </section>
 
-        <% if (recentWebGenerations && recentWebGenerations.length) { %>
-          <div class="purchase-list" style="margin-top: 12px;">
+  <section class="panel">
+    <details class="settings-expander" data-history-expander>
+      <summary class="settings-expander-summary" tabindex="-1" data-history-summary>
+        <div class="settings-expander-summary-main">
+          <h2 class="section-icon-title">
+            <span class="section-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M4 12h16M12 4v16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg>
+            </span>
+            <%= t('credits.generate.historyTitle', { defaultValue: 'Image History' }) %>
+          </h2>
+          <p class="muted"><%= t('credits.generate.historySubtitle', { defaultValue: 'Your recent AI image generations from the website and Discord bot.' }) %></p>
+        </div>
+        <span class="schedule-expander-plus" aria-hidden="true">+</span>
+      </summary>
+      <div class="settings-expander-body">
+        <div class="generation-loading-card" data-history-loading role="status" aria-live="polite" hidden style="margin-bottom: 12px;">
+          <span class="generation-loading-spinner" aria-hidden="true"></span>
+          <div class="generation-loading-text">
+            <span><%= t('credits.generate.loadingMessage', { defaultValue: 'Your image is being generated...' }) %></span>
+            <span class="generation-loading-slow" data-history-loading-slow hidden><%= t('credits.generate.loadingSlowMessage', { defaultValue: 'Still working... this can take a little longer for complex requests.' }) %></span>
+          </div>
+        </div>
+
+        <div class="purchase-list" data-history-list style="margin-top: 12px;<%= recentWebGenerations && recentWebGenerations.length ? '' : ' display:none;' %>">
+          <% if (recentWebGenerations && recentWebGenerations.length) { %>
             <% recentWebGenerations.forEach((row) => { %>
-              <div class="purchase-item" style="align-items: flex-start; gap: 12px;">
-                <img src="/credits/generated/<%= row.id %>" alt="<%= t('credits.generate.generatedImageAlt', { defaultValue: 'Generated AI image' }) %>" style="width: 128px; height: 128px; border-radius: 10px; object-fit: cover; border: 1px solid rgba(255,255,255,0.18);" />
-                <div style="min-width: 0;">
+              <% const isDiscoBotSource = row.source === 'discord_bot'; %>
+              <% const sourceLabel = isDiscoBotSource ? t('credits.generate.sourceDiscordBot', { defaultValue: 'DiscoBot' }) : t('credits.generate.sourceWebsite', { defaultValue: 'Website' }); %>
+              <div class="purchase-item ai-history-item" style="align-items: flex-start; gap: 12px; justify-content: flex-start;">
+                <button
+                  type="button"
+                  class="history-image-trigger ai-history-thumb"
+                  data-history-image-trigger
+                  data-image-src="/credits/generated/<%= row.id %>"
+                  data-image-alt="<%= t('credits.generate.generatedImageAlt', { defaultValue: 'Generated AI image' }) %>"
+                >
+                  <img src="/credits/generated/<%= row.id %>" alt="<%= t('credits.generate.generatedImageAlt', { defaultValue: 'Generated AI image' }) %>" style="width: 128px; height: 128px; border-radius: 10px; object-fit: cover; border: 1px solid rgba(255,255,255,0.18);" />
+                </button>
+                <div class="ai-history-body" style="min-width: 0;">
                   <div class="muted" style="margin-bottom: 6px;"><%= row.createdAt ? new Date(row.createdAt).toLocaleString() : '' %></div>
                   <div><strong><%= row.prompt %></strong></div>
-                  <div class="muted"><%= row.mode === 'edit' ? t('credits.generate.modeEdit', { defaultValue: 'Image edit' }) : t('credits.generate.modeText', { defaultValue: 'Text-to-image' }) %> · <%= row.model %></div>
+                  <div class="muted"><%= row.mode === 'edit' ? t('credits.generate.modeEdit', { defaultValue: 'Image edit' }) : t('credits.generate.modeText', { defaultValue: 'Text-to-image' }) %> · <%= row.model %> · <span class="history-source-badge"><span class="history-source-badge-icon" aria-hidden="true"><% if (isDiscoBotSource) { %><img src="/assets/DiscoBot.png" alt="" /><% } else { %><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8" /><path d="M4 12h16M12 4a13 13 0 0 1 0 16M12 4a13 13 0 0 0 0 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" /></svg><% } %></span><%= sourceLabel %></span></div>
                   <div class="form-actions" style="margin-top: 8px;">
                     <a href="/credits/generated/<%= row.id %>?download=1" class="btn btn-ghost" download><%= t('credits.generate.download', { defaultValue: 'Download' }) %></a>
                   </div>
                 </div>
               </div>
             <% }) %>
-          </div>
-        <% } %>
+          <% } %>
+        </div>
+        <p class="muted" data-history-empty <%= recentWebGenerations && recentWebGenerations.length ? 'hidden' : '' %>><%= t('credits.generate.historyEmpty', { defaultValue: 'No images generated yet.' }) %></p>
       </div>
     </details>
   </section>
 </main>
+
+<div class="history-image-viewer" data-image-viewer hidden>
+  <div class="history-image-viewer-backdrop" data-image-viewer-backdrop></div>
+  <div class="history-image-viewer-dialog" role="dialog" aria-modal="true" aria-label="Image preview">
+    <button type="button" class="history-image-viewer-close" data-image-viewer-close aria-label="Close preview">x</button>
+    <img data-image-viewer-image src="" alt="" />
+  </div>
+</div>
 
 <script>
 (() => {
@@ -152,14 +198,38 @@
   }
 
   const STORAGE_KEY = 'discobotCreditsGenerationMode';
+  const pageRoot = document.querySelector('main[data-generation-status]');
+  const generationStatus = pageRoot ? String(pageRoot.getAttribute('data-generation-status') || '').trim().toLowerCase() : '';
 
   const toggleButtons = Array.from(root.querySelectorAll('[data-generation-toggle]'));
-  const loadingOverlay = root.querySelector('[data-generation-loading]');
-  const loadingSlowMessage = root.querySelector('[data-generation-loading-slow]');
+  const historyExpander = document.querySelector('[data-history-expander]');
+  const historySummary = document.querySelector('[data-history-summary]');
+  const historyLoading = document.querySelector('[data-history-loading]');
+  const historyLoadingSlowMessage = document.querySelector('[data-history-loading-slow]');
+  const historyList = document.querySelector('[data-history-list]');
   const generationForms = Array.from(root.querySelectorAll('form[action="/ai-image-generation/generate-image"]'));
   const panels = {
     text: root.querySelector('[data-generation-panel="text"]'),
     edit: root.querySelector('[data-generation-panel="edit"]'),
+  };
+  const imageViewer = document.querySelector('[data-image-viewer]');
+  const imageViewerBackdrop = document.querySelector('[data-image-viewer-backdrop]');
+  const imageViewerClose = document.querySelector('[data-image-viewer-close]');
+  const imageViewerImage = document.querySelector('[data-image-viewer-image]');
+  let generationLocked = false;
+
+  const openAndFocusHistoryExpander = () => {
+    if (historyExpander) {
+      historyExpander.open = true;
+    }
+    if (historySummary) {
+      try {
+        historySummary.focus({ preventScroll: true });
+      } catch {
+        historySummary.focus();
+      }
+      historySummary.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   };
 
   const setMode = (mode) => {
@@ -184,6 +254,28 @@
     }
   };
 
+  const setGenerationLocked = (locked) => {
+    generationLocked = Boolean(locked);
+    toggleButtons.forEach((button) => {
+      button.disabled = generationLocked;
+    });
+
+    generationForms.forEach((form) => {
+      const controls = form.querySelectorAll('button, input, textarea, select');
+      controls.forEach((control) => {
+        if (control.tagName === 'INPUT' && String(control.type || '').toLowerCase() === 'hidden') {
+          return;
+        }
+        if (control.tagName === 'BUTTON' && String(control.type || '').toLowerCase() === 'submit') {
+          const defaultLabel = control.getAttribute('data-default-label') || control.textContent || '';
+          const loadingLabel = control.getAttribute('data-loading-label') || defaultLabel;
+          control.textContent = generationLocked ? loadingLabel : defaultLabel;
+        }
+        control.disabled = generationLocked;
+      });
+    });
+  };
+
   toggleButtons.forEach((button) => {
     button.addEventListener('click', () => {
       setMode(button.getAttribute('data-generation-toggle'));
@@ -191,23 +283,128 @@
   });
 
   const setLoadingState = () => {
-    if (loadingOverlay) {
-      loadingOverlay.hidden = false;
-      loadingOverlay.classList.add('is-visible');
+    openAndFocusHistoryExpander();
+    if (historyLoading) {
+      historyLoading.hidden = false;
     }
 
-    root.classList.add('is-generation-loading');
-
     window.setTimeout(() => {
-      if (loadingSlowMessage) {
-        loadingSlowMessage.hidden = false;
+      if (historyLoadingSlowMessage) {
+        historyLoadingSlowMessage.hidden = false;
       }
     }, 30000);
   };
 
+  const clearLoadingState = () => {
+    if (historyLoading) {
+      historyLoading.hidden = true;
+    }
+    if (historyLoadingSlowMessage) {
+      historyLoadingSlowMessage.hidden = true;
+    }
+  };
+
+  const openImageViewer = (src, altText) => {
+    if (!imageViewer || !imageViewerImage || !src) {
+      return;
+    }
+    imageViewerImage.src = src;
+    imageViewerImage.alt = altText || 'Generated AI image preview';
+    imageViewer.hidden = false;
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeImageViewer = () => {
+    if (!imageViewer || !imageViewerImage) {
+      return;
+    }
+    imageViewer.hidden = true;
+    imageViewerImage.src = '';
+    document.body.style.overflow = '';
+  };
+
+  if (historyList) {
+    historyList.addEventListener('click', (event) => {
+      const trigger = event.target.closest('[data-history-image-trigger]');
+      if (!trigger) {
+        return;
+      }
+      openImageViewer(
+        String(trigger.getAttribute('data-image-src') || ''),
+        String(trigger.getAttribute('data-image-alt') || '')
+      );
+    });
+  }
+
+  if (imageViewerBackdrop) {
+    imageViewerBackdrop.addEventListener('click', closeImageViewer);
+  }
+  if (imageViewerClose) {
+    imageViewerClose.addEventListener('click', closeImageViewer);
+  }
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && imageViewer && !imageViewer.hidden) {
+      closeImageViewer();
+    }
+  });
+
   generationForms.forEach((form) => {
-    form.addEventListener('submit', () => {
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (generationLocked) {
+        return;
+      }
+
+      const requestPayload = new FormData(form);
+      setGenerationLocked(true);
       setLoadingState();
+
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          credentials: 'same-origin',
+          body: requestPayload,
+          headers: {
+            'x-discobot-ajax': '1',
+            Accept: 'application/json',
+          },
+        });
+
+        const contentType = String(response.headers.get('content-type') || '').toLowerCase();
+        const hasJsonBody = contentType.includes('application/json');
+        const result = hasJsonBody ? await response.json().catch(() => null) : null;
+
+        if (result && result.ok) {
+          window.location.assign('/ai-image-generation?generate=success');
+          return;
+        }
+
+        if (result && !result.ok) {
+          const nextStatus = String(result.status || 'failed').trim().toLowerCase() || 'failed';
+          window.location.assign(`/ai-image-generation?generate=${encodeURIComponent(nextStatus)}`);
+          return;
+        }
+
+        // Fallback for non-JSON responses (for example, a server-side redirect).
+        if (response.redirected && response.url) {
+          window.location.assign(response.url);
+          return;
+        }
+
+        if (!response.ok) {
+          window.location.assign('/ai-image-generation?generate=failed');
+          return;
+        }
+
+        // If we received a 2xx response with no JSON payload, treat as success.
+        window.location.assign('/ai-image-generation?generate=success');
+        return;
+      } catch {
+        window.location.assign('/ai-image-generation?generate=failed');
+      } finally {
+        setGenerationLocked(false);
+      }
     });
   });
 
@@ -221,6 +418,10 @@
   }
 
   setMode(initialMode);
+
+  if (generationStatus) {
+    openAndFocusHistoryExpander();
+  }
 })();
 </script>
 
