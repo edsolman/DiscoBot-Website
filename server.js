@@ -1574,6 +1574,88 @@ async function reconcileUserSubscriptionStatuses(userId) {
   }
 }
 
+async function reconcilePersonalTranslationSubscriptionStatuses(userId) {
+  if (!stripe) {
+    return;
+  }
+
+  const userSnowflake = snowflakeToLong(userId);
+  const localActiveSubs = await translationCharacterSubscriptionsCollection
+    .find(
+      {
+        purchase_scope: "translation_user_personal",
+        user_id: userSnowflake,
+        status: { $in: ["active", "trialing", "past_due", "unpaid"] },
+      },
+      {
+        projection: {
+          stripe_subscription_id: 1,
+          status: 1,
+          cancel_at_period_end: 1,
+          current_period_end: 1,
+        },
+      }
+    )
+    .toArray();
+
+  for (const row of localActiveSubs) {
+    const subscriptionId = String(row?.stripe_subscription_id || "").trim();
+    if (!subscriptionId) {
+      continue;
+    }
+
+    let liveStatus = "";
+    let cancelAtPeriodEnd = false;
+    let canceledAtDate = null;
+    let currentPeriodEndDate = null;
+    try {
+      const remoteSubscription = await stripe.subscriptions.retrieve(subscriptionId);
+      liveStatus = String(remoteSubscription?.status || "").trim().toLowerCase();
+      cancelAtPeriodEnd = Boolean(remoteSubscription?.cancel_at_period_end);
+      canceledAtDate = remoteSubscription?.canceled_at
+        ? new Date(Number(remoteSubscription.canceled_at) * 1000)
+        : null;
+      currentPeriodEndDate = remoteSubscription?.current_period_end
+        ? new Date(Number(remoteSubscription.current_period_end) * 1000)
+        : null;
+    } catch (error) {
+      const statusCode = Number(error?.statusCode || error?.raw?.statusCode || 0);
+      if (statusCode === 404) {
+        liveStatus = "canceled";
+      } else {
+        continue;
+      }
+    }
+
+    const storedStatus = String(row?.status || "").trim().toLowerCase();
+    const storedCancelAtPeriodEnd = Boolean(row?.cancel_at_period_end);
+    const storedCurrentPeriodEndMs = row?.current_period_end ? new Date(row.current_period_end).getTime() : 0;
+    const liveCurrentPeriodEndMs = currentPeriodEndDate ? currentPeriodEndDate.getTime() : 0;
+
+    if (
+      !liveStatus ||
+      (liveStatus === storedStatus &&
+        storedCancelAtPeriodEnd === cancelAtPeriodEnd &&
+        storedCurrentPeriodEndMs === liveCurrentPeriodEndMs)
+    ) {
+      continue;
+    }
+
+    await translationCharacterSubscriptionsCollection.updateOne(
+      { stripe_subscription_id: subscriptionId },
+      {
+        $set: {
+          status: liveStatus,
+          cancel_at_period_end: cancelAtPeriodEnd,
+          current_period_end: currentPeriodEndDate,
+          canceled_at: canceledAtDate,
+          updated_at: new Date(),
+        },
+      }
+    );
+  }
+}
+
 async function getDisplayActiveSubscriptions(userId) {
   const userSnowflake = snowflakeToLong(userId);
   const activeStatuses = new Set(["active", "trialing", "past_due", "unpaid"]);
@@ -2027,6 +2109,73 @@ async function fulfillStripeCheckoutSession(checkoutSession) {
       );
 
       await recomputeGuildTranslationCharacterAllowance(guildId);
+      return 0;
+    }
+
+    if (String(metadata.purchase_scope || "").trim().toLowerCase() === "translation_user_personal") {
+      const stripeSubscriptionId = String(checkoutSession.subscription || "").trim();
+      const userId = String(metadata.user_id || "").trim();
+      const username = String(metadata.username || "Unknown").trim() || "Unknown";
+      const plan = normalizeTranslationSubscriptionPlanId(metadata.translation_plan_id, "translation_user_personal");
+      const discountCode = normalizeDiscountCode(metadata.discount_code);
+      const discountCents = Math.max(Number.parseInt(String(metadata.discount_cents || "0"), 10) || 0, 0);
+
+      if (!stripeSubscriptionId || !userId || !plan) {
+        return 0;
+      }
+
+      const now = new Date();
+
+      await translationCharacterSubscriptionsCollection.updateOne(
+        { stripe_subscription_id: stripeSubscriptionId },
+        {
+          $set: {
+            stripe_subscription_id: stripeSubscriptionId,
+            stripe_customer_id: String(checkoutSession.customer || ""),
+            purchase_scope: "translation_user_personal",
+            user_id: snowflakeToLong(userId),
+            username,
+            plan_id: plan.id,
+            characters_per_month: plan.charactersPerMonth,
+            status: "active",
+            cancel_at_period_end: false,
+            current_period_end: checkoutSession.expires_at
+              ? new Date(Number(checkoutSession.expires_at) * 1000)
+              : null,
+            updated_at: now,
+          },
+          $setOnInsert: {
+            created_at: now,
+          },
+        },
+        { upsert: true }
+      );
+
+      await translationCharacterPurchasesCollection.updateOne(
+        { stripe_session_id: String(checkoutSession.id || "") },
+        {
+          $setOnInsert: {
+            stripe_session_id: String(checkoutSession.id || "") || undefined,
+            stripe_invoice_id: String(checkoutSession.invoice || "") || undefined,
+            stripe_subscription_id: stripeSubscriptionId,
+            purchase_scope: "translation_user_personal",
+            user_id: snowflakeToLong(userId),
+            username,
+            plan_id: plan.id,
+            characters_per_month: plan.charactersPerMonth,
+            payment_provider: "stripe",
+            payment_status: "completed",
+            payment_type: "subscription_initial",
+            amount_total_cents: Number(checkoutSession.amount_total || 0),
+            currency: String(checkoutSession.currency || "usd"),
+            discount_code: String(discountCode || ""),
+            discount_cents: discountCents,
+            created_at: now,
+          },
+        },
+        { upsert: true }
+      );
+
       return 0;
     }
 
@@ -4558,7 +4707,10 @@ async function renderMySubscriptionsPage(req, res) {
     const creditPackPopularity = await getCreditPackPopularityData();
 
     await migrateLegacyUserCreditsToGlobalWallet(req.session.user.id, username);
-    await reconcileUserSubscriptionStatuses(req.session.user.id);
+    await Promise.all([
+      reconcileUserSubscriptionStatuses(req.session.user.id),
+      reconcilePersonalTranslationSubscriptionStatuses(req.session.user.id),
+    ]);
 
     const [summary, purchases, subscriptions, personalTranslationSubscriptions, translationPurchases, personalTranslationUsage, personalTranslationAllowance] = await Promise.all([
       getUserAiImageCreditsSummary(req.session.user.id),
@@ -4899,22 +5051,37 @@ app.post("/credits/subscription/backfill", requireAuth, async (req, res) => {
       return res.redirect(`/my-account?backfill=already_applied&backfill_credits=0`);
     }
 
-    const subscriptionRecords = await aiImageCreditSubscriptionsCollection
-      .find(
-        {
-          user_id: snowflakeToLong(userId),
-        },
-        {
-          projection: {
-            stripe_subscription_id: 1,
+    const [aiSubscriptionRecords, translationSubscriptionRecords] = await Promise.all([
+      aiImageCreditSubscriptionsCollection
+        .find(
+          {
+            user_id: snowflakeToLong(userId),
           },
-        }
-      )
-      .toArray();
+          {
+            projection: {
+              stripe_subscription_id: 1,
+            },
+          }
+        )
+        .toArray(),
+      translationCharacterSubscriptionsCollection
+        .find(
+          {
+            purchase_scope: "translation_user_personal",
+            user_id: snowflakeToLong(userId),
+          },
+          {
+            projection: {
+              stripe_subscription_id: 1,
+            },
+          }
+        )
+        .toArray(),
+    ]);
 
     const stripeSubscriptionIds = Array.from(
       new Set(
-        (subscriptionRecords || [])
+        [...(aiSubscriptionRecords || []), ...(translationSubscriptionRecords || [])]
           .map((row) => String(row?.stripe_subscription_id || "").trim())
           .filter(Boolean)
       )
@@ -4924,10 +5091,20 @@ app.post("/credits/subscription/backfill", requireAuth, async (req, res) => {
     const processedInvoiceIds = new Set();
 
     for (const stripeSubscriptionId of stripeSubscriptionIds) {
-      const invoiceList = await stripe.invoices.list({
-        subscription: stripeSubscriptionId,
-        limit: 25,
-      });
+      let invoiceList;
+      try {
+        invoiceList = await stripe.invoices.list({
+          subscription: stripeSubscriptionId,
+          limit: 25,
+        });
+      } catch (error) {
+        console.error("[WARN] Backfill invoice listing failed", {
+          stripeSubscriptionId,
+          userId,
+          message: error?.message,
+        });
+        continue;
+      }
 
       const paidInvoices = (invoiceList.data || []).filter(
         (invoice) => invoice && (invoice.paid === true || String(invoice.status || "") === "paid")
@@ -4939,7 +5116,16 @@ app.post("/credits/subscription/backfill", requireAuth, async (req, res) => {
           continue;
         }
         processedInvoiceIds.add(invoiceId);
-        creditedAmount += await fulfillStripeSubscriptionInvoice(invoice);
+        try {
+          creditedAmount += await fulfillStripeSubscriptionInvoice(invoice);
+        } catch (error) {
+          console.error("[WARN] Backfill invoice fulfillment failed", {
+            stripeSubscriptionId,
+            invoiceId,
+            userId,
+            message: error?.message,
+          });
+        }
       }
     }
 
@@ -4954,7 +5140,14 @@ app.post("/credits/subscription/backfill", requireAuth, async (req, res) => {
 
       const sessions = Array.isArray(sessionList?.data) ? sessionList.data : [];
       for (const session of sessions) {
-        if (!session || String(session.mode || "") !== "payment" || String(session.payment_status || "") !== "paid") {
+        if (!session) {
+          continue;
+        }
+
+        const mode = String(session.mode || "").trim().toLowerCase();
+        const isPaidPayment = mode === "payment" && String(session.payment_status || "") === "paid";
+        const isSubscriptionCheckout = mode === "subscription";
+        if (!isPaidPayment && !isSubscriptionCheckout) {
           continue;
         }
 
@@ -4963,7 +5156,16 @@ app.post("/credits/subscription/backfill", requireAuth, async (req, res) => {
           continue;
         }
 
-        creditedAmount += await fulfillStripeCheckoutSession(session);
+        try {
+          creditedAmount += await fulfillStripeCheckoutSession(session);
+        } catch (error) {
+          console.error("[WARN] Backfill checkout fulfillment failed", {
+            sessionId: String(session.id || ""),
+            mode,
+            userId,
+            message: error?.message,
+          });
+        }
       }
 
       hasMore = Boolean(sessionList?.has_more);
