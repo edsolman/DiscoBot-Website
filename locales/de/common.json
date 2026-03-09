@@ -172,7 +172,7 @@
     "scheduledMessagesHelp": "Erstelle und verwalte automatische Servernachrichten. Wähle pro Zeitplan eine Zeitzone.",
     "alerts": {
       "saved": "Konfiguration erfolgreich gespeichert.",
-      "imported": "Level-Voreinstellung erfolgreich importiert.",
+      "imported": "Einstellungen erfolgreich importiert.",
       "wordsAdded": "Benutzerdefiniertes Moderationswort hinzugefügt.",
       "wordsRemoved": "Benutzerdefiniertes Moderationswort entfernt.",
       "wordsExists": "That custom moderation word is already on the list.",
@@ -217,12 +217,12 @@
       "saveLevels": "Level speichern"
     },
     "importExport": {
-      "title": "Voreinstellung importieren / exportieren",
-      "subtitle": "Exportiere die Level-Konfiguration dieses Servers als JSON oder importiere eine Voreinstellung von einem anderen Server.",
+      "title": "Einstellungen importieren/exportieren",
+      "subtitle": "Exportiere die DiscoBot-Konfiguration dieses Servers in eine Datei oder importiere eine Konfigurationsdatei von einem anderen Server.",
       "exportJson": "JSON exportieren",
       "exampleTemplate": "Example Template",
       "copyCurrentJson": "Aktuelles JSON kopieren",
-      "presetJson": "Voreinstellungs-JSON",
+      "presetJson": "Konfigurations-JSON",
       "validateJson": "JSON prüfen",
       "importJson": "JSON importieren",
       "includeKeysHelp": "You can include all settings keys or only specific keys. Only included keys will be updated."
@@ -629,7 +629,7 @@
       "item2Label": "Übersetzungszeichenlimit",
       "item2Body": "Nutzung überwachen und Übersetzungsabos für Server kaufen.",
       "item3Label": "Gamification-Level",
-      "item3Body": "Levelnamen/Schwellen bearbeiten; Voreinstellungen als JSON importieren/exportieren.",
+      "item3Body": "Levelnamen/Schwellen bearbeiten; Konfiguration als JSON importieren/exportieren.",
       "item4Label": "Benutzerdefinierte Moderationswörter",
       "item4Body": "serverspezifische Sperrbegriffe hinzufügen/entfernen.",
       "item5Label": "Moderations-Snapshot",

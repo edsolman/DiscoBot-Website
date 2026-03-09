@@ -1,0 +1,17 @@
+1) SHOP
+Create a Shop page and move all one-off payment and Subscription options there.
+
+If the user is an owner/admin of a guild, they should see a "Guild Shop" section with dropdown where they can select the Guild they want to purchase something for, then select the relevant purchases. 
+This section should be hidden if the user is NOT a guilde owner/admin.
+Underneath that, should be a "Personal Shop" section listing the personal purchase options.
+
+Have links to this new Shop from the Homepage after users are signed in, Guild pages and My Account pages labelled "Buy Credits & Subscriptions".
+
+2) GUILDS AI CREDITS OPTION
+Allow Guilds to buy AI Credit packs or Subscriptions as well, and also configure how many each user is allowed to use per month.
+
+3) OWNER - GUILD LIST AND BAN/UNBAN OPTION
+The Owner area should have a filterable list of all guilds where the bot is, or has been, installed.
+Add the ability to ban (& unban) guilds if they abuse the bot somehow, and add a message why they were banned. 
+Bot should then send an ephemeral message with this message and a link to contact the bot support email when they try to use any commands.
+

@@ -108,6 +108,104 @@
           <div class="settings-expander-summary-main">
             <h2 class="section-icon-title">
               <span class="section-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.8" /><path d="M3 10h18" stroke="currentColor" stroke-width="1.8" /></svg>
+              </span>
+              Guild AI One-Time Credit Packs
+            </h2>
+            <p class="muted">Configure one-time AI credit packs specifically for guild purchases.</p>
+          </div>
+          <span class="schedule-expander-plus" aria-hidden="true">+</span>
+        </summary>
+        <div class="settings-expander-body">
+          <div class="level-rows" id="guildCreditPackRows">
+            <% settings.pricing.guild_credit_packs.forEach((pack) => { %>
+              <div class="level-row pricing-row">
+                <label>
+                  ID
+                  <input type="text" name="guild_pack_id" value="<%= pack.id %>" maxlength="40" required />
+                </label>
+                <label>
+                  Name
+                  <input type="text" name="guild_pack_name" value="<%= pack.name %>" maxlength="64" required />
+                </label>
+                <label>
+                  Credits
+                  <input type="number" name="guild_pack_credits" value="<%= pack.credits %>" min="1" required />
+                </label>
+                <label>
+                  Cost (cents)
+                  <input type="number" name="guild_pack_cost_cents" value="<%= Number(pack.costUnitCents || 0) %>" min="0" required />
+                </label>
+                <label>
+                  Price (cents)
+                  <input type="number" name="guild_pack_price_cents" value="<%= pack.unitAmountCents %>" min="1" required />
+                </label>
+                <button type="button" class="btn btn-ghost remove-pricing-row">Remove</button>
+              </div>
+            <% }) %>
+          </div>
+          <div class="form-actions">
+            <button type="button" id="addGuildCreditPackRowBtn" class="btn btn-ghost">Add Guild Credit Pack</button>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <section class="panel">
+      <details class="settings-expander">
+        <summary class="settings-expander-summary">
+          <div class="settings-expander-summary-main">
+            <h2 class="section-icon-title">
+              <span class="section-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="3" stroke="currentColor" stroke-width="1.8" /><path d="M8 10h8M8 14h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg>
+              </span>
+              Guild AI Monthly Subscription Plans
+            </h2>
+            <p class="muted">Configure monthly AI credit subscription plans specifically for guild purchases.</p>
+          </div>
+          <span class="schedule-expander-plus" aria-hidden="true">+</span>
+        </summary>
+        <div class="settings-expander-body">
+          <div class="level-rows" id="guildSubscriptionPlanRows">
+            <% settings.pricing.guild_subscription_plans.forEach((plan) => { %>
+              <div class="level-row pricing-row">
+                <label>
+                  ID
+                  <input type="text" name="guild_plan_id" value="<%= plan.id %>" maxlength="40" required />
+                </label>
+                <label>
+                  Name
+                  <input type="text" name="guild_plan_name" value="<%= plan.name %>" maxlength="64" required />
+                </label>
+                <label>
+                  Credits / month
+                  <input type="number" name="guild_plan_credits_per_month" value="<%= plan.creditsPerMonth %>" min="1" required />
+                </label>
+                <label>
+                  Cost (cents)
+                  <input type="number" name="guild_plan_cost_cents" value="<%= Number(plan.costUnitCents || 0) %>" min="0" required />
+                </label>
+                <label>
+                  Price (cents)
+                  <input type="number" name="guild_plan_price_cents" value="<%= plan.unitAmountCents %>" min="1" required />
+                </label>
+                <button type="button" class="btn btn-ghost remove-pricing-row">Remove</button>
+              </div>
+            <% }) %>
+          </div>
+          <div class="form-actions">
+            <button type="button" id="addGuildSubscriptionPlanRowBtn" class="btn btn-ghost">Add Guild Subscription Plan</button>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <section class="panel">
+      <details class="settings-expander">
+        <summary class="settings-expander-summary">
+          <div class="settings-expander-summary-main">
+            <h2 class="section-icon-title">
+              <span class="section-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none">
                   <path d="M8 5h8v3a4 4 0 0 1-8 0V5z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
                   <path d="M6 7H4a2 2 0 0 0 2 2M18 7h2a2 2 0 0 1-2 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
@@ -475,8 +573,12 @@
   const subscriptionPlanRows = document.getElementById('subscriptionPlanRows');
   const translationGuildPlanRows = document.getElementById('translationGuildPlanRows');
   const translationPersonalPlanRows = document.getElementById('translationPersonalPlanRows');
+  const guildCreditPackRows = document.getElementById('guildCreditPackRows');
+  const guildSubscriptionPlanRows = document.getElementById('guildSubscriptionPlanRows');
   const addCreditPackRowBtn = document.getElementById('addCreditPackRowBtn');
   const addSubscriptionPlanRowBtn = document.getElementById('addSubscriptionPlanRowBtn');
+  const addGuildCreditPackRowBtn = document.getElementById('addGuildCreditPackRowBtn');
+  const addGuildSubscriptionPlanRowBtn = document.getElementById('addGuildSubscriptionPlanRowBtn');
   const addTranslationGuildPlanRowBtn = document.getElementById('addTranslationGuildPlanRowBtn');
   const addTranslationPersonalPlanRowBtn = document.getElementById('addTranslationPersonalPlanRowBtn');
 
@@ -556,6 +658,40 @@
     ]);
 
     subscriptionPlanRows.appendChild(row);
+    wireRemovePricingButtons();
+  });
+
+  addGuildCreditPackRowBtn?.addEventListener('click', () => {
+    if (!guildCreditPackRows) {
+      return;
+    }
+
+    const row = createPricingRow([
+      { label: 'ID', type: 'text', name: 'guild_pack_id', maxLength: 40, placeholder: 'e.g. guild_ultra' },
+      { label: 'Name', type: 'text', name: 'guild_pack_name', maxLength: 64, placeholder: 'e.g. Guild Ultra' },
+      { label: 'Credits', type: 'number', name: 'guild_pack_credits', min: 1, value: 1 },
+      { label: 'Cost (cents)', type: 'number', name: 'guild_pack_cost_cents', min: 0, value: 0 },
+      { label: 'Price (cents)', type: 'number', name: 'guild_pack_price_cents', min: 1, value: 100 },
+    ]);
+
+    guildCreditPackRows.appendChild(row);
+    wireRemovePricingButtons();
+  });
+
+  addGuildSubscriptionPlanRowBtn?.addEventListener('click', () => {
+    if (!guildSubscriptionPlanRows) {
+      return;
+    }
+
+    const row = createPricingRow([
+      { label: 'ID', type: 'text', name: 'guild_plan_id', maxLength: 40, placeholder: 'e.g. guild_ultra_monthly' },
+      { label: 'Name', type: 'text', name: 'guild_plan_name', maxLength: 64, placeholder: 'e.g. Guild Ultra Monthly' },
+      { label: 'Credits / month', type: 'number', name: 'guild_plan_credits_per_month', min: 1, value: 1 },
+      { label: 'Cost (cents)', type: 'number', name: 'guild_plan_cost_cents', min: 0, value: 0 },
+      { label: 'Price (cents)', type: 'number', name: 'guild_plan_price_cents', min: 1, value: 100 },
+    ]);
+
+    guildSubscriptionPlanRows.appendChild(row);
     wireRemovePricingButtons();
   });
 

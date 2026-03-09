@@ -70,7 +70,7 @@
     "scheduledMessagesHelp": "创建并管理服务器自动消息。可为每个计划选择时区。",
     "alerts": {
       "saved": "配置已保存。",
-      "imported": "等级预设已导入。",
+      "imported": "设置已成功导入。",
       "wordsAdded": "已添加自定义审核词。",
       "wordsRemoved": "已移除自定义审核词。",
       "wordsExists": "That custom moderation word is already on the list.",
@@ -115,12 +115,12 @@
       "saveLevels": "保存等级"
     },
     "importExport": {
-      "title": "导入 / 导出预设",
-      "subtitle": "将此公会的等级配置导出为 JSON，或导入其他公会的预设。",
+      "title": "导入/导出设置",
+      "subtitle": "将此公会的 DiscoBot 配置导出到文件，或从其他公会导入配置文件。",
       "exportJson": "导出 JSON",
       "exampleTemplate": "Example Template",
       "copyCurrentJson": "复制当前 JSON",
-      "presetJson": "预设 JSON",
+      "presetJson": "配置 JSON",
       "validateJson": "校验 JSON",
       "importJson": "导入 JSON",
       "includeKeysHelp": "You can include all settings keys or only specific keys. Only included keys will be updated."
@@ -527,7 +527,7 @@
       "item2Label": "翻译字符额度",
       "item2Body": "监控用量并管理订阅购买。",
       "item3Label": "游戏化等级",
-      "item3Body": "编辑等级名称/阈值，导入或导出 JSON 预设。",
+      "item3Body": "编辑等级名称/阈值，导入或导出 JSON 配置。",
       "item4Label": "自定义审核词",
       "item4Body": "添加或移除本公会专属词条。",
       "item5Label": "审核快照",

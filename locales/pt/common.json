@@ -172,7 +172,7 @@
     "scheduledMessagesHelp": "Crie e gerencie mensagens automáticas do servidor. Escolha um fuso horário por agendamento.",
     "alerts": {
       "saved": "Configuração salva com sucesso.",
-      "imported": "Predefinição de níveis importada com sucesso.",
+      "imported": "Configurações importadas com sucesso.",
       "wordsAdded": "Palavra personalizada de moderação adicionada.",
       "wordsRemoved": "Palavra personalizada de moderação removida.",
       "wordsExists": "That custom moderation word is already on the list.",
@@ -217,12 +217,12 @@
       "saveLevels": "Salvar níveis"
     },
     "importExport": {
-      "title": "Importar / Exportar predefinição",
-      "subtitle": "Exporte a configuração de níveis deste servidor para JSON ou importe uma predefinição de outro servidor.",
+      "title": "Importar/Exportar configurações",
+      "subtitle": "Exporte a configuração do DiscoBot deste servidor para um arquivo ou importe um arquivo de configuração de outro servidor.",
       "exportJson": "Exportar JSON",
       "exampleTemplate": "Example Template",
       "copyCurrentJson": "Copiar JSON atual",
-      "presetJson": "JSON da predefinição",
+      "presetJson": "JSON de configuração",
       "validateJson": "Validar JSON",
       "importJson": "Importar JSON",
       "includeKeysHelp": "You can include all settings keys or only specific keys. Only included keys will be updated."
@@ -629,7 +629,7 @@
       "item2Label": "Limite de caracteres de tradução",
       "item2Body": "monitore o uso e compre assinaturas de tradução para servidores.",
       "item3Label": "Níveis de gamificação",
-      "item3Body": "edite nomes/limiares de níveis; importe/exporte predefinições em JSON.",
+      "item3Body": "edite nomes/limiares de níveis; importe/exporte a configuração em JSON.",
       "item4Label": "Palavras personalizadas de moderação",
       "item4Body": "adicione/remova termos bloqueados específicos do servidor.",
       "item5Label": "Visão geral da moderação",

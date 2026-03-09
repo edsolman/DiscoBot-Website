@@ -70,7 +70,7 @@
     "scheduledMessagesHelp": "サーバーの自動メッセージを作成・管理します。スケジュールごとにタイムゾーンを選択できます。",
     "alerts": {
       "saved": "設定を保存しました。",
-      "imported": "レベルプリセットをインポートしました。",
+      "imported": "設定をインポートしました。",
       "wordsAdded": "カスタムモデレーション語を追加しました。",
       "wordsRemoved": "カスタムモデレーション語を削除しました。",
       "wordsExists": "That custom moderation word is already on the list.",
@@ -115,12 +115,12 @@
       "saveLevels": "レベルを保存"
     },
     "importExport": {
-      "title": "プリセットのインポート / エクスポート",
-      "subtitle": "このギルドのレベル設定をJSONでエクスポート、または他ギルドのプリセットをインポートできます。",
+      "title": "設定のインポート/エクスポート",
+      "subtitle": "このギルドのDiscoBot設定をファイルにエクスポートするか、別のギルドの設定ファイルをインポートします。",
       "exportJson": "JSONをエクスポート",
       "exampleTemplate": "Example Template",
       "copyCurrentJson": "現在のJSONをコピー",
-      "presetJson": "プリセットJSON",
+      "presetJson": "設定JSON",
       "validateJson": "JSONを検証",
       "importJson": "JSONをインポート",
       "includeKeysHelp": "You can include all settings keys or only specific keys. Only included keys will be updated."
@@ -527,7 +527,7 @@
       "item2Label": "翻訳文字数上限",
       "item2Body": "使用量を監視し、ギルド向け翻訳サブスクリプションを購入します。",
       "item3Label": "ゲーミフィケーションレベル",
-      "item3Body": "レベル名/閾値を編集し、プリセットをJSONでインポート/エクスポートします。",
+      "item3Body": "レベル名/閾値を編集し、設定をJSONでインポート/エクスポートします。",
       "item4Label": "カスタムモデレーション語",
       "item4Body": "ギルド固有のブロック語を追加/削除します。",
       "item5Label": "モデレーションスナップショット",

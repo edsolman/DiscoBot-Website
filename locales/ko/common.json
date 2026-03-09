@@ -70,7 +70,7 @@
     "scheduledMessagesHelp": "자동 서버 메시지를 생성하고 관리하세요. 스케줄마다 시간대를 선택할 수 있습니다.",
     "alerts": {
       "saved": "설정이 저장되었습니다.",
-      "imported": "레벨 프리셋을 가져왔습니다.",
+      "imported": "설정을 가져왔습니다.",
       "wordsAdded": "사용자 지정 모더레이션 단어를 추가했습니다.",
       "wordsRemoved": "사용자 지정 모더레이션 단어를 제거했습니다.",
       "wordsExists": "That custom moderation word is already on the list.",
@@ -115,12 +115,12 @@
       "saveLevels": "레벨 저장"
     },
     "importExport": {
-      "title": "프리셋 가져오기 / 내보내기",
-      "subtitle": "이 길드의 레벨 설정을 JSON으로 내보내거나 다른 길드 프리셋을 가져오세요.",
+      "title": "설정 가져오기/내보내기",
+      "subtitle": "이 길드의 DiscoBot 구성을 파일로 내보내거나 다른 길드의 구성 파일을 가져오세요.",
       "exportJson": "JSON 내보내기",
       "exampleTemplate": "Example Template",
       "copyCurrentJson": "현재 JSON 복사",
-      "presetJson": "프리셋 JSON",
+      "presetJson": "설정 JSON",
       "validateJson": "JSON 검증",
       "importJson": "JSON 가져오기",
       "includeKeysHelp": "You can include all settings keys or only specific keys. Only included keys will be updated."
@@ -527,7 +527,7 @@
       "item2Label": "번역 문자 제한",
       "item2Body": "사용량 모니터링 및 구독 구매를 관리합니다.",
       "item3Label": "게이미피케이션 레벨",
-      "item3Body": "레벨 이름/임계값을 수정하고 JSON 프리셋을 가져오기/내보내기 합니다.",
+      "item3Body": "레벨 이름/임계값을 수정하고 설정을 JSON으로 가져오기/내보내기 합니다.",
       "item4Label": "사용자 지정 모더레이션 단어",
       "item4Body": "길드별 차단 단어를 추가/제거합니다.",
       "item5Label": "모더레이션 스냅샷",

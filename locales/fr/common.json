@@ -172,7 +172,7 @@
     "scheduledMessagesHelp": "Créez et gérez des messages automatiques du serveur. Choisissez un fuseau horaire par planning.",
     "alerts": {
       "saved": "Configuration enregistrée avec succès.",
-      "imported": "Préréglage de niveaux importé avec succès.",
+      "imported": "Paramètres importés avec succès.",
       "wordsAdded": "Mot de modération personnalisé ajouté.",
       "wordsRemoved": "Mot de modération personnalisé supprimé.",
       "wordsExists": "That custom moderation word is already on the list.",
@@ -217,12 +217,12 @@
       "saveLevels": "Enregistrer les niveaux"
     },
     "importExport": {
-      "title": "Importer / Exporter un préréglage",
-      "subtitle": "Exportez la configuration des niveaux de ce serveur en JSON ou importez un préréglage depuis un autre serveur.",
+      "title": "Importer/Exporter les paramètres",
+      "subtitle": "Exportez la configuration DiscoBot de ce serveur dans un fichier, ou importez un fichier de configuration depuis un autre serveur.",
       "exportJson": "Exporter JSON",
       "exampleTemplate": "Example Template",
       "copyCurrentJson": "Copier le JSON actuel",
-      "presetJson": "JSON du préréglage",
+      "presetJson": "JSON de configuration",
       "validateJson": "Valider le JSON",
       "importJson": "Importer JSON",
       "includeKeysHelp": "You can include all settings keys or only specific keys. Only included keys will be updated."
@@ -629,7 +629,7 @@
       "item2Label": "Limite de caractères de traduction",
       "item2Body": "suivre l’utilisation et acheter des abonnements de traduction pour les serveurs.",
       "item3Label": "Niveaux de gamification",
-      "item3Body": "modifier noms/seuils de niveaux ; importer/exporter des préréglages en JSON.",
+      "item3Body": "modifier noms/seuils de niveaux ; importer/exporter la configuration en JSON.",
       "item4Label": "Mots de modération personnalisés",
       "item4Body": "ajouter/supprimer des termes bloqués spécifiques au serveur.",
       "item5Label": "Instantané de modération",

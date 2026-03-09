@@ -70,7 +70,7 @@
     "scheduledMessagesHelp": "Создавайте и управляйте автоматическими сообщениями сервера. Для каждого расписания можно выбрать часовой пояс.",
     "alerts": {
       "saved": "Конфигурация сохранена.",
-      "imported": "Пресет уровней импортирован.",
+      "imported": "Настройки успешно импортированы.",
       "wordsAdded": "Добавлены пользовательские слова модерации.",
       "wordsRemoved": "Пользовательские слова модерации удалены.",
       "wordsExists": "That custom moderation word is already on the list.",
@@ -115,12 +115,12 @@
       "saveLevels": "Сохранить уровни"
     },
     "importExport": {
-      "title": "Импорт / экспорт пресета",
-      "subtitle": "Экспортируйте уровни этого сервера в JSON или импортируйте пресет другого сервера.",
+      "title": "Импорт/экспорт настроек",
+      "subtitle": "Экспортируйте конфигурацию DiscoBot этого сервера в файл или импортируйте файл конфигурации с другого сервера.",
       "exportJson": "Экспорт JSON",
       "exampleTemplate": "Example Template",
       "copyCurrentJson": "Копировать текущий JSON",
-      "presetJson": "JSON пресета",
+      "presetJson": "JSON конфигурации",
       "validateJson": "Проверить JSON",
       "importJson": "Импорт JSON",
       "includeKeysHelp": "You can include all settings keys or only specific keys. Only included keys will be updated."

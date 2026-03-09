@@ -70,7 +70,7 @@
     "scheduledMessagesHelp": "Crea y gestiona mensajes automáticos del servidor. Elige una zona horaria por programación.",
     "alerts": {
       "saved": "Configuración guardada.",
-      "imported": "Preajuste de niveles importado.",
+      "imported": "Configuración importada correctamente.",
       "wordsAdded": "Se añadió una palabra de moderación personalizada.",
       "wordsRemoved": "Se eliminó una palabra de moderación personalizada.",
       "wordsExists": "That custom moderation word is already on the list.",
@@ -115,12 +115,12 @@
       "saveLevels": "Guardar niveles"
     },
     "importExport": {
-      "title": "Importar / Exportar preajuste",
-      "subtitle": "Exporta la configuración de niveles de este servidor a JSON o importa un preajuste de otro servidor.",
+      "title": "Importar/Exportar configuración",
+      "subtitle": "Exporta la configuración de DiscoBot de este servidor a un archivo o importa un archivo de configuración de otro servidor.",
       "exportJson": "Exportar JSON",
       "exampleTemplate": "Example Template",
       "copyCurrentJson": "Copiar JSON actual",
-      "presetJson": "JSON del preajuste",
+      "presetJson": "JSON de configuración",
       "validateJson": "Validar JSON",
       "importJson": "Importar JSON",
       "includeKeysHelp": "You can include all settings keys or only specific keys. Only included keys will be updated."
@@ -527,7 +527,7 @@
       "item2Label": "Límite de caracteres de traducción",
       "item2Body": "monitoriza uso y compra suscripciones de traducción para servidores.",
       "item3Label": "Niveles de gamificación",
-      "item3Body": "edita nombres/umbrales de nivel; importa/exporta preajustes en JSON.",
+      "item3Body": "edita nombres/umbrales de nivel; importa/exporta configuración en JSON.",
       "item4Label": "Palabras de moderación personalizadas",
       "item4Body": "añade/elimina términos bloqueados específicos del servidor.",
       "item5Label": "Resumen rápido de moderación",

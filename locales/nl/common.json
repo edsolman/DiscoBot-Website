@@ -172,7 +172,7 @@
     "scheduledMessagesHelp": "Maak en beheer automatische serverberichten. Kies een tijdzone per planning.",
     "alerts": {
       "saved": "Configuratie succesvol opgeslagen.",
-      "imported": "Niveaupreset succesvol geïmporteerd.",
+      "imported": "Instellingen succesvol geïmporteerd.",
       "wordsAdded": "Aangepast moderatiewoord toegevoegd.",
       "wordsRemoved": "Aangepast moderatiewoord verwijderd.",
       "wordsExists": "Dat aangepaste moderatiewoord staat al in de lijst.",
@@ -217,12 +217,12 @@
       "saveLevels": "Niveaus opslaan"
     },
     "importExport": {
-      "title": "Preset importeren / exporteren",
-      "subtitle": "Exporteer de niveauconfiguratie van deze server naar JSON of importeer een preset van een andere server.",
+      "title": "Instellingen importeren/exporteren",
+      "subtitle": "Exporteer de DiscoBot-configuratie van deze server naar een bestand, of importeer een configuratiebestand van een andere server.",
       "exportJson": "JSON exporteren",
       "exampleTemplate": "Voorbeeldsjabloon",
       "copyCurrentJson": "Huidige JSON kopiëren",
-      "presetJson": "Preset JSON",
+      "presetJson": "Configuratie-JSON",
       "validateJson": "JSON valideren",
       "importJson": "JSON importeren",
       "includeKeysHelp": "Je kunt alle instellingssleutels of alleen specifieke sleutels opnemen. Alleen opgenomen sleutels worden bijgewerkt."
@@ -629,7 +629,7 @@
       "item2Label": "Vertaaltekenlimiet",
       "item2Body": "monitor gebruik en koop vertaalabonnementen voor servers.",
       "item3Label": "Gamificatie-niveaus",
-      "item3Body": "bewerk niveaunamen/drempels; importeer/exporteer presets als JSON.",
+      "item3Body": "bewerk niveaunamen/drempels; importeer/exporteer configuratie als JSON.",
       "item4Label": "Aangepaste moderatiewoorden",
       "item4Body": "voeg serverspecifieke geblokkeerde termen toe/verwijder ze.",
       "item5Label": "Moderatieoverzicht",

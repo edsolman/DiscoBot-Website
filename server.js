@@ -135,6 +135,8 @@ const DEFAULT_OWNER_SETTINGS = {
   pricing: {
     credit_packs: DEFAULT_CREDIT_PACKS,
     subscription_plans: DEFAULT_SUBSCRIPTION_PLANS,
+    guild_credit_packs: DEFAULT_CREDIT_PACKS,
+    guild_subscription_plans: DEFAULT_SUBSCRIPTION_PLANS,
     translation_free_character_limit: DEFAULT_TRANSLATION_FREE_CHARACTER_LIMIT,
     translation_subscription_plans_guild: DEFAULT_TRANSLATION_SUBSCRIPTION_PLANS,
     translation_subscription_plans_personal: DEFAULT_TRANSLATION_SUBSCRIPTION_PLANS,
@@ -736,6 +738,12 @@ function sanitizeOwnerSettings(rawSettings) {
   const planRows = Array.isArray(rawPricing.subscription_plans)
     ? rawPricing.subscription_plans
     : DEFAULT_SUBSCRIPTION_PLANS;
+  const guildPackRows = Array.isArray(rawPricing.guild_credit_packs)
+    ? rawPricing.guild_credit_packs
+    : packRows;
+  const guildPlanRows = Array.isArray(rawPricing.guild_subscription_plans)
+    ? rawPricing.guild_subscription_plans
+    : planRows;
   const translationGuildPlanRows = Array.isArray(rawPricing.translation_subscription_plans_guild)
     ? rawPricing.translation_subscription_plans_guild
     : Array.isArray(rawPricing.translation_subscription_plans)
@@ -796,6 +804,8 @@ function sanitizeOwnerSettings(rawSettings) {
     pricing: {
       credit_packs: ensureUniquePricingRows(packRows, DEFAULT_CREDIT_PACKS, "pack"),
       subscription_plans: ensureUniquePricingRows(planRows, DEFAULT_SUBSCRIPTION_PLANS, "plan"),
+      guild_credit_packs: ensureUniquePricingRows(guildPackRows, DEFAULT_CREDIT_PACKS, "pack"),
+      guild_subscription_plans: ensureUniquePricingRows(guildPlanRows, DEFAULT_SUBSCRIPTION_PLANS, "plan"),
       translation_free_character_limit: translationFreeLimit,
       translation_subscription_plans_guild: sanitizedGuildTranslationPlans,
       translation_subscription_plans_personal: sanitizedPersonalTranslationPlans,
@@ -813,6 +823,24 @@ function getCreditPacks() {
 
 function getSubscriptionPlans() {
   return getOwnerSettings().pricing.subscription_plans;
+}
+
+function getGuildCreditPacks() {
+  const pricing = getOwnerSettings().pricing || {};
+  const rows = Array.isArray(pricing.guild_credit_packs) ? pricing.guild_credit_packs : null;
+  if (rows && rows.length > 0) {
+    return rows;
+  }
+  return getCreditPacks();
+}
+
+function getGuildSubscriptionPlans() {
+  const pricing = getOwnerSettings().pricing || {};
+  const rows = Array.isArray(pricing.guild_subscription_plans) ? pricing.guild_subscription_plans : null;
+  if (rows && rows.length > 0) {
+    return rows;
+  }
+  return getSubscriptionPlans();
 }
 
 function getTranslationFreeCharacterLimit() {
@@ -902,6 +930,16 @@ function normalizeSubscriptionPlanId(planIdRaw) {
   }
 
   return null;
+}
+
+function normalizeGuildCreditPackId(packIdRaw) {
+  const packId = String(packIdRaw || "").trim().toLowerCase();
+  return getGuildCreditPacks().find((pack) => pack.id === packId) || null;
+}
+
+function normalizeGuildSubscriptionPlanId(planIdRaw) {
+  const planId = String(planIdRaw || "").trim().toLowerCase();
+  return getGuildSubscriptionPlans().find((plan) => plan.id === planId) || null;
 }
 
 function normalizeTranslationSubscriptionPlanId(planIdRaw, purchaseScope = "translation_guild") {
@@ -1020,17 +1058,95 @@ function buildCreditPurchaseMetadata({
   username,
   packId,
   subscriptionPlanId = "",
+  purchaseScope = "ai_user_personal",
+  guildId = "",
+  guildName = "",
   discountCode = "",
   discountCents = 0,
 }) {
+  const normalizedScope = String(purchaseScope || "ai_user_personal").trim().toLowerCase();
   return {
+    purchase_scope: normalizedScope,
     pack_id: String(packId || ""),
     subscription_plan_id: String(subscriptionPlanId || ""),
     discount_code: String(discountCode || ""),
     discount_cents: String(Math.max(Number.parseInt(String(discountCents || "0"), 10) || 0, 0)),
+    guild_id: String(guildId || ""),
+    guild_name: String(guildName || ""),
     user_id: String(user.id),
     username: String(username),
   };
+}
+
+function normalizeGuildAiCreditPolicy(rawPolicy) {
+  const raw = rawPolicy && typeof rawPolicy === "object" ? rawPolicy : {};
+  const defaultMonthlyCreditsPerMember = Math.max(
+    toNonNegativeInt(raw.default_monthly_credits_per_member, 0),
+    0
+  );
+
+  const seenUserIds = new Set();
+  const memberOverrides = (Array.isArray(raw.member_overrides) ? raw.member_overrides : [])
+    .map((row) => {
+      const userId = String(row?.user_id || "").trim();
+      if (!/^\d{5,25}$/.test(userId) || seenUserIds.has(userId)) {
+        return null;
+      }
+      seenUserIds.add(userId);
+
+      const username = String(row?.username || "").trim().slice(0, 64) || userId;
+      const monthlyCredits = Math.max(toNonNegativeInt(row?.monthly_credits_per_month, 0), 0);
+      return {
+        user_id: userId,
+        username,
+        monthly_credits_per_month: monthlyCredits,
+      };
+    })
+    .filter(Boolean)
+    .sort((a, b) => String(a.username).localeCompare(String(b.username)));
+
+  return {
+    default_monthly_credits_per_member: defaultMonthlyCreditsPerMember,
+    member_overrides: memberOverrides,
+  };
+}
+
+async function searchGuildMembersForAdmin(guildId, queryText, limit = 10) {
+  const query = String(queryText || "").trim();
+  if (!query) {
+    return [];
+  }
+
+  const response = await axios.get(`${DISCORD_API_BASE}/guilds/${guildId}/members/search`, {
+    params: {
+      query,
+      limit: Math.min(Math.max(Number.parseInt(String(limit || 10), 10) || 10, 1), 25),
+    },
+    headers: {
+      Authorization: `Bot ${DISCORD_BOT_TOKEN}`,
+    },
+    timeout: 10000,
+  });
+
+  const rows = Array.isArray(response?.data) ? response.data : [];
+  return rows
+    .map((row) => {
+      const user = row?.user || {};
+      const userId = String(user.id || "").trim();
+      if (!/^\d{5,25}$/.test(userId)) {
+        return null;
+      }
+
+      const username = String(
+        row?.nick || user.global_name || user.username || userId
+      ).trim().slice(0, 64);
+
+      return {
+        user_id: userId,
+        username: username || userId,
+      };
+    })
+    .filter(Boolean);
 }
 
 function buildTranslationSubscriptionMetadata({
@@ -1670,6 +1786,103 @@ async function fulfillStripeCheckoutSession(checkoutSession) {
 
   if (checkoutSession.mode === "subscription") {
     const metadata = checkoutSession.metadata || {};
+    if (String(metadata.purchase_scope || "").trim().toLowerCase() === "ai_guild") {
+      const stripeSubscriptionId = String(checkoutSession.subscription || "").trim();
+      const guildId = String(metadata.guild_id || "").trim();
+      const guildName = String(metadata.guild_name || "").trim() || "Unknown Guild";
+      const userId = String(metadata.user_id || "").trim();
+      const username = String(metadata.username || "Unknown").trim() || "Unknown";
+      const plan = normalizeGuildSubscriptionPlanId(metadata.subscription_plan_id);
+      const discountCode = normalizeDiscountCode(metadata.discount_code);
+      const discountCents = Math.max(Number.parseInt(String(metadata.discount_cents || "0"), 10) || 0, 0);
+
+      if (!stripeSubscriptionId || !guildId || !userId || !plan) {
+        return 0;
+      }
+
+      const now = new Date();
+
+      await aiImageCreditSubscriptionsCollection.updateOne(
+        { stripe_subscription_id: stripeSubscriptionId },
+        {
+          $set: {
+            stripe_subscription_id: stripeSubscriptionId,
+            stripe_customer_id: String(checkoutSession.customer || ""),
+            purchase_scope: "ai_guild",
+            guild_id: snowflakeToLong(guildId),
+            guild_name: guildName,
+            user_id: snowflakeToLong(userId),
+            username,
+            plan_id: plan.id,
+            credits_per_month: plan.creditsPerMonth,
+            status: "active",
+            cancel_at_period_end: false,
+            current_period_end: checkoutSession.expires_at
+              ? new Date(Number(checkoutSession.expires_at) * 1000)
+              : null,
+            updated_at: now,
+          },
+          $setOnInsert: {
+            created_at: now,
+          },
+        },
+        { upsert: true }
+      );
+
+      const purchaseResult = await aiImageCreditPurchasesCollection.updateOne(
+        { stripe_session_id: String(checkoutSession.id || "") },
+        {
+          $setOnInsert: {
+            stripe_session_id: String(checkoutSession.id || "") || undefined,
+            stripe_invoice_id: String(checkoutSession.invoice || "") || undefined,
+            stripe_subscription_id: stripeSubscriptionId,
+            purchase_scope: "ai_guild",
+            guild_id: snowflakeToLong(guildId),
+            guild_name: guildName,
+            user_id: snowflakeToLong(userId),
+            username,
+            credits: plan.creditsPerMonth,
+            pack_id: plan.id,
+            payment_provider: "stripe",
+            payment_status: "completed",
+            payment_type: "subscription_initial",
+            amount_total_cents: Number(checkoutSession.amount_total || 0),
+            currency: String(checkoutSession.currency || "usd"),
+            discount_code: String(discountCode || ""),
+            discount_cents: discountCents,
+            created_at: now,
+          },
+        },
+        { upsert: true }
+      );
+
+      if (purchaseResult.upsertedCount > 0 && checkoutSession.payment_status === "paid") {
+        await guildsCollection.updateOne(
+          { guild_id: snowflakeToLong(guildId) },
+          {
+            $set: {
+              guild_id: snowflakeToLong(guildId),
+              guild_name: guildName,
+              updated_at: now,
+            },
+            $inc: {
+              aiimagegenallowance: plan.creditsPerMonth,
+            },
+            $setOnInsert: {
+              created_at: now,
+              sku: "Free",
+              translationallowance: 500,
+              translationcharacterallowance: getTranslationFreeCharacterLimit(),
+              installer_user_id: userId,
+            },
+          },
+          { upsert: true }
+        );
+      }
+
+      return 0;
+    }
+
     if (String(metadata.purchase_scope || "").trim().toLowerCase() === "translation_guild") {
       const stripeSubscriptionId = String(checkoutSession.subscription || "").trim();
       const guildId = String(metadata.guild_id || "").trim();
@@ -1808,6 +2021,78 @@ async function fulfillStripeCheckoutSession(checkoutSession) {
   }
 
   const metadata = checkoutSession.metadata || {};
+  if (String(metadata.purchase_scope || "").trim().toLowerCase() === "ai_guild") {
+    const pack = normalizeGuildCreditPackId(metadata.pack_id);
+    const guildId = String(metadata.guild_id || "").trim();
+    const guildName = String(metadata.guild_name || "").trim() || "Unknown Guild";
+    const userId = String(metadata.user_id || "").trim();
+    const username = String(metadata.username || "Unknown").trim() || "Unknown";
+
+    if (!pack || !guildId || !userId) {
+      throw new Error("Invalid guild AI checkout metadata");
+    }
+
+    const discountCode = normalizeDiscountCode(metadata.discount_code);
+    const discountCents = Math.max(Number.parseInt(String(metadata.discount_cents || "0"), 10) || 0, 0);
+    const expectedAmount = Math.max(pack.unitAmountCents - discountCents, 1);
+    const paidAmount = Number(checkoutSession.amount_total || 0);
+    if (!Number.isFinite(paidAmount) || paidAmount !== expectedAmount) {
+      throw new Error("Paid amount does not match expected guild credit pack amount");
+    }
+
+    const now = new Date();
+    const purchaseResult = await aiImageCreditPurchasesCollection.updateOne(
+      { stripe_session_id: sessionId },
+      {
+        $setOnInsert: {
+          stripe_session_id: sessionId,
+          guild_id: snowflakeToLong(guildId),
+          guild_name: guildName,
+          user_id: snowflakeToLong(userId),
+          username,
+          purchase_scope: "ai_guild",
+          credits: pack.credits,
+          pack_id: pack.id,
+          payment_provider: "stripe",
+          payment_status: "completed",
+          payment_type: "one_time",
+          amount_total_cents: paidAmount,
+          currency: String(checkoutSession.currency || "usd"),
+          discount_code: String(discountCode || ""),
+          discount_cents: discountCents,
+          created_at: now,
+        },
+      },
+      { upsert: true }
+    );
+
+    if (purchaseResult.upsertedCount > 0) {
+      await guildsCollection.updateOne(
+        { guild_id: snowflakeToLong(guildId) },
+        {
+          $set: {
+            guild_id: snowflakeToLong(guildId),
+            guild_name: guildName,
+            updated_at: now,
+          },
+          $inc: {
+            aiimagegenallowance: pack.credits,
+          },
+          $setOnInsert: {
+            created_at: now,
+            sku: "Free",
+            translationallowance: 500,
+            translationcharacterallowance: getTranslationFreeCharacterLimit(),
+            installer_user_id: userId,
+          },
+        },
+        { upsert: true }
+      );
+    }
+
+    return 0;
+  }
+
   const pack = normalizeCreditPackId(metadata.pack_id);
   if (!pack) {
     throw new Error("Invalid or missing pack_id metadata");
@@ -1861,6 +2146,119 @@ async function fulfillStripeSubscriptionInvoice(invoice) {
   const subscription = await stripe.subscriptions.retrieve(stripeSubscriptionId);
   const metadata = subscription?.metadata || {};
   const purchaseScope = String(metadata.purchase_scope || "").trim().toLowerCase();
+
+  if (purchaseScope === "ai_guild") {
+    let plan = normalizeGuildSubscriptionPlanId(metadata.subscription_plan_id);
+    let guildId = String(metadata.guild_id || "").trim();
+    let guildName = String(metadata.guild_name || "").trim() || "Unknown Guild";
+    let userId = String(metadata.user_id || "").trim();
+    let username = String(metadata.username || "Unknown").trim() || "Unknown";
+    const discountCode = normalizeDiscountCode(metadata.discount_code);
+    const discountCents = Math.max(Number.parseInt(String(metadata.discount_cents || "0"), 10) || 0, 0);
+
+    if (!plan || !guildId || !userId) {
+      const existingSub = await aiImageCreditSubscriptionsCollection.findOne(
+        { stripe_subscription_id: stripeSubscriptionId },
+        {
+          projection: {
+            plan_id: 1,
+            guild_id: 1,
+            guild_name: 1,
+            user_id: 1,
+            username: 1,
+          },
+        }
+      );
+
+      if (existingSub) {
+        plan = plan || normalizeGuildSubscriptionPlanId(existingSub.plan_id);
+        guildId = guildId || String(existingSub.guild_id || "");
+        guildName = guildName === "Unknown Guild" ? String(existingSub.guild_name || guildName) : guildName;
+        userId = userId || String(existingSub.user_id || "");
+        username = username === "Unknown" ? String(existingSub.username || username) : username;
+      }
+    }
+
+    if (!plan || !guildId || !userId) {
+      return 0;
+    }
+
+    const now = new Date();
+
+    const recurringIdempotencyResult = await aiImageCreditPurchasesCollection.updateOne(
+      { stripe_invoice_id: invoiceId },
+      {
+        $setOnInsert: {
+          stripe_invoice_id: invoiceId,
+          stripe_subscription_id: stripeSubscriptionId,
+          purchase_scope: "ai_guild",
+          guild_id: snowflakeToLong(guildId),
+          guild_name: guildName,
+          user_id: snowflakeToLong(userId),
+          username,
+          credits: plan.creditsPerMonth,
+          pack_id: plan.id,
+          payment_provider: "stripe",
+          payment_status: "completed",
+          payment_type: "subscription_cycle",
+          amount_total_cents: Number(invoice.amount_paid || 0),
+          currency: String(invoice.currency || "usd"),
+          discount_code: String(discountCode || ""),
+          discount_cents: discountCents,
+          created_at: now,
+        },
+      },
+      { upsert: true }
+    );
+
+    await aiImageCreditSubscriptionsCollection.updateOne(
+      { stripe_subscription_id: stripeSubscriptionId },
+      {
+        $set: {
+          stripe_customer_id: String(invoice.customer || ""),
+          purchase_scope: "ai_guild",
+          guild_id: snowflakeToLong(guildId),
+          guild_name: guildName,
+          user_id: snowflakeToLong(userId),
+          username,
+          plan_id: plan.id,
+          credits_per_month: plan.creditsPerMonth,
+          status: String(subscription.status || "active"),
+          updated_at: now,
+        },
+        $setOnInsert: {
+          created_at: now,
+        },
+      },
+      { upsert: true }
+    );
+
+    if (recurringIdempotencyResult.upsertedCount > 0) {
+      await guildsCollection.updateOne(
+        { guild_id: snowflakeToLong(guildId) },
+        {
+          $set: {
+            guild_id: snowflakeToLong(guildId),
+            guild_name: guildName,
+            updated_at: now,
+          },
+          $inc: {
+            aiimagegenallowance: plan.creditsPerMonth,
+          },
+          $setOnInsert: {
+            created_at: now,
+            sku: "Free",
+            translationallowance: 500,
+            translationcharacterallowance: getTranslationFreeCharacterLimit(),
+            installer_user_id: userId,
+          },
+        },
+        { upsert: true }
+      );
+    }
+
+    return 0;
+  }
 
   if (purchaseScope === "translation_user_personal") {
     let plan = normalizeTranslationSubscriptionPlanId(metadata.translation_plan_id, "translation_user_personal");
@@ -2471,12 +2869,12 @@ function normalizeListFromBody(rawValue) {
   return [rawValue];
 }
 
-function parsePackRowsFromBody(body) {
-  const ids = normalizeListFromBody(body.pack_id);
-  const names = normalizeListFromBody(body.pack_name);
-  const credits = normalizeListFromBody(body.pack_credits);
-  const prices = normalizeListFromBody(body.pack_price_cents);
-  const costs = normalizeListFromBody(body.pack_cost_cents);
+function parsePackRowsFromBody(body, fieldPrefix = "pack") {
+  const ids = normalizeListFromBody(body[`${fieldPrefix}_id`]);
+  const names = normalizeListFromBody(body[`${fieldPrefix}_name`]);
+  const credits = normalizeListFromBody(body[`${fieldPrefix}_credits`]);
+  const prices = normalizeListFromBody(body[`${fieldPrefix}_price_cents`]);
+  const costs = normalizeListFromBody(body[`${fieldPrefix}_cost_cents`]);
   const rowCount = Math.max(ids.length, names.length, credits.length, prices.length, costs.length);
 
   const rows = [];
@@ -2493,12 +2891,12 @@ function parsePackRowsFromBody(body) {
   return rows;
 }
 
-function parsePlanRowsFromBody(body) {
-  const ids = normalizeListFromBody(body.plan_id);
-  const names = normalizeListFromBody(body.plan_name);
-  const credits = normalizeListFromBody(body.plan_credits_per_month);
-  const prices = normalizeListFromBody(body.plan_price_cents);
-  const costs = normalizeListFromBody(body.plan_cost_cents);
+function parsePlanRowsFromBody(body, fieldPrefix = "plan") {
+  const ids = normalizeListFromBody(body[`${fieldPrefix}_id`]);
+  const names = normalizeListFromBody(body[`${fieldPrefix}_name`]);
+  const credits = normalizeListFromBody(body[`${fieldPrefix}_credits_per_month`]);
+  const prices = normalizeListFromBody(body[`${fieldPrefix}_price_cents`]);
+  const costs = normalizeListFromBody(body[`${fieldPrefix}_cost_cents`]);
   const rowCount = Math.max(ids.length, names.length, credits.length, prices.length, costs.length);
 
   const rows = [];
@@ -4268,6 +4666,14 @@ app.post(["/credits/generate-image", "/ai-image-generation/generate-image"], req
       ? "edit"
       : "text";
 
+    // Website generation is intentionally personal-only (no guild context selection on this flow).
+    // Ignore any guild-related values that may be posted by a client.
+    const ignoredGuildContext = {
+      guildId: String(req.body.guild_id || "").trim(),
+      purchaseScope: String(req.body.purchase_scope || "").trim().toLowerCase(),
+    };
+    void ignoredGuildContext;
+
     if (!prompt) {
       return res.redirect("/ai-image-generation?generate=invalid_prompt");
     }
@@ -4560,6 +4966,7 @@ app.post("/credits/checkout", requireAuth, async (req, res) => {
       user: req.session.user,
       username,
       packId: pack.id,
+      purchaseScope: "ai_user_personal",
       discountCode: discountResolution.code,
       discountCents: discountResolution.discountCents,
     });
@@ -4633,6 +5040,7 @@ app.post("/credits/subscribe", requireAuth, async (req, res) => {
       username,
       packId: "",
       subscriptionPlanId: plan.id,
+      purchaseScope: "ai_user_personal",
       discountCode: discountResolution.code,
       discountCents: discountResolution.discountCents,
     });
@@ -4982,6 +5390,440 @@ app.post("/dashboard/:guildId/translation/subscription/manage", requireAuth, asy
   }
 });
 
+app.post("/dashboard/:guildId/ai-credits/checkout", requireAuth, async (req, res) => {
+  const guildId = String(req.params.guildId || "").trim();
+
+  try {
+    if (!stripe) {
+      return res.status(503).render("error", {
+        title: "Checkout Unavailable",
+        message: "Stripe checkout is not configured yet. Set STRIPE_SECRET_KEY first.",
+      });
+    }
+
+    const guilds = await buildGuildAccessModel(req.session.discord.accessToken, req.session.user.id);
+    const guild = guilds.find((row) => row.id === guildId);
+
+    if (!guild) {
+      return res.status(404).render("error", {
+        title: "Guild Not Found",
+        message: "That guild is not available or DiscoBot is not installed there.",
+      });
+    }
+
+    if (!guild.canManage) {
+      return res.status(403).render("error", {
+        title: "Access Denied",
+        message: "You are not allowed to buy AI credits for this guild.",
+      });
+    }
+
+    const pack = normalizeGuildCreditPackId(req.body.pack_id);
+    if (!pack) {
+      return res.redirect(`/dashboard/${guildId}?aiCredits=invalid_pack`);
+    }
+
+    const userGuildIds = guilds.map((row) => String(row.id || "").trim()).filter(Boolean);
+    const discountResolution = await resolveCheckoutDiscount({
+      codeRaw: req.body.discount_code,
+      userId: req.session.user.id,
+      packAmountCents: pack.unitAmountCents,
+      userGuildIds,
+      purchaseType: "one_time",
+    });
+
+    if (!discountResolution.ok) {
+      return res.redirect(`/my-account?discount=${discountResolution.reason}`);
+    }
+
+    const username = String(req.session.user.globalName || req.session.user.username || "Unknown");
+    const metadata = buildCreditPurchaseMetadata({
+      user: req.session.user,
+      username,
+      packId: pack.id,
+      purchaseScope: "ai_guild",
+      guildId,
+      guildName: guild.name,
+      discountCode: discountResolution.code,
+      discountCents: discountResolution.discountCents,
+    });
+
+    const checkoutSession = await stripe.checkout.sessions.create({
+      mode: "payment",
+      payment_method_types: ["card"],
+      success_url: `${WEBSITE_BASE_URL}/dashboard/${guildId}?aiCredits=success`,
+      cancel_url: `${WEBSITE_BASE_URL}/dashboard/${guildId}?aiCredits=canceled`,
+      line_items: [
+        {
+          quantity: 1,
+          price_data: {
+            currency: "usd",
+            unit_amount: discountResolution.finalAmountCents,
+            product_data: {
+              name: `${pack.name} Guild AI Credits`,
+              description: discountResolution.discountCents > 0
+                ? `${pack.credits} guild AI credits for ${guild.name} · Discount code ${discountResolution.code}`
+                : `${pack.credits} guild AI credits for ${guild.name}`,
+            },
+          },
+        },
+      ],
+      metadata,
+    });
+
+    return res.redirect(303, checkoutSession.url);
+  } catch {
+    return res.redirect(`/dashboard/${guildId}?aiCredits=error`);
+  }
+});
+
+app.post("/dashboard/:guildId/ai-credits/subscribe", requireAuth, async (req, res) => {
+  const guildId = String(req.params.guildId || "").trim();
+
+  try {
+    if (!stripe) {
+      return res.status(503).render("error", {
+        title: "Subscription Unavailable",
+        message: "Stripe checkout is not configured yet. Set STRIPE_SECRET_KEY first.",
+      });
+    }
+
+    const guilds = await buildGuildAccessModel(req.session.discord.accessToken, req.session.user.id);
+    const guild = guilds.find((row) => row.id === guildId);
+
+    if (!guild) {
+      return res.status(404).render("error", {
+        title: "Guild Not Found",
+        message: "That guild is not available or DiscoBot is not installed there.",
+      });
+    }
+
+    if (!guild.canManage) {
+      return res.status(403).render("error", {
+        title: "Access Denied",
+        message: "You are not allowed to buy AI subscriptions for this guild.",
+      });
+    }
+
+    const plan = normalizeGuildSubscriptionPlanId(req.body.plan_id);
+    if (!plan) {
+      return res.redirect(`/dashboard/${guildId}?aiSub=invalid_plan`);
+    }
+
+    const userGuildIds = guilds.map((row) => String(row.id || "").trim()).filter(Boolean);
+    const discountResolution = await resolveCheckoutDiscount({
+      codeRaw: req.body.discount_code,
+      userId: req.session.user.id,
+      packAmountCents: plan.unitAmountCents,
+      userGuildIds,
+      purchaseType: "subscription",
+    });
+
+    if (!discountResolution.ok) {
+      return res.redirect(`/my-account?discount=${discountResolution.reason}`);
+    }
+
+    const username = String(req.session.user.globalName || req.session.user.username || "Unknown");
+    const metadata = buildCreditPurchaseMetadata({
+      user: req.session.user,
+      username,
+      subscriptionPlanId: plan.id,
+      purchaseScope: "ai_guild",
+      guildId,
+      guildName: guild.name,
+      discountCode: discountResolution.code,
+      discountCents: discountResolution.discountCents,
+    });
+
+    const checkoutSession = await stripe.checkout.sessions.create({
+      mode: "subscription",
+      payment_method_types: ["card"],
+      success_url: `${WEBSITE_BASE_URL}/dashboard/${guildId}?aiSub=success`,
+      cancel_url: `${WEBSITE_BASE_URL}/dashboard/${guildId}?aiSub=canceled`,
+      line_items: [
+        {
+          quantity: 1,
+          price_data: {
+            currency: "usd",
+            recurring: { interval: "month" },
+            unit_amount: discountResolution.finalAmountCents,
+            product_data: {
+              name: `${plan.name} Guild AI Credits Subscription`,
+              description: discountResolution.discountCents > 0
+                ? `${plan.creditsPerMonth} guild AI credits/month for ${guild.name} · Discount code ${discountResolution.code}`
+                : `${plan.creditsPerMonth} guild AI credits/month for ${guild.name}`,
+            },
+          },
+        },
+      ],
+      metadata,
+      subscription_data: {
+        metadata,
+      },
+    });
+
+    return res.redirect(303, checkoutSession.url);
+  } catch {
+    return res.redirect(`/dashboard/${guildId}?aiSub=error`);
+  }
+});
+
+app.post("/dashboard/:guildId/ai-credits/subscription/manage", requireAuth, async (req, res) => {
+  const guildId = String(req.params.guildId || "").trim();
+
+  try {
+    if (!stripe) {
+      return res.status(503).render("error", {
+        title: "Billing Portal Unavailable",
+        message: "Stripe is not configured yet. Set STRIPE_SECRET_KEY first.",
+      });
+    }
+
+    const guilds = await buildGuildAccessModel(req.session.discord.accessToken, req.session.user.id);
+    const guild = guilds.find((row) => row.id === guildId);
+
+    if (!guild) {
+      return res.status(404).render("error", {
+        title: "Guild Not Found",
+        message: "That guild is not available or DiscoBot is not installed there.",
+      });
+    }
+
+    if (!guild.canManage) {
+      return res.status(403).render("error", {
+        title: "Access Denied",
+        message: "You are not allowed to manage AI subscriptions for this guild.",
+      });
+    }
+
+    const stripeSubscriptionIdFromRequest = String(req.body.stripe_subscription_id || "").trim();
+    const subscriptionFilter = {
+      purchase_scope: "ai_guild",
+      guild_id: snowflakeToLong(guildId),
+      status: { $in: Array.from(getActiveSubscriptionStatusSet()) },
+    };
+    if (stripeSubscriptionIdFromRequest) {
+      subscriptionFilter.stripe_subscription_id = stripeSubscriptionIdFromRequest;
+    }
+
+    const subscriptionRecord = await aiImageCreditSubscriptionsCollection.findOne(subscriptionFilter, {
+      projection: {
+        stripe_subscription_id: 1,
+        stripe_customer_id: 1,
+      },
+      sort: { updated_at: -1 },
+    });
+
+    if (!subscriptionRecord || !subscriptionRecord.stripe_subscription_id) {
+      return res.redirect(`/dashboard/${guildId}?aiSub=no_subscription`);
+    }
+
+    let stripeCustomerId = String(subscriptionRecord.stripe_customer_id || "").trim();
+    if (!stripeCustomerId) {
+      const stripeSubscription = await stripe.subscriptions.retrieve(String(subscriptionRecord.stripe_subscription_id));
+      stripeCustomerId = String(stripeSubscription?.customer || "").trim();
+      if (!stripeCustomerId) {
+        return res.redirect(`/dashboard/${guildId}?aiSub=error`);
+      }
+
+      await aiImageCreditSubscriptionsCollection.updateOne(
+        { stripe_subscription_id: String(subscriptionRecord.stripe_subscription_id) },
+        {
+          $set: {
+            stripe_customer_id: stripeCustomerId,
+            updated_at: new Date(),
+          },
+        }
+      );
+    }
+
+    const portalSession = await stripe.billingPortal.sessions.create({
+      customer: stripeCustomerId,
+      return_url: `${WEBSITE_BASE_URL}/dashboard/${guildId}`,
+    });
+
+    return res.redirect(303, portalSession.url);
+  } catch {
+    return res.redirect(`/dashboard/${guildId}?aiSub=error`);
+  }
+});
+
+app.post("/dashboard/:guildId/ai-credits/policy/default", requireAuth, async (req, res) => {
+  const guildId = String(req.params.guildId || "").trim();
+
+  try {
+    const guilds = await buildGuildAccessModel(req.session.discord.accessToken, req.session.user.id);
+    const guild = guilds.find((row) => row.id === guildId);
+
+    if (!guild || !guild.canManage) {
+      return res.redirect(`/dashboard/${guildId}?aiPolicy=error`);
+    }
+
+    const existing = await guildsCollection.findOne(
+      { guild_id: snowflakeToLong(guildId) },
+      { projection: { ai_image_credit_policy: 1 } }
+    );
+
+    const nextPolicy = normalizeGuildAiCreditPolicy(existing?.ai_image_credit_policy);
+    nextPolicy.default_monthly_credits_per_member = Math.max(
+      toNonNegativeInt(req.body.default_monthly_credits_per_member, 0),
+      0
+    );
+
+    await guildsCollection.updateOne(
+      { guild_id: snowflakeToLong(guildId) },
+      {
+        $set: {
+          guild_id: snowflakeToLong(guildId),
+          guild_name: guild.name,
+          ai_image_credit_policy: nextPolicy,
+          updated_at: new Date(),
+        },
+        $setOnInsert: {
+          created_at: new Date(),
+          sku: "Free",
+          translationallowance: 500,
+          translationcharacterallowance: getTranslationFreeCharacterLimit(),
+          aiimagegenallowance: 50,
+          installer_user_id: req.session.user.id,
+        },
+      },
+      { upsert: true }
+    );
+
+    return res.redirect(`/dashboard/${guildId}?aiPolicy=saved`);
+  } catch {
+    return res.redirect(`/dashboard/${guildId}?aiPolicy=error`);
+  }
+});
+
+app.post("/dashboard/:guildId/ai-credits/policy/override/upsert", requireAuth, async (req, res) => {
+  const guildId = String(req.params.guildId || "").trim();
+
+  try {
+    const guilds = await buildGuildAccessModel(req.session.discord.accessToken, req.session.user.id);
+    const guild = guilds.find((row) => row.id === guildId);
+
+    if (!guild || !guild.canManage) {
+      return res.redirect(`/dashboard/${guildId}?aiPolicy=error`);
+    }
+
+    const userId = String(req.body.member_user_id || "").trim();
+    const username = String(req.body.member_username || "").trim();
+    const monthlyCredits = Math.max(toNonNegativeInt(req.body.member_monthly_credits_per_month, 0), 0);
+
+    if (!/^\d{5,25}$/.test(userId)) {
+      return res.redirect(`/dashboard/${guildId}?aiPolicy=invalid_member`);
+    }
+
+    const existing = await guildsCollection.findOne(
+      { guild_id: snowflakeToLong(guildId) },
+      { projection: { ai_image_credit_policy: 1 } }
+    );
+
+    const nextPolicy = normalizeGuildAiCreditPolicy(existing?.ai_image_credit_policy);
+    const nextOverrides = Array.isArray(nextPolicy.member_overrides) ? [...nextPolicy.member_overrides] : [];
+    const existingIndex = nextOverrides.findIndex((row) => String(row.user_id) === userId);
+    const row = {
+      user_id: userId,
+      username: username || userId,
+      monthly_credits_per_month: monthlyCredits,
+    };
+    if (existingIndex >= 0) {
+      nextOverrides[existingIndex] = row;
+    } else {
+      nextOverrides.push(row);
+    }
+    nextPolicy.member_overrides = normalizeGuildAiCreditPolicy({
+      default_monthly_credits_per_member: nextPolicy.default_monthly_credits_per_member,
+      member_overrides: nextOverrides,
+    }).member_overrides;
+
+    await guildsCollection.updateOne(
+      { guild_id: snowflakeToLong(guildId) },
+      {
+        $set: {
+          guild_id: snowflakeToLong(guildId),
+          guild_name: guild.name,
+          ai_image_credit_policy: nextPolicy,
+          updated_at: new Date(),
+        },
+        $setOnInsert: {
+          created_at: new Date(),
+          sku: "Free",
+          translationallowance: 500,
+          translationcharacterallowance: getTranslationFreeCharacterLimit(),
+          aiimagegenallowance: 50,
+          installer_user_id: req.session.user.id,
+        },
+      },
+      { upsert: true }
+    );
+
+    return res.redirect(`/dashboard/${guildId}?aiPolicy=saved`);
+  } catch {
+    return res.redirect(`/dashboard/${guildId}?aiPolicy=error`);
+  }
+});
+
+app.post("/dashboard/:guildId/ai-credits/policy/override/remove", requireAuth, async (req, res) => {
+  const guildId = String(req.params.guildId || "").trim();
+
+  try {
+    const guilds = await buildGuildAccessModel(req.session.discord.accessToken, req.session.user.id);
+    const guild = guilds.find((row) => row.id === guildId);
+
+    if (!guild || !guild.canManage) {
+      return res.redirect(`/dashboard/${guildId}?aiPolicy=error`);
+    }
+
+    const userId = String(req.body.member_user_id || "").trim();
+    if (!/^\d{5,25}$/.test(userId)) {
+      return res.redirect(`/dashboard/${guildId}?aiPolicy=invalid_member`);
+    }
+
+    await guildsCollection.updateOne(
+      { guild_id: snowflakeToLong(guildId) },
+      {
+        $pull: {
+          "ai_image_credit_policy.member_overrides": {
+            user_id: userId,
+          },
+        },
+        $set: {
+          updated_at: new Date(),
+        },
+      }
+    );
+
+    return res.redirect(`/dashboard/${guildId}?aiPolicy=saved`);
+  } catch {
+    return res.redirect(`/dashboard/${guildId}?aiPolicy=error`);
+  }
+});
+
+app.get("/dashboard/:guildId/members/search", requireAuth, async (req, res) => {
+  const guildId = String(req.params.guildId || "").trim();
+
+  try {
+    const guilds = await buildGuildAccessModel(req.session.discord.accessToken, req.session.user.id);
+    const guild = guilds.find((row) => row.id === guildId);
+    if (!guild || !guild.canManage) {
+      return res.status(403).json({ ok: false, message: "Access denied." });
+    }
+
+    const query = String(req.query.q || "").trim();
+    if (!query || query.length < 2) {
+      return res.json({ ok: true, members: [] });
+    }
+
+    const members = await searchGuildMembersForAdmin(guildId, query, 10);
+    return res.json({ ok: true, members });
+  } catch {
+    return res.status(500).json({ ok: false, message: "Could not search guild members." });
+  }
+});
+
 app.get("/owner/settings", requireAuth, requireOwner, async (req, res) => {
   try {
     const [settings, metadataDoc, creditPackPopularity] = await Promise.all([
@@ -5062,6 +5904,8 @@ app.post("/owner/settings", requireAuth, requireOwner, async (req, res) => {
       pricing: {
         credit_packs: parsePackRowsFromBody(req.body),
         subscription_plans: parsePlanRowsFromBody(req.body),
+        guild_credit_packs: parsePackRowsFromBody(req.body, "guild_pack"),
+        guild_subscription_plans: parsePlanRowsFromBody(req.body, "guild_plan"),
         translation_free_character_limit: req.body.translation_free_character_limit,
         translation_subscription_plans_guild: parseTranslationPlanRowsFromBody(req.body, "translation_plan_guild"),
         translation_subscription_plans_personal: parseTranslationPlanRowsFromBody(req.body, "translation_plan_personal"),
@@ -6088,7 +6932,15 @@ app.get("/dashboard/:guildId", requireAuth, async (req, res) => {
       guildIdCandidates.push(guildIdAsNumber);
     }
 
-    const [scheduledMessageDocs, guildTextChannels, moderationRowsRaw, monthlyTranslationUsageRaw, translationSubscriptionsRaw, guildDocRaw] = await Promise.all([
+    const [
+      scheduledMessageDocs,
+      guildTextChannels,
+      moderationRowsRaw,
+      monthlyTranslationUsageRaw,
+      translationSubscriptionsRaw,
+      aiGuildSubscriptionsRaw,
+      guildDocRaw,
+    ] = await Promise.all([
       scheduledMessagesCollection
         .find({ guild_id: snowflakeToLong(guildId) })
         .sort({ next_run_at: 1 })
@@ -6135,11 +6987,34 @@ app.get("/dashboard/:guildId", requireAuth, async (req, res) => {
         )
         .sort({ updated_at: -1 })
         .toArray(),
+      aiImageCreditSubscriptionsCollection
+        .find(
+          {
+            purchase_scope: "ai_guild",
+            guild_id: { $in: guildIdCandidates },
+            status: { $in: Array.from(getActiveSubscriptionStatusSet()) },
+          },
+          {
+            projection: {
+              stripe_subscription_id: 1,
+              plan_id: 1,
+              credits_per_month: 1,
+              status: 1,
+              cancel_at_period_end: 1,
+              current_period_end: 1,
+              updated_at: 1,
+            },
+          }
+        )
+        .sort({ updated_at: -1 })
+        .toArray(),
       guildsCollection.findOne(
         { guild_id: snowflakeToLong(guildId) },
         {
           projection: {
             guild_features: 1,
+            aiimagegenallowance: 1,
+            ai_image_credit_policy: 1,
           },
         }
       ),
@@ -6157,6 +7032,18 @@ app.get("/dashboard/:guildId", requireAuth, async (req, res) => {
       currentPeriodEnd: row.current_period_end || null,
       charactersPerMonth: Math.max(toSafeInt(row.characters_per_month), 0),
     }));
+
+    const aiGuildSubscriptions = (aiGuildSubscriptionsRaw || []).map((row) => ({
+      stripeSubscriptionId: String(row.stripe_subscription_id || "").trim(),
+      planId: String(row.plan_id || "").trim(),
+      status: String(row.status || "active").trim().toLowerCase(),
+      cancelAtPeriodEnd: Boolean(row.cancel_at_period_end),
+      currentPeriodEnd: row.current_period_end || null,
+      creditsPerMonth: Math.max(toSafeInt(row.credits_per_month), 0),
+    }));
+
+    const guildAiCreditPolicy = normalizeGuildAiCreditPolicy(guildDocRaw?.ai_image_credit_policy);
+    const guildAiCreditsBalance = Math.max(toSafeInt(guildDocRaw?.aiimagegenallowance), 0);
 
     const scheduledMessages = scheduledMessageDocs.map((row) => {
       const timezoneName = String(row.timezone_name || "UTC");
@@ -6257,6 +7144,16 @@ app.get("/dashboard/:guildId", requireAuth, async (req, res) => {
       translationSubscriptionPlans: getGuildTranslationSubscriptionPlans(),
       translationSubscriptions,
       translationStatus: String(req.query.translationSub || "").trim().toLowerCase(),
+      aiGuildSummary: {
+        balance: guildAiCreditsBalance,
+      },
+      aiGuildCreditPacks: getGuildCreditPacks(),
+      aiGuildSubscriptionPlans: getGuildSubscriptionPlans(),
+      aiGuildSubscriptions,
+      aiStatus: String(req.query.aiCredits || "").trim().toLowerCase(),
+      aiSubStatus: String(req.query.aiSub || "").trim().toLowerCase(),
+      aiPolicyStatus: String(req.query.aiPolicy || "").trim().toLowerCase(),
+      guildAiCreditPolicy,
       featureControls: buildGuildFeatureControls(guildFeatures, req.t),
       featureStatus: String(req.query.feature || "").trim().toLowerCase(),
       featureKey: String(req.query.feature_key || "").trim().toLowerCase(),

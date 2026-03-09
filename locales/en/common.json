@@ -70,7 +70,7 @@
     "scheduledMessagesHelp": "Create and manage automatic server messages. Choose a timezone per schedule.",
     "alerts": {
       "saved": "Configuration saved successfully.",
-      "imported": "Level preset imported successfully.",
+      "imported": "Settings imported successfully.",
       "wordsAdded": "Custom moderation word added.",
       "wordsRemoved": "Custom moderation word removed.",
       "wordsExists": "That custom moderation word is already on the list.",
@@ -115,12 +115,12 @@
       "saveLevels": "Save Levels"
     },
     "importExport": {
-      "title": "Import / Export Preset",
-      "subtitle": "Export this guild's level config to JSON or import a preset from another guild.",
+      "title": "Import/Export Settings",
+      "subtitle": "Export this guild's DiscoBot configuration to a file, or import a configuration file from another guild.",
       "exportJson": "Export JSON",
       "exampleTemplate": "Example Template",
       "copyCurrentJson": "Copy Current JSON",
-      "presetJson": "Preset JSON",
+      "presetJson": "Configuration JSON",
       "validateJson": "Validate JSON",
       "importJson": "Import JSON",
       "includeKeysHelp": "You can include all settings keys or only specific keys. Only included keys will be updated."
@@ -557,7 +557,7 @@
       "item2Label": "Translation Character Limit",
       "item2Body": "monitor usage + purchase translation subscriptions for guilds.",
       "item3Label": "Gamification Levels",
-      "item3Body": "edit level names/thresholds; import/export presets as JSON.",
+      "item3Body": "edit level names/thresholds; import/export configuration as JSON.",
       "item4Label": "Custom Moderation Words",
       "item4Body": "add/remove guild-specific blocked terms.",
       "item5Label": "Moderation Snapshot",

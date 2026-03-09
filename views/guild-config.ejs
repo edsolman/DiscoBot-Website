@@ -76,6 +76,42 @@
   <% if (translationStatus === 'error') { %>
     <div class="alert warning"><%= t('guildConfig.alerts.translationError', { defaultValue: 'Could not process translation subscription request. Please try again.' }) %></div>
   <% } %>
+  <% if (aiStatus === 'success') { %>
+    <div class="alert success">Guild AI credits purchased successfully.</div>
+  <% } %>
+  <% if (aiStatus === 'canceled') { %>
+    <div class="alert warning">Guild AI checkout was canceled.</div>
+  <% } %>
+  <% if (aiStatus === 'invalid_pack') { %>
+    <div class="alert warning">Please select a valid guild AI credit pack.</div>
+  <% } %>
+  <% if (aiStatus === 'error') { %>
+    <div class="alert warning">Could not process guild AI credit purchase. Please try again.</div>
+  <% } %>
+  <% if (aiSubStatus === 'success') { %>
+    <div class="alert success">Guild AI subscription started successfully.</div>
+  <% } %>
+  <% if (aiSubStatus === 'canceled') { %>
+    <div class="alert warning">Guild AI subscription checkout was canceled.</div>
+  <% } %>
+  <% if (aiSubStatus === 'invalid_plan') { %>
+    <div class="alert warning">Please select a valid guild AI subscription plan.</div>
+  <% } %>
+  <% if (aiSubStatus === 'no_subscription') { %>
+    <div class="alert warning">No active guild AI subscription found to manage.</div>
+  <% } %>
+  <% if (aiSubStatus === 'error') { %>
+    <div class="alert warning">Could not process guild AI subscription request. Please try again.</div>
+  <% } %>
+  <% if (aiPolicyStatus === 'saved') { %>
+    <div class="alert success">Guild AI member credit policy saved.</div>
+  <% } %>
+  <% if (aiPolicyStatus === 'invalid_member') { %>
+    <div class="alert warning">Select a valid guild member before saving an override.</div>
+  <% } %>
+  <% if (aiPolicyStatus === 'error') { %>
+    <div class="alert warning">Could not update guild AI member credit policy.</div>
+  <% } %>
   <% if (featureStatus === 'updated') { %>
     <div class="alert success"><%= t('guildConfig.alerts.featureUpdated', { defaultValue: 'Feature settings updated.' }) %></div>
   <% } %>
@@ -94,6 +130,145 @@
   <% if (featureStatus === 'updated' && featureCleanupStatus === 'failed') { %>
     <div class="alert warning"><%= t('guildConfig.alerts.featureCleanupFailed', { defaultValue: 'Feature was disabled, but channel cleanup failed.' }) %></div>
   <% } %>
+
+  <section class="panel">
+    <details class="settings-expander">
+      <summary class="settings-expander-summary">
+        <div class="settings-expander-summary-main">
+          <h2 class="section-icon-title">
+            <span class="section-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.8" />
+                <path d="M3 10h18" stroke="currentColor" stroke-width="1.8" />
+              </svg>
+            </span>
+            Guild AI Credits
+          </h2>
+          <p class="muted">Buy guild AI credit packs/subscriptions and control monthly member credit usage limits.</p>
+        </div>
+        <span class="schedule-expander-plus" aria-hidden="true">+</span>
+      </summary>
+      <div class="settings-expander-body">
+        <div class="purchase-list">
+          <div class="purchase-item">
+            <span class="muted">Current guild AI credits balance: <strong><%= Number(aiGuildSummary?.balance || 0).toLocaleString() %></strong></span>
+          </div>
+        </div>
+
+        <h3>Buy Guild AI Credit Pack</h3>
+        <% if (!aiGuildCreditPacks || aiGuildCreditPacks.length === 0) { %>
+          <p class="muted">No guild AI credit packs are configured yet.</p>
+        <% } else { %>
+          <form method="post" action="/dashboard/<%= guild.id %>/ai-credits/checkout" class="credits-packs">
+            <% (aiGuildCreditPacks || []).forEach((pack) => { %>
+              <button type="submit" name="pack_id" value="<%= pack.id %>" class="btn btn-primary tier-btn">
+                <span><%= pack.name %> · +<%= Number(pack.credits || 0).toLocaleString() %> credits · $<%= (Number(pack.unitAmountCents || 0) / 100).toFixed(2) %></span>
+              </button>
+            <% }) %>
+          </form>
+        <% } %>
+
+        <h3 style="margin-top: 14px;">Buy Guild AI Subscription</h3>
+        <% if (!aiGuildSubscriptionPlans || aiGuildSubscriptionPlans.length === 0) { %>
+          <p class="muted">No guild AI subscription plans are configured yet.</p>
+        <% } else { %>
+          <form method="post" action="/dashboard/<%= guild.id %>/ai-credits/subscribe" class="credits-packs">
+            <% (aiGuildSubscriptionPlans || []).forEach((plan) => { %>
+              <button type="submit" name="plan_id" value="<%= plan.id %>" class="btn btn-primary tier-btn">
+                <span><%= plan.name %> · +<%= Number(plan.creditsPerMonth || 0).toLocaleString() %>/month · $<%= (Number(plan.unitAmountCents || 0) / 100).toFixed(2) %></span>
+              </button>
+            <% }) %>
+          </form>
+        <% } %>
+
+        <% if (aiGuildSubscriptions && aiGuildSubscriptions.length > 0) { %>
+          <div class="purchase-list" style="margin-top: 12px;">
+            <% aiGuildSubscriptions.forEach((row) => { %>
+              <div class="purchase-item analytics-purchase-item">
+                <div>
+                  <strong><%= row.planId %></strong>
+                  <div class="muted">
+                    +<%= Number(row.creditsPerMonth || 0).toLocaleString() %>/month · Status: <%= row.status %>
+                    <% if (row.cancelAtPeriodEnd) { %>
+                      · Cancels at period end
+                    <% } %>
+                    <% if (row.currentPeriodEnd) { %>
+                      · Period end: <%= new Date(row.currentPeriodEnd).toLocaleString() %>
+                    <% } %>
+                  </div>
+                </div>
+                <div class="form-actions" style="margin:0;">
+                  <form method="post" action="/dashboard/<%= guild.id %>/ai-credits/subscription/manage">
+                    <input type="hidden" name="stripe_subscription_id" value="<%= row.stripeSubscriptionId %>" />
+                    <button type="submit" class="btn btn-ghost">Manage in Stripe</button>
+                  </form>
+                </div>
+              </div>
+            <% }) %>
+          </div>
+        <% } %>
+
+        <hr style="margin: 16px 0; border: 0; border-top: 1px solid rgba(255,255,255,0.12);" />
+
+        <h3>Member AI Credit Allocation</h3>
+        <p class="muted">Set a default monthly credit cap per guild member and optional per-member overrides.</p>
+
+        <form method="post" action="/dashboard/<%= guild.id %>/ai-credits/policy/default" class="level-rows">
+          <div class="level-row">
+            <label>
+              Default monthly credits per member
+              <input type="number" name="default_monthly_credits_per_member" min="0" value="<%= Number(guildAiCreditPolicy?.default_monthly_credits_per_member || 0) %>" required />
+            </label>
+            <div class="form-actions" style="align-self: end; margin: 0;">
+              <button type="submit" class="btn btn-primary">Save Default Limit</button>
+            </div>
+          </div>
+        </form>
+
+        <form method="post" action="/dashboard/<%= guild.id %>/ai-credits/policy/override/upsert" class="level-rows" id="aiMemberOverrideForm" style="margin-top:10px;">
+          <div class="level-row">
+            <label style="position:relative;">
+              Search member
+              <input type="text" id="aiMemberSearchInput" placeholder="Type at least 2 characters..." autocomplete="off" />
+              <div id="aiMemberSearchResults" class="member-search-results" style="position:absolute; left:0; right:0; z-index:20; margin-top:6px; max-height:240px; overflow:auto;" hidden></div>
+            </label>
+            <label>
+              Selected member ID
+              <input type="text" id="aiMemberIdDisplay" readonly placeholder="No member selected" />
+              <input type="hidden" name="member_user_id" id="aiMemberUserId" />
+              <input type="hidden" name="member_username" id="aiMemberUsername" />
+            </label>
+            <label>
+              Monthly credits for this member
+              <input type="number" name="member_monthly_credits_per_month" min="0" value="0" required />
+            </label>
+            <div class="form-actions" style="align-self: end; margin: 0;">
+              <button type="submit" class="btn btn-primary">Add/Update Override</button>
+            </div>
+          </div>
+        </form>
+
+        <% if (guildAiCreditPolicy && guildAiCreditPolicy.member_overrides && guildAiCreditPolicy.member_overrides.length > 0) { %>
+          <div class="purchase-list" style="margin-top: 10px;">
+            <% guildAiCreditPolicy.member_overrides.forEach((row) => { %>
+              <div class="purchase-item analytics-purchase-item">
+                <div>
+                  <strong><%= row.username %></strong>
+                  <div class="muted">User ID: <%= row.user_id %> · Monthly credits: <%= Number(row.monthly_credits_per_month || 0).toLocaleString() %></div>
+                </div>
+                <form method="post" action="/dashboard/<%= guild.id %>/ai-credits/policy/override/remove">
+                  <input type="hidden" name="member_user_id" value="<%= row.user_id %>" />
+                  <button type="submit" class="btn btn-ghost">Remove</button>
+                </form>
+              </div>
+            <% }) %>
+          </div>
+        <% } else { %>
+          <p class="muted">No member-specific overrides configured yet.</p>
+        <% } %>
+      </div>
+    </details>
+  </section>
 
   <section class="panel">
     <details class="settings-expander">
@@ -636,8 +811,8 @@
     <details class="settings-expander">
       <summary class="settings-expander-summary">
         <div class="settings-expander-summary-main">
-          <h2><%= t('guildConfig.importExport.title', { defaultValue: 'Import / Export Preset' }) %></h2>
-          <p class="muted"><%= t('guildConfig.importExport.subtitle', { defaultValue: "Export this guild's settings to JSON or import a JSON file with all settings or just selected sections." }) %></p>
+          <h2><%= t('guildConfig.importExport.title', { defaultValue: 'Import/Export Settings' }) %></h2>
+          <p class="muted"><%= t('guildConfig.importExport.subtitle', { defaultValue: "Export this guild's DiscoBot configuration to a file, or import a configuration file from another guild." }) %></p>
         </div>
         <span class="schedule-expander-plus" aria-hidden="true">+</span>
       </summary>
@@ -674,6 +849,11 @@
   const importJsonBtn = document.getElementById('importJsonBtn');
   const levelsJsonInput = document.getElementById('levelsJsonInput');
   const jsonValidationMessage = document.getElementById('jsonValidationMessage');
+  const aiMemberSearchInput = document.getElementById('aiMemberSearchInput');
+  const aiMemberSearchResults = document.getElementById('aiMemberSearchResults');
+  const aiMemberUserId = document.getElementById('aiMemberUserId');
+  const aiMemberUsername = document.getElementById('aiMemberUsername');
+  const aiMemberIdDisplay = document.getElementById('aiMemberIdDisplay');
 
   function validateSettingsPayload(rawText) {
     let parsed;
@@ -778,6 +958,110 @@
     importJsonBtn.disabled = true;
     jsonValidationMessage.classList.remove('validation-success', 'validation-error');
     jsonValidationMessage.textContent = 'Validation required after any edit.';
+  });
+
+  function clearMemberSearchResults() {
+    if (!aiMemberSearchResults) {
+      return;
+    }
+    aiMemberSearchResults.innerHTML = '';
+    aiMemberSearchResults.hidden = true;
+  }
+
+  function selectMemberResult(member) {
+    if (!member) {
+      return;
+    }
+
+    if (aiMemberUserId) {
+      aiMemberUserId.value = String(member.user_id || '');
+    }
+    if (aiMemberUsername) {
+      aiMemberUsername.value = String(member.username || '');
+    }
+    if (aiMemberIdDisplay) {
+      aiMemberIdDisplay.value = String(member.user_id || '');
+    }
+    if (aiMemberSearchInput) {
+      aiMemberSearchInput.value = `${String(member.username || member.user_id)} (${String(member.user_id || '')})`;
+    }
+
+    clearMemberSearchResults();
+  }
+
+  let aiMemberSearchDebounce = null;
+  aiMemberSearchInput?.addEventListener('input', () => {
+    const q = String(aiMemberSearchInput.value || '').trim();
+
+    if (aiMemberUserId) {
+      aiMemberUserId.value = '';
+    }
+    if (aiMemberUsername) {
+      aiMemberUsername.value = '';
+    }
+    if (aiMemberIdDisplay) {
+      aiMemberIdDisplay.value = '';
+    }
+
+    if (q.length < 2) {
+      clearMemberSearchResults();
+      return;
+    }
+
+    if (aiMemberSearchDebounce) {
+      clearTimeout(aiMemberSearchDebounce);
+    }
+
+    aiMemberSearchDebounce = setTimeout(async () => {
+      try {
+        const response = await fetch(`/dashboard/<%= guild.id %>/members/search?q=${encodeURIComponent(q)}`);
+        const payload = await response.json();
+        const members = Array.isArray(payload?.members) ? payload.members : [];
+
+        if (!aiMemberSearchResults) {
+          return;
+        }
+
+        aiMemberSearchResults.innerHTML = '';
+        if (members.length === 0) {
+          aiMemberSearchResults.hidden = true;
+          return;
+        }
+
+        members.slice(0, 10).forEach((member) => {
+          const row = document.createElement('button');
+          row.type = 'button';
+          row.className = 'btn btn-ghost';
+          row.style.width = '100%';
+          row.style.justifyContent = 'flex-start';
+          row.style.marginBottom = '4px';
+          row.textContent = `${String(member.username || member.user_id)} (${String(member.user_id || '')})`;
+          row.addEventListener('click', () => selectMemberResult(member));
+          aiMemberSearchResults.appendChild(row);
+        });
+
+        aiMemberSearchResults.hidden = false;
+      } catch {
+        clearMemberSearchResults();
+      }
+    }, 220);
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!aiMemberSearchResults || !aiMemberSearchInput) {
+      return;
+    }
+
+    const target = event.target;
+    if (!(target instanceof Element)) {
+      return;
+    }
+
+    if (target === aiMemberSearchInput || aiMemberSearchResults.contains(target)) {
+      return;
+    }
+
+    clearMemberSearchResults();
   });
 
   document.querySelectorAll('.feature-control-card').forEach((card) => {
