@@ -66,7 +66,7 @@
 
   const navToggleButton = document.getElementById("navToggleButton");
   const siteNavLinks = document.getElementById("siteNavLinks");
-  const mobileBreakpointPx = 768;
+  const mobileBreakpointPx = 1024;
 
   if (navToggleButton && siteNavLinks) {
     const closeNavMenu = () => {
@@ -118,7 +118,33 @@
 
   const detailMenus = Array.from(document.querySelectorAll("details.lang-menu, details.user-menu, details.owner-menu"));
   if (detailMenus.length > 0) {
+    const enforceMobileOwnerMenuLayout = () => {
+      if (window.innerWidth > mobileBreakpointPx) {
+        return;
+      }
+
+      document.querySelectorAll("details.owner-menu .owner-menu-list").forEach((menuList) => {
+        if (!(menuList instanceof HTMLElement)) {
+          return;
+        }
+
+        menuList.style.position = "static";
+        menuList.style.top = "auto";
+        menuList.style.right = "auto";
+        menuList.style.left = "auto";
+        menuList.style.transform = "none";
+        menuList.style.width = "100%";
+        menuList.style.maxWidth = "100%";
+      });
+    };
+
+    enforceMobileOwnerMenuLayout();
+
     detailMenus.forEach((menu) => {
+      menu.addEventListener("toggle", () => {
+        enforceMobileOwnerMenuLayout();
+      });
+
       const menuLinks = menu.querySelectorAll("a, button");
       menuLinks.forEach((link) => {
         link.addEventListener("click", () => {
@@ -147,6 +173,37 @@
 
       detailMenus.forEach((menu) => {
         menu.removeAttribute("open");
+      });
+    });
+
+    window.addEventListener("resize", () => {
+      enforceMobileOwnerMenuLayout();
+    });
+  }
+
+  const mobileDetailsMenus = Array.from(
+    document.querySelectorAll("details.mobile-language-details, details.mobile-owner-details")
+  );
+  if (mobileDetailsMenus.length > 0) {
+    mobileDetailsMenus.forEach((menu) => {
+      const summary = menu.querySelector("summary");
+      if (!(summary instanceof HTMLElement)) {
+        return;
+      }
+
+      summary.addEventListener("click", (event) => {
+        if (window.innerWidth > 1024) {
+          return;
+        }
+
+        // Force deterministic toggle behavior on mobile Safari/Chromium.
+        event.preventDefault();
+        const isOpen = menu.hasAttribute("open");
+        if (isOpen) {
+          menu.removeAttribute("open");
+        } else {
+          menu.setAttribute("open", "");
+        }
       });
     });
   }
@@ -182,9 +239,13 @@
   };
 
   const isIos = /iphone|ipad|ipod/i.test(window.navigator.userAgent || "");
+  const isAndroid = /android/i.test(window.navigator.userAgent || "");
   const isStandalone =
     window.matchMedia("(display-mode: standalone)").matches ||
     window.navigator.standalone === true;
+  const hostname = String(window.location.hostname || "").toLowerCase();
+  const isLocalhostHost = hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1";
+  const isSecureInstallContext = Boolean(window.isSecureContext || isLocalhostHost);
 
   window.addEventListener("beforeinstallprompt", (event) => {
     event.preventDefault();
@@ -212,6 +273,18 @@
       if (isIos && !isStandalone && installHint) {
         installHint.hidden = false;
         installHint.textContent = text.pwaIosInstallHint;
+        return;
+      }
+
+      if (!isSecureInstallContext && installHint) {
+        installHint.hidden = false;
+        installHint.textContent = "Install prompt needs HTTPS on Android/Chromium. For local testing use localhost on this device, or publish with HTTPS.";
+        return;
+      }
+
+      if (isAndroid && installHint) {
+        installHint.hidden = false;
+        installHint.textContent = "Install prompt is not ready yet. Open the site once, then use browser menu > Install app/Add to Home screen.";
         return;
       }
 

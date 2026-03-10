@@ -16,6 +16,7 @@ require("dotenv").config();
 
 const {
   PORT = "3000",
+  HOST,
   SESSION_SECRET,
   MONGODB_URI,
   SUPPORT_EMAIL,
@@ -26,6 +27,32 @@ const {
   DISCORD_BOT_USER_ID,
   DISCORD_BOT_OWNER_ID,
 } = process.env;
+
+function parseBooleanEnv(value, fallback = false) {
+  if (value === undefined || value === null || value === "") {
+    return fallback;
+  }
+
+  const normalized = String(value).trim().toLowerCase();
+  if (["1", "true", "yes", "on"].includes(normalized)) {
+    return true;
+  }
+  if (["0", "false", "no", "off"].includes(normalized)) {
+    return false;
+  }
+  return fallback;
+}
+
+const NODE_ENV = String(process.env.NODE_ENV || "development").trim().toLowerCase();
+const IS_PRODUCTION = NODE_ENV === "production";
+const SERVER_HOST = String(HOST || process.env.SERVER_HOST || "0.0.0.0").trim() || "0.0.0.0";
+const TRUST_PROXY = parseBooleanEnv(process.env.TRUST_PROXY, IS_PRODUCTION);
+const SESSION_COOKIE_SECURE = parseBooleanEnv(process.env.SESSION_COOKIE_SECURE, IS_PRODUCTION);
+const PUBLIC_BASE_URL = String(process.env.PUBLIC_BASE_URL || process.env.WEBSITE_BASE_URL || "")
+  .trim()
+  .replace(/\/$/, "");
+const LOCAL_FALLBACK_HOST = SERVER_HOST === "0.0.0.0" ? "localhost" : SERVER_HOST;
+const WEBSITE_BASE_URL = String(PUBLIC_BASE_URL || `http://${LOCAL_FALLBACK_HOST}:${PORT}`).replace(/\/$/, "");
 
 const requiredVars = [
   "SESSION_SECRET",
@@ -47,7 +74,6 @@ for (const key of requiredVars) {
 const DISCORD_API_BASE = "https://discord.com/api/v10";
 const OAUTH_SCOPES = ["identify", "guilds"];
 const ADMINISTRATOR_BIT = 0x8n;
-const WEBSITE_BASE_URL = String(process.env.WEBSITE_BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, "");
 const SUPPORT_EMAIL_ADDRESS = String(SUPPORT_EMAIL || "").trim();
 const STRIPE_SECRET_KEY = String(process.env.STRIPE_SECRET_KEY || "").trim();
 const STRIPE_WEBHOOK_SECRET = String(process.env.STRIPE_WEBHOOK_SECRET || "").trim();
@@ -172,6 +198,10 @@ let translationCharacterUserUsageCollection;
 let ownerSettingsCache = JSON.parse(JSON.stringify(DEFAULT_OWNER_SETTINGS));
 
 const app = express();
+if (TRUST_PROXY) {
+  app.set("trust proxy", 1);
+}
+
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
@@ -348,7 +378,7 @@ app.use(
     cookie: {
       httpOnly: true,
       sameSite: "lax",
-      secure: false,
+      secure: SESSION_COOKIE_SECURE,
       maxAge: 1000 * 60 * 60 * 24 * 7,
     },
   })
@@ -1305,6 +1335,30 @@ async function getGuildMonthlyTranslationCharacterUsage(guildId) {
   return Math.max(toSafeInt(usageDoc?.translation_character_count), 0);
 }
 
+async function getGuildMonthlyAiImageUsage(guildId) {
+  const { year, month } = getCurrentUtcYearMonth();
+  const guildIdAsNumber = Number.parseInt(String(guildId), 10);
+  const guildIdCandidates = [snowflakeToLong(guildId), String(guildId)];
+  if (Number.isFinite(guildIdAsNumber)) {
+    guildIdCandidates.push(guildIdAsNumber);
+  }
+
+  const usageDoc = await db.collection("guild_data").findOne(
+    {
+      guild_id: { $in: guildIdCandidates },
+      year,
+      month,
+    },
+    {
+      projection: {
+        ai_image_gen_count: 1,
+      },
+    }
+  );
+
+  return Math.max(toSafeInt(usageDoc?.ai_image_gen_count), 0);
+}
+
 async function recomputeGuildTranslationCharacterAllowance(guildId) {
   const guildIdAsNumber = Number.parseInt(String(guildId), 10);
   const guildIdCandidates = [snowflakeToLong(guildId), String(guildId)];
@@ -1536,6 +1590,88 @@ async function reconcileUserSubscriptionStatuses(userId) {
     }
 
     await aiImageCreditSubscriptionsCollection.updateOne(
+      { stripe_subscription_id: subscriptionId },
+      {
+        $set: {
+          status: liveStatus,
+          cancel_at_period_end: cancelAtPeriodEnd,
+          current_period_end: currentPeriodEndDate,
+          canceled_at: canceledAtDate,
+          updated_at: new Date(),
+        },
+      }
+    );
+  }
+}
+
+async function reconcilePersonalTranslationSubscriptionStatuses(userId) {
+  if (!stripe) {
+    return;
+  }
+
+  const userSnowflake = snowflakeToLong(userId);
+  const localActiveSubs = await translationCharacterSubscriptionsCollection
+    .find(
+      {
+        purchase_scope: "translation_user_personal",
+        user_id: userSnowflake,
+        status: { $in: ["active", "trialing", "past_due", "unpaid"] },
+      },
+      {
+        projection: {
+          stripe_subscription_id: 1,
+          status: 1,
+          cancel_at_period_end: 1,
+          current_period_end: 1,
+        },
+      }
+    )
+    .toArray();
+
+  for (const row of localActiveSubs) {
+    const subscriptionId = String(row?.stripe_subscription_id || "").trim();
+    if (!subscriptionId) {
+      continue;
+    }
+
+    let liveStatus = "";
+    let cancelAtPeriodEnd = false;
+    let canceledAtDate = null;
+    let currentPeriodEndDate = null;
+    try {
+      const remoteSubscription = await stripe.subscriptions.retrieve(subscriptionId);
+      liveStatus = String(remoteSubscription?.status || "").trim().toLowerCase();
+      cancelAtPeriodEnd = Boolean(remoteSubscription?.cancel_at_period_end);
+      canceledAtDate = remoteSubscription?.canceled_at
+        ? new Date(Number(remoteSubscription.canceled_at) * 1000)
+        : null;
+      currentPeriodEndDate = remoteSubscription?.current_period_end
+        ? new Date(Number(remoteSubscription.current_period_end) * 1000)
+        : null;
+    } catch (error) {
+      const statusCode = Number(error?.statusCode || error?.raw?.statusCode || 0);
+      if (statusCode === 404) {
+        liveStatus = "canceled";
+      } else {
+        continue;
+      }
+    }
+
+    const storedStatus = String(row?.status || "").trim().toLowerCase();
+    const storedCancelAtPeriodEnd = Boolean(row?.cancel_at_period_end);
+    const storedCurrentPeriodEndMs = row?.current_period_end ? new Date(row.current_period_end).getTime() : 0;
+    const liveCurrentPeriodEndMs = currentPeriodEndDate ? currentPeriodEndDate.getTime() : 0;
+
+    if (
+      !liveStatus ||
+      (liveStatus === storedStatus &&
+        storedCancelAtPeriodEnd === cancelAtPeriodEnd &&
+        storedCurrentPeriodEndMs === liveCurrentPeriodEndMs)
+    ) {
+      continue;
+    }
+
+    await translationCharacterSubscriptionsCollection.updateOne(
       { stripe_subscription_id: subscriptionId },
       {
         $set: {
@@ -1784,6 +1920,81 @@ async function fulfillStripeCheckoutSession(checkoutSession) {
     return Math.max(Number.parseInt(String(credits || "0"), 10) || 0, 0);
   }
 
+  async function incrementGuildAiAllowanceCredits({ guildId, guildName, userId, credits, now = new Date() }) {
+    const safeCredits = Math.max(Number.parseInt(String(credits || "0"), 10) || 0, 0);
+    if (!guildId || !userId || safeCredits <= 0) {
+      return;
+    }
+
+    await guildsCollection.updateOne(
+      { guild_id: snowflakeToLong(guildId) },
+      {
+        $set: {
+          guild_id: snowflakeToLong(guildId),
+          guild_name: guildName,
+          updated_at: now,
+        },
+        $inc: {
+          aiimagegenallowance: safeCredits,
+        },
+        $setOnInsert: {
+          created_at: now,
+          sku: "Free",
+          translationallowance: 500,
+          translationcharacterallowance: getTranslationFreeCharacterLimit(),
+          installer_user_id: userId,
+        },
+      },
+      { upsert: true }
+    );
+  }
+
+  async function upsertAiGuildCreditPurchase({
+    idempotencyFilter,
+    stripeSessionId = "",
+    stripeInvoiceId = "",
+    stripeSubscriptionId = "",
+    guildId,
+    guildName,
+    userId,
+    username,
+    credits,
+    packId,
+    paymentType,
+    amountTotalCents,
+    currency,
+    discountCode,
+    discountCents,
+    now = new Date(),
+  }) {
+    return aiImageCreditPurchasesCollection.updateOne(
+      idempotencyFilter,
+      {
+        $setOnInsert: {
+          stripe_session_id: stripeSessionId || undefined,
+          stripe_invoice_id: stripeInvoiceId || undefined,
+          stripe_subscription_id: stripeSubscriptionId || undefined,
+          purchase_scope: "ai_guild",
+          guild_id: snowflakeToLong(guildId),
+          guild_name: guildName,
+          user_id: snowflakeToLong(userId),
+          username,
+          credits,
+          pack_id: packId,
+          payment_provider: "stripe",
+          payment_status: "completed",
+          payment_type: paymentType,
+          amount_total_cents: Number(amountTotalCents || 0),
+          currency: String(currency || "usd"),
+          discount_code: String(discountCode || ""),
+          discount_cents: Math.max(Number.parseInt(String(discountCents || "0"), 10) || 0, 0),
+          created_at: now,
+        },
+      },
+      { upsert: true }
+    );
+  }
+
   if (checkoutSession.mode === "subscription") {
     const metadata = checkoutSession.metadata || {};
     if (String(metadata.purchase_scope || "").trim().toLowerCase() === "ai_guild") {
@@ -1829,55 +2040,33 @@ async function fulfillStripeCheckoutSession(checkoutSession) {
         { upsert: true }
       );
 
-      const purchaseResult = await aiImageCreditPurchasesCollection.updateOne(
-        { stripe_session_id: String(checkoutSession.id || "") },
-        {
-          $setOnInsert: {
-            stripe_session_id: String(checkoutSession.id || "") || undefined,
-            stripe_invoice_id: String(checkoutSession.invoice || "") || undefined,
-            stripe_subscription_id: stripeSubscriptionId,
-            purchase_scope: "ai_guild",
-            guild_id: snowflakeToLong(guildId),
-            guild_name: guildName,
-            user_id: snowflakeToLong(userId),
-            username,
-            credits: plan.creditsPerMonth,
-            pack_id: plan.id,
-            payment_provider: "stripe",
-            payment_status: "completed",
-            payment_type: "subscription_initial",
-            amount_total_cents: Number(checkoutSession.amount_total || 0),
-            currency: String(checkoutSession.currency || "usd"),
-            discount_code: String(discountCode || ""),
-            discount_cents: discountCents,
-            created_at: now,
-          },
-        },
-        { upsert: true }
-      );
+      const purchaseResult = await upsertAiGuildCreditPurchase({
+        idempotencyFilter: { stripe_session_id: String(checkoutSession.id || "") },
+        stripeSessionId: String(checkoutSession.id || ""),
+        stripeInvoiceId: String(checkoutSession.invoice || ""),
+        stripeSubscriptionId,
+        guildId,
+        guildName,
+        userId,
+        username,
+        credits: plan.creditsPerMonth,
+        packId: plan.id,
+        paymentType: "subscription_initial",
+        amountTotalCents: Number(checkoutSession.amount_total || 0),
+        currency: String(checkoutSession.currency || "usd"),
+        discountCode,
+        discountCents,
+        now,
+      });
 
       if (purchaseResult.upsertedCount > 0 && checkoutSession.payment_status === "paid") {
-        await guildsCollection.updateOne(
-          { guild_id: snowflakeToLong(guildId) },
-          {
-            $set: {
-              guild_id: snowflakeToLong(guildId),
-              guild_name: guildName,
-              updated_at: now,
-            },
-            $inc: {
-              aiimagegenallowance: plan.creditsPerMonth,
-            },
-            $setOnInsert: {
-              created_at: now,
-              sku: "Free",
-              translationallowance: 500,
-              translationcharacterallowance: getTranslationFreeCharacterLimit(),
-              installer_user_id: userId,
-            },
-          },
-          { upsert: true }
-        );
+        await incrementGuildAiAllowanceCredits({
+          guildId,
+          guildName,
+          userId,
+          credits: plan.creditsPerMonth,
+          now,
+        });
       }
 
       return 0;
@@ -1950,6 +2139,73 @@ async function fulfillStripeCheckoutSession(checkoutSession) {
       );
 
       await recomputeGuildTranslationCharacterAllowance(guildId);
+      return 0;
+    }
+
+    if (String(metadata.purchase_scope || "").trim().toLowerCase() === "translation_user_personal") {
+      const stripeSubscriptionId = String(checkoutSession.subscription || "").trim();
+      const userId = String(metadata.user_id || "").trim();
+      const username = String(metadata.username || "Unknown").trim() || "Unknown";
+      const plan = normalizeTranslationSubscriptionPlanId(metadata.translation_plan_id, "translation_user_personal");
+      const discountCode = normalizeDiscountCode(metadata.discount_code);
+      const discountCents = Math.max(Number.parseInt(String(metadata.discount_cents || "0"), 10) || 0, 0);
+
+      if (!stripeSubscriptionId || !userId || !plan) {
+        return 0;
+      }
+
+      const now = new Date();
+
+      await translationCharacterSubscriptionsCollection.updateOne(
+        { stripe_subscription_id: stripeSubscriptionId },
+        {
+          $set: {
+            stripe_subscription_id: stripeSubscriptionId,
+            stripe_customer_id: String(checkoutSession.customer || ""),
+            purchase_scope: "translation_user_personal",
+            user_id: snowflakeToLong(userId),
+            username,
+            plan_id: plan.id,
+            characters_per_month: plan.charactersPerMonth,
+            status: "active",
+            cancel_at_period_end: false,
+            current_period_end: checkoutSession.expires_at
+              ? new Date(Number(checkoutSession.expires_at) * 1000)
+              : null,
+            updated_at: now,
+          },
+          $setOnInsert: {
+            created_at: now,
+          },
+        },
+        { upsert: true }
+      );
+
+      await translationCharacterPurchasesCollection.updateOne(
+        { stripe_session_id: String(checkoutSession.id || "") },
+        {
+          $setOnInsert: {
+            stripe_session_id: String(checkoutSession.id || "") || undefined,
+            stripe_invoice_id: String(checkoutSession.invoice || "") || undefined,
+            stripe_subscription_id: stripeSubscriptionId,
+            purchase_scope: "translation_user_personal",
+            user_id: snowflakeToLong(userId),
+            username,
+            plan_id: plan.id,
+            characters_per_month: plan.charactersPerMonth,
+            payment_provider: "stripe",
+            payment_status: "completed",
+            payment_type: "subscription_initial",
+            amount_total_cents: Number(checkoutSession.amount_total || 0),
+            currency: String(checkoutSession.currency || "usd"),
+            discount_code: String(discountCode || ""),
+            discount_cents: discountCents,
+            created_at: now,
+          },
+        },
+        { upsert: true }
+      );
+
       return 0;
     }
 
@@ -2041,53 +2297,31 @@ async function fulfillStripeCheckoutSession(checkoutSession) {
     }
 
     const now = new Date();
-    const purchaseResult = await aiImageCreditPurchasesCollection.updateOne(
-      { stripe_session_id: sessionId },
-      {
-        $setOnInsert: {
-          stripe_session_id: sessionId,
-          guild_id: snowflakeToLong(guildId),
-          guild_name: guildName,
-          user_id: snowflakeToLong(userId),
-          username,
-          purchase_scope: "ai_guild",
-          credits: pack.credits,
-          pack_id: pack.id,
-          payment_provider: "stripe",
-          payment_status: "completed",
-          payment_type: "one_time",
-          amount_total_cents: paidAmount,
-          currency: String(checkoutSession.currency || "usd"),
-          discount_code: String(discountCode || ""),
-          discount_cents: discountCents,
-          created_at: now,
-        },
-      },
-      { upsert: true }
-    );
+    const purchaseResult = await upsertAiGuildCreditPurchase({
+      idempotencyFilter: { stripe_session_id: sessionId },
+      stripeSessionId: sessionId,
+      guildId,
+      guildName,
+      userId,
+      username,
+      credits: pack.credits,
+      packId: pack.id,
+      paymentType: "one_time",
+      amountTotalCents: paidAmount,
+      currency: String(checkoutSession.currency || "usd"),
+      discountCode,
+      discountCents,
+      now,
+    });
 
     if (purchaseResult.upsertedCount > 0) {
-      await guildsCollection.updateOne(
-        { guild_id: snowflakeToLong(guildId) },
-        {
-          $set: {
-            guild_id: snowflakeToLong(guildId),
-            guild_name: guildName,
-            updated_at: now,
-          },
-          $inc: {
-            aiimagegenallowance: pack.credits,
-          },
-          $setOnInsert: {
-            created_at: now,
-            sku: "Free",
-            translationallowance: 500,
-            translationcharacterallowance: getTranslationFreeCharacterLimit(),
-            installer_user_id: userId,
-          },
-        },
-        { upsert: true }
-      );
+      await incrementGuildAiAllowanceCredits({
+        guildId,
+        guildName,
+        userId,
+        credits: pack.credits,
+        now,
+      });
     }
 
     return 0;
@@ -2185,31 +2419,23 @@ async function fulfillStripeSubscriptionInvoice(invoice) {
 
     const now = new Date();
 
-    const recurringIdempotencyResult = await aiImageCreditPurchasesCollection.updateOne(
-      { stripe_invoice_id: invoiceId },
-      {
-        $setOnInsert: {
-          stripe_invoice_id: invoiceId,
-          stripe_subscription_id: stripeSubscriptionId,
-          purchase_scope: "ai_guild",
-          guild_id: snowflakeToLong(guildId),
-          guild_name: guildName,
-          user_id: snowflakeToLong(userId),
-          username,
-          credits: plan.creditsPerMonth,
-          pack_id: plan.id,
-          payment_provider: "stripe",
-          payment_status: "completed",
-          payment_type: "subscription_cycle",
-          amount_total_cents: Number(invoice.amount_paid || 0),
-          currency: String(invoice.currency || "usd"),
-          discount_code: String(discountCode || ""),
-          discount_cents: discountCents,
-          created_at: now,
-        },
-      },
-      { upsert: true }
-    );
+    const recurringIdempotencyResult = await upsertAiGuildCreditPurchase({
+      idempotencyFilter: { stripe_invoice_id: invoiceId },
+      stripeInvoiceId: invoiceId,
+      stripeSubscriptionId,
+      guildId,
+      guildName,
+      userId,
+      username,
+      credits: plan.creditsPerMonth,
+      packId: plan.id,
+      paymentType: "subscription_cycle",
+      amountTotalCents: Number(invoice.amount_paid || 0),
+      currency: String(invoice.currency || "usd"),
+      discountCode,
+      discountCents,
+      now,
+    });
 
     await aiImageCreditSubscriptionsCollection.updateOne(
       { stripe_subscription_id: stripeSubscriptionId },
@@ -2234,27 +2460,13 @@ async function fulfillStripeSubscriptionInvoice(invoice) {
     );
 
     if (recurringIdempotencyResult.upsertedCount > 0) {
-      await guildsCollection.updateOne(
-        { guild_id: snowflakeToLong(guildId) },
-        {
-          $set: {
-            guild_id: snowflakeToLong(guildId),
-            guild_name: guildName,
-            updated_at: now,
-          },
-          $inc: {
-            aiimagegenallowance: plan.creditsPerMonth,
-          },
-          $setOnInsert: {
-            created_at: now,
-            sku: "Free",
-            translationallowance: 500,
-            translationcharacterallowance: getTranslationFreeCharacterLimit(),
-            installer_user_id: userId,
-          },
-        },
-        { upsert: true }
-      );
+      await incrementGuildAiAllowanceCredits({
+        guildId,
+        guildName,
+        userId,
+        credits: plan.creditsPerMonth,
+        now,
+      });
     }
 
     return 0;
@@ -2661,6 +2873,7 @@ async function getUserRecentWebGenerations(userId, limit = 10) {
           prompt: 1,
           mode: 1,
           model: 1,
+          source: 1,
           created_at: 1,
         },
       }
@@ -2674,6 +2887,7 @@ async function getUserRecentWebGenerations(userId, limit = 10) {
     prompt: String(row?.prompt || ""),
     mode: String(row?.mode || "text"),
     model: String(row?.model || OPENAI_IMAGE_MODEL),
+    source: String(row?.source || "website").trim().toLowerCase(),
     createdAt: row?.created_at || null,
   }));
 }
@@ -4523,7 +4737,10 @@ async function renderMySubscriptionsPage(req, res) {
     const creditPackPopularity = await getCreditPackPopularityData();
 
     await migrateLegacyUserCreditsToGlobalWallet(req.session.user.id, username);
-    await reconcileUserSubscriptionStatuses(req.session.user.id);
+    await Promise.all([
+      reconcileUserSubscriptionStatuses(req.session.user.id),
+      reconcilePersonalTranslationSubscriptionStatuses(req.session.user.id),
+    ]);
 
     const [summary, purchases, subscriptions, personalTranslationSubscriptions, translationPurchases, personalTranslationUsage, personalTranslationAllowance] = await Promise.all([
       getUserAiImageCreditsSummary(req.session.user.id),
@@ -4629,7 +4846,6 @@ app.get("/credits", requireAuth, (req, res) => {
 
 app.get("/ai-image-generation", requireAuth, async (req, res) => {
   try {
-    const guilds = await buildGuildAccessModel(req.session.discord.accessToken, req.session.user.id);
     const username = String(req.session.user.globalName || req.session.user.username || "Unknown");
 
     await migrateLegacyUserCreditsToGlobalWallet(req.session.user.id, username);
@@ -4641,7 +4857,6 @@ app.get("/ai-image-generation", requireAuth, async (req, res) => {
 
     return res.render("ai-image-generation", {
       title: req.t("credits.generate.title", { defaultValue: "Generate AI Image on Website" }),
-      guilds,
       summary,
       generationStatus: String(req.query.generate || "").trim().toLowerCase(),
       recentWebGenerations,
@@ -4655,9 +4870,18 @@ app.get("/ai-image-generation", requireAuth, async (req, res) => {
 });
 
 app.post(["/credits/generate-image", "/ai-image-generation/generate-image"], requireAuth, aiImageUpload.single("source_image"), async (req, res) => {
+  const prefersJson = String(req.get("x-discobot-ajax") || "").trim() === "1";
+  const respondGenerationStatus = (status, extra = {}) => {
+    if (prefersJson) {
+      const code = status === "success" ? 200 : 400;
+      return res.status(code).json({ ok: status === "success", status, ...extra });
+    }
+    return res.redirect(`/ai-image-generation?generate=${status}`);
+  };
+
   try {
     if (!openai) {
-      return res.redirect("/ai-image-generation?generate=unavailable");
+      return respondGenerationStatus("unavailable");
     }
 
     const username = String(req.session.user.globalName || req.session.user.username || "Unknown");
@@ -4675,18 +4899,18 @@ app.post(["/credits/generate-image", "/ai-image-generation/generate-image"], req
     void ignoredGuildContext;
 
     if (!prompt) {
-      return res.redirect("/ai-image-generation?generate=invalid_prompt");
+      return respondGenerationStatus("invalid_prompt");
     }
 
     if (generationMode === "edit" && !req.file) {
-      return res.redirect("/ai-image-generation?generate=invalid_image");
+      return respondGenerationStatus("invalid_image");
     }
 
     await migrateLegacyUserCreditsToGlobalWallet(req.session.user.id, username);
 
     const creditConsumeResult = await consumeUserAiImageCredit(req.session.user.id, username);
     if (!creditConsumeResult.consumed) {
-      return res.redirect("/ai-image-generation?generate=no_credits");
+      return respondGenerationStatus("no_credits");
     }
 
     let generatedImageBuffer;
@@ -4703,10 +4927,11 @@ app.post(["/credits/generate-image", "/ai-image-generation/generate-image"], req
       }
     } catch (error) {
       await refundUserAiImageCredit(req.session.user.id, username);
-      return res.redirect("/ai-image-generation?generate=failed");
+      return respondGenerationStatus("failed");
     }
 
-    await aiImageWebGenerationsCollection.insertOne({
+    const createdAt = new Date();
+    const insertResult = await aiImageWebGenerationsCollection.insertOne({
       user_id: snowflakeToLong(req.session.user.id),
       username,
       prompt,
@@ -4715,11 +4940,23 @@ app.post(["/credits/generate-image", "/ai-image-generation/generate-image"], req
       model: OPENAI_IMAGE_MODEL,
       image_mime_type: "image/png",
       image_data: generatedImageBuffer,
-      created_at: new Date(),
+      created_at: createdAt,
     });
 
-    return res.redirect("/ai-image-generation?generate=success");
+    return respondGenerationStatus("success", {
+      entry: {
+        id: String(insertResult.insertedId || ""),
+        prompt,
+        mode: generationMode,
+        model: OPENAI_IMAGE_MODEL,
+        source: "website",
+        createdAt: createdAt.toISOString(),
+      },
+    });
   } catch (error) {
+    if (prefersJson) {
+      return res.status(500).json({ ok: false, status: "failed" });
+    }
     return res.redirect("/ai-image-generation?generate=failed");
   }
 });
@@ -4844,22 +5081,37 @@ app.post("/credits/subscription/backfill", requireAuth, async (req, res) => {
       return res.redirect(`/my-account?backfill=already_applied&backfill_credits=0`);
     }
 
-    const subscriptionRecords = await aiImageCreditSubscriptionsCollection
-      .find(
-        {
-          user_id: snowflakeToLong(userId),
-        },
-        {
-          projection: {
-            stripe_subscription_id: 1,
+    const [aiSubscriptionRecords, translationSubscriptionRecords] = await Promise.all([
+      aiImageCreditSubscriptionsCollection
+        .find(
+          {
+            user_id: snowflakeToLong(userId),
           },
-        }
-      )
-      .toArray();
+          {
+            projection: {
+              stripe_subscription_id: 1,
+            },
+          }
+        )
+        .toArray(),
+      translationCharacterSubscriptionsCollection
+        .find(
+          {
+            purchase_scope: "translation_user_personal",
+            user_id: snowflakeToLong(userId),
+          },
+          {
+            projection: {
+              stripe_subscription_id: 1,
+            },
+          }
+        )
+        .toArray(),
+    ]);
 
     const stripeSubscriptionIds = Array.from(
       new Set(
-        (subscriptionRecords || [])
+        [...(aiSubscriptionRecords || []), ...(translationSubscriptionRecords || [])]
           .map((row) => String(row?.stripe_subscription_id || "").trim())
           .filter(Boolean)
       )
@@ -4869,10 +5121,20 @@ app.post("/credits/subscription/backfill", requireAuth, async (req, res) => {
     const processedInvoiceIds = new Set();
 
     for (const stripeSubscriptionId of stripeSubscriptionIds) {
-      const invoiceList = await stripe.invoices.list({
-        subscription: stripeSubscriptionId,
-        limit: 25,
-      });
+      let invoiceList;
+      try {
+        invoiceList = await stripe.invoices.list({
+          subscription: stripeSubscriptionId,
+          limit: 25,
+        });
+      } catch (error) {
+        console.error("[WARN] Backfill invoice listing failed", {
+          stripeSubscriptionId,
+          userId,
+          message: error?.message,
+        });
+        continue;
+      }
 
       const paidInvoices = (invoiceList.data || []).filter(
         (invoice) => invoice && (invoice.paid === true || String(invoice.status || "") === "paid")
@@ -4884,7 +5146,16 @@ app.post("/credits/subscription/backfill", requireAuth, async (req, res) => {
           continue;
         }
         processedInvoiceIds.add(invoiceId);
-        creditedAmount += await fulfillStripeSubscriptionInvoice(invoice);
+        try {
+          creditedAmount += await fulfillStripeSubscriptionInvoice(invoice);
+        } catch (error) {
+          console.error("[WARN] Backfill invoice fulfillment failed", {
+            stripeSubscriptionId,
+            invoiceId,
+            userId,
+            message: error?.message,
+          });
+        }
       }
     }
 
@@ -4899,7 +5170,14 @@ app.post("/credits/subscription/backfill", requireAuth, async (req, res) => {
 
       const sessions = Array.isArray(sessionList?.data) ? sessionList.data : [];
       for (const session of sessions) {
-        if (!session || String(session.mode || "") !== "payment" || String(session.payment_status || "") !== "paid") {
+        if (!session) {
+          continue;
+        }
+
+        const mode = String(session.mode || "").trim().toLowerCase();
+        const isPaidPayment = mode === "payment" && String(session.payment_status || "") === "paid";
+        const isSubscriptionCheckout = mode === "subscription";
+        if (!isPaidPayment && !isSubscriptionCheckout) {
           continue;
         }
 
@@ -4908,7 +5186,16 @@ app.post("/credits/subscription/backfill", requireAuth, async (req, res) => {
           continue;
         }
 
-        creditedAmount += await fulfillStripeCheckoutSession(session);
+        try {
+          creditedAmount += await fulfillStripeCheckoutSession(session);
+        } catch (error) {
+          console.error("[WARN] Backfill checkout fulfillment failed", {
+            sessionId: String(session.id || ""),
+            mode,
+            userId,
+            message: error?.message,
+          });
+        }
       }
 
       hasMore = Boolean(sessionList?.has_more);
@@ -6937,6 +7224,7 @@ app.get("/dashboard/:guildId", requireAuth, async (req, res) => {
       guildTextChannels,
       moderationRowsRaw,
       monthlyTranslationUsageRaw,
+      monthlyAiImageUsageRaw,
       translationSubscriptionsRaw,
       aiGuildSubscriptionsRaw,
       guildDocRaw,
@@ -6967,6 +7255,7 @@ app.get("/dashboard/:guildId", requireAuth, async (req, res) => {
         .limit(400)
         .toArray(),
       getGuildMonthlyTranslationCharacterUsage(guildId),
+      getGuildMonthlyAiImageUsage(guildId),
       translationCharacterSubscriptionsCollection
         .find(
           {
@@ -7044,6 +7333,8 @@ app.get("/dashboard/:guildId", requireAuth, async (req, res) => {
 
     const guildAiCreditPolicy = normalizeGuildAiCreditPolicy(guildDocRaw?.ai_image_credit_policy);
     const guildAiCreditsBalance = Math.max(toSafeInt(guildDocRaw?.aiimagegenallowance), 0);
+    const guildAiCreditsUsed = Math.max(toSafeInt(monthlyAiImageUsageRaw), 0);
+    const guildAiCreditsRemaining = Math.max(guildAiCreditsBalance - guildAiCreditsUsed, 0);
 
     const scheduledMessages = scheduledMessageDocs.map((row) => {
       const timezoneName = String(row.timezone_name || "UTC");
@@ -7146,6 +7437,8 @@ app.get("/dashboard/:guildId", requireAuth, async (req, res) => {
       translationStatus: String(req.query.translationSub || "").trim().toLowerCase(),
       aiGuildSummary: {
         balance: guildAiCreditsBalance,
+        used: guildAiCreditsUsed,
+        remaining: guildAiCreditsRemaining,
       },
       aiGuildCreditPacks: getGuildCreditPacks(),
       aiGuildSubscriptionPlans: getGuildSubscriptionPlans(),
@@ -8673,8 +8966,8 @@ async function start() {
 
   await refreshOwnerSettingsCache();
 
-  app.listen(Number(PORT), () => {
-    console.log(`[INFO] DiscoBot Website running on http://localhost:${PORT}`);
+  app.listen(Number(PORT), SERVER_HOST, () => {
+    console.log(`[INFO] DiscoBot Website running on ${WEBSITE_BASE_URL} (listening on ${SERVER_HOST}:${PORT})`);
   });
 }
 

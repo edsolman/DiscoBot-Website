@@ -13,7 +13,7 @@
     "privacy": "Informativa privacy",
     "language": "Lingua",
     "signedInWithDiscord": "Accesso effettuato con Discord",
-    "dashboard": "Dashboard",
+    "dashboard": "Il mio account",
     "aiCredits": "Crediti AI",
     "aiImageGeneration": "Genera immagini IA",
     "ownerOptions": "Opzioni proprietario",
@@ -291,6 +291,11 @@
         "sat": "Sab",
         "sun": "Dom"
       }
+    },
+    "aiCreditsSummary": {
+      "allowance": "Assegnazione mensile crediti IA del server:",
+      "usedThisMonth": "Usati questo mese:",
+      "remainingThisMonth": "Rimanenti questo mese:"
     }
   },
   "guildLeaderboard": {
@@ -422,7 +427,14 @@
       "invalidPrompt": "Inserisci un prompt valido prima di generare.",
       "invalidImage": "Carica un’immagine sorgente valida per la modalità modifica.",
       "unavailable": "La generazione immagini dal web non è disponibile al momento. Riprova più tardi.",
-      "failed": "La generazione dell’immagine è fallita. Il tuo credito è stato rimborsato."
+      "failed": "La generazione dell’immagine è fallita. Il tuo credito è stato rimborsato.",
+      "createTitle": "Crea immagine IA",
+      "buttonLoading": "Generazione in corso...",
+      "historyTitle": "Cronologia immagini",
+      "historySubtitle": "Le tue recenti generazioni di immagini IA dal sito web e da DiscoBot.",
+      "sourceDiscordBot": "DiscoBot",
+      "sourceWebsite": "Sito web",
+      "historyEmpty": "Nessuna immagine generata finora."
     },
     "personalTranslationTitle": "Acquista abbonamenti personali di traduzione"
   },
@@ -641,7 +653,7 @@
     },
     "dashboardCredits": {
       "title": "Sito web: Dashboard e crediti",
-      "item1Label": "Dashboard",
+      "item1Label": "Il mio account",
       "item1Body": "mostra server gestibili dove DiscoBot è installato.",
       "item2Label": "Pagina crediti AI",
       "item2Body": "acquista pacchetti una tantum, avvia abbonamenti mensili, gestisci abbonamenti e recupera crediti mancanti.",

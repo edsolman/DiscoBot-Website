@@ -189,6 +189,11 @@
         "sat": "Sat",
         "sun": "Sun"
       }
+    },
+    "aiCreditsSummary": {
+      "allowance": "服务器每月 AI 积分额度：",
+      "usedThisMonth": "本月已使用：",
+      "remainingThisMonth": "本月剩余："
     }
   },
   "guildLeaderboard": {
@@ -320,7 +325,14 @@
       "invalidPrompt": "请先输入有效提示词再生成。",
       "invalidImage": "编辑模式请上传有效的源图片。",
       "unavailable": "网页图片生成功能当前不可用，请稍后重试。",
-      "failed": "图片生成失败。你的积分已退回。"
+      "failed": "图片生成失败。你的积分已退回。",
+      "createTitle": "创建 AI 图像",
+      "buttonLoading": "生成中...",
+      "historyTitle": "图像历史",
+      "historySubtitle": "你最近在网站和 DiscoBot 生成的 AI 图像。",
+      "sourceDiscordBot": "DiscoBot",
+      "sourceWebsite": "网站",
+      "historyEmpty": "尚未生成任何图像。"
     },
     "personalTranslationTitle": "购买个人翻译订阅"
   },

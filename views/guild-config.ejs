@@ -151,7 +151,10 @@
       <div class="settings-expander-body">
         <div class="purchase-list">
           <div class="purchase-item">
-            <span class="muted">Current guild AI credits balance: <strong><%= Number(aiGuildSummary?.balance || 0).toLocaleString() %></strong></span>
+            <span class="muted"><%= t('guildConfig.aiCreditsSummary.allowance', { defaultValue: 'Monthly guild AI credits allowance:' }) %> <strong><%= Number(aiGuildSummary?.balance || 0).toLocaleString() %></strong></span>
+          </div>
+          <div class="purchase-item">
+            <span class="muted"><%= t('guildConfig.aiCreditsSummary.usedThisMonth', { defaultValue: 'Used this month:' }) %> <strong><%= Number(aiGuildSummary?.used || 0).toLocaleString() %></strong> · <%= t('guildConfig.aiCreditsSummary.remainingThisMonth', { defaultValue: 'Remaining this month:' }) %> <strong><%= Number(aiGuildSummary?.remaining || 0).toLocaleString() %></strong></span>
           </div>
         </div>
 

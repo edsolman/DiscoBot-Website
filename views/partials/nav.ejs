@@ -34,7 +34,7 @@
       <% const selectedLanguageCode = (supportedLanguages || []).includes(currentLanguage) ? currentLanguage : (supportedLanguages && supportedLanguages[0]) || 'en'; %>
       <% const selectedLanguageLabel = (languageLabels && languageLabels[selectedLanguageCode]) || selectedLanguageCode; %>
       <% const selectedFlagCode = languageFlagCodes[selectedLanguageCode] || 'un'; %>
-      <details class="lang-menu">
+      <details class="lang-menu desktop-only">
         <summary aria-label="<%= t('nav.language') %>">
           <img src="https://flagcdn.com/w20/<%= selectedFlagCode %>.png" alt="" class="lang-flag" loading="lazy" decoding="async" />
           <span><%= selectedLanguageLabel %></span>
@@ -51,12 +51,32 @@
           <% } %>
         </div>
       </details>
+      <details class="mobile-only mobile-nav-section mobile-language-section mobile-language-details">
+        <summary class="mobile-language-summary" aria-label="<%= t('nav.language') %>">
+          <span class="mobile-nav-heading"><%= t('nav.language') %></span>
+          <span class="mobile-language-current">
+            <img src="https://flagcdn.com/w20/<%= selectedFlagCode %>.png" alt="" class="lang-flag" loading="lazy" decoding="async" />
+            <span><%= selectedLanguageLabel %></span>
+          </span>
+        </summary>
+        <div class="mobile-language-list">
+          <% for (const langCode of supportedLanguages || []) { %>
+            <% const langLabel = (languageLabels && languageLabels[langCode]) || langCode; %>
+            <% const langFlagCode = languageFlagCodes[langCode] || 'un'; %>
+            <% const langUrl = `/set-language?lang=${encodeURIComponent(langCode)}&redirect=${encodeURIComponent(pagePath || '/')}`; %>
+            <a href="<%= langUrl %>" class="lang-menu-item <%= currentLanguage === langCode ? 'is-active' : '' %>">
+              <img src="https://flagcdn.com/w20/<%= langFlagCode %>.png" alt="" class="lang-flag" loading="lazy" decoding="async" />
+              <span><%= langLabel %></span>
+            </a>
+          <% } %>
+        </div>
+      </details>
       <% if (currentUser) { %>
         <% const displayName = String(currentUser.globalName || currentUser.username || 'Discord User'); %>
         <% const avatarUrl = currentUser.avatar
           ? `https://cdn.discordapp.com/avatars/${currentUser.id}/${currentUser.avatar}.png?size=64`
           : null; %>
-        <details class="user-menu">
+        <details class="user-menu desktop-only">
           <summary class="nav-user" title="<%= t('nav.signedInWithDiscord') %>">
             <% if (avatarUrl) { %>
               <img src="<%= avatarUrl %>" alt="<%= displayName %>" class="nav-user-avatar" />
@@ -69,9 +89,9 @@
             <a href="/my-account" class="<%= isTopNavActive('/my-account') || isTopNavActive('/dashboard') ? 'is-active' : '' %>"><span class="menu-item-icon" aria-hidden="true">🏠</span><span><%= t('nav.dashboard') %></span></a>
             <a href="/ai-image-generation" class="<%= isTopNavActive('/ai-image-generation') ? 'is-active' : '' %>"><span class="menu-item-icon" aria-hidden="true">🎨</span><span><%= t('nav.aiImageGeneration', { defaultValue: 'Generate AI Images' }) %></span></a>
             <% if (isOwner) { %>
-              <details class="owner-menu">
-                <summary><span class="menu-item-icon" aria-hidden="true">👑</span><span>Owner Options</span></summary>
-                <div class="owner-menu-list">
+              <details class="owner-menu-inline mobile-owner-details">
+                <summary class="owner-menu-heading" aria-label="Owner Options"><span class="menu-item-icon" aria-hidden="true">👑</span><span>Owner Options</span></summary>
+                <div class="owner-menu-list owner-menu-list-inline">
                   <a href="/owner/settings" class="<%= isTopNavActive('/owner/settings') ? 'is-active' : '' %>"><span class="menu-item-icon" aria-hidden="true">⚙️</span><span>Settings</span></a>
                   <a href="/owner/purchases" class="<%= isTopNavActive('/owner/purchases') ? 'is-active' : '' %>"><span class="menu-item-icon" aria-hidden="true">📈</span><span>Purchases</span></a>
                   <a href="/owner/translation-purchases" class="<%= isTopNavActive('/owner/translation-purchases') ? 'is-active' : '' %>"><span class="menu-item-icon" aria-hidden="true">🌐</span><span>Translation</span></a>
@@ -85,6 +105,35 @@
             </form>
           </div>
         </details>
+        <div class="mobile-only mobile-nav-section mobile-user-section">
+          <div class="nav-user mobile-nav-user" title="<%= t('nav.signedInWithDiscord') %>">
+            <% if (avatarUrl) { %>
+              <img src="<%= avatarUrl %>" alt="<%= displayName %>" class="nav-user-avatar" />
+            <% } else { %>
+              <div class="nav-user-fallback"><%= displayName[0] %></div>
+            <% } %>
+            <span class="nav-user-name"><%= displayName %></span>
+          </div>
+          <div class="mobile-user-links">
+            <a href="/my-account" class="<%= isTopNavActive('/my-account') || isTopNavActive('/dashboard') ? 'is-active' : '' %>"><span class="menu-item-icon" aria-hidden="true">🏠</span><span><%= t('nav.dashboard') %></span></a>
+            <a href="/ai-image-generation" class="<%= isTopNavActive('/ai-image-generation') ? 'is-active' : '' %>"><span class="menu-item-icon" aria-hidden="true">🎨</span><span><%= t('nav.aiImageGeneration', { defaultValue: 'Generate AI Images' }) %></span></a>
+            <% if (isOwner) { %>
+              <details class="owner-menu-inline mobile-owner-details">
+                <summary class="owner-menu-heading" aria-label="Owner Options"><span class="menu-item-icon" aria-hidden="true">👑</span><span>Owner Options</span></summary>
+                <div class="owner-menu-list owner-menu-list-inline">
+                  <a href="/owner/settings" class="<%= isTopNavActive('/owner/settings') ? 'is-active' : '' %>"><span class="menu-item-icon" aria-hidden="true">⚙️</span><span>Settings</span></a>
+                  <a href="/owner/purchases" class="<%= isTopNavActive('/owner/purchases') ? 'is-active' : '' %>"><span class="menu-item-icon" aria-hidden="true">📈</span><span>Purchases</span></a>
+                  <a href="/owner/translation-purchases" class="<%= isTopNavActive('/owner/translation-purchases') ? 'is-active' : '' %>"><span class="menu-item-icon" aria-hidden="true">🌐</span><span>Translation</span></a>
+                  <a href="/owner/discounts" class="<%= isTopNavActive('/owner/discounts') ? 'is-active' : '' %>"><span class="menu-item-icon" aria-hidden="true">🏷️</span><span>Discounts</span></a>
+                  <a href="/owner/website-errors" class="<%= isTopNavActive('/owner/website-errors') ? 'is-active' : '' %>"><span class="menu-item-icon" aria-hidden="true">⚠️</span><span>Website Errors</span></a>
+                </div>
+              </details>
+            <% } %>
+            <form action="/logout" method="post" class="inline-form user-menu-signout-form">
+              <button type="submit" class="user-menu-signout"><span class="menu-item-icon" aria-hidden="true">🚪</span><span><%= t('nav.signOut') %></span></button>
+            </form>
+          </div>
+        </div>
       <% } else { %>
         <a href="/auth/discord" class="btn btn-primary"><%= t('nav.signInWithDiscord') %></a>
       <% } %>
