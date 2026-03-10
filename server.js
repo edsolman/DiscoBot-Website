@@ -16,6 +16,7 @@ require("dotenv").config();
 
 const {
   PORT = "3000",
+  HOST,
   SESSION_SECRET,
   MONGODB_URI,
   SUPPORT_EMAIL,
@@ -26,6 +27,32 @@ const {
   DISCORD_BOT_USER_ID,
   DISCORD_BOT_OWNER_ID,
 } = process.env;
+
+function parseBooleanEnv(value, fallback = false) {
+  if (value === undefined || value === null || value === "") {
+    return fallback;
+  }
+
+  const normalized = String(value).trim().toLowerCase();
+  if (["1", "true", "yes", "on"].includes(normalized)) {
+    return true;
+  }
+  if (["0", "false", "no", "off"].includes(normalized)) {
+    return false;
+  }
+  return fallback;
+}
+
+const NODE_ENV = String(process.env.NODE_ENV || "development").trim().toLowerCase();
+const IS_PRODUCTION = NODE_ENV === "production";
+const SERVER_HOST = String(HOST || process.env.SERVER_HOST || "0.0.0.0").trim() || "0.0.0.0";
+const TRUST_PROXY = parseBooleanEnv(process.env.TRUST_PROXY, IS_PRODUCTION);
+const SESSION_COOKIE_SECURE = parseBooleanEnv(process.env.SESSION_COOKIE_SECURE, IS_PRODUCTION);
+const PUBLIC_BASE_URL = String(process.env.PUBLIC_BASE_URL || process.env.WEBSITE_BASE_URL || "")
+  .trim()
+  .replace(/\/$/, "");
+const LOCAL_FALLBACK_HOST = SERVER_HOST === "0.0.0.0" ? "localhost" : SERVER_HOST;
+const WEBSITE_BASE_URL = String(PUBLIC_BASE_URL || `http://${LOCAL_FALLBACK_HOST}:${PORT}`).replace(/\/$/, "");
 
 const requiredVars = [
   "SESSION_SECRET",
@@ -47,7 +74,6 @@ for (const key of requiredVars) {
 const DISCORD_API_BASE = "https://discord.com/api/v10";
 const OAUTH_SCOPES = ["identify", "guilds"];
 const ADMINISTRATOR_BIT = 0x8n;
-const WEBSITE_BASE_URL = String(process.env.WEBSITE_BASE_URL || `http://localhost:${PORT}`).replace(/\/$/, "");
 const SUPPORT_EMAIL_ADDRESS = String(SUPPORT_EMAIL || "").trim();
 const STRIPE_SECRET_KEY = String(process.env.STRIPE_SECRET_KEY || "").trim();
 const STRIPE_WEBHOOK_SECRET = String(process.env.STRIPE_WEBHOOK_SECRET || "").trim();
@@ -172,6 +198,10 @@ let translationCharacterUserUsageCollection;
 let ownerSettingsCache = JSON.parse(JSON.stringify(DEFAULT_OWNER_SETTINGS));
 
 const app = express();
+if (TRUST_PROXY) {
+  app.set("trust proxy", 1);
+}
+
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
@@ -348,7 +378,7 @@ app.use(
     cookie: {
       httpOnly: true,
       sameSite: "lax",
-      secure: false,
+      secure: SESSION_COOKIE_SECURE,
       maxAge: 1000 * 60 * 60 * 24 * 7,
     },
   })
@@ -8936,8 +8966,8 @@ async function start() {
 
   await refreshOwnerSettingsCache();
 
-  app.listen(Number(PORT), () => {
-    console.log(`[INFO] DiscoBot Website running on http://localhost:${PORT}`);
+  app.listen(Number(PORT), SERVER_HOST, () => {
+    console.log(`[INFO] DiscoBot Website running on ${WEBSITE_BASE_URL} (listening on ${SERVER_HOST}:${PORT})`);
   });
 }
 

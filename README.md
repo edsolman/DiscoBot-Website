@@ -48,6 +48,35 @@ Web dashboard project for DiscoBot, located separately from the Python bot.
 3. Start the website:
    - `npm start`
 
+## Local Wi-Fi Testing (Phone)
+
+Use these environment settings in `.env` when testing from a phone on the same network:
+
+- `HOST=0.0.0.0`
+- `PUBLIC_BASE_URL=http://<your-lan-ip>:3000` (example: `http://192.168.1.42:3000`)
+- `DISCORD_REDIRECT_URI=http://<your-lan-ip>:3000/auth/discord/callback`
+- `SESSION_COOKIE_SECURE=false`
+- `TRUST_PROXY=false`
+
+Also add the LAN callback URL to your Discord OAuth redirect URIs.
+
+## Public Deployment
+
+Use these environment settings in production:
+
+- `NODE_ENV=production`
+- `HOST=0.0.0.0`
+- `PUBLIC_BASE_URL=https://your-domain.com`
+- `DISCORD_REDIRECT_URI=https://your-domain.com/auth/discord/callback`
+- `TRUST_PROXY=true` (recommended when behind nginx, cloud load balancer, or reverse proxy)
+- `SESSION_COOKIE_SECURE=true`
+
+Notes:
+
+- `PUBLIC_BASE_URL` is used for generated links and Stripe success/cancel/portal URLs.
+- Keep `DISCORD_REDIRECT_URI` and your Discord app OAuth redirect list in sync.
+- If you terminate TLS at a proxy, enable `TRUST_PROXY=true` so secure cookies work correctly.
+
 ## Required Environment Variables
 
 - `SESSION_SECRET`
@@ -58,17 +87,21 @@ Web dashboard project for DiscoBot, located separately from the Python bot.
 - `DISCORD_BOT_TOKEN`
 - `DISCORD_BOT_USER_ID`
 
+`HOST` defaults to `0.0.0.0` and `PORT` defaults to `3000`.
+
 `PORT` is optional and defaults to `3000`.
 
 ## Optional Feature Environment Variables
 
-- `WEBSITE_BASE_URL` (used for Stripe return URLs and owner website settings defaults)
+- `PUBLIC_BASE_URL` (used for Stripe return URLs and owner website settings defaults)
 - `STRIPE_SECRET_KEY` (required for checkout/subscription flows)
 - `STRIPE_WEBHOOK_SECRET` (required for Stripe webhook verification)
 - `OPENAI_API_KEY` (required for website AI image generation/edit)
 - `OPENAI_IMAGE_MODEL` (optional, defaults to `gpt-image-1.5`)
 - `SUPPORT_EMAIL` (enables the "Report to Bot Owner" mailto button on error pages)
 - `DISCORD_BOT_OWNER_ID` (used for owner-only routes; defaults in code if omitted)
+- `TRUST_PROXY` (`true`/`false`, enables Express trust proxy for secure cookie handling behind reverse proxies)
+- `SESSION_COOKIE_SECURE` (`true`/`false`, defaults to `true` in production and `false` in development)
 
 ## Key routes
 

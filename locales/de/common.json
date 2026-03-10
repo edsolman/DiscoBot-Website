@@ -13,7 +13,7 @@
     "privacy": "Datenschutz",
     "language": "Sprache",
     "signedInWithDiscord": "Mit Discord angemeldet",
-    "dashboard": "Dashboard",
+    "dashboard": "Mein Konto",
     "aiCredits": "KI-Guthaben",
     "aiImageGeneration": "KI-Bilder generieren",
     "ownerOptions": "Inhaber-Optionen",
@@ -653,7 +653,7 @@
     },
     "dashboardCredits": {
       "title": "Website: Dashboard & Guthaben",
-      "item1Label": "Dashboard",
+      "item1Label": "Mein Konto",
       "item1Body": "zeigt verwaltbare Server, auf denen DiscoBot installiert ist.",
       "item2Label": "KI-Guthaben-Seite",
       "item2Body": "einmalige Pakete kaufen, Monatsabos starten, Abos verwalten und fehlende Guthaben nachtragen.",
